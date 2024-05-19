@@ -17,8 +17,6 @@ import hbrs.se2.collhbrs.entity.Benutzer;
 import hbrs.se2.collhbrs.entity.Profil;
 import hbrs.se2.collhbrs.service.RegisterService;
 
-import java.util.Random;
-
 @Route(value = "tmp")
 @PageTitle("User Registration")
 @CssImport("./styles/index.css")
@@ -46,7 +44,7 @@ public class RegistrationView extends Div {
             benutzer.setPasswort(password.getValue());
             benutzer.setBlacklisted(0);
             registerService.saveProfil(profil);
-            registerService.register(benutzer);
+            registerService.saveBenutzer(benutzer);
 
             Notification.show("Benutzer erfolgreich registriert");
             UI.getCurrent().navigate("login");

@@ -29,7 +29,6 @@ public class TmpView extends FormLayout {
     private Span errorMessageField;
     private Button submitButton;
 
-
     public TmpView() {
 
         addClassName("register");
