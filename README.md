@@ -17,7 +17,7 @@ docker run --name my_postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypas
 
 2. Create a `./resources/application-dev.properties` file.
 
-```java
+```properties
 spring.application.name=collhbrs
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
 spring.datasource.username=myuser
