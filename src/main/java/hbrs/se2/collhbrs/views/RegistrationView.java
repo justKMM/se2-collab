@@ -11,14 +11,10 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.entity.Benutzer;
-import hbrs.se2.collhbrs.entity.LoginDaten;
 import hbrs.se2.collhbrs.entity.Profil;
-import hbrs.se2.collhbrs.entity.Test;
-import hbrs.se2.collhbrs.repository.RegisterRepository;
 import hbrs.se2.collhbrs.service.RegisterService;
 
 import java.util.Random;
@@ -42,11 +38,16 @@ public class RegistrationView extends Div {
         clearForm();
 
         register.addClickListener(e -> {
-            Test user = new Test();
-            user.setUsername(username.getValue());
-            user.setPassword(password.getValue());
-            user.setEmail("fool@gmail.com");
-            registerService.register(user);
+
+            Profil profil = new Profil();
+            Benutzer benutzer = new Benutzer();
+            benutzer.setProfil(profil);
+            benutzer.setUsername(username.getValue());
+            benutzer.setPasswort(password.getValue());
+            benutzer.setBlacklisted(0);
+            registerService.saveProfil(profil);
+            registerService.register(benutzer);
+
             Notification.show("Benutzer erfolgreich registriert");
             UI.getCurrent().navigate("login");
         });

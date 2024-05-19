@@ -10,6 +10,8 @@ public class Benutzer {
     private long benutzerID;
     private Profil profil;
     private String username;
+    private String passwort;
+    private int blacklisted;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,18 +43,37 @@ public class Benutzer {
         this.username = username;
     }
 
+    @Column(name = "passwort", nullable = false, length = 64, unique = true)
+    public String getPasswort() {
+        return passwort;
+    }
+
+    public void setPasswort(String passwort) {
+        this.passwort = passwort;
+    }
+
+    @Column(name = "blacklisted", nullable = false, length = 1, unique = true)
+    public int getBlacklisted() {
+        return blacklisted;
+    }
+
+    public void setBlacklisted(int blacklisted) {
+        this.blacklisted = blacklisted;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Benutzer benutzer = (Benutzer) o;
-        return benutzerID == benutzer.benutzerID &&
-                Objects.equals(profil, benutzer.profil) &&
-                Objects.equals(username, benutzer.username);
+        if (!(o instanceof Benutzer benutzer)) return false;
+        return benutzerID == benutzer.benutzerID
+                && blacklisted == benutzer.blacklisted
+                && Objects.equals(profil, benutzer.profil)
+                && Objects.equals(username, benutzer.username)
+                && Objects.equals(passwort, benutzer.passwort);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(benutzerID, profil, username);
+        return Objects.hash(benutzerID, profil, username, passwort, blacklisted);
     }
 }
