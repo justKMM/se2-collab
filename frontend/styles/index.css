@@ -1,0 +1,28 @@
+.main {
+    background-color: var(--lumo-contrast-5pct);
+    display: flex;
+    justify-content: center;
+    padding: var(--lumo-space-l);
+}
+
+.register {
+    margin: 0 auto;
+    max-width: 1300px;
+    padding: 2rem;
+    border-radius: 6px;
+    overflow-x: hidden;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: 1.03rem;
+    line-height: 1.5;
+}
+
+
+.register .button-layout {
+    margin-bottom: var(--lumo-space-l);
+    margin-top: var(--lumo-space-l);
+}
+
+.register .username {
+    width: 100%;
+}
