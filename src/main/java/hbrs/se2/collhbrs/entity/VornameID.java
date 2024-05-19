@@ -8,22 +8,22 @@ import org.hibernate.Hibernate;
 import java.util.Objects;
 
 @Embeddable
-public class InteressenId implements java.io.Serializable {
-    private static final long serialVersionUID = 6563205248753182671L;
+public class VornameID implements java.io.Serializable {
+    private static final long serialVersionUID = -6609521887618010137L;
     @NotNull
     @Column(name = "studentid", nullable = false)
-    private Long studentid;
+    private Long studentID;
 
     @NotNull
     @Column(name = "laufende_nummer", nullable = false)
     private Integer laufendeNummer;
 
-    public Long getStudentid() {
-        return studentid;
+    public Long getStudentID() {
+        return studentID;
     }
 
-    public void setStudentid(Long studentid) {
-        this.studentid = studentid;
+    public void setStudentID(Long studentid) {
+        this.studentID = studentid;
     }
 
     public Integer getLaufendeNummer() {
@@ -38,14 +38,14 @@ public class InteressenId implements java.io.Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        InteressenId entity = (InteressenId) o;
-        return Objects.equals(this.studentid, entity.studentid) &&
+        VornameID entity = (VornameID) o;
+        return Objects.equals(this.studentID, entity.studentID) &&
                 Objects.equals(this.laufendeNummer, entity.laufendeNummer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentid, laufendeNummer);
+        return Objects.hash(studentID, laufendeNummer);
     }
 
 }

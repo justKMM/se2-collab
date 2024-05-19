@@ -16,7 +16,7 @@ public class Unternehman {
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "benutzerid", nullable = false)
-    private Benutzer benutzerid;
+    private Benutzer benutzerID;
 
     @Size(max = 128)
     @NotNull
@@ -31,12 +31,12 @@ public class Unternehman {
         this.id = id;
     }
 
-    public Benutzer getBenutzerid() {
-        return benutzerid;
+    public Benutzer getBenutzerID() {
+        return benutzerID;
     }
 
-    public void setBenutzerid(Benutzer benutzerid) {
-        this.benutzerid = benutzerid;
+    public void setBenutzerID(Benutzer benutzerID) {
+        this.benutzerID = benutzerID;
     }
 
     public String getName() {
