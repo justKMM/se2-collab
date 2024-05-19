@@ -17,12 +17,8 @@ public class RegisterService {
     @Autowired
     private ProfilRepository profilRepository;
 
-    @Transactional
-    public void saveBenutzer(Benutzer benutzer) {
-        benutzerRepository.save(benutzer);
-    }
+    public void saveBenutzer(Benutzer benutzer) { benutzerRepository.save(benutzer); }
 
-    @Transactional
     public void saveProfil(Profil profil) {
         profilRepository.save(profil);
     }

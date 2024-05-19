@@ -8,10 +8,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.router.RouterLink;
 
-/**
- * View zur Darstellung der Startseite. Diese zeigt dem Benutzer ein Login-Formular an.
- * ToDo: Integration einer Seite zur Registrierung von Benutzern
- */
 @Route(value = "" )
 @RouteAlias(value = "login")
 @CssImport("./styles/index.css")

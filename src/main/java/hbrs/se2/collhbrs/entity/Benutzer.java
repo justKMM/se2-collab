@@ -52,7 +52,7 @@ public class Benutzer {
         this.passwort = passwort;
     }
 
-    @Column(name = "blacklisted", nullable = false, length = 1, unique = true)
+    @Column(name = "blacklisted", nullable = false, length = 1)
     public int getBlacklisted() {
         return blacklisted;
     }
