@@ -36,13 +36,16 @@ public class MainView extends VerticalLayout {
         add(component);
         this.setAlignItems( Alignment.CENTER );
 
-        RouterLink registerLink = new RouterLink("Hier Registrieren", RegistrationView.class);
-        add(registerLink);
+        RouterLink studentRegisterLink = new RouterLink("Als Student registrieren", StudentRegistrationView.class);
+        add(studentRegisterLink);
+
+        RouterLink unternehmenRegisterLink = new RouterLink("Als Unternehmen registrieren", UnternehmenRegistrationView.class);
+        add(unternehmenRegisterLink);
+
 
         component.addLoginListener(input -> {
             try {
                 Benutzer benutzer = loginService.getBenutzer(input.getUsername(), input.getPassword());
-
                 if (benutzer.getBlacklisted() == 1) {
                     Notification.show("Login failed: User is blacklisted");
                     return;
@@ -53,5 +56,9 @@ public class MainView extends VerticalLayout {
                 e.printStackTrace();
             }
         });
+
+
+
+
     }
 }

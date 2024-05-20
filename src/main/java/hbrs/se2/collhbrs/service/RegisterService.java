@@ -1,13 +1,7 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.entity.Benutzer;
-import hbrs.se2.collhbrs.entity.Profil;
-import hbrs.se2.collhbrs.entity.Student;
-import hbrs.se2.collhbrs.entity.Vorname;
-import hbrs.se2.collhbrs.repository.ProfilRepository;
-import hbrs.se2.collhbrs.repository.BenutzerRepository;
-import hbrs.se2.collhbrs.repository.StudentRepository;
-import hbrs.se2.collhbrs.repository.VornameRepository;
+import hbrs.se2.collhbrs.entity.*;
+import hbrs.se2.collhbrs.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +20,9 @@ public class RegisterService {
 
     @Autowired
     private VornameRepository vornameRepository;
+
+    @Autowired
+    private UnternehmenRepository unternehmenRepository;
 
     @Transactional
     public boolean completeRegistration(Benutzer benutzer) {
@@ -65,5 +62,10 @@ public class RegisterService {
     @Transactional
     public void saveVorname(Vorname vorname) {
         vornameRepository.save(vorname);
+    }
+
+    @Transactional
+    public void saveUnternehmen(Unternehmen unternehmen) {
+        unternehmenRepository.save(unternehmen);
     }
 }
