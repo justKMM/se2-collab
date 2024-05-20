@@ -71,15 +71,15 @@ public class Benutzer {
     }
 
     @Override
-    public String toString() {
-        return "Benutzer{" +
-                "benutzerID=" + benutzerID +
-                ", profil=" + profil +
-                ", username='" + username + '\'' +
-                ", passwort='" + passwort + '\'' +
-                ", blacklisted=" + blacklisted +
-                ", email='" + email + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Benutzer benutzer = (Benutzer) o;
+        return benutzerID == benutzer.benutzerID &&
+                blacklisted == benutzer.blacklisted &&
+                Objects.equals(profil, benutzer.profil) &&
+                Objects.equals(username, benutzer.username) &&
+                Objects.equals(passwort, benutzer.passwort);
     }
 
     @Override
