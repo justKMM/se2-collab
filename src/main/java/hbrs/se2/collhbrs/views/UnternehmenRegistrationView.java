@@ -20,7 +20,7 @@ import hbrs.se2.collhbrs.service.RegisterService;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Route(value = "unternehmen_registration")
+@Route(value = "unternehmen/registration")
 @CssImport("./styles/index.css")
 public class UnternehmenRegistrationView extends FormLayout {
 
@@ -36,7 +36,7 @@ public class UnternehmenRegistrationView extends FormLayout {
 
     public UnternehmenRegistrationView(RegisterService registerService) {
 
-        addClassName("unternehmen_register");
+        addClassName("register");
 
         title = new H3("Unternehmensregistrierung");
         unternehmenName = new TextField("Name des Unternehmens");

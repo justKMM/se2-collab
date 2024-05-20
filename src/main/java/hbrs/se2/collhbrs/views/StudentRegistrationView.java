@@ -23,7 +23,7 @@ import hbrs.se2.collhbrs.service.RegisterService;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Route(value = "student_registration")
+@Route(value = "student/registration")
 @CssImport("./styles/index.css")
 public class StudentRegistrationView extends FormLayout {
 
@@ -39,7 +39,7 @@ public class StudentRegistrationView extends FormLayout {
 
     public StudentRegistrationView(RegisterService registerService) {
 
-        addClassName("student_register");
+        addClassName("register");
         title = new H3("Studentenregistrierung");
         firstName = new TextField("Vorname");
         lastName = new TextField("Nachname");
