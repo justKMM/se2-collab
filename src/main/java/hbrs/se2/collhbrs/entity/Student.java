@@ -46,7 +46,7 @@ public class Student {
     }
 
     @Basic
-    @Column(name = "geburtsdatum", nullable = false)
+    @Column(name = "geburtsdatum")
     public LocalDate getGeburtsdatum() {
         return geburtsdatum;
     }

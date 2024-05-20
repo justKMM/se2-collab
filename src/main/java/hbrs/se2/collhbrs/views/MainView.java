@@ -42,8 +42,14 @@ public class MainView extends VerticalLayout {
         component.addLoginListener(input -> {
             try {
                 Benutzer benutzer = loginService.getBenutzer(input.getUsername(), input.getPassword());
+
+                if (benutzer.getBlacklisted() == 1) {
+                    Notification.show("Login failed: User is blacklisted");
+                    return;
+                }
                 Notification.show("Succesfully logged in as " + benutzer.getUsername());
             } catch (Exception e) {
+                Notification.show("Login failed");
                 e.printStackTrace();
             }
         });
