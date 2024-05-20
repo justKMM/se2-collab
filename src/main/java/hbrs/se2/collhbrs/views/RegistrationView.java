@@ -85,17 +85,17 @@ public class RegistrationView extends FormLayout {
             Profil profil = new Profil();
             Benutzer benutzer = new Benutzer();
             benutzer.setProfil(profil);
+            registerService.saveProfil(profil);
             benutzer.setUsername(username.getValue());
             benutzer.setPasswort(password.getValue());
             benutzer.setBlacklisted(0);
-            boolean registrationSucceeded = registerService.completeRegistration(benutzer);
 
-            if (registrationSucceeded == false) {
-                Notification.show("Registration failed");
-            }
-            else {
+            if (registerService.completeRegistration(benutzer)) {
                 Notification.show("Benutzer erfolgreich registriert");
                 UI.getCurrent().navigate("login");
+            }
+            else {
+                Notification.show("Registration failed");
             }
         });
     }
