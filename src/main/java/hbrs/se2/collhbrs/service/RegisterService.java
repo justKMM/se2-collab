@@ -17,8 +17,38 @@ public class RegisterService {
     @Autowired
     private ProfilRepository profilRepository;
 
-    public void saveBenutzer(Benutzer benutzer) { benutzerRepository.save(benutzer); }
 
+    @Transactional
+    public boolean completeRegistration(Benutzer benutzer) {
+        // Registration control
+        String username = benutzer.getUsername();
+        String password = benutzer.getPasswort();
+        for (int i = 0; i < username.length(); i++) {
+            char c = username.charAt(i);
+            // Check if username contains special character(s)
+            if (!Character.isLetterOrDigit(c)) {
+                return false;
+            }
+        }
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            // Check if username contains special character(s)
+            if (!Character.isLetterOrDigit(c)) {
+                return false;
+            }
+        }
+
+        saveBenutzer(benutzer);
+        saveProfil(benutzer.getProfil());
+        return true;
+    }
+
+    @Transactional
+    public void saveBenutzer(Benutzer benutzer) {
+        benutzerRepository.save(benutzer);
+    }
+
+    @Transactional
     public void saveProfil(Profil profil) {
         profilRepository.save(profil);
     }
