@@ -102,9 +102,7 @@ public class StudentRegistrationView extends FormLayout {
 
         benutzer.setEmail(email.getValue());
 
-        boolean completeRegistration = registerService.completeRegistration(benutzer);
-
-        if (completeRegistration) {
+        if (registerService.completeRegistration(benutzer)) {
 
             // Student erstellen
             Student student = new Student();
