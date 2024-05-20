@@ -3,17 +3,20 @@ package hbrs.se2.collhbrs.views;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.router.RouterLink;
+import hbrs.se2.collhbrs.entity.Benutzer;
+import hbrs.se2.collhbrs.service.LoginService;
 
 @Route(value = "" )
 @RouteAlias(value = "login")
 @CssImport("./styles/index.css")
 public class MainView extends VerticalLayout {
 
-    public MainView() {
+    public MainView(LoginService loginService) {
 
         addClassName("main");
         setSizeFull();
@@ -35,5 +38,14 @@ public class MainView extends VerticalLayout {
 
         RouterLink registerLink = new RouterLink("Hier Registrieren", RegistrationView.class);
         add(registerLink);
+
+        component.addLoginListener(input -> {
+            try {
+                Benutzer benutzer = loginService.getBenutzer(input.getUsername(), input.getPassword());
+                Notification.show("Succesfully logged in as " + benutzer.getUsername());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
