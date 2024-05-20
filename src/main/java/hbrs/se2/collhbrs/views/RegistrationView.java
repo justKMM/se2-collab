@@ -84,49 +84,51 @@ public class RegistrationView extends FormLayout {
         setColspan(submitButton, 2);
 
         submitButton.addClickListener(e -> {
-
-
-            Profil profil = new Profil();
-            registerService.saveProfil(profil);
-
-            Benutzer benutzer = new Benutzer();
-            benutzer.setProfil(profil);
-            benutzer.setUsername(username.getValue());
-            benutzer.setPasswort(password.getValue());
-            benutzer.setBlacklisted(0);
-
-            benutzer.setEmail(email.getValue());
-
-            boolean completeRegistration = registerService.completeRegistration(benutzer);
-
-            // TODO: Bitte nachschauen ob schon ein Benutzer existiert bevor er erstellt wird
-            if (completeRegistration) {
-
-                // Student erstellen
-                Student student = new Student();
-                student.setBenutzer(benutzer);
-                student.setNachname(lastName.getValue());
-                registerService.saveStudent(student);
-
-
-                // Vornamen erstellen
-                String[] vornamen = firstName.getValue().split(" ");
-
-                IntStream.range(0, vornamen.length).forEach(counter -> {
-                    Vorname vornameEntity = new Vorname();
-                    vornameEntity.setVorname(vornamen[counter]);
-                    vornameEntity.setStudent(student);
-                    vornameEntity.setLaufendeNummer(counter);
-                    registerService.saveVorname(vornameEntity);
-                });
-
-
-                Notification.show("Benutzer erfolgreich registriert");
-                UI.getCurrent().navigate("login");
-            } else {
-                Notification.show("Registration failed");
-            }
+            registerUser(registerService);
         });
+    }
+
+    private void registerUser(RegisterService registerService) {
+        Profil profil = new Profil();
+        registerService.saveProfil(profil);
+
+        Benutzer benutzer = new Benutzer();
+        benutzer.setProfil(profil);
+        benutzer.setUsername(username.getValue());
+        benutzer.setPasswort(password.getValue());
+        benutzer.setBlacklisted(0);
+
+        benutzer.setEmail(email.getValue());
+
+        boolean completeRegistration = registerService.completeRegistration(benutzer);
+
+        // TODO: Bitte nachschauen ob schon ein Benutzer existiert bevor er erstellt wird
+        if (completeRegistration) {
+
+            // Student erstellen
+            Student student = new Student();
+            student.setBenutzer(benutzer);
+            student.setNachname(lastName.getValue());
+            registerService.saveStudent(student);
+
+
+            // Vornamen erstellen
+            String[] vornamen = firstName.getValue().split(" ");
+
+            IntStream.range(0, vornamen.length).forEach(counter -> {
+                Vorname vornameEntity = new Vorname();
+                vornameEntity.setVorname(vornamen[counter]);
+                vornameEntity.setStudent(student);
+                vornameEntity.setLaufendeNummer(counter);
+                registerService.saveVorname(vornameEntity);
+            });
+
+
+            Notification.show("Benutzer erfolgreich registriert");
+            UI.getCurrent().navigate("login");
+        } else {
+            Notification.show("Registration failed");
+        }
     }
 
     public PasswordField getPasswordField() {
