@@ -1,8 +1,6 @@
 # Coll@HBRS
 
----
-
-## Set up Test Database:
+## Set up Test Database for Local Development:
 
 ### Prerequisite:
 - **Docker Desktop** download here: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
