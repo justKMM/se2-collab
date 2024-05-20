@@ -2,8 +2,12 @@ package hbrs.se2.collhbrs.service;
 
 import hbrs.se2.collhbrs.entity.Benutzer;
 import hbrs.se2.collhbrs.entity.Profil;
+import hbrs.se2.collhbrs.entity.Student;
+import hbrs.se2.collhbrs.entity.Vorname;
 import hbrs.se2.collhbrs.repository.ProfilRepository;
 import hbrs.se2.collhbrs.repository.BenutzerRepository;
+import hbrs.se2.collhbrs.repository.StudentRepository;
+import hbrs.se2.collhbrs.repository.VornameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,12 @@ public class RegisterService {
 
     @Autowired
     private ProfilRepository profilRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private VornameRepository vornameRepository;
 
     public boolean completeRegistration(Benutzer benutzer) {
         String username = benutzer.getUsername();
@@ -41,5 +51,12 @@ public class RegisterService {
 
     public void saveProfil(Profil profil) {
         profilRepository.save(profil);
+    }
+
+    public void saveStudent(Student student) {
+        studentRepository.save(student);
+    }
+    public void saveVorname(Vorname vorname) {
+        vornameRepository.save(vorname);
     }
 }

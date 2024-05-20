@@ -13,10 +13,10 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import hbrs.se2.collhbrs.entity.Benutzer;
-import hbrs.se2.collhbrs.entity.Profil;
+import hbrs.se2.collhbrs.entity.*;
 import hbrs.se2.collhbrs.service.RegisterService;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Route(value = "registration")
@@ -82,26 +82,45 @@ public class RegistrationView extends FormLayout {
 
         submitButton.addClickListener(e -> {
 
+
             Profil profil = new Profil();
+            registerService.saveProfil(profil);
+
             Benutzer benutzer = new Benutzer();
             benutzer.setProfil(profil);
-            registerService.saveProfil(profil);
             benutzer.setUsername(username.getValue());
             benutzer.setPasswort(password.getValue());
             benutzer.setBlacklisted(0);
 
-
-            // Check ob es wirklich eine Email Adresse ist
             benutzer.setEmail(email.getValue());
 
+            boolean completeRegistration = registerService.completeRegistration(benutzer);
+
+            // TODO: Bitte nachschauen ob schon ein Benutzer existiert bevor er erstellt wird
+            if (completeRegistration) {
+
+                // Student erstellen
+                Student student = new Student();
+                student.setBenutzer(benutzer);
+                student.setNachname(lastName.getValue());
+                registerService.saveStudent(student);
 
 
-            // benutzer.setFirstName(); Für den Vornamen muss jeweils ein eigenes Objekt erstellt werden für jeden Vornamen
-            // Datenbank jeweils eine Zeile in der Tabelle Vorname für den Vornamen gedacht ist
-            // benutzer.setLastName(); Hier muss ein Objekt Student erstellt werden, da nur Studenten einen Nachnamen haben
+
+                // TODO: Vornamen richtig abspeichern. Funktioniert noch nicht richtig
+                // Vornamen erstellen
+                String[] vornamen = firstName.getValue().split(" ");
+                IntStream.range(0, vornamen.length).forEach(counter -> {
+
+                    Vorname vornameEntity = new Vorname();
+                    vornameEntity.setVorname(vornamen[counter]);
+                    vornameEntity.setLaufendeNummer(counter);
+                    vornameEntity.setStudent(student);
+
+                    registerService.saveVorname(vornameEntity);
+                });
 
 
-            if (registerService.completeRegistration(benutzer)) {
                 Notification.show("Benutzer erfolgreich registriert");
                 UI.getCurrent().navigate("login");
             }

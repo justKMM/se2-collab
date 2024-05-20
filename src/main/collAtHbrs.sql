@@ -90,7 +90,7 @@ create table public.Student
     StudentID    SERIAL    not null,
     BenutzerID   SERIAL    not null,
     Nachname     char(128) not null,
-    Geburtsdatum date      not null,
+    Geburtsdatum date,
     constraint pk_Student primary key (StudentID),
     constraint uk_Student_BenutzerID unique (BenutzerID)
 );
