@@ -9,26 +9,23 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import hbrs.se2.collhbrs.entity.Benutzer;
-import hbrs.se2.collhbrs.entity.Profil;
-import hbrs.se2.collhbrs.entity.Student;
-import hbrs.se2.collhbrs.entity.Vorname;
+import hbrs.se2.collhbrs.entity.*;
 import hbrs.se2.collhbrs.service.RegisterService;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Route(value = "registration")
+@Route(value = "unternehmen_registration")
 @CssImport("./styles/index.css")
-public class RegistrationView extends FormLayout {
+public class UnternehmenRegistrationView extends FormLayout {
 
     private final H3 title;
-    private final TextField firstName;
-    private final TextField lastName;
+    private final TextField unternehmenName;
     private final TextField username;
     private final EmailField email;
     private final PasswordField password;
@@ -36,20 +33,20 @@ public class RegistrationView extends FormLayout {
     private final Span errorMessageField;
     private final Button submitButton;
 
-    public RegistrationView(RegisterService registerService) {
 
-        addClassName("register");
-        title = new H3("Sign Up");
-        firstName = new TextField("First name");
-        lastName = new TextField("Last name");
-        username = new TextField("Username");
+    public UnternehmenRegistrationView(RegisterService registerService) {
+
+        addClassName("unternehmen_register");
+
+        title = new H3("Unternehmensregistrierung");
+        unternehmenName = new TextField("Name des Unternehmens");
+        username = new TextField("Nutzername");
         email = new EmailField("Email");
-        password = new PasswordField("Password");
-        passwordConfirm = new PasswordField("Confirm password");
+        password = new PasswordField("Passwort");
+        passwordConfirm = new PasswordField("Passwort bestätigen");
 
         setRequiredIndicatorVisible(
-                firstName,
-                lastName,
+                unternehmenName,
                 username,
                 email,
                 password,
@@ -58,14 +55,14 @@ public class RegistrationView extends FormLayout {
 
         errorMessageField = new Span();
 
-        submitButton = new Button("Sign Up");
+        submitButton = new Button("Registrieren");
         submitButton.addThemeVariants(ButtonVariant.LUMO_ICON);
         submitButton.addClassName("button-layout");
 
         username.setWidth("100");
 
         add(
-                title, firstName, lastName, username, email, password,
+                title, unternehmenName, username, email, password,
                 passwordConfirm, errorMessageField,
                 submitButton
         );
@@ -80,6 +77,7 @@ public class RegistrationView extends FormLayout {
         setColspan(title, 2);
         setColspan(email, 2);
         setColspan(username, 2);
+        setColspan(unternehmenName, 2);
         setColspan(errorMessageField, 2);
         setColspan(submitButton, 2);
 
@@ -102,30 +100,18 @@ public class RegistrationView extends FormLayout {
 
         boolean completeRegistration = registerService.completeRegistration(benutzer);
 
-        // TODO: Bitte nachschauen ob schon ein Benutzer existiert bevor er erstellt wird
         if (completeRegistration) {
 
-            // Student erstellen
-            Student student = new Student();
-            student.setBenutzer(benutzer);
-            student.setNachname(lastName.getValue());
-            registerService.saveStudent(student);
+            // Unternehmen erstellen
+            Unternehmen unternehmen = new Unternehmen();
+            unternehmen.setName(unternehmenName.getValue());
+            unternehmen.setBenutzer(benutzer);
 
-
-            // Vornamen erstellen
-            String[] vornamen = firstName.getValue().split(" ");
-
-            IntStream.range(0, vornamen.length).forEach(counter -> {
-                Vorname vornameEntity = new Vorname();
-                vornameEntity.setVorname(vornamen[counter]);
-                vornameEntity.setStudent(student);
-                vornameEntity.setLaufendeNummer(counter);
-                registerService.saveVorname(vornameEntity);
-            });
-
+            registerService.saveUnternehmen(unternehmen);
 
             Notification.show("Benutzer erfolgreich registriert");
             UI.getCurrent().navigate("login");
+
         } else {
             Notification.show("Registration failed");
         }
