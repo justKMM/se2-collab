@@ -12,6 +12,7 @@ public class Benutzer {
     private String username;
     private String passwort;
     private int blacklisted;
+    private String email;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,15 +62,24 @@ public class Benutzer {
         this.blacklisted = blacklisted;
     }
 
+    @Column(name = "email", nullable = false, length = 320, unique = true)
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Benutzer benutzer)) return false;
-        return benutzerID == benutzer.benutzerID
-                && blacklisted == benutzer.blacklisted
-                && Objects.equals(profil, benutzer.profil)
-                && Objects.equals(username, benutzer.username)
-                && Objects.equals(passwort, benutzer.passwort);
+        if (o == null || getClass() != o.getClass()) return false;
+        Benutzer benutzer = (Benutzer) o;
+        return benutzerID == benutzer.benutzerID &&
+                blacklisted == benutzer.blacklisted &&
+                Objects.equals(profil, benutzer.profil) &&
+                Objects.equals(username, benutzer.username) &&
+                Objects.equals(passwort, benutzer.passwort);
     }
 
     @Override

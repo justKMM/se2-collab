@@ -90,6 +90,17 @@ public class RegistrationView extends FormLayout {
             benutzer.setPasswort(password.getValue());
             benutzer.setBlacklisted(0);
 
+
+            // Check ob es wirklich eine Email Adresse ist
+            benutzer.setEmail(email.getValue());
+
+
+
+            // benutzer.setFirstName(); Für den Vornamen muss jeweils ein eigenes Objekt erstellt werden für jeden Vornamen
+            // Datenbank jeweils eine Zeile in der Tabelle Vorname für den Vornamen gedacht ist
+            // benutzer.setLastName(); Hier muss ein Objekt Student erstellt werden, da nur Studenten einen Nachnamen haben
+
+
             if (registerService.completeRegistration(benutzer)) {
                 Notification.show("Benutzer erfolgreich registriert");
                 UI.getCurrent().navigate("login");
