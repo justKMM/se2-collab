@@ -100,17 +100,14 @@ public class RegistrationView extends FormLayout {
 
         benutzer.setEmail(email.getValue());
 
-        boolean completeRegistration = registerService.completeRegistration(benutzer);
-
         // TODO: Bitte nachschauen ob schon ein Benutzer existiert bevor er erstellt wird
-        if (completeRegistration) {
+        if (registerService.completeRegistration(benutzer)) {
 
             // Student erstellen
             Student student = new Student();
             student.setBenutzer(benutzer);
             student.setNachname(lastName.getValue());
             registerService.saveStudent(student);
-
 
             // Vornamen erstellen
             String[] vornamen = firstName.getValue().split(" ");
@@ -122,8 +119,6 @@ public class RegistrationView extends FormLayout {
                 vornameEntity.setLaufendeNummer(counter);
                 registerService.saveVorname(vornameEntity);
             });
-
-
             Notification.show("Benutzer erfolgreich registriert");
             UI.getCurrent().navigate("login");
         } else {
