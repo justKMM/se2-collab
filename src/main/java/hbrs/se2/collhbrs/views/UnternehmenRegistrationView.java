@@ -98,9 +98,7 @@ public class UnternehmenRegistrationView extends FormLayout {
 
         benutzer.setEmail(email.getValue());
 
-        boolean completeRegistration = registerService.completeRegistration(benutzer);
-
-        if (completeRegistration) {
+        if (registerService.completeRegistration(benutzer)) {
 
             // Unternehmen erstellen
             Unternehmen unternehmen = new Unternehmen();

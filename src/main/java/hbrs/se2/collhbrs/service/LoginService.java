@@ -11,6 +11,7 @@ public class LoginService {
 
     @Autowired
     private BenutzerRepository benutzerRepository;
+
     @Transactional
     public Benutzer getBenutzer(String username, String passwort) {
         return benutzerRepository.findBenutzerByUsernameAndPasswort(username, passwort);

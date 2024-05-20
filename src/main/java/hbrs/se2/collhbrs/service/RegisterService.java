@@ -58,10 +58,12 @@ public class RegisterService {
     public void saveStudent(Student student) {
         studentRepository.save(student);
     }
+
     @Transactional
     public void saveVorname(Vorname vorname) {
         vornameRepository.save(vorname);
     }
+
     @Transactional
     public void saveUnternehmen(Unternehmen unternehmen) {
         unternehmenRepository.save(unternehmen);
