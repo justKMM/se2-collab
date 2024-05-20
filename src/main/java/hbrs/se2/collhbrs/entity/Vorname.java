@@ -1,5 +1,6 @@
 package hbrs.se2.collhbrs.entity;
 
+import hbrs.se2.collhbrs.entity.IDs.VornameId;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -8,13 +9,20 @@ import java.util.Objects;
 @Table(name = "vorname", schema = "public")
 @IdClass(VornameId.class)
 public class Vorname {
-    private Student student;
-    private int laufendeNummer;
-    private String vorname;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "studentid", nullable = false)
+    private Student student;
+
+    @Id
+    @Column(name = "laufende_nummer", length = 2, nullable = false)
+    private int laufendeNummer;
+
+    @Basic
+    @Column(name = "vorname", length = 128, nullable = false)
+    private String vorname;
+
     public Student getStudent() {
         return student;
     }
@@ -23,8 +31,6 @@ public class Vorname {
         this.student = student;
     }
 
-    @Id
-    @Column(name = "laufende_nummer", length = 2, nullable = false)
     public int getLaufendeNummer() {
         return laufendeNummer;
     }
@@ -33,8 +39,6 @@ public class Vorname {
         this.laufendeNummer = laufendeNummer;
     }
 
-    @Basic
-    @Column(name = "vorname", length = 128, nullable = false)
     public String getVorname() {
         return vorname;
     }

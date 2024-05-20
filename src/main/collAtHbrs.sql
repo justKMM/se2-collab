@@ -34,8 +34,7 @@ create table public.Interessen
     StudentID       SERIAL       not null,
     laufende_nummer numeric(2)   not null,
     Interessen      varchar(256) not null,
-    constraint pk_Interessen primary key (StudentID, laufende_nummer),
-    constraint uk_Interessen_StudentID unique (StudentID)
+    constraint pk_Interessen primary key (StudentID, laufende_nummer)
 );
 
 create table public.Kompetenzen
@@ -43,8 +42,7 @@ create table public.Kompetenzen
     StudentID       SERIAL       not null,
     laufende_nummer numeric(2)   not null,
     Kompetenzen     varchar(256) not null,
-    constraint pk_Kompetenzen primary key (StudentID, laufende_nummer),
-    constraint uk_Kompetenzen_StudentID unique (StudentID)
+    constraint pk_Kompetenzen primary key (StudentID, laufende_nummer)
 );
 
 create table public.Kontaktverknuepfung
@@ -100,8 +98,7 @@ create table public.Studiengang
     StudentID       SERIAL       not null,
     laufende_nummer numeric(2)   not null,
     Studiengang     varchar(256) not null,
-    constraint pk_Studiengang primary key (StudentID, laufende_nummer),
-    constraint uk_Studiengang_StudentID unique (StudentID)
+    constraint pk_Studiengang primary key (StudentID, laufende_nummer)
 );
 
 create table public.Unternehmen
@@ -118,8 +115,7 @@ create table public.Vorname
     StudentID       SERIAL       not null,
     laufende_nummer numeric(2)   not null,
     Vorname         varchar(128) not null,
-    constraint pk_Vorname primary key (StudentID, laufende_nummer),
-    constraint uk_Vorname_StudentID unique (StudentID)
+    constraint pk_Vorname primary key (StudentID, laufende_nummer)
 );
 
 

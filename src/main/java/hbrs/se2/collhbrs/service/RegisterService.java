@@ -10,6 +10,7 @@ import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.repository.VornameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterService {
@@ -26,6 +27,7 @@ public class RegisterService {
     @Autowired
     private VornameRepository vornameRepository;
 
+    @Transactional
     public boolean completeRegistration(Benutzer benutzer) {
         String username = benutzer.getUsername();
         String password = benutzer.getPasswort();
@@ -45,17 +47,21 @@ public class RegisterService {
         return true;
     }
 
+    @Transactional
     public void saveBenutzer(Benutzer benutzer) {
         benutzerRepository.save(benutzer);
     }
 
+    @Transactional
     public void saveProfil(Profil profil) {
         profilRepository.save(profil);
     }
 
+    @Transactional
     public void saveStudent(Student student) {
         studentRepository.save(student);
     }
+    @Transactional
     public void saveVorname(Vorname vorname) {
         vornameRepository.save(vorname);
     }

@@ -1,4 +1,6 @@
-package hbrs.se2.collhbrs.entity;
+package hbrs.se2.collhbrs.entity.IDs;
+
+import hbrs.se2.collhbrs.entity.Student;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,26 +9,21 @@ public class VornameId implements Serializable {
     private Student student;
     private int laufendeNummer;
 
-    public VornameId() {}
-
-    public VornameId(Student student, int laufendeNummer) {
-        this.student = student;
-        this.laufendeNummer = laufendeNummer;
-    }
-
     public Student getStudent() {
         return student;
     }
+
     public void setStudent(Student student) {
         this.student = student;
     }
+
     public int getLaufendeNummer() {
         return laufendeNummer;
     }
+
     public void setLaufendeNummer(int laufendeNummer) {
         this.laufendeNummer = laufendeNummer;
     }
-
 
     @Override
     public boolean equals(Object o) {
