@@ -22,7 +22,3 @@
     margin-bottom: var(--lumo-space-l);
     margin-top: var(--lumo-space-l);
 }
-
-.register .username {
-    width: 100%;
-}
