@@ -1,5 +1,6 @@
 package hbrs.se2.collhbrs.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
@@ -55,6 +56,7 @@ public class LoginView extends VerticalLayout {
                     return;
                 }
                 notificationSuccess.open();
+                UI.getCurrent().navigate("main");
             } catch (Exception e) {
                 Notification notificationFailed = Notification.show("Login failed");
                 notificationFailed.addThemeVariants(NotificationVariant.LUMO_ERROR);
