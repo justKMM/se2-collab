@@ -36,6 +36,7 @@ public class StudentRegistrationView extends FormLayout {
     private final PasswordField passwordConfirm;
     private final Span errorMessageField;
     private final Button submitButton;
+    private final Button cancelButton;
 
     public StudentRegistrationView(RegisterService registerService) {
 
@@ -59,16 +60,22 @@ public class StudentRegistrationView extends FormLayout {
 
         errorMessageField = new Span();
 
+        // Submit registration button
         submitButton = new Button("Registrieren");
         submitButton.addThemeVariants(ButtonVariant.LUMO_ICON);
         submitButton.addClassName("button-layout");
+
+        // Cancel button
+        cancelButton = new Button("Abbrechen");
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
+        cancelButton.addClassName("button-layout");
 
         username.setWidth("100");
 
         add(
                 title, firstName, lastName, username, email, password,
                 passwordConfirm, errorMessageField,
-                submitButton
+                cancelButton, submitButton
         );
 
         setMaxWidth("500px");
@@ -83,7 +90,12 @@ public class StudentRegistrationView extends FormLayout {
         setColspan(email, 2);
         setColspan(username, 2);
         setColspan(errorMessageField, 2);
-        setColspan(submitButton, 2);
+        // setColspan(submitButton, 2);
+
+        cancelButton.addClickListener(e -> {
+            Notification.show("Registration abgebrochen");
+            UI.getCurrent().navigate("login");
+        });
 
         submitButton.addClickListener(e -> {
             registerUser(registerService);
