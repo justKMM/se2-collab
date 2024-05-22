@@ -4,6 +4,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -34,7 +35,7 @@ public class MainView extends VerticalLayout {
         component.setI18n(i18n);
 
         add(component);
-        this.setAlignItems( Alignment.CENTER );
+        this.setAlignItems(Alignment.CENTER);
 
         RouterLink studentRegisterLink = new RouterLink("Als Student registrieren", StudentRegistrationView.class);
         add(studentRegisterLink);
@@ -46,19 +47,19 @@ public class MainView extends VerticalLayout {
         component.addLoginListener(input -> {
             try {
                 Benutzer benutzer = loginService.getBenutzer(input.getUsername(), input.getPassword());
+                Notification notificationSuccess = Notification.show("Succesfully logged in as " + benutzer.getUsername());
+                notificationSuccess.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 if (benutzer.getBlacklisted() == 1) {
-                    Notification.show("Login failed: User is blacklisted");
+                    Notification notificationBlacklisted = Notification.show("Login failed: User is blacklisted");
+                    notificationBlacklisted.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     return;
                 }
-                Notification.show("Succesfully logged in as " + benutzer.getUsername());
+                notificationSuccess.open();
             } catch (Exception e) {
-                Notification.show("Login failed");
+                Notification notificationFailed = Notification.show("Login failed");
+                notificationFailed.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 e.printStackTrace();
             }
         });
-
-
-
-
     }
 }
