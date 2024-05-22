@@ -9,7 +9,5 @@ import com.vaadin.flow.router.Route;
 public class MainView extends AppLayout {
 
     //TODO
-    public MainView() {
-
-    }
+    public MainView() {}
 }
