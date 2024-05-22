@@ -6,33 +6,33 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "benutzer", schema = "public")
-public class Benutzer {
-    private long benutzerID;
-    private Profil profil;
+public class User {
+    private long userID;
+    private Profile profile;
     private String username;
-    private String passwort;
+    private String password;
     private int blacklisted;
     private String email;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "benutzerid", nullable = false)
-    public long getBenutzerID() {
-        return benutzerID;
+    public long getUserID() {
+        return userID;
     }
 
-    public void setBenutzerID(long benutzerID) {
-        this.benutzerID = benutzerID;
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 
     @OneToOne
     @JoinColumn(name = "profilid", nullable = false, unique = true)
-    public Profil getProfil() {
-        return profil;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setProfil(Profil profil) {
-        this.profil = profil;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     @Column(name = "username", nullable = false, length = 32, unique = true)
@@ -45,12 +45,12 @@ public class Benutzer {
     }
 
     @Column(name = "passwort", nullable = false, length = 64, unique = true)
-    public String getPasswort() {
-        return passwort;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Column(name = "blacklisted", nullable = false, length = 1)
@@ -66,6 +66,7 @@ public class Benutzer {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -74,16 +75,15 @@ public class Benutzer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Benutzer benutzer = (Benutzer) o;
-        return benutzerID == benutzer.benutzerID &&
-                blacklisted == benutzer.blacklisted &&
-                Objects.equals(profil, benutzer.profil) &&
-                Objects.equals(username, benutzer.username) &&
-                Objects.equals(passwort, benutzer.passwort);
+        User user = (User) o;
+        return userID == user.userID &&
+                blacklisted == user.blacklisted &&
+                Objects.equals(profile, user.profile) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password);
     }
 
-    @Override
     public int hashCode() {
-        return Objects.hash(benutzerID, profil, username, passwort, blacklisted);
+        return Objects.hash(userID, profile, username, password, blacklisted);
     }
 }

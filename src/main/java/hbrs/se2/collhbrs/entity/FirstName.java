@@ -1,14 +1,14 @@
 package hbrs.se2.collhbrs.entity;
 
-import hbrs.se2.collhbrs.entity.IDs.VornameId;
+import hbrs.se2.collhbrs.entity.IDs.FirstNameID;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "vorname", schema = "public")
-@IdClass(VornameId.class)
-public class Vorname {
+@IdClass(FirstNameID.class)
+public class FirstName {
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -17,11 +17,11 @@ public class Vorname {
 
     @Id
     @Column(name = "laufende_nummer", length = 2, nullable = false)
-    private int laufendeNummer;
+    private int serialNumber;
 
     @Basic
     @Column(name = "vorname", length = 128, nullable = false)
-    private String vorname;
+    private String firstNameName;
 
     public Student getStudent() {
         return student;
@@ -31,34 +31,34 @@ public class Vorname {
         this.student = student;
     }
 
-    public int getLaufendeNummer() {
-        return laufendeNummer;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setLaufendeNummer(int laufendeNummer) {
-        this.laufendeNummer = laufendeNummer;
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
-    public String getVorname() {
-        return vorname;
+    public String getFirstNameName() {
+        return firstNameName;
     }
 
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
+    public void setFirstNameName(String firstNameName) {
+        this.firstNameName = firstNameName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Vorname vorname = (Vorname) o;
-        return laufendeNummer == vorname.laufendeNummer &&
-                Objects.equals(student, vorname.student) &&
-                Objects.equals(this.vorname, vorname.vorname);
+        FirstName firstName = (FirstName) o;
+        return serialNumber == firstName.serialNumber &&
+                Objects.equals(student, firstName.student) &&
+                Objects.equals(this.firstNameName, firstName.firstNameName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(student, laufendeNummer, vorname);
+        return Objects.hash(student, serialNumber, firstNameName);
     }
 }

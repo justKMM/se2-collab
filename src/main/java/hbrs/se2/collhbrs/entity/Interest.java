@@ -1,18 +1,20 @@
 package hbrs.se2.collhbrs.entity;
 
+import hbrs.se2.collhbrs.entity.IDs.InterestID;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "interessen", schema = "public")
-public class Interessen {
+@IdClass(InterestID.class)
+public class Interest {
     private Student student;
-    private int laufendeNummer;
-    private String interessen;
+    private int serialNumber;
+    private String interestName;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "studentid", nullable = false)
     public Student getStudent() {
         return student;
@@ -23,38 +25,37 @@ public class Interessen {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "laufende_nummer", length = 2, nullable = false)
-    public int getLaufendeNummer() {
-        return laufendeNummer;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setLaufendeNummer(int laufendeNummer) {
-        this.laufendeNummer = laufendeNummer;
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     @Basic
     @Column(name = "interessen", length = 256)
-    public String getInteressen() {
-        return interessen;
+    public String getInterestName() {
+        return interestName;
     }
 
-    public void setInteressen(String interessen) {
-        this.interessen = interessen;
+    public void setInterestName(String InterestName) {
+        this.interestName = InterestName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Interessen that = (Interessen) o;
-        return laufendeNummer == that.laufendeNummer &&
+        Interest that = (Interest) o;
+        return serialNumber == that.serialNumber &&
                 Objects.equals(student, that.student) &&
-                Objects.equals(interessen, that.interessen);
+                Objects.equals(interestName, that.interestName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(student, laufendeNummer, interessen);
+        return Objects.hash(serialNumber, student, interestName);
     }
 }
