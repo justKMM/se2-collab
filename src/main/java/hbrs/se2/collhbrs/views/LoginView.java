@@ -15,9 +15,9 @@ import hbrs.se2.collhbrs.service.LoginService;
 @Route(value = "" )
 @RouteAlias(value = "login")
 @CssImport("./styles/index.css")
-public class MainView extends VerticalLayout {
+public class LoginView extends VerticalLayout {
 
-    public MainView(LoginService loginService) {
+    public LoginView(LoginService loginService) {
 
         addClassName("main");
         setSizeFull();
