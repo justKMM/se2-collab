@@ -1,18 +1,20 @@
 package hbrs.se2.collhbrs.entity;
 
+import hbrs.se2.collhbrs.entity.IDs.DegreeProgrammID;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "studiengang", schema = "public")
+@IdClass(DegreeProgrammID.class)
 public class DegreeProgramm {
     private Student student;
     private int serialNumber;
     private String degreeProgrammName;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "studentid", nullable = false)
     public Student getStudent() {
         return student;
@@ -23,7 +25,6 @@ public class DegreeProgramm {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "laufende_nummer", length = 2, nullable = false)
     public int getSerialNumber() {
         return serialNumber;

@@ -1,18 +1,20 @@
 package hbrs.se2.collhbrs.entity;
 
+import hbrs.se2.collhbrs.entity.IDs.SkillID;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "kompetenzen", schema = "public")
+@IdClass(SkillID.class)
 public class Skill {
     private Student student;
     private int serialNumber;
     private String skillName;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "studentid", nullable = false)
     public Student getStudent() {
         return student;
@@ -23,13 +25,12 @@ public class Skill {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "laufende_nummer", length = 2, nullable = false)
     public int getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(int laufendeNummer) {
+    public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
     }
 
