@@ -51,6 +51,7 @@ public class Business {
                 Objects.equals(user, that.user) &&
                 Objects.equals(name, that.name);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(businessID, user, name);

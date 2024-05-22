@@ -14,7 +14,9 @@ public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bewirbtid")
-    public long getApplicationID() {return applicationID;}
+    public long getApplicationID() {
+        return applicationID;
+    }
 
     public void setApplicationID(long applicationID) {
         this.applicationID = applicationID;
@@ -49,6 +51,7 @@ public class Application {
                 Objects.equals(student, application.student) &&
                 Objects.equals(vacancy, application.vacancy);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(applicationID, student, vacancy);

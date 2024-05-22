@@ -100,6 +100,7 @@ public class Rating {
                 Objects.equals(ratingDescriptionStudent, rating.ratingDescriptionStudent) &&
                 Objects.equals(ratingDescriptionBusiness, rating.ratingDescriptionBusiness);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(ratingID, business, student, ratingScoreStudent, ratingDescriptionStudent, ratingScoreBusiness, ratingDescriptionBusiness);

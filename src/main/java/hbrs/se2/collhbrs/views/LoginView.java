@@ -13,7 +13,7 @@ import com.vaadin.flow.router.RouterLink;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.LoginService;
 
-@Route(value = "" )
+@Route(value = "")
 @RouteAlias(value = "login")
 @CssImport("./styles/index.css")
 public class LoginView extends VerticalLayout {

@@ -52,6 +52,7 @@ public class Skill {
                 Objects.equals(student, skill.student) &&
                 Objects.equals(skillName, skill.skillName);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(serialNumber, student, skillName);

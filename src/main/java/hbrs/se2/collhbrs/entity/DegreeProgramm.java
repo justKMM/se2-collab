@@ -52,6 +52,7 @@ public class DegreeProgramm {
                 Objects.equals(student, degreeProgramm.student) &&
                 Objects.equals(degreeProgrammName, degreeProgramm.degreeProgrammName);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(serialNumber, student, degreeProgrammName);

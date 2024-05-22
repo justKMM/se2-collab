@@ -52,6 +52,7 @@ public class Interest {
                 Objects.equals(student, that.student) &&
                 Objects.equals(interestName, that.interestName);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(serialNumber, student, interestName);

@@ -66,6 +66,7 @@ public class User {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -81,6 +82,7 @@ public class User {
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password);
     }
+
     public int hashCode() {
         return Objects.hash(userID, profile, username, password, blacklisted);
     }

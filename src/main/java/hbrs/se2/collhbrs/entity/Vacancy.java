@@ -63,6 +63,7 @@ public class Vacancy {
                 Objects.equals(titel, vacancy.titel) &&
                 Objects.equals(description, vacancy.description);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(vacancyID, business, titel, description);

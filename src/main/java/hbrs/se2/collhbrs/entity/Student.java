@@ -66,6 +66,7 @@ public class Student {
                 Objects.equals(lastName, student.lastName) &&
                 Objects.equals(birthdate, student.birthdate);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(studentID, user, lastName, birthdate);

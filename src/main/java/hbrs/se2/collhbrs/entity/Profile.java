@@ -74,6 +74,7 @@ public class Profile {
                 Objects.equals(xingUsername, profile.xingUsername) &&
                 Objects.equals(linkedinUsername, profile.linkedinUsername);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(profileID, avatarUrl, profileDescription, xingUsername, linkedinUsername);
