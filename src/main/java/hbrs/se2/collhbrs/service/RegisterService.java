@@ -10,24 +10,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegisterService {
 
     @Autowired
-    private BenutzerRepository benutzerRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private ProfilRepository profilRepository;
+    private ProfileRepository profileRepository;
 
     @Autowired
     private StudentRepository studentRepository;
 
     @Autowired
-    private VornameRepository vornameRepository;
+    private FirstNameRepository firstNameRepository;
 
     @Autowired
-    private UnternehmenRepository unternehmenRepository;
+    private BusinessRepository businessRepository;
 
     @Transactional
-    public boolean completeRegistration(Benutzer benutzer) {
-        String username = benutzer.getUsername();
-        String password = benutzer.getPasswort();
+    public boolean completeRegistration(User user) {
+        String username = user.getPassword();
+        String password = user.getPassword();
         for (int i = 0; i < username.length(); i++) {
             char c = username.charAt(i);
             if (!Character.isLetterOrDigit(c)) {
@@ -40,18 +40,18 @@ public class RegisterService {
                 return false;
             }
         }
-        saveBenutzer(benutzer);
+        saveUser(user);
         return true;
     }
 
     @Transactional
-    public void saveBenutzer(Benutzer benutzer) {
-        benutzerRepository.save(benutzer);
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 
     @Transactional
-    public void saveProfil(Profil profil) {
-        profilRepository.save(profil);
+    public void saveProfil(Profile profile) {
+        profileRepository.save(profile);
     }
 
     @Transactional
@@ -60,12 +60,12 @@ public class RegisterService {
     }
 
     @Transactional
-    public void saveVorname(Vorname vorname) {
-        vornameRepository.save(vorname);
+    public void saveVorname(FirstName firstName) {
+        firstNameRepository.save(firstName);
     }
 
     @Transactional
-    public void saveUnternehmen(Unternehmen unternehmen) {
-        unternehmenRepository.save(unternehmen);
+    public void saveBusiness(Business business) {
+        businessRepository.save(business);
     }
 }

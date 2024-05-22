@@ -6,10 +6,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "studiengang", schema = "public")
-public class Studiengang {
+public class DegreeProgramm {
     private Student student;
-    private int laufendeNummer;
-    private String studiengang;
+    private int serialNumber;
+    private String degreeProgrammName;
 
     @Id
     @ManyToOne
@@ -25,36 +25,35 @@ public class Studiengang {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "laufende_nummer", length = 2, nullable = false)
-    public int getLaufendeNummer() {
-        return laufendeNummer;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setLaufendeNummer(int laufendeNummer) {
-        this.laufendeNummer = laufendeNummer;
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     @Basic
     @Column(name = "studiengang", length = 256, nullable = false)
-    public String getStudiengang() {
-        return studiengang;
+    public String getDegreeProgrammName() {
+        return degreeProgrammName;
     }
 
-    public void setStudiengang(String studiengang) {
-        this.studiengang = studiengang;
+    public void setDegreeProgrammName(String degreeProgrammName) {
+        this.degreeProgrammName = degreeProgrammName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Studiengang that = (Studiengang) o;
-        return laufendeNummer == that.laufendeNummer &&
-                Objects.equals(student, that.student) &&
-                Objects.equals(studiengang, that.studiengang);
+        DegreeProgramm degreeProgramm = (DegreeProgramm) o;
+        return serialNumber == degreeProgramm.serialNumber &&
+                Objects.equals(student, degreeProgramm.student) &&
+                Objects.equals(degreeProgrammName, degreeProgramm.degreeProgrammName);
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(student, laufendeNummer, studiengang);
+        return Objects.hash(serialNumber, student, degreeProgrammName);
     }
 }

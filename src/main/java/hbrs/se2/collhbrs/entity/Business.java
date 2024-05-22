@@ -6,30 +6,30 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "unternehmen", schema = "public")
-public class Unternehmen {
-    private long unternehmenID;
-    private Benutzer benutzer;
+public class Business {
+    private long businessID;
+    private User user;
     private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "unternehmenid", length = 64, nullable = false)
-    public long getUnternehmenID() {
-        return unternehmenID;
+    public long getBusinessID() {
+        return businessID;
     }
 
-    public void setUnternehmenID(long unternehmenID) {
-        this.unternehmenID = unternehmenID;
+    public void setBusinessID(long businessID) {
+        this.businessID = businessID;
     }
 
     @OneToOne
     @JoinColumn(name = "benutzerid", nullable = false, unique = true)
-    public Benutzer getBenutzer() {
-        return benutzer;
+    public User getUser() {
+        return user;
     }
 
-    public void setBenutzer(Benutzer benutzer) {
-        this.benutzer = benutzer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Basic
@@ -46,14 +46,13 @@ public class Unternehmen {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Unternehmen that = (Unternehmen) o;
-        return unternehmenID == that.unternehmenID &&
-                Objects.equals(benutzer, that.benutzer) &&
+        Business that = (Business) o;
+        return businessID == that.businessID &&
+                Objects.equals(user, that.user) &&
                 Objects.equals(name, that.name);
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(unternehmenID, benutzer, name);
+        return Objects.hash(businessID, user, name);
     }
 }

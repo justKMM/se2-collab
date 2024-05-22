@@ -5,9 +5,9 @@ import hbrs.se2.collhbrs.entity.Student;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class VornameId implements Serializable {
+public class FirstNameID implements Serializable {
     private Student student;
-    private int laufendeNummer;
+    private int serialNumber;
 
     public Student getStudent() {
         return student;
@@ -17,25 +17,25 @@ public class VornameId implements Serializable {
         this.student = student;
     }
 
-    public int getLaufendeNummer() {
-        return laufendeNummer;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setLaufendeNummer(int laufendeNummer) {
-        this.laufendeNummer = laufendeNummer;
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VornameId vornameId = (VornameId) o;
-        return laufendeNummer == vornameId.laufendeNummer &&
-                Objects.equals(student, vornameId.student);
+        FirstNameID firstNameID = (FirstNameID) o;
+        return serialNumber == firstNameID.serialNumber &&
+                Objects.equals(student, firstNameID.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(student, laufendeNummer);
+        return Objects.hash(student, serialNumber);
     }
 }

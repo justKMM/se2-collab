@@ -9,7 +9,6 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -17,12 +16,11 @@ import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.entity.*;
 import hbrs.se2.collhbrs.service.RegisterService;
 
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Route(value = "unternehmen/registration")
 @CssImport("./styles/index.css")
-public class UnternehmenRegistrationView extends FormLayout {
+public class BusinessRegistrationView extends FormLayout {
 
     private final H3 title;
     private final TextField unternehmenName;
@@ -35,7 +33,7 @@ public class UnternehmenRegistrationView extends FormLayout {
     private final Button cancelButton;
 
 
-    public UnternehmenRegistrationView(RegisterService registerService) {
+    public BusinessRegistrationView(RegisterService registerService) {
 
         addClassName("register");
 
@@ -96,24 +94,24 @@ public class UnternehmenRegistrationView extends FormLayout {
     }
 
     private void registerUser(RegisterService registerService) {
-        Profil profil = new Profil();
-        registerService.saveProfil(profil);
+        Profile profile = new Profile();
+        registerService.saveProfil(profile);
 
-        Benutzer benutzer = new Benutzer();
-        benutzer.setProfil(profil);
-        benutzer.setUsername(username.getValue());
-        benutzer.setPasswort(password.getValue());
-        benutzer.setBlacklisted(0);
+        User user = new User();
+        user.setProfile(profile);
+        user.setUsername(username.getValue());
+        user.setPassword(password.getValue());
+        user.setBlacklisted(0);
 
-        benutzer.setEmail(email.getValue());
+        user.setEmail(email.getValue());
 
-        if (registerService.completeRegistration(benutzer)) {
+        if (registerService.completeRegistration(user)) {
 
-            Unternehmen unternehmen = new Unternehmen();
-            unternehmen.setName(unternehmenName.getValue());
-            unternehmen.setBenutzer(benutzer);
+            Business business = new Business();
+            business.setName(unternehmenName.getValue());
+            business.setUser(user);
 
-            registerService.saveUnternehmen(unternehmen);
+            registerService.saveBusiness(business);
 
             Notification.show("Benutzer erfolgreich registriert");
             UI.getCurrent().navigate("login");

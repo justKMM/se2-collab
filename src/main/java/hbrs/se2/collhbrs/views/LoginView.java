@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.router.RouterLink;
-import hbrs.se2.collhbrs.entity.Benutzer;
+import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.LoginService;
 
 @Route(value = "" )
@@ -41,16 +41,16 @@ public class LoginView extends VerticalLayout {
         RouterLink studentRegisterLink = new RouterLink("Als Student registrieren", StudentRegistrationView.class);
         add(studentRegisterLink);
 
-        RouterLink unternehmenRegisterLink = new RouterLink("Als Unternehmen registrieren", UnternehmenRegistrationView.class);
+        RouterLink unternehmenRegisterLink = new RouterLink("Als Unternehmen registrieren", BusinessRegistrationView.class);
         add(unternehmenRegisterLink);
 
 
         component.addLoginListener(input -> {
             try {
-                Benutzer benutzer = loginService.getBenutzer(input.getUsername(), input.getPassword());
-                Notification notificationSuccess = Notification.show("Succesfully logged in as " + benutzer.getUsername());
+                User user = loginService.getUser(input.getUsername(), input.getPassword());
+                Notification notificationSuccess = Notification.show("Succesfully logged in as " + user.getUsername());
                 notificationSuccess.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                if (benutzer.getBlacklisted() == 1) {
+                if (user.getBlacklisted() == 1) {
                     Notification notificationBlacklisted = Notification.show("Login failed: User is blacklisted");
                     notificationBlacklisted.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     return;

@@ -9,9 +9,9 @@ import java.util.Objects;
 @Table(name = "student", schema = "public")
 public class Student {
     private long studentID;
-    private Benutzer benutzer;
-    private String nachname;
-    private LocalDate geburtsdatum;
+    private User user;
+    private String lastName;
+    private LocalDate birthdate;
 
 
     @Id
@@ -27,32 +27,33 @@ public class Student {
 
     @OneToOne
     @JoinColumn(name = "benutzerid", nullable = false, unique = true)
-    public Benutzer getBenutzer() {
-        return benutzer;
+    public User getUser() {
+        return user;
     }
 
-    public void setBenutzer(Benutzer benutzer) {
-        this.benutzer = benutzer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Basic
     @Column(name = "nachname", length = 128, nullable = false)
-    public String getNachname() {
-        return nachname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Basic
     @Column(name = "geburtsdatum")
-    public LocalDate getGeburtsdatum() {
-        return geburtsdatum;
+    public LocalDate getBirthdate() {
+        return birthdate;
     }
 
-    public void setGeburtsdatum(LocalDate geburtsdatum) {
-        this.geburtsdatum = geburtsdatum;
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
     }
 
     @Override
@@ -61,13 +62,12 @@ public class Student {
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
         return studentID == student.studentID &&
-                Objects.equals(benutzer, student.benutzer) &&
-                Objects.equals(nachname, student.nachname) &&
-                Objects.equals(geburtsdatum, student.geburtsdatum);
+                Objects.equals(user, student.user) &&
+                Objects.equals(lastName, student.lastName) &&
+                Objects.equals(birthdate, student.birthdate);
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(studentID, benutzer, nachname, geburtsdatum);
+        return Objects.hash(studentID, user, lastName, birthdate);
     }
 }
