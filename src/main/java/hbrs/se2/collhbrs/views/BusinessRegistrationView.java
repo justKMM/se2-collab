@@ -90,9 +90,7 @@ public class BusinessRegistrationView extends FormLayout {
             UI.getCurrent().navigate("login");
         });
 
-        submitButton.addClickListener(e -> {
-            registerUser(registerService);
-        });
+        submitButton.addClickListener(e -> registerUser(registerService));
     }
 
     private void registerUser(RegisterService registerService) {

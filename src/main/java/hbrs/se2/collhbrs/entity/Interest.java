@@ -1,6 +1,6 @@
 package hbrs.se2.collhbrs.entity;
 
-import hbrs.se2.collhbrs.entity.IDs.InterestID;
+import hbrs.se2.collhbrs.entity.ids.InterestID;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -40,8 +40,8 @@ public class Interest {
         return interestName;
     }
 
-    public void setInterestName(String InterestName) {
-        this.interestName = InterestName;
+    public void setInterestName(String interestName) {
+        this.interestName = interestName;
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.vaadin.flow.router.Route;
 @CssImport("./styles/index.css")
 public class MainView extends AppLayout {
 
-    //TODO
+    // TODO: Implement the MainView class
     public MainView() {
 
     }

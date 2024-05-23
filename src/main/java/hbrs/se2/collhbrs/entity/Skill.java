@@ -1,6 +1,6 @@
 package hbrs.se2.collhbrs.entity;
 
-import hbrs.se2.collhbrs.entity.IDs.SkillID;
+import hbrs.se2.collhbrs.entity.ids.SkillID;
 import jakarta.persistence.*;
 
 import java.util.Objects;

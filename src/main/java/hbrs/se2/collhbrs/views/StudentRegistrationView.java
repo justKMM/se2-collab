@@ -89,16 +89,13 @@ public class StudentRegistrationView extends FormLayout {
         setColspan(email, 2);
         setColspan(username, 2);
         setColspan(errorMessageField, 2);
-        // setColspan(submitButton, 2);
 
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
             UI.getCurrent().navigate("login");
         });
 
-        submitButton.addClickListener(e -> {
-            registerUser(registerService);
-        });
+        submitButton.addClickListener(e -> registerUser(registerService));
     }
 
     private void registerUser(RegisterService registerService) {

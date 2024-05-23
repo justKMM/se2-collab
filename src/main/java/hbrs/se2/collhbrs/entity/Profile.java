@@ -61,6 +61,7 @@ public class Profile {
     }
 
     public void setLinkedinUsername(String linkedinUsername) {
+        this.linkedinUsername = linkedinUsername;
     }
 
     @Override

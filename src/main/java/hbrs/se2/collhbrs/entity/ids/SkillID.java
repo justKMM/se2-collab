@@ -1,10 +1,10 @@
-package hbrs.se2.collhbrs.entity.IDs;
+package hbrs.se2.collhbrs.entity.ids;
 
 import hbrs.se2.collhbrs.entity.Student;
 
 import java.util.Objects;
 
-public class DegreeProgrammID {
+public class SkillID {
     private int serialNumber;
     private Student student;
 
@@ -15,6 +15,7 @@ public class DegreeProgrammID {
     public void setStudent(Student student) {
         this.student = student;
     }
+
 
     public int getSerialNumber() {
         return serialNumber;
@@ -28,9 +29,9 @@ public class DegreeProgrammID {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DegreeProgrammID degreeProgrammID = (DegreeProgrammID) o;
-        return serialNumber == degreeProgrammID.serialNumber &&
-                Objects.equals(student, degreeProgrammID.student);
+        SkillID skillID = (SkillID) o;
+        return serialNumber == skillID.serialNumber &&
+                Objects.equals(student, skillID.student);
     }
 
     @Override

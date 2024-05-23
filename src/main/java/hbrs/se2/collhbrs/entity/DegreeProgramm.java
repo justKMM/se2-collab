@@ -1,6 +1,6 @@
 package hbrs.se2.collhbrs.entity;
 
-import hbrs.se2.collhbrs.entity.IDs.DegreeProgrammID;
+import hbrs.se2.collhbrs.entity.ids.DegreeProgrammID;
 import jakarta.persistence.*;
 
 import java.util.Objects;
