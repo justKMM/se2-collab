@@ -58,7 +58,7 @@ public class LoginView extends VerticalLayout {
     private void handleLogin(LoginForm.LoginEvent input, LoginService loginService) {
         try {
             User user = loginService.getUser(input.getUsername(), input.getPassword());
-            Notification notificationSuccess = Notification.show("Succesfully logged in as " + user.getUsername());
+            Notification notificationSuccess = Notification.show("Successfully logged in as " + user.getUsername());
             notificationSuccess.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             if (user.getBlacklisted() == 1) {
                 Notification notificationBlacklisted = Notification.show("Login failed: User is blacklisted");

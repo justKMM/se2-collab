@@ -26,28 +26,57 @@ import java.util.stream.Stream;
 @CssImport("./styles/index.css")
 public class StudentRegistrationView extends FormLayout {
 
-    private final H3 title;
-    private final TextField firstName;
-    private final TextField lastName;
-    private final TextField username;
-    private final EmailField email;
-    private final PasswordField password;
-    private final PasswordField passwordConfirm;
-    private final Span errorMessageField;
-    private final Button submitButton;
-    private final Button cancelButton;
+    private TextField firstName;
+    private TextField lastName;
+    private TextField username;
+    private EmailField email;
+    private PasswordField password;
 
     public StudentRegistrationView(RegisterService registerService) {
+        setupLayout();
+        setupFields();
 
+        Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_ICON);
+        submitButton.addClickListener(e -> registerUser(registerService));
+
+        Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
+        cancelButton.addClickListener(e -> {
+            Notification.show("Registration abgebrochen");
+            UI.getCurrent().navigate("login");
+        });
+    }
+
+    public Button createButton(String text, ButtonVariant... variants) {
+        Button button = new Button(text);
+        button.addThemeVariants(variants);
+        button.addClassName("button-layout");
+        return button;
+    }
+
+    private void setupLayout() {
         addClassName("register");
-        title = new H3("Studentenregistrierung");
-        firstName = new TextField("Vorname");
-        lastName = new TextField("Nachname");
-        username = new TextField("Nutzername");
+        setMaxWidth("500px");
+        setResponsiveSteps(
+                new ResponsiveStep("0", 1, ResponsiveStep.LabelsPosition.TOP),
+                new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP)
+        );
+    }
+
+    private TextField createTextField(String label) {
+        TextField textField = new TextField(label);
+        textField.setRequiredIndicatorVisible(true);
+        return textField;
+    }
+
+    private void setupFields() {
+        H3 title = new H3("Studentenregistrierung");
+        firstName = createTextField("Vorname");
+        lastName = createTextField("Nachname");
+        username = createTextField("Nutzername");
+        username.setWidth("100");
         email = new EmailField("Email");
         password = new PasswordField("Passwort");
-        passwordConfirm = new PasswordField("Passwort bestätigen");
-
+        PasswordField passwordConfirm = new PasswordField("Passwort bestätigen");
         setRequiredIndicatorVisible(
                 firstName,
                 lastName,
@@ -56,46 +85,15 @@ public class StudentRegistrationView extends FormLayout {
                 password,
                 passwordConfirm
         );
-
-        errorMessageField = new Span();
-
-        // Submit registration button
-        submitButton = new Button("Registrieren");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_ICON);
-        submitButton.addClassName("button-layout");
-
-        // Cancel button
-        cancelButton = new Button("Abbrechen");
-        cancelButton.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
-        cancelButton.addClassName("button-layout");
-
-        username.setWidth("100");
-
+        Span errorMessageField = new Span();
         add(
                 title, firstName, lastName, username, email, password,
-                passwordConfirm, errorMessageField,
-                cancelButton, submitButton
+                passwordConfirm, errorMessageField
         );
-
-        setMaxWidth("500px");
-
-        setResponsiveSteps(
-                new ResponsiveStep("0", 1, ResponsiveStep.LabelsPosition.TOP),
-                new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP)
-        );
-
-
         setColspan(title, 2);
         setColspan(email, 2);
         setColspan(username, 2);
         setColspan(errorMessageField, 2);
-
-        cancelButton.addClickListener(e -> {
-            Notification.show("Registration abgebrochen");
-            UI.getCurrent().navigate("login");
-        });
-
-        submitButton.addClickListener(e -> registerUser(registerService));
     }
 
     private void registerUser(RegisterService registerService) {
@@ -136,22 +134,6 @@ public class StudentRegistrationView extends FormLayout {
         } else {
             Notification.show("Registration failed");
         }
-    }
-
-    public PasswordField getPasswordField() {
-        return password;
-    }
-
-    public PasswordField getPasswordConfirmField() {
-        return passwordConfirm;
-    }
-
-    public Span getErrorMessageField() {
-        return errorMessageField;
-    }
-
-    public Button getSubmitButton() {
-        return submitButton;
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
