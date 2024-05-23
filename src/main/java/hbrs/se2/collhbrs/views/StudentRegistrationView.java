@@ -46,7 +46,62 @@ public class StudentRegistrationView extends FormLayout {
         });
     }
 
-    public Button createButton(String text, ButtonVariant... variants) {
+    private void registerUser(RegisterService registerService) {
+        Profile profile = createProfile(registerService);
+
+        User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
+
+        if (isAlphaNumeric(user.getUsername()) && isAlphaNumeric(user.getPassword())) {
+            registerService.saveUser(user);
+
+            Student student = createStudent(user);
+            registerService.saveStudent(student);
+
+            saveFirstNames(registerService, firstName.getValue().split(" "), student);
+
+            Notification.show("Benutzer erfolgreich registriert");
+            UI.getCurrent().navigate("login");
+        } else {
+            Notification.show("Registration failed");
+        }
+    }
+
+    private Profile createProfile(RegisterService registerService) {
+        Profile profile = new Profile();
+        registerService.saveProfil(profile);
+        return profile;
+    }
+
+    private User createUser(Profile profile, String username, String password, String email) {
+        User user = new User();
+
+        user.setProfile(profile);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setBlacklisted(0);
+        user.setEmail(email);
+        return user;
+    }
+
+    private Student createStudent(User user) {
+        Student student = new Student();
+        student.setUser(user);
+        student.setLastName(lastName.getValue());
+        return student;
+    }
+
+    private void saveFirstNames(RegisterService registerService, String[] vornamen, Student student) {
+        IntStream.range(0, vornamen.length).forEach(counter -> {
+            FirstName firstNameEntity = new FirstName();
+            firstNameEntity.setFirstNameName(vornamen[counter]);
+            firstNameEntity.setStudent(student);
+            firstNameEntity.setSerialNumber(counter);
+            registerService.saveVorname(firstNameEntity);
+        });
+    }
+
+
+    private Button createButton(String text, ButtonVariant... variants) {
         Button button = new Button(text);
         button.addThemeVariants(variants);
         button.addClassName("button-layout");
@@ -96,47 +151,17 @@ public class StudentRegistrationView extends FormLayout {
         setColspan(errorMessageField, 2);
     }
 
-    private void registerUser(RegisterService registerService) {
-        Profile profile = new Profile();
-        registerService.saveProfil(profile);
-
-        User user = new User();
-        user.setProfile(profile);
-        user.setUsername(username.getValue());
-        user.setPassword(password.getValue());
-        user.setBlacklisted(0);
-
-        user.setEmail(email.getValue());
-
-        if (registerService.completeRegistration(user)) {
-
-            // Student erstellen
-            Student student = new Student();
-            student.setUser(user);
-            student.setLastName(lastName.getValue());
-            registerService.saveStudent(student);
-
-
-            // Vornamen erstellen
-            String[] vornamen = firstName.getValue().split(" ");
-
-            IntStream.range(0, vornamen.length).forEach(counter -> {
-                FirstName firstNameEntity = new FirstName();
-                firstNameEntity.setFirstNameName(vornamen[counter]);
-                firstNameEntity.setStudent(student);
-                firstNameEntity.setSerialNumber(counter);
-                registerService.saveVorname(firstNameEntity);
-            });
-
-
-            Notification.show("Benutzer erfolgreich registriert");
-            UI.getCurrent().navigate("login");
-        } else {
-            Notification.show("Registration failed");
-        }
-    }
-
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
         Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));
     }
+
+    private boolean isAlphaNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

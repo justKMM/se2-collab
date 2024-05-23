@@ -2,11 +2,12 @@ package hbrs.se2.collhbrs.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "profil", schema = "public")
-public class Profile {
+public class Profile implements Serializable {
     private long profileID;
     private String avatarUrl;
     private String profileDescription;

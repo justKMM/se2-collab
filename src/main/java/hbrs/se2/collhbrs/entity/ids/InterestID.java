@@ -2,9 +2,10 @@ package hbrs.se2.collhbrs.entity.ids;
 
 import hbrs.se2.collhbrs.entity.Student;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class InterestID {
+public class InterestID implements Serializable {
     private int serialNumber;
     private Student student;
 

@@ -94,18 +94,10 @@ public class BusinessRegistrationView extends FormLayout {
     }
 
     private void registerUser(RegisterService registerService) {
-        Profile profile = new Profile();
-        registerService.saveProfil(profile);
+        User user = createUser(registerService, username.getValue(), password.getValue(), email.getValue());
 
-        User user = new User();
-        user.setProfile(profile);
-        user.setUsername(username.getValue());
-        user.setPassword(password.getValue());
-        user.setBlacklisted(0);
-
-        user.setEmail(email.getValue());
-
-        if (registerService.completeRegistration(user)) {
+        if (isAlphaNumeric(user.getUsername()) && isAlphaNumeric(user.getPassword())) {
+            registerService.saveUser(user);
 
             Business business = new Business();
             business.setName(unternehmenName.getValue());
@@ -119,6 +111,20 @@ public class BusinessRegistrationView extends FormLayout {
         } else {
             Notification.show("Registration failed");
         }
+    }
+
+    public User createUser(RegisterService registerService, String username, String password, String email) {
+        Profile profile = new Profile();
+        registerService.saveProfil(profile);
+
+        User user = new User();
+        user.setProfile(profile);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setBlacklisted(0);
+
+        user.setEmail(email);
+        return user;
     }
 
     public PasswordField getPasswordField() {
@@ -139,5 +145,14 @@ public class BusinessRegistrationView extends FormLayout {
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
         Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));
+    }
+
+    private boolean isAlphaNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -3,12 +3,13 @@ package hbrs.se2.collhbrs.entity;
 import hbrs.se2.collhbrs.entity.ids.InterestID;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "interessen", schema = "public")
 @IdClass(InterestID.class)
-public class Interest {
+public class Interest implements Serializable {
     private Student student;
     private int serialNumber;
     private String interestName;
