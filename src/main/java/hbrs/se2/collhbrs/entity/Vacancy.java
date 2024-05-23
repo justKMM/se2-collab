@@ -2,11 +2,12 @@ package hbrs.se2.collhbrs.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "stellenausschreibung", schema = "public")
-public class Vacancy {
+public class Vacancy implements Serializable {
     private long vacancyID;
     private Business business;
     private String titel;

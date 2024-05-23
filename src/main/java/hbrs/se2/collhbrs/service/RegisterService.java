@@ -25,26 +25,6 @@ public class RegisterService {
     private BusinessRepository businessRepository;
 
     @Transactional
-    public boolean completeRegistration(User user) {
-        String username = user.getPassword();
-        String password = user.getPassword();
-        for (int i = 0; i < username.length(); i++) {
-            char c = username.charAt(i);
-            if (!Character.isLetterOrDigit(c)) {
-                return false;
-            }
-        }
-        for (int i = 0; i < password.length(); i++) {
-            char c = password.charAt(i);
-            if (!Character.isLetterOrDigit(c)) {
-                return false;
-            }
-        }
-        saveUser(user);
-        return true;
-    }
-
-    @Transactional
     public void saveUser(User user) {
         userRepository.save(user);
     }

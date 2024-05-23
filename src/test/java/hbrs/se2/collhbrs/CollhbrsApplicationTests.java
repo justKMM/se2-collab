@@ -4,8 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CollhbrsApplicationTests {
+class CollApplicationTests {
 
+    // TODO: Implement the contextLoads method
     @Test
     void contextLoads() {
     }

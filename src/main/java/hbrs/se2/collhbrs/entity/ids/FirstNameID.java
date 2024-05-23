@@ -1,12 +1,13 @@
-package hbrs.se2.collhbrs.entity.IDs;
+package hbrs.se2.collhbrs.entity.ids;
 
 import hbrs.se2.collhbrs.entity.Student;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class InterestID {
-    private int serialNumber;
+public class FirstNameID implements Serializable {
     private Student student;
+    private int serialNumber;
 
     public Student getStudent() {
         return student;
@@ -28,9 +29,9 @@ public class InterestID {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InterestID interestID = (InterestID) o;
-        return serialNumber == interestID.serialNumber &&
-                Objects.equals(student, interestID.student);
+        FirstNameID firstNameID = (FirstNameID) o;
+        return serialNumber == firstNameID.serialNumber &&
+                Objects.equals(student, firstNameID.student);
     }
 
     @Override
