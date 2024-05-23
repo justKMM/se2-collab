@@ -18,6 +18,7 @@ import hbrs.se2.collhbrs.entity.Profile;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @Route(value = "unternehmen/registration")
@@ -91,10 +92,69 @@ public class BusinessRegistrationView extends FormLayout {
         });
 
         submitButton.addClickListener(e -> {
-            registerUser(registerService);
+            if (validateInput()) {
+                registerUser(registerService);
+            }
         });
     }
+    private boolean validateInput() {
+        boolean isValid = true;
+        if (!password.getValue().equals(passwordConfirm.getValue())) {
+            Notification.show("Die Passwörter stimmen nicht überein.");
+            isValid = false;
+        } else if (!isPasswordComplex(password.getValue())) {
+            Notification.show("Das Passwort muss 8-16 Zeichen lang sein und Großbuchstaben, Kleinbuchstaben, Zahlen enthalten.");
+            isValid = false;
+        }
+        if (unternehmenName.getValue().isEmpty()) {
+            Notification.show("Bitte Name des Unternehmens eingeben.");
+            isValid = false;
+        } else if (!isValidCompanyName(unternehmenName.getValue())){
+            Notification.show("Der Name des Unternehmens muss mindestens 3 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
+            isValid = false;
+        }
+        if (username.getValue().isEmpty()) {
+            Notification.show("Bitte Benutzernamen eingeben.");
+            isValid = false;
+        } else if (!isValidUsername(username.getValue())){
+            Notification.show("Der Username muss 3-20 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
+            isValid = false;
+        }
+        if (email.getValue().isEmpty()) {
+            Notification.show("Bitte E-Mail-Adresse eingeben.");
+            isValid = false;
+        } else if (!isValidEmail(email.getValue())) {
+            Notification.show("Bitte eine gültige E-Mail-Adresse eingeben.");
+            isValid = false;
+        }
+        return isValid;
+    }
 
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return pattern.matcher(email).matches();
+    }
+    private static boolean isValidCompanyName(String companyName) {
+        // Überprüfen, ob der Unternehmensname mindestens 3 Zeichen lang ist und nur aus Buchstaben (ggf. auch Zahlen) und Leerzeichen besteht
+        String companyNameRegex = "^[A-Za-z\\s]{3,}[A-Za-z\\d\\s]*$";
+        Pattern pattern = Pattern.compile(companyNameRegex);
+        return pattern.matcher(companyName).matches();
+    }
+    private boolean isPasswordComplex(String password) {
+        String passwordRegex = "^[A-Za-z\\d]{8,16}$";
+        Pattern pattern = Pattern.compile(passwordRegex);
+        return pattern.matcher(password).matches();
+    }
+    private static boolean isValidUsername(String username) {
+        if (username.length() < 3 || username.length() > 20) {
+            return false;
+        }
+        if (!Pattern.matches("^[a-zA-Z0-9]+$", username)) {
+            return false;
+        }
+        return true;
+    }
     private void registerUser(RegisterService registerService) {
         Profile profile = new Profile();
         registerService.saveProfil(profile);
