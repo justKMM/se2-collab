@@ -13,10 +13,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import hbrs.se2.collhbrs.entity.FirstName;
-import hbrs.se2.collhbrs.entity.Profile;
-import hbrs.se2.collhbrs.entity.Student;
-import hbrs.se2.collhbrs.entity.User;
+import hbrs.se2.collhbrs.entity.*;
 import hbrs.se2.collhbrs.service.RegisterService;
 
 import java.util.regex.Pattern;

@@ -48,4 +48,8 @@ public class RegisterService {
     public void saveBusiness(Business business) {
         businessRepository.save(business);
     }
+
+    public Boolean isEmpty() {
+        return userRepository.count() == 0;
+    }
 }
