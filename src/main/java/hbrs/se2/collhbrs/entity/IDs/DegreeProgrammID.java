@@ -1,19 +1,19 @@
 package hbrs.se2.collhbrs.entity.IDs;
 
-import hbrs.se2.collhbrs.entity.DegreeProgramm;
+import hbrs.se2.collhbrs.entity.Student;
 
 import java.util.Objects;
 
 public class DegreeProgrammID {
-    private DegreeProgramm degreeProgramm;
     private int serialNumber;
+    private Student student;
 
-    public DegreeProgramm getDegreeProgramm() {
-        return degreeProgramm;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setDegreeProgramm(DegreeProgramm degreeProgramm) {
-        this.degreeProgramm = degreeProgramm;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public int getSerialNumber() {
@@ -30,11 +30,11 @@ public class DegreeProgrammID {
         if (o == null || getClass() != o.getClass()) return false;
         DegreeProgrammID degreeProgrammID = (DegreeProgrammID) o;
         return serialNumber == degreeProgrammID.serialNumber &&
-                Objects.equals(degreeProgramm, degreeProgrammID.degreeProgramm);
+                Objects.equals(student, degreeProgrammID.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(degreeProgramm, serialNumber);
+        return Objects.hash(student, serialNumber);
     }
 }

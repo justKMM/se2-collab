@@ -1,20 +1,21 @@
 package hbrs.se2.collhbrs.entity.IDs;
 
-import hbrs.se2.collhbrs.entity.Skill;
+import hbrs.se2.collhbrs.entity.Student;
 
 import java.util.Objects;
 
 public class SkillID {
-    private Skill skill;
     private int serialNumber;
+    private Student student;
 
-    public Skill getSkill() {
-        return skill;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setSkill(Skill skill) {
-        this.skill = skill;
+    public void setStudent(Student student) {
+        this.student = student;
     }
+
 
     public int getSerialNumber() {
         return serialNumber;
@@ -30,11 +31,11 @@ public class SkillID {
         if (o == null || getClass() != o.getClass()) return false;
         SkillID skillID = (SkillID) o;
         return serialNumber == skillID.serialNumber &&
-                Objects.equals(skill, skillID.skill);
+                Objects.equals(student, skillID.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(skill, serialNumber);
+        return Objects.hash(student, serialNumber);
     }
 }
