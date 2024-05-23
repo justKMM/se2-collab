@@ -1,19 +1,19 @@
 package hbrs.se2.collhbrs.entity.IDs;
 
-import hbrs.se2.collhbrs.entity.Interest;
+import hbrs.se2.collhbrs.entity.Student;
 
 import java.util.Objects;
 
 public class InterestID {
-    private Interest interest;
     private int serialNumber;
+    private Student student;
 
-    public Interest getInterest() {
-        return interest;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setInterest(Interest interest) {
-        this.interest = interest;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public int getSerialNumber() {
@@ -30,11 +30,11 @@ public class InterestID {
         if (o == null || getClass() != o.getClass()) return false;
         InterestID interestID = (InterestID) o;
         return serialNumber == interestID.serialNumber &&
-                Objects.equals(interest, interestID.interest);
+                Objects.equals(student, interestID.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(interest, serialNumber);
+        return Objects.hash(student, serialNumber);
     }
 }
