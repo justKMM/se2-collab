@@ -29,27 +29,17 @@ public class BusinessRegistrationView extends FormLayout {
     private TextField username;
     private EmailField email;
     private PasswordField password;
-
+    private PasswordField passwordConfirm;
+    private Span errorMessageField;
+    private Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);;
+    private Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);;
 
     public BusinessRegistrationView(RegisterService registerService) {
         setupLayout();
         setupFields();
-
-        Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_ICON);
-        submitButton.addClickListener(e -> registerUser(registerService));
-
-        Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
-        cancelButton.addClickListener(e -> {
-            Notification.show("Registration abgebrochen");
-            UI.getCurrent().navigate("login");
-        });
-
-        submitButton.addClickListener(e -> {
-            if (validateInput()) {
-                registerUser(registerService);
-            }
-        });
+        addButtons(registerService);
     }
+
     private boolean validateInput() {
         boolean isValid = true;
         if (!password.getValue().equals(passwordConfirm.getValue())) {
@@ -59,17 +49,17 @@ public class BusinessRegistrationView extends FormLayout {
             Notification.show("Das Passwort muss 8-16 Zeichen lang sein und Großbuchstaben, Kleinbuchstaben, Zahlen enthalten.");
             isValid = false;
         }
-        if (unternehmenName.getValue().isEmpty()) {
+        if (businessName.getValue().isEmpty()) {
             Notification.show("Bitte Name des Unternehmens eingeben.");
             isValid = false;
-        } else if (!isValidCompanyName(unternehmenName.getValue())){
+        } else if (!isValidCompanyName(businessName.getValue())) {
             Notification.show("Der Name des Unternehmens muss mindestens 3 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
             isValid = false;
         }
         if (username.getValue().isEmpty()) {
             Notification.show("Bitte Benutzernamen eingeben.");
             isValid = false;
-        } else if (!isValidUsername(username.getValue())){
+        } else if (!isValidUsername(username.getValue())) {
             Notification.show("Der Username muss 3-20 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
             isValid = false;
         }
@@ -88,26 +78,26 @@ public class BusinessRegistrationView extends FormLayout {
         Pattern pattern = Pattern.compile(emailRegex);
         return pattern.matcher(email).matches();
     }
+
     private static boolean isValidCompanyName(String companyName) {
-        // Überprüfen, ob der Unternehmensname mindestens 3 Zeichen lang ist und nur aus Buchstaben (ggf. auch Zahlen) und Leerzeichen besteht
         String companyNameRegex = "^[A-Za-z\\s]{3,}[A-Za-z\\d\\s]*$";
         Pattern pattern = Pattern.compile(companyNameRegex);
         return pattern.matcher(companyName).matches();
     }
+
     private boolean isPasswordComplex(String password) {
         String passwordRegex = "^[A-Za-z\\d]{8,16}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         return pattern.matcher(password).matches();
     }
+
     private static boolean isValidUsername(String username) {
         if (username.length() < 3 || username.length() > 20) {
             return false;
         }
-        if (!Pattern.matches("^[a-zA-Z0-9]+$", username)) {
-            return false;
-        }
-        return true;
+        return Pattern.matches("^[a-zA-Z0-9]+$", username);
     }
+
     private void registerUser(RegisterService registerService) {
         Profile profile = createProfile();
         User user = createUser(registerService, profile, username.getValue(), password.getValue(), email.getValue());
@@ -121,7 +111,6 @@ public class BusinessRegistrationView extends FormLayout {
 
             Notification.show("Benutzer erfolgreich registriert");
             UI.getCurrent().navigate("login");
-
         } else {
             Notification.show("Registration failed");
         }
@@ -152,7 +141,6 @@ public class BusinessRegistrationView extends FormLayout {
         Button button = new Button(text);
         button.addThemeVariants(variants);
         button.addClassName("button-layout");
-        add(button);
         return button;
     }
 
@@ -166,26 +154,19 @@ public class BusinessRegistrationView extends FormLayout {
     }
 
     private void setupFields() {
-        H3 title = new H3("Studentenregistrierung");
+        H3 title = new H3("Unternehmensregistrierung");
 
         businessName = createTextField("Name des Unternehmens");
         username = createTextField("Nutzername");
-        username.setWidth("100");
         email = new EmailField("Email");
         password = new PasswordField("Passwort");
-        PasswordField passwordConfirm = new PasswordField("Passwort bestätigen");
-        setRequiredIndicatorVisible(
-                businessName,
-                username,
-                email,
-                password,
-                passwordConfirm
-        );
-        Span errorMessageField = new Span();
-        add(
-                title, businessName, username, email, password,
-                passwordConfirm, errorMessageField
-        );
+        passwordConfirm = new PasswordField("Passwort bestätigen");
+
+        setRequiredIndicatorVisible(businessName, username, email, password, passwordConfirm);
+
+        errorMessageField = new Span();
+
+        add(title, businessName, username, email, password, passwordConfirm, errorMessageField);
         setColspan(title, 2);
         setColspan(email, 2);
         setColspan(username, 2);
@@ -193,12 +174,29 @@ public class BusinessRegistrationView extends FormLayout {
         setColspan(businessName, 2);
     }
 
+    private void addButtons(RegisterService registerService) {
+
+        cancelButton.addClickListener(e -> {
+            Notification.show("Registration abgebrochen");
+            UI.getCurrent().navigate("login");
+        });
+
+        submitButton.addClickListener(e -> {
+            if (validateInput()) {
+                registerUser(registerService);
+            }
+        });
+
+        add(cancelButton, submitButton);
+        setColspan(cancelButton, 1);
+        setColspan(submitButton, 1);
+    }
+
     private TextField createTextField(String label) {
         TextField textField = new TextField(label);
         textField.setRequiredIndicatorVisible(true);
         return textField;
     }
-
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
         Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));

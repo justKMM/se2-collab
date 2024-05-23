@@ -34,8 +34,8 @@ public class StudentRegistrationView extends FormLayout {
     private PasswordField password;
     private PasswordField passwordConfirm;
     private Span errorMessageField;
-    private Button submitButton;
-    private Button cancelButton;
+    private Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);;
+    private Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
 
     public StudentRegistrationView(RegisterService registerService) {
         setupLayout();
@@ -138,8 +138,6 @@ public class StudentRegistrationView extends FormLayout {
     }
 
     private void addButtons(RegisterService registerService) {
-        submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);
-        cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
 
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
