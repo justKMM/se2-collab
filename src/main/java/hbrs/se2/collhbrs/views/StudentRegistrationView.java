@@ -32,26 +32,19 @@ public class StudentRegistrationView extends FormLayout {
     private TextField username;
     private EmailField email;
     private PasswordField password;
+    private PasswordField passwordConfirm;
+    private Span errorMessageField;
+    private Button submitButton;
+    private Button cancelButton;
 
     public StudentRegistrationView(RegisterService registerService) {
         setupLayout();
         setupFields();
-
-        Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_ICON);
-
-        submitButton.addClickListener(e -> registerUser(registerService));
-
-        Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
-
-        cancelButton.addClickListener(e -> {
-            Notification.show("Registration abgebrochen");
-            UI.getCurrent().navigate("login");
-        });
+        addButtons(registerService);
     }
 
     private void registerUser(RegisterService registerService) {
         Profile profile = createProfile();
-
         User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
 
         if (isAlphaNumeric(user.getUsername()) && isAlphaNumeric(user.getPassword())) {
@@ -76,7 +69,6 @@ public class StudentRegistrationView extends FormLayout {
 
     private User createUser(Profile profile, String username, String password, String email) {
         User user = new User();
-
         user.setProfile(profile);
         user.setUsername(username);
         user.setPassword(password);
@@ -101,7 +93,6 @@ public class StudentRegistrationView extends FormLayout {
             registerService.saveVorname(firstNameEntity);
         });
     }
-
 
     private Button createButton(String text, ButtonVariant... variants) {
         Button button = new Button(text);
@@ -131,29 +122,24 @@ public class StudentRegistrationView extends FormLayout {
         firstName = createTextField("Vorname");
         lastName = createTextField("Nachname");
         username = createTextField("Nutzername");
-        username.setWidth("100");
         email = new EmailField("Email");
         password = new PasswordField("Passwort");
-        PasswordField passwordConfirm = new PasswordField("Passwort bestätigen");
+        passwordConfirm = new PasswordField("Passwort bestätigen");
 
-        setRequiredIndicatorVisible(
-                firstName,
-                lastName,
-                username,
-                email,
-                password,
-                passwordConfirm
-        );
-        Span errorMessageField = new Span();
-        add(
-                title, firstName, lastName, username, email, password,
-                passwordConfirm, errorMessageField
-        );
+        setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirm);
+
+        errorMessageField = new Span();
+
+        add(title, firstName, lastName, username, email, password, passwordConfirm, errorMessageField);
         setColspan(title, 2);
         setColspan(email, 2);
         setColspan(username, 2);
         setColspan(errorMessageField, 2);
-        // setColspan(submitButton, 2);
+    }
+
+    private void addButtons(RegisterService registerService) {
+        submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);
+        cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
 
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
@@ -165,10 +151,15 @@ public class StudentRegistrationView extends FormLayout {
                 registerUser(registerService);
             }
         });
+
+        add(cancelButton, submitButton);
+        setColspan(cancelButton, 1);
+        setColspan(submitButton, 1);
     }
 
     private boolean validateInput() {
         boolean isValid = true;
+
         if (!password.getValue().equals(passwordConfirm.getValue())) {
             Notification.show("Die Passwörter stimmen nicht überein.");
             isValid = false;
@@ -176,119 +167,59 @@ public class StudentRegistrationView extends FormLayout {
             Notification.show("Das Passwort muss 8-16 Zeichen lang sein und Großbuchstaben, Kleinbuchstaben, Zahlen enthalten.");
             isValid = false;
         }
-        if (firstName.getValue().isEmpty()) {
-            Notification.show("Bitte Vornamen eingeben.");
-            isValid = false;
-        } else if (!isValidFirstName(firstName.getValue())){
-            Notification.show("Der Vorname muss mindestens 3 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
+
+        if (firstName.getValue().isEmpty() || !isValidFirstName(firstName.getValue())) {
+            Notification.show("Bitte geben Sie einen gültigen Vornamen ein.");
             isValid = false;
         }
-        if (lastName.getValue().isEmpty()) {
-            Notification.show("Der Nachname darf nur aus Buchstaben und höchstens 30 Zeichen bestehen.");
-            isValid = false;
-        } else if (!isValidLastName(lastName.getValue())){
-            Notification.show("Der Nachname muss mindestens 3 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
+
+        if (lastName.getValue().isEmpty() || !isValidLastName(lastName.getValue())) {
+            Notification.show("Bitte geben Sie einen gültigen Nachnamen ein.");
             isValid = false;
         }
-        if (username.getValue().isEmpty()) {
-            Notification.show("Bitte Benutzernamen eingeben.");
-            isValid = false;
-        } else if (!isValidUsername(username.getValue())){
-            Notification.show("Der Username muss 3-20 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
+
+        if (username.getValue().isEmpty() || !isValidUsername(username.getValue())) {
+            Notification.show("Bitte geben Sie einen gültigen Benutzernamen ein.");
             isValid = false;
         }
-        if (email.getValue().isEmpty()) {
-            Notification.show("Bitte E-Mail-Adresse eingeben.");
-            isValid = false;
-        } else if (!isValidEmail(email.getValue())) {
-            Notification.show("Bitte eine gültige E-Mail-Adresse eingeben.");
+
+        if (email.getValue().isEmpty() || !isValidEmail(email.getValue())) {
+            Notification.show("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
             isValid = false;
         }
+
         return isValid;
     }
+
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
         Pattern pattern = Pattern.compile(emailRegex);
         return pattern.matcher(email).matches();
     }
+
     private boolean isPasswordComplex(String password) {
-        String passwordRegex = "^[A-Za-z\\d]{8,16}$";
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,16}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         return pattern.matcher(password).matches();
     }
+
     private static boolean isValidFirstName(String firstName) {
-        String lastNameRegex = "^[A-Za-z\\s-]{3,30}$";
-        Pattern pattern = Pattern.compile(lastNameRegex);
+        String firstNameRegex = "^[A-Za-z]{3,30}$";
+        Pattern pattern = Pattern.compile(firstNameRegex);
         return pattern.matcher(firstName).matches();
     }
+
     private static boolean isValidLastName(String lastName) {
-        String lastNameRegex = "^[A-Za-z\\s-]{3,30}$";
+        String lastNameRegex = "^[A-Za-z]{3,30}$";
         Pattern pattern = Pattern.compile(lastNameRegex);
         return pattern.matcher(lastName).matches();
     }
+
     private static boolean isValidUsername(String username) {
         if (username.length() < 3 || username.length() > 20) {
             return false;
         }
-        if (!Pattern.matches("^[a-zA-Z0-9]+$", username)) {
-            return false;
-        }
-        return true;
-    }
-    private void registerUser(RegisterService registerService) {
-        Profile profile = new Profile();
-        registerService.saveProfil(profile);
-
-        User user = new User();
-        user.setProfile(profile);
-        user.setUsername(username.getValue());
-        user.setPassword(password.getValue());
-        user.setBlacklisted(0);
-
-        user.setEmail(email.getValue());
-
-        if (registerService.completeRegistration(user)) {
-
-            // Student erstellen
-            Student student = new Student();
-            student.setUser(user);
-            student.setLastName(lastName.getValue());
-            registerService.saveStudent(student);
-
-
-            // Vornamen erstellen
-            String[] vornamen = firstName.getValue().split(" ");
-
-            IntStream.range(0, vornamen.length).forEach(counter -> {
-                FirstName firstNameEntity = new FirstName();
-                firstNameEntity.setFirstNameName(vornamen[counter]);
-                firstNameEntity.setStudent(student);
-                firstNameEntity.setSerialNumber(counter);
-                registerService.saveVorname(firstNameEntity);
-            });
-
-
-            Notification.show("Benutzer erfolgreich registriert");
-            UI.getCurrent().navigate("login");
-        } else {
-            Notification.show("Registration failed");
-        }
-    }
-
-    public PasswordField getPasswordField() {
-        return password;
-    }
-
-    public PasswordField getPasswordConfirmField() {
-        return passwordConfirm;
-    }
-
-    public Span getErrorMessageField() {
-        return errorMessageField;
-    }
-
-    public Button getSubmitButton() {
-        return submitButton;
+        return Pattern.matches("^[a-zA-Z0-9]+$", username);
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
@@ -296,12 +227,6 @@ public class StudentRegistrationView extends FormLayout {
     }
 
     private boolean isAlphaNumeric(String str) {
-        for (char c : str.toCharArray()) {
-            if (!Character.isLetterOrDigit(c)) {
-                return false;
-            }
-        }
-        return true;
+        return str.chars().allMatch(Character::isLetterOrDigit);
     }
-
 }
