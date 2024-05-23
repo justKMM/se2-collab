@@ -37,9 +37,11 @@ public class StudentRegistrationView extends FormLayout {
         setupFields();
 
         Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_ICON);
+
         submitButton.addClickListener(e -> registerUser(registerService));
 
         Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
+
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
             UI.getCurrent().navigate("login");
@@ -47,11 +49,12 @@ public class StudentRegistrationView extends FormLayout {
     }
 
     private void registerUser(RegisterService registerService) {
-        Profile profile = createProfile(registerService);
+        Profile profile = createProfile();
 
         User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
 
         if (isAlphaNumeric(user.getUsername()) && isAlphaNumeric(user.getPassword())) {
+            registerService.saveProfil(profile);
             registerService.saveUser(user);
 
             Student student = createStudent(user);
@@ -66,10 +69,8 @@ public class StudentRegistrationView extends FormLayout {
         }
     }
 
-    private Profile createProfile(RegisterService registerService) {
-        Profile profile = new Profile();
-        registerService.saveProfil(profile);
-        return profile;
+    private Profile createProfile() {
+        return new Profile();
     }
 
     private User createUser(Profile profile, String username, String password, String email) {
@@ -105,6 +106,7 @@ public class StudentRegistrationView extends FormLayout {
         Button button = new Button(text);
         button.addThemeVariants(variants);
         button.addClassName("button-layout");
+        add(button);
         return button;
     }
 
@@ -132,6 +134,7 @@ public class StudentRegistrationView extends FormLayout {
         email = new EmailField("Email");
         password = new PasswordField("Passwort");
         PasswordField passwordConfirm = new PasswordField("Passwort bestätigen");
+
         setRequiredIndicatorVisible(
                 firstName,
                 lastName,

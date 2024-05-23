@@ -24,85 +24,35 @@ import java.util.stream.Stream;
 @CssImport("./styles/index.css")
 public class BusinessRegistrationView extends FormLayout {
 
-    private final H3 title;
-    private final TextField unternehmenName;
-    private final TextField username;
-    private final EmailField email;
-    private final PasswordField password;
-    private final PasswordField passwordConfirm;
-    private final Span errorMessageField;
-    private final Button submitButton;
-    private final Button cancelButton;
+    private TextField businessName;
+    private TextField username;
+    private EmailField email;
+    private PasswordField password;
 
 
     public BusinessRegistrationView(RegisterService registerService) {
+        setupLayout();
+        setupFields();
 
-        addClassName("register");
+        Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_ICON);
+        submitButton.addClickListener(e -> registerUser(registerService));
 
-        title = new H3("Unternehmensregistrierung");
-        unternehmenName = new TextField("Name des Unternehmens");
-        username = new TextField("Nutzername");
-        email = new EmailField("Email");
-        password = new PasswordField("Passwort");
-        passwordConfirm = new PasswordField("Passwort bestätigen");
-
-        setRequiredIndicatorVisible(
-                unternehmenName,
-                username,
-                email,
-                password,
-                passwordConfirm
-        );
-
-        errorMessageField = new Span();
-
-        submitButton = new Button("Registrieren");
-        submitButton.addThemeVariants(ButtonVariant.LUMO_ICON);
-        submitButton.addClassName("button-layout");
-
-        cancelButton = new Button("Abbrechen");
-        cancelButton.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
-        cancelButton.addClassName("button-layout");
-
-        username.setWidth("100");
-
-        add(
-                title, unternehmenName, username, email, password,
-                passwordConfirm, errorMessageField,
-                cancelButton, submitButton
-        );
-
-        setMaxWidth("500px");
-
-        setResponsiveSteps(
-                new ResponsiveStep("0", 1, ResponsiveStep.LabelsPosition.TOP),
-                new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP)
-        );
-
-        setColspan(title, 2);
-        setColspan(email, 2);
-        setColspan(username, 2);
-        setColspan(unternehmenName, 2);
-        setColspan(errorMessageField, 2);
-
+        Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
             UI.getCurrent().navigate("login");
         });
-
-        submitButton.addClickListener(e -> registerUser(registerService));
     }
 
     private void registerUser(RegisterService registerService) {
-        User user = createUser(registerService, username.getValue(), password.getValue(), email.getValue());
+        Profile profile = createProfile();
+        User user = createUser(registerService, profile, username.getValue(), password.getValue(), email.getValue());
 
         if (isAlphaNumeric(user.getUsername()) && isAlphaNumeric(user.getPassword())) {
+            registerService.saveProfil(profile);
             registerService.saveUser(user);
 
-            Business business = new Business();
-            business.setName(unternehmenName.getValue());
-            business.setUser(user);
-
+            Business business = createBusiness(registerService, businessName.getValue(), user);
             registerService.saveBusiness(business);
 
             Notification.show("Benutzer erfolgreich registriert");
@@ -113,35 +63,78 @@ public class BusinessRegistrationView extends FormLayout {
         }
     }
 
-    public User createUser(RegisterService registerService, String username, String password, String email) {
-        Profile profile = new Profile();
-        registerService.saveProfil(profile);
+    public Profile createProfile() {
+        return new Profile();
+    }
 
+    public User createUser(RegisterService registerService, Profile profile, String username, String password, String email) {
         User user = new User();
         user.setProfile(profile);
         user.setUsername(username);
         user.setPassword(password);
         user.setBlacklisted(0);
-
         user.setEmail(email);
         return user;
     }
 
-    public PasswordField getPasswordField() {
-        return password;
+    public Business createBusiness(RegisterService registerService, String name, User user) {
+        Business business = new Business();
+        business.setName(name);
+        business.setUser(user);
+        return business;
     }
 
-    public PasswordField getPasswordConfirmField() {
-        return passwordConfirm;
+    private Button createButton(String text, ButtonVariant... variants) {
+        Button button = new Button(text);
+        button.addThemeVariants(variants);
+        button.addClassName("button-layout");
+        add(button);
+        return button;
     }
 
-    public Span getErrorMessageField() {
-        return errorMessageField;
+    private void setupLayout() {
+        addClassName("register");
+        setMaxWidth("500px");
+        setResponsiveSteps(
+                new ResponsiveStep("0", 1, ResponsiveStep.LabelsPosition.TOP),
+                new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP)
+        );
     }
 
-    public Button getSubmitButton() {
-        return submitButton;
+    private void setupFields() {
+        H3 title = new H3("Studentenregistrierung");
+
+        businessName = createTextField("Name des Unternehmens");
+        username = createTextField("Nutzername");
+        username.setWidth("100");
+        email = new EmailField("Email");
+        password = new PasswordField("Passwort");
+        PasswordField passwordConfirm = new PasswordField("Passwort bestätigen");
+        setRequiredIndicatorVisible(
+                businessName,
+                username,
+                email,
+                password,
+                passwordConfirm
+        );
+        Span errorMessageField = new Span();
+        add(
+                title, businessName, username, email, password,
+                passwordConfirm, errorMessageField
+        );
+        setColspan(title, 2);
+        setColspan(email, 2);
+        setColspan(username, 2);
+        setColspan(errorMessageField, 2);
+        setColspan(businessName, 2);
     }
+
+    private TextField createTextField(String label) {
+        TextField textField = new TextField(label);
+        textField.setRequiredIndicatorVisible(true);
+        return textField;
+    }
+
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
         Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));
