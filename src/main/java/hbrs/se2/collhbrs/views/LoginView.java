@@ -33,7 +33,6 @@ public class LoginView extends VerticalLayout {
 
         RouterLink unternehmenRegisterLink = new RouterLink("Als Unternehmen registrieren", BusinessRegistrationView.class);
         add(unternehmenRegisterLink);
-
         component.addLoginListener(input -> handleLogin(input, loginService));
     }
 
