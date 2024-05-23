@@ -1,14 +1,15 @@
 package hbrs.se2.collhbrs.entity;
 
-import hbrs.se2.collhbrs.entity.IDs.FirstNameID;
+import hbrs.se2.collhbrs.entity.ids.FirstNameID;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "vorname", schema = "public")
 @IdClass(FirstNameID.class)
-public class FirstName {
+public class FirstName implements Serializable {
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)

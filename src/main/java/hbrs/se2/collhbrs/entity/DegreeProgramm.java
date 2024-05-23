@@ -1,14 +1,15 @@
 package hbrs.se2.collhbrs.entity;
 
-import hbrs.se2.collhbrs.entity.IDs.DegreeProgrammID;
+import hbrs.se2.collhbrs.entity.ids.DegreeProgrammID;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "studiengang", schema = "public")
 @IdClass(DegreeProgrammID.class)
-public class DegreeProgramm {
+public class DegreeProgramm implements Serializable {
     private Student student;
     private int serialNumber;
     private String degreeProgrammName;
