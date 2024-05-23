@@ -59,16 +59,16 @@ public class SampleDataInitializer {
 
     private void createSampleBusiness(String businessName, String username, String email, String password) {
 
-        hbrs.se2.collhbrs.entity.Profile userProfile = new hbrs.se2.collhbrs.entity.Profile();
+        hbrs.se2.collhbrs.entity.Profile profile = new hbrs.se2.collhbrs.entity.Profile();
 
         User user = new User();
-        user.setProfile(userProfile);
+        user.setProfile(profile);
         user.setUsername(username);
         user.setPassword(password);
         user.setBlacklisted(0);
         user.setEmail(email);
 
-        registerService.saveProfil(userProfile);
+        registerService.saveProfil(profile);
         registerService.saveUser(user);
 
         Business business = new Business();
