@@ -13,29 +13,46 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import hbrs.se2.collhbrs.entity.*;
+import hbrs.se2.collhbrs.entity.Business;
+import hbrs.se2.collhbrs.entity.Profile;
+import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @Route(value = "unternehmen/registration")
 @CssImport("./styles/index.css")
+// TODO: Bitte mehr refactoren ... Das ist irgendwie Spaghetti Code ; Logik vielleicht auslagern ?
 public class BusinessRegistrationView extends FormLayout {
 
+    private final Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);
+    private final Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
     private TextField businessName;
     private TextField username;
     private EmailField email;
     private PasswordField password;
     private PasswordField passwordConfirm;
-    private Span errorMessageField;
-    private Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);;
-    private Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);;
 
     public BusinessRegistrationView(RegisterService registerService) {
         setupLayout();
         setupFields();
         addButtons(registerService);
+    }
+
+    private static boolean isValidCompanyName(String companyName) {
+        String companyNameRegex = "^[A-Za-z\\s]{3,}[A-Za-z\\d\\s]*$";
+        Pattern pattern = Pattern.compile(companyNameRegex);
+        return pattern.matcher(companyName).matches();
+    }
+
+    private static boolean isValidUsername(String username) {
+        if (username.length() < 3 || username.length() > 20) {
+            return false;
+        }
+        return Pattern.matches("^[a-zA-Z0-9]+$", username);
     }
 
     private boolean validateInput() {
@@ -77,40 +94,55 @@ public class BusinessRegistrationView extends FormLayout {
         return pattern.matcher(email).matches();
     }
 
-    private static boolean isValidCompanyName(String companyName) {
-        String companyNameRegex = "^[A-Za-z\\s]{3,}[A-Za-z\\d\\s]*$";
-        Pattern pattern = Pattern.compile(companyNameRegex);
-        return pattern.matcher(companyName).matches();
-    }
-
     private boolean isPasswordComplex(String password) {
         String passwordRegex = "^[A-Za-z\\d]{8,16}$";
         Pattern pattern = Pattern.compile(passwordRegex);
         return pattern.matcher(password).matches();
     }
 
-    private static boolean isValidUsername(String username) {
-        if (username.length() < 3 || username.length() > 20) {
-            return false;
+    public boolean validateUsername(RegisterService registerService, User user) {
+        List<User> users = registerService.getUsers();
+
+        for (User existingUser : users) {
+            if (Objects.equals(existingUser.getUsername(), user.getUsername())) {
+                return true;
+            }
         }
-        return Pattern.matches("^[a-zA-Z0-9]+$", username);
+        return false;
+    }
+
+    public boolean validateEmail(RegisterService registerService, User user) {
+        List<User> users = registerService.getUsers();
+
+        for (User existingUser : users) {
+            if (Objects.equals(existingUser.getEmail(), user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void registerUser(RegisterService registerService) {
         Profile profile = createProfile();
-        User user = createUser(registerService, profile, username.getValue(), password.getValue(), email.getValue());
+        User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
 
-        if (isAlphaNumeric(user.getUsername()) && isAlphaNumeric(user.getPassword())) {
-            registerService.saveProfil(profile);
-            registerService.saveUser(user);
+        if (validateUsername(registerService, user)) {
 
-            Business business = createBusiness(registerService, businessName.getValue(), user);
-            registerService.saveBusiness(business);
 
-            Notification.show("Benutzer erfolgreich registriert");
-            UI.getCurrent().navigate("login");
+            if (validateEmail(registerService, user)) {
+                registerService.saveProfil(profile);
+                registerService.saveUser(user);
+
+                Business business = createBusiness(businessName.getValue(), user);
+                registerService.saveBusiness(business);
+
+                Notification.show("Benutzer erfolgreich registriert");
+                UI.getCurrent().navigate("login");
+            } else {
+                Notification.show("Registrierung ist fehlgeschlagen: Email schon vergeben");
+            }
         } else {
-            Notification.show("Registration failed");
+            Notification.show("Registrierung ist fehlgeschlagen: Nutzername schon vergeben");
         }
     }
 
@@ -118,7 +150,7 @@ public class BusinessRegistrationView extends FormLayout {
         return new Profile();
     }
 
-    public User createUser(RegisterService registerService, Profile profile, String username, String password, String email) {
+    public User createUser(Profile profile, String username, String password, String email) {
         User user = new User();
         user.setProfile(profile);
         user.setUsername(username);
@@ -128,7 +160,7 @@ public class BusinessRegistrationView extends FormLayout {
         return user;
     }
 
-    public Business createBusiness(RegisterService registerService, String name, User user) {
+    public Business createBusiness(String name, User user) {
         Business business = new Business();
         business.setName(name);
         business.setUser(user);
@@ -162,7 +194,7 @@ public class BusinessRegistrationView extends FormLayout {
 
         setRequiredIndicatorVisible(businessName, username, email, password, passwordConfirm);
 
-        errorMessageField = new Span();
+        Span errorMessageField = new Span();
 
         add(title, businessName, username, email, password, passwordConfirm, errorMessageField);
         setColspan(title, 2);
@@ -198,14 +230,5 @@ public class BusinessRegistrationView extends FormLayout {
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
         Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));
-    }
-
-    private boolean isAlphaNumeric(String str) {
-        for (char c : str.toCharArray()) {
-            if (!Character.isLetterOrDigit(c)) {
-                return false;
-            }
-        }
-        return true;
     }
 }

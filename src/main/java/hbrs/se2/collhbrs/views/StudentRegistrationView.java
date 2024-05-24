@@ -13,26 +13,31 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import hbrs.se2.collhbrs.entity.*;
+import hbrs.se2.collhbrs.entity.FirstName;
+import hbrs.se2.collhbrs.entity.Profile;
+import hbrs.se2.collhbrs.entity.Student;
+import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Route(value = "student/registration")
 @CssImport("./styles/index.css")
+// TODO: Bitte mehr refactoren ... Das ist irgendwie Spaghetti Code ; Logik vielleicht auslagern ? UIs zusammenpacken
 public class StudentRegistrationView extends FormLayout {
 
+    private final Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);
+    private final Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
     private TextField firstName;
     private TextField lastName;
     private TextField username;
     private EmailField email;
     private PasswordField password;
     private PasswordField passwordConfirm;
-    private Span errorMessageField;
-    private Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);;
-    private Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
 
     public StudentRegistrationView(RegisterService registerService) {
         setupLayout();
@@ -40,23 +45,71 @@ public class StudentRegistrationView extends FormLayout {
         addButtons(registerService);
     }
 
+    private static boolean isValidFirstName(String firstName) {
+        String firstNameRegex = "^[A-Za-z]{3,30}$";
+        Pattern pattern = Pattern.compile(firstNameRegex);
+        return pattern.matcher(firstName).matches();
+    }
+
+    private static boolean isValidLastName(String lastName) {
+        String lastNameRegex = "^[A-Za-z]{3,30}$";
+        Pattern pattern = Pattern.compile(lastNameRegex);
+        return pattern.matcher(lastName).matches();
+    }
+
+    private static boolean isValidUsername(String username) {
+        if (username.length() < 3 || username.length() > 20) {
+            return false;
+        }
+        return Pattern.matches("^[a-zA-Z0-9]+$", username);
+    }
+
+    public boolean validateUsername(RegisterService registerService, User user) {
+        List<User> users = registerService.getUsers();
+
+        for (User existingUser : users) {
+            if (Objects.equals(existingUser.getUsername(), user.getUsername())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean validateEmail(RegisterService registerService, User user) {
+        List<User> users = registerService.getUsers();
+
+        for (User existingUser : users) {
+            if (Objects.equals(existingUser.getEmail(), user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     private void registerUser(RegisterService registerService) {
         Profile profile = createProfile();
         User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
 
-        if (isAlphaNumeric(user.getUsername()) && isAlphaNumeric(user.getPassword())) {
-            registerService.saveProfil(profile);
-            registerService.saveUser(user);
+        if (validateUsername(registerService, user)) {
 
-            Student student = createStudent(user);
-            registerService.saveStudent(student);
+            if (validateEmail(registerService, user)) {
+                registerService.saveProfil(profile);
+                registerService.saveUser(user);
 
-            saveFirstNames(registerService, firstName.getValue().split(" "), student);
+                Student student = createStudent(user);
+                registerService.saveStudent(student);
 
-            Notification.show("Benutzer erfolgreich registriert");
-            UI.getCurrent().navigate("login");
+                saveFirstNames(registerService, firstName.getValue().split(" "), student);
+
+                Notification.show("Benutzer erfolgreich registriert");
+                UI.getCurrent().navigate("login");
+            } else {
+                Notification.show("Registrierung ist fehlgeschlagen: Email schon vergeben");
+            }
+
         } else {
-            Notification.show("Registration failed");
+            Notification.show("Registrierung ist fehlgeschlagen: Nutzername schon vergeben");
         }
     }
 
@@ -125,7 +178,7 @@ public class StudentRegistrationView extends FormLayout {
 
         setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirm);
 
-        errorMessageField = new Span();
+        Span errorMessageField = new Span();
 
         add(title, firstName, lastName, username, email, password, passwordConfirm, errorMessageField);
         setColspan(title, 2);
@@ -198,30 +251,7 @@ public class StudentRegistrationView extends FormLayout {
         return pattern.matcher(password).matches();
     }
 
-    private static boolean isValidFirstName(String firstName) {
-        String firstNameRegex = "^[A-Za-z]{3,30}$";
-        Pattern pattern = Pattern.compile(firstNameRegex);
-        return pattern.matcher(firstName).matches();
-    }
-
-    private static boolean isValidLastName(String lastName) {
-        String lastNameRegex = "^[A-Za-z]{3,30}$";
-        Pattern pattern = Pattern.compile(lastNameRegex);
-        return pattern.matcher(lastName).matches();
-    }
-
-    private static boolean isValidUsername(String username) {
-        if (username.length() < 3 || username.length() > 20) {
-            return false;
-        }
-        return Pattern.matches("^[a-zA-Z0-9]+$", username);
-    }
-
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
         Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));
-    }
-
-    private boolean isAlphaNumeric(String str) {
-        return str.chars().allMatch(Character::isLetterOrDigit);
     }
 }

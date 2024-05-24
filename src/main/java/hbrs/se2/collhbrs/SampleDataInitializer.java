@@ -1,6 +1,9 @@
 package hbrs.se2.collhbrs;
 
-import hbrs.se2.collhbrs.entity.*;
+import hbrs.se2.collhbrs.entity.Business;
+import hbrs.se2.collhbrs.entity.FirstName;
+import hbrs.se2.collhbrs.entity.Student;
+import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
