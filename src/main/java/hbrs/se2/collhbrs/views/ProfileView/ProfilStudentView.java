@@ -18,9 +18,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.service.LoginService;
+import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.views.AppView;
 
-@PageTitle("Profil_Student")
-@Route(value = "profile-Page")
+@Route(value = Globals.Pages.PROFILSTUDENT, layout = AppView.class)
 @CssImport("./styles/index.css")
 public class ProfilStudentView extends Composite<VerticalLayout> {
 
@@ -40,13 +41,13 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
             Avatar avatar = new Avatar();
             VerticalLayout layoutColumn3 = new VerticalLayout();
 
-            H1 h1 = new H1("Hallo ..." );
+            H1 h1 = new H1("Hallo " /* add userName*/ );
             H6 h6 = new H6("Bewertung:");
             HorizontalLayout layoutRow2 = new HorizontalLayout();
 
 
             // müssen noch ausgewählt werden für das Rating (später)
-
+            icon = new Icon();
             Icon icon2 = new Icon();
             Icon icon3 = new Icon();
             Icon icon4 = new Icon();
@@ -63,6 +64,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
             HorizontalLayout layoutRow3 = new HorizontalLayout();
             VerticalLayout layoutColumn4 = new VerticalLayout();
             H1 h12 = new H1("Persönliche Daten:");
+
             Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
             H1 h13 = new H1("Dokumente");
             Paragraph textMedium2 = new Paragraph("Lebenslauf:");

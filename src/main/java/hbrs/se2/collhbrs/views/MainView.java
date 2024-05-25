@@ -9,13 +9,16 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import hbrs.se2.collhbrs.util.Globals;
 
-@Route(value = "main")
+// @Route(value = Globals.Pages.MAIN)
 @CssImport("./styles/index.css")
 public class MainView extends HorizontalLayout {
 
-    /* TODO: Implement the MainView class
-        2. Sprint
+    /*
+        Changed to AppView
+
+
     * */
     Button button_profile;
     public MainView() {
@@ -34,7 +37,7 @@ public class MainView extends HorizontalLayout {
 
 
         button_profile = new Button("Go to Profile");
-        button_profile.addClickListener(e -> UI.getCurrent().navigate("profile-Page"));
+        button_profile.addClickListener(e -> UI.getCurrent().navigate(Globals.Pages.PROFILSTUDENT));
 
         vertical_layout.add(header, button_profile);
 

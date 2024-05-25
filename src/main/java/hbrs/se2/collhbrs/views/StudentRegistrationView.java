@@ -15,12 +15,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.entity.*;
 import hbrs.se2.collhbrs.service.RegisterService;
+import hbrs.se2.collhbrs.util.Globals;
 
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Route(value = "student/registration")
+@Route(value = Globals.Pages.STUDENTREGISTRATION)
 @CssImport("./styles/index.css")
 public class StudentRegistrationView extends FormLayout {
 
@@ -54,7 +55,7 @@ public class StudentRegistrationView extends FormLayout {
             saveFirstNames(registerService, firstName.getValue().split(" "), student);
 
             Notification.show("Benutzer erfolgreich registriert");
-            UI.getCurrent().navigate("login");
+            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         } else {
             Notification.show("Registration failed");
         }
@@ -138,7 +139,7 @@ public class StudentRegistrationView extends FormLayout {
 
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
-            UI.getCurrent().navigate("login");
+            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         });
 
         submitButton.addClickListener(e -> {

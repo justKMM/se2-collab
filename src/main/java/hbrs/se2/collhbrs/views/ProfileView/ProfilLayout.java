@@ -8,6 +8,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 
+/*
+    Dialog View
+ */
+
+
+
 @CssImport("./styles/index.css")
 public class ProfilLayout extends VerticalLayout {
 
