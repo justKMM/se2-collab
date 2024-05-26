@@ -1,6 +1,7 @@
 package hbrs.se2.collhbrs.views;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
@@ -14,25 +15,37 @@ import com.vaadin.flow.router.RouterLink;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.Components;
 
 @Route(value = "")
 @RouteAlias(value = Globals.Pages.LOGIN_ALIAS)
 @CssImport("./styles/index.css")
 public class LoginView extends VerticalLayout {
-
+    private LoginI18n i18n;
     // not needed:  private static final String LOGIN_ROUTE = "main";
+    // Registration links
+    Button studentRegisterButton = new Button("Als Student registrieren");
+    Button unternehmenRegisterButton = new Button("Als Unternehmen registrieren");
 
     public LoginView(LoginService loginService) {
         addClassName("main");
         setSizeFull();
-
+        // Language Switcher
+        Components.LANGUAGE_SELECT.setItems(Globals.LANGUAGE.DEUTSCH, Globals.LANGUAGE.ENGLISH);
+        Components.LANGUAGE_SELECT.setLabel("Select Language");
+        Components.LANGUAGE_SELECT.setValue(Globals.CURRENT_LANGUAGE);
+        // Add the language selection dropdown to the login form
+        add(Components.LANGUAGE_SELECT);
+        // Login form
         LoginForm component = createLoginForm();
         add(component);
         this.setAlignItems(Alignment.CENTER);
+        // Registration buttons
         RouterLink studentRegisterLink = new RouterLink("Als Student registrieren", StudentRegistrationView.class);
         RouterLink unternehmenRegisterLink = new RouterLink("Als Unternehmen registrieren", BusinessRegistrationView.class);
         add(studentRegisterLink);
         add(unternehmenRegisterLink);
+        // Login Listener
         component.addLoginListener(input -> handleLogin(input, loginService));
     }
 
@@ -40,24 +53,11 @@ public class LoginView extends VerticalLayout {
 
     private LoginForm createLoginForm() {
         LoginForm component = new LoginForm();
-        LoginI18n i18n = LoginI18n.createDefault();
+        i18n = LoginI18n.createDefault();
         LoginI18n.Form i18nForm = i18n.getForm();
-
-
-        // Set the default language to German
-        setGermanLanguage(i18nForm);
-
-        i18n.setForm(i18nForm);
-        component.setI18n(i18n);
-
-        // Add a language selection dropdown with German and English options
-        Select<Globals.LANGUAGE> languageSelect = new Select<>();
-        languageSelect.setItems(Globals.LANGUAGE.DEUTSCH, Globals.LANGUAGE.ENGLISH);
-        languageSelect.setLabel("Select Language");
-        languageSelect.setValue(Globals.LANGUAGE.DEUTSCH); // Set default language to German
-
-        languageSelect.addValueChangeListener(event -> {
-            Globals.LANGUAGE selectedLanguage = event.getValue();
+        // Language Change Listener
+        Components.LANGUAGE_SELECT.addValueChangeListener(e -> {
+            Globals.LANGUAGE selectedLanguage = e.getValue();
             if (Globals.LANGUAGE.DEUTSCH.equals(selectedLanguage)) {
                 setGermanLanguage(i18nForm);
             } else if (Globals.LANGUAGE.ENGLISH.equals(selectedLanguage)) {
@@ -66,11 +66,8 @@ public class LoginView extends VerticalLayout {
             i18n.setForm(i18nForm);
             component.setI18n(i18n);
         });
-        // Add the language selection dropdown to the login form
-        add(languageSelect);
         return component;
     }
-
 
     private void handleLogin(LoginForm.LoginEvent input, LoginService loginService) {
         String successLogIn = "Erfolgreich angemeldet als ";
@@ -106,6 +103,11 @@ public class LoginView extends VerticalLayout {
         i18nForm.setPassword("Passwort");
         i18nForm.setSubmit("Anmelden");
         i18nForm.setForgotPassword("Passwort vergessen?");
+        // Error Message
+        LoginI18n.ErrorMessage errorMessage = i18n.getErrorMessage();
+        errorMessage.setUsername("Benutzername kann nicht leer sein");
+        errorMessage.setPassword("Passwort kann nicht leer sein");
+        i18n.setErrorMessage(errorMessage);
     }
 
     private void setEnglishLanguage(LoginI18n.Form i18nForm) {
@@ -115,5 +117,10 @@ public class LoginView extends VerticalLayout {
         i18nForm.setPassword("Password");
         i18nForm.setSubmit("Log in");
         i18nForm.setForgotPassword("Forgot password?");
+        // Error Message
+        LoginI18n.ErrorMessage errorMessage = i18n.getErrorMessage();
+        errorMessage.setUsername("Username can't be blank");
+        errorMessage.setPassword("Password can't be blank");
+        i18n.setErrorMessage(errorMessage);
     }
 }

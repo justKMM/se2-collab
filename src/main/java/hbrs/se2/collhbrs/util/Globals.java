@@ -1,8 +1,4 @@
 package hbrs.se2.collhbrs.util;
-
-
-
-
 /*
     Klasse beinhaltet alle Routenamen der Views
     (sollte noch alle Rollen und später spzielle Errors bekommen)
