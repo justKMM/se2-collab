@@ -18,6 +18,7 @@ import hbrs.se2.collhbrs.entity.Profile;
 import hbrs.se2.collhbrs.entity.Student;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
+import hbrs.se2.collhbrs.util.Globals;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,7 @@ import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Route(value = "student/registration")
+@Route(value = Globals.Pages.STUDENTREGISTRATION)
 @CssImport("./styles/index.css")
 // TODO: Bitte mehr refactoren ... Das ist irgendwie Spaghetti Code ; Logik vielleicht auslagern ? UIs zusammenpacken
 public class StudentRegistrationView extends FormLayout {
@@ -108,6 +109,8 @@ public class StudentRegistrationView extends FormLayout {
                 Notification.show("Registrierung ist fehlgeschlagen: Email schon vergeben");
             }
 
+            Notification.show("Benutzer erfolgreich registriert");
+            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         } else {
             Notification.show("Registrierung ist fehlgeschlagen: Nutzername schon vergeben");
         }
@@ -191,7 +194,7 @@ public class StudentRegistrationView extends FormLayout {
 
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
-            UI.getCurrent().navigate("login");
+            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         });
 
         submitButton.addClickListener(e -> {

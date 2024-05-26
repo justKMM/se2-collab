@@ -12,13 +12,15 @@ import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.router.RouterLink;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.LoginService;
+import hbrs.se2.collhbrs.util.Globals;
 
 @Route(value = "")
-@RouteAlias(value = "login")
+@RouteAlias(value = Globals.Pages.LOGIN_ALIAS)
 @CssImport("./styles/index.css")
 public class LoginView extends VerticalLayout {
 
-    private static final String LOGIN_ROUTE = "main";
+
+    // not needed:  private static final String LOGIN_ROUTE = "main";
 
     public LoginView(LoginService loginService) {
         addClassName("main");
@@ -65,7 +67,7 @@ public class LoginView extends VerticalLayout {
                 return;
             }
             notificationSuccess.open();
-            UI.getCurrent().navigate(LOGIN_ROUTE);
+            UI.getCurrent().navigate(Globals.Pages.MAIN);
         } catch (Exception e) {
             Notification notificationFailed = Notification.show("Login failed");
             notificationFailed.addThemeVariants(NotificationVariant.LUMO_ERROR);

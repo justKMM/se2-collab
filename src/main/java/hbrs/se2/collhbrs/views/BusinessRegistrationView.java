@@ -17,13 +17,14 @@ import hbrs.se2.collhbrs.entity.Business;
 import hbrs.se2.collhbrs.entity.Profile;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
+import hbrs.se2.collhbrs.util.Globals;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-@Route(value = "unternehmen/registration")
+@Route(value = Globals.Pages.UNTERNEHMENREGISTRATION)
 @CssImport("./styles/index.css")
 // TODO: Bitte mehr refactoren ... Das ist irgendwie Spaghetti Code ; Logik vielleicht auslagern ?
 public class BusinessRegistrationView extends FormLayout {
@@ -129,18 +130,8 @@ public class BusinessRegistrationView extends FormLayout {
         if (validateUsername(registerService, user)) {
 
 
-            if (validateEmail(registerService, user)) {
-                registerService.saveProfil(profile);
-                registerService.saveUser(user);
-
-                Business business = createBusiness(businessName.getValue(), user);
-                registerService.saveBusiness(business);
-
-                Notification.show("Benutzer erfolgreich registriert");
-                UI.getCurrent().navigate("login");
-            } else {
-                Notification.show("Registrierung ist fehlgeschlagen: Email schon vergeben");
-            }
+            Notification.show("Benutzer erfolgreich registriert");
+            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         } else {
             Notification.show("Registrierung ist fehlgeschlagen: Nutzername schon vergeben");
         }
@@ -208,7 +199,7 @@ public class BusinessRegistrationView extends FormLayout {
 
         cancelButton.addClickListener(e -> {
             Notification.show("Registration abgebrochen");
-            UI.getCurrent().navigate("login");
+            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         });
 
         submitButton.addClickListener(e -> {
