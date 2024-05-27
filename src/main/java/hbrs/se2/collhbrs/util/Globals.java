@@ -1,8 +1,4 @@
 package hbrs.se2.collhbrs.util;
-
-
-
-
 /*
     Klasse beinhaltet alle Routenamen der Views
     (sollte noch alle Rollen und später spzielle Errors bekommen)
@@ -15,6 +11,21 @@ public class Globals {
     //Current User
     public static String CURRENT_USER = "current_user";
 
+    // Current language
+    public static LANGUAGE CURRENT_LANGUAGE = LANGUAGE.DEUTSCH;
+    public enum LANGUAGE {
+        DEUTSCH {
+            public String toString() {
+                return "Deutsch";
+            }
+        },
+        ENGLISH {
+            public String toString() {
+                return "English";
+            }
+        };
+    };
+
     // Name jeder Page
     public static class Pages{
         public static final String MAIN = "main";
@@ -25,6 +36,7 @@ public class Globals {
         public static final String UNTERNEHMENREGISTRATION = "unternehmen/registration";
         public static final String PROFILSTUDENT = "profile-page";
     }
+
 
 
 }
