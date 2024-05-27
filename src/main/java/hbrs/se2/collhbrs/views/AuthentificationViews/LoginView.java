@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views;
+package hbrs.se2.collhbrs.views.AuthentificationViews;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -8,25 +8,25 @@ import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.router.RouterLink;
+import hbrs.se2.collhbrs.entity.Email;
 import hbrs.se2.collhbrs.entity.User;
+import hbrs.se2.collhbrs.service.EmailService;
 import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Components;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.javamail.JavaMailSender;
 
 @Route(value = "")
 @RouteAlias(value = Globals.Pages.LOGIN_ALIAS)
 @CssImport("./styles/index.css")
 public class LoginView extends VerticalLayout {
+
     private LoginI18n i18n;
     // not needed:  private static final String LOGIN_ROUTE = "main";
-    // Registration links
-    Button studentRegisterButton = new Button("Als Student registrieren");
-    Button unternehmenRegisterButton = new Button("Als Unternehmen registrieren");
-
     public LoginView(LoginService loginService) {
         addClassName("main");
         setSizeFull();
@@ -55,6 +55,10 @@ public class LoginView extends VerticalLayout {
         LoginForm component = new LoginForm();
         i18n = LoginI18n.createDefault();
         LoginI18n.Form i18nForm = i18n.getForm();
+        // Default error messages
+        LoginI18n.ErrorMessage errorMessage = i18n.getErrorMessage();
+        errorMessage.setUsername("Benutzername kann nicht leer sein");
+        errorMessage.setPassword("Passwort kann nicht leer sein");
         // Language Change Listener
         Components.LANGUAGE_SELECT.addValueChangeListener(e -> {
             Globals.LANGUAGE selectedLanguage = e.getValue();
@@ -65,6 +69,9 @@ public class LoginView extends VerticalLayout {
             }
             i18n.setForm(i18nForm);
             component.setI18n(i18n);
+        });
+        component.addForgotPasswordListener(e -> {
+           UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD);
         });
         return component;
     }
@@ -103,7 +110,7 @@ public class LoginView extends VerticalLayout {
         i18nForm.setPassword("Passwort");
         i18nForm.setSubmit("Anmelden");
         i18nForm.setForgotPassword("Passwort vergessen?");
-        // Error Message
+        // Error Messages
         LoginI18n.ErrorMessage errorMessage = i18n.getErrorMessage();
         errorMessage.setUsername("Benutzername kann nicht leer sein");
         errorMessage.setPassword("Passwort kann nicht leer sein");
@@ -117,7 +124,7 @@ public class LoginView extends VerticalLayout {
         i18nForm.setPassword("Password");
         i18nForm.setSubmit("Log in");
         i18nForm.setForgotPassword("Forgot password?");
-        // Error Message
+        // Error Messages
         LoginI18n.ErrorMessage errorMessage = i18n.getErrorMessage();
         errorMessage.setUsername("Username can't be blank");
         errorMessage.setPassword("Password can't be blank");

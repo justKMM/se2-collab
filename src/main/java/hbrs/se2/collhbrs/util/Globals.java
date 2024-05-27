@@ -32,6 +32,7 @@ public class Globals {
         public static final String MERKZETTEL = "merkzettel";
         public static final String LOGIN = "";
         public static final String LOGIN_ALIAS = "login";
+        public static final String FORGOT_PASSWORD = "forgot_password";
         public static final String STUDENTREGISTRATION = "student/registration";
         public static final String UNTERNEHMENREGISTRATION = "unternehmen/registration";
         public static final String PROFILSTUDENT = "profile-page";
