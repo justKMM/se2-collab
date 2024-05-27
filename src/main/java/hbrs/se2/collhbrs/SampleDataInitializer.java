@@ -23,9 +23,9 @@ public class SampleDataInitializer {
     @PostConstruct
     public void init() {
         if (registerService.isEmpty()) {
-            createSampleStudent("Admin", "Madmin", "admin", "admin@example.com", "password1");
-            createSampleStudent("Spongebob", "Squarepants", "spongi", "squarepants@example.com", "password2");
-            createSampleBusiness("KrustyKrab", "krustykrab", "krustykrab@example.com", "password3");
+            createSampleStudent("Admin", "Madmin", "admin", "admin@example.com", "Password1");
+            createSampleStudent("Spongebob", "Squarepants", "spongi", "squarepants@example.com", "Password2");
+            createSampleBusiness("KrustyKrab", "krustykrab", "krustykrab@example.com", "Password3");
         }
     }
 
