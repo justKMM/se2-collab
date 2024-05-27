@@ -10,5 +10,5 @@ import hbrs.se2.collhbrs.util.Globals;
      */
 
 @Route(Globals.Pages.MERKZETTEL)
-public class MerkzettelView extends AppLayout {
+public class ReminderView extends AppLayout {
 }

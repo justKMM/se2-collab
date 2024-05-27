@@ -70,10 +70,10 @@ public class StudentRegistrationView extends FormLayout {
 
         for (User existingUser : users) {
             if (Objects.equals(existingUser.getUsername(), user.getUsername())) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean validateEmail(RegisterService registerService, User user) {
@@ -81,10 +81,10 @@ public class StudentRegistrationView extends FormLayout {
 
         for (User existingUser : users) {
             if (Objects.equals(existingUser.getEmail(), user.getEmail())) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
 
