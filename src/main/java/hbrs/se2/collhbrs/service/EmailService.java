@@ -5,7 +5,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,6 +22,7 @@ public class EmailService {
     public EmailService(@Qualifier("javaMailSender") JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
+
     /*@Value("${spring.mail.username}") private String sender;*/
     private final String sender = "Sender";
     // Send a simple email

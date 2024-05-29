@@ -32,6 +32,11 @@ public class LoginView extends VerticalLayout {
 
         RouterLink unternehmenRegisterLink = new RouterLink("Register as a company", BusinessRegistrationView.class);
         add(unternehmenRegisterLink);
+
+        component.addForgotPasswordListener(e -> {
+            UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD);
+        });
+
         component.addLoginListener(input -> handleLogin(input, loginService));
     }
 
