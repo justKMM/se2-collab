@@ -8,7 +8,6 @@ public class Globals {
         public static final String MAIN = "main";
         public static final String REMINDER = "reminder";
         public static final String LOGIN = "";
-        public static final String LOGIN_ALIAS = "login";
         public static final String FORGOT_PASSWORD = "forgot-password";
         public static final String SIGNUP = "signup";
         public static final String PROFILSTUDENT = "profile-page";

@@ -12,16 +12,10 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import hbrs.se2.collhbrs.model.entity.FirstName;
-import hbrs.se2.collhbrs.model.entity.Profile;
-import hbrs.se2.collhbrs.model.entity.Student;
-import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.RegisterUtils;
 
-import java.util.Objects;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @CssImport("./styles/index.css")
@@ -91,7 +85,7 @@ public class StudentRegistrationView extends FormLayout {
 
         cancelButton.addClickListener(e -> {
             Notification.show("Registration cancelled");
-            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
+            UI.getCurrent().navigate(Globals.Pages.LOGIN);
         });
 
         submitButton.addClickListener(e -> {
@@ -110,7 +104,7 @@ public class StudentRegistrationView extends FormLayout {
                         lastName.getValue()
                 );
                 Notification.show("Registration successful");
-                UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
+                UI.getCurrent().navigate(Globals.Pages.LOGIN);
             }
         });
 

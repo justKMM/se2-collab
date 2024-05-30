@@ -102,7 +102,7 @@ public class AppView extends AppLayout {
         //UI ui = this.getUI().get();
         //ui.getSession().close();
         //ui.getPage().setLocation(Globals.Pages.LOGIN);
-        UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
+        UI.getCurrent().navigate(Globals.Pages.LOGIN);
     }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {

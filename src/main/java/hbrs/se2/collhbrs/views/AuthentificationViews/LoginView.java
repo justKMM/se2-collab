@@ -17,7 +17,6 @@ import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.util.Globals;
 
 @Route(value = "")
-@RouteAlias(value = Globals.Pages.LOGIN_ALIAS)
 @CssImport("./styles/index.css")
 public class LoginView extends VerticalLayout {
 
