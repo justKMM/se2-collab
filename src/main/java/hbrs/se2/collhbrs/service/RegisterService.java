@@ -89,8 +89,7 @@ public class RegisterService {
     @Transactional
     public void saveFirstNames(String[] firstNames, Student student) {
         IntStream.range(0, firstNames.length).forEach(counter -> {
-            FirstName firstNameEntity = entityFactory.createFirstName(firstNames[counter], student, counter);
-            saveVorname(firstNameEntity);
+            saveVorname(entityFactory.createFirstName(firstNames[counter], student, counter));
         });
     }
 

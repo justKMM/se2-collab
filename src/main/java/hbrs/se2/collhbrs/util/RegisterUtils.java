@@ -58,7 +58,7 @@ public class RegisterUtils {
     }
 
     private static boolean isValidFirstName(String firstName) {
-        return Pattern.compile("^[A-Za-z]{3,30}$").matcher(firstName).matches();
+        return Pattern.compile("^[A-Za-z\\s-]{3,30}$").matcher(firstName).matches();
     }
 
     private static boolean isValidLastName(String lastName) {
