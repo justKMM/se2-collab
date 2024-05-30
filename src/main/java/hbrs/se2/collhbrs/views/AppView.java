@@ -99,9 +99,10 @@ public class AppView extends AppLayout {
     }
 
     private void logoutUser(){
-        UI ui = this.getUI().get();
-        ui.getSession().close();
-        ui.getPage().setLocation(Globals.Pages.LOGIN);
+        //UI ui = this.getUI().get();
+        //ui.getSession().close();
+        //ui.getPage().setLocation(Globals.Pages.LOGIN);
+        UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
     }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {
