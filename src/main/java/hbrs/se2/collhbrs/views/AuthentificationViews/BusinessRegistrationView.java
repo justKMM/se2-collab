@@ -90,14 +90,18 @@ public class BusinessRegistrationView extends FormLayout {
                     passwordConfirmation.getValue()
             ))
             {
-                registerService.registerUser(
-                        username.getValue(),
-                        password.getValue(),
-                        email.getValue(),
-                        businessName.getValue()
-                );
-                Notification.show("Registration successful");
-                UI.getCurrent().navigate(Globals.Pages.LOGIN);
+                try {
+                    registerService.registerUser(
+                            username.getValue(),
+                            password.getValue(),
+                            email.getValue(),
+                            businessName.getValue()
+                    );
+                    Notification.show("Registration successful");
+                    UI.getCurrent().navigate(Globals.Pages.LOGIN);
+                } catch (RuntimeException runtimeException) {
+                    Notification.show(runtimeException.getMessage());
+                }
             }
         });
 
