@@ -43,12 +43,12 @@ public class RegisterService {
     }
 
     @Transactional
-    public void registerUser(String username, String password, String email, String businessName) {
+    public void registerBusiness(String username, String password, String email, String businessName) {
         saveBusiness(entityFactory.createBusiness(businessName, registerUser(username, password, email)));
     }
 
     @Transactional
-    public void registerUser(String username, String password, String email, String firstName, String lastName) {
+    public void registerStudent(String username, String password, String email, String firstName, String lastName) {
         Student student = entityFactory.createStudent(registerUser(username, password, email), lastName);
         saveStudent(student);
         saveFirstNames(firstName.split(" "), student);

@@ -91,7 +91,7 @@ public class BusinessRegistrationView extends FormLayout {
             ))
             {
                 try {
-                    registerService.registerUser(
+                    registerService.registerBusiness(
                             username.getValue(),
                             password.getValue(),
                             email.getValue(),

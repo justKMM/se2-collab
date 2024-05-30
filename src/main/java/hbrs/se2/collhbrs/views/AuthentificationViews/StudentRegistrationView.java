@@ -98,7 +98,7 @@ public class StudentRegistrationView extends FormLayout {
                     passwordConfirmation.getValue())
             ) {
                 try {
-                    registerService.registerUser(username.getValue(),
+                    registerService.registerStudent(username.getValue(),
                             password.getValue(),
                             email.getValue(),
                             firstName.getValue(),
