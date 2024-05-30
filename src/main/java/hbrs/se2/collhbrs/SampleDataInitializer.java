@@ -41,7 +41,7 @@ public class SampleDataInitializer {
         user.setBlacklisted(0);
         user.setEmail(email);
 
-        registerService.saveProfil(profile);
+        registerService.saveProfile(profile);
         registerService.saveUser(user);
 
         Student student = new Student();
@@ -71,7 +71,7 @@ public class SampleDataInitializer {
         user.setBlacklisted(0);
         user.setEmail(email);
 
-        registerService.saveProfil(profile);
+        registerService.saveProfile(profile);
         registerService.saveUser(user);
 
         Business business = new Business();

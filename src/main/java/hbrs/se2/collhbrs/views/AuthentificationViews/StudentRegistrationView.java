@@ -12,7 +12,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.entity.FirstName;
 import hbrs.se2.collhbrs.entity.Profile;
 import hbrs.se2.collhbrs.entity.Student;
@@ -20,19 +19,17 @@ import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Route(value = Globals.Pages.STUDENTREGISTRATION)
 @CssImport("./styles/index.css")
-// TODO: Bitte mehr refactoren ... Das ist irgendwie Spaghetti Code ; Logik vielleicht auslagern ? UIs zusammenpacken
 public class StudentRegistrationView extends FormLayout {
 
-    private final Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);
-    private final Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
+    private final RegisterService registerService;
+    private final Button submitButton = createButton("Register", ButtonVariant.LUMO_PRIMARY);
+    private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
     private TextField firstName;
     private TextField lastName;
     private TextField username;
@@ -41,110 +38,10 @@ public class StudentRegistrationView extends FormLayout {
     private PasswordField passwordConfirm;
 
     public StudentRegistrationView(RegisterService registerService) {
+        this.registerService = registerService;
         setupLayout();
         setupFields();
-        addButtons(registerService);
-    }
-
-    private static boolean isValidFirstName(String firstName) {
-        String firstNameRegex = "^[A-Za-z]{3,30}$";
-        Pattern pattern = Pattern.compile(firstNameRegex);
-        return pattern.matcher(firstName).matches();
-    }
-
-    private static boolean isValidLastName(String lastName) {
-        String lastNameRegex = "^[A-Za-z]{3,30}$";
-        Pattern pattern = Pattern.compile(lastNameRegex);
-        return pattern.matcher(lastName).matches();
-    }
-
-    private static boolean isValidUsername(String username) {
-        if (username.length() < 3 || username.length() > 20) {
-            return false;
-        }
-        return Pattern.matches("^[a-zA-Z0-9]+$", username);
-    }
-
-    public boolean validateUsername(RegisterService registerService, User user) {
-        List<User> users = registerService.getUsers();
-
-        for (User existingUser : users) {
-            if (Objects.equals(existingUser.getUsername(), user.getUsername())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean validateEmail(RegisterService registerService, User user) {
-        List<User> users = registerService.getUsers();
-
-        for (User existingUser : users) {
-            if (Objects.equals(existingUser.getEmail(), user.getEmail())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    private void registerUser(RegisterService registerService) {
-        Profile profile = createProfile();
-        User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
-
-        if (validateUsername(registerService, user)) {
-
-            if (validateEmail(registerService, user)) {
-                registerService.saveProfil(profile);
-                registerService.saveUser(user);
-
-                Student student = createStudent(user);
-                registerService.saveStudent(student);
-
-                saveFirstNames(registerService, firstName.getValue().split(" "), student);
-
-                Notification.show("Benutzer erfolgreich registriert");
-                UI.getCurrent().navigate("login");
-            } else {
-                Notification.show("Registrierung ist fehlgeschlagen: Email schon vergeben");
-            }
-
-            Notification.show("Benutzer erfolgreich registriert");
-            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
-        } else {
-            Notification.show("Registrierung ist fehlgeschlagen: Nutzername schon vergeben");
-        }
-    }
-
-    private Profile createProfile() {
-        return new Profile();
-    }
-
-    private User createUser(Profile profile, String username, String password, String email) {
-        User user = new User();
-        user.setProfile(profile);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setBlacklisted(0);
-        user.setEmail(email);
-        return user;
-    }
-
-    private Student createStudent(User user) {
-        Student student = new Student();
-        student.setUser(user);
-        student.setLastName(lastName.getValue());
-        return student;
-    }
-
-    private void saveFirstNames(RegisterService registerService, String[] vornamen, Student student) {
-        IntStream.range(0, vornamen.length).forEach(counter -> {
-            FirstName firstNameEntity = new FirstName();
-            firstNameEntity.setFirstNameName(vornamen[counter]);
-            firstNameEntity.setStudent(student);
-            firstNameEntity.setSerialNumber(counter);
-            registerService.saveVorname(firstNameEntity);
-        });
+        addButtons();
     }
 
     private Button createButton(String text, ButtonVariant... variants) {
@@ -171,13 +68,13 @@ public class StudentRegistrationView extends FormLayout {
     }
 
     private void setupFields() {
-        H3 title = new H3("Studentenregistrierung");
-        firstName = createTextField("Vorname");
-        lastName = createTextField("Nachname");
-        username = createTextField("Nutzername");
+        H3 title = new H3("Student registration");
+        firstName = createTextField("First name");
+        lastName = createTextField("Surname");
+        username = createTextField("Username");
         email = new EmailField("Email");
-        password = new PasswordField("Passwort");
-        passwordConfirm = new PasswordField("Passwort bestätigen");
+        password = new PasswordField("Password");
+        passwordConfirm = new PasswordField("Confirm password");
 
         setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirm);
 
@@ -190,16 +87,16 @@ public class StudentRegistrationView extends FormLayout {
         setColspan(errorMessageField, 2);
     }
 
-    private void addButtons(RegisterService registerService) {
+    private void addButtons() {
 
         cancelButton.addClickListener(e -> {
-            Notification.show("Registration abgebrochen");
+            Notification.show("Registration cancelled");
             UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         });
 
         submitButton.addClickListener(e -> {
             if (validateInput()) {
-                registerUser(registerService);
+                registerUser();
             }
         });
 
@@ -208,50 +105,117 @@ public class StudentRegistrationView extends FormLayout {
         setColspan(submitButton, 1);
     }
 
+    public boolean isUsernameAvailable(String username) {
+        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getUsername(), username));
+    }
+
+    public boolean isEmailAvailable(String email) {
+        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getEmail(), email));
+    }
+
+    private void registerUser() {
+
+        if (!isUsernameAvailable(username.getValue())) {
+            Notification.show("Registration failed: Username already taken");
+            return;
+        }
+
+        if (!isEmailAvailable(email.getValue())) {
+            Notification.show("Registration failed: Email already taken");
+            return;
+        }
+
+        Profile profile = createProfile();
+        User user = createUser(profile, username.getValue(), password.getValue(),  email.getValue());
+
+        registerService.saveProfile(profile);
+        registerService.saveUser(user);
+
+        Student student = createStudent(user);
+        registerService.saveStudent(student);
+
+        saveFirstNames(firstName.getValue().split(" "), student);
+
+        Notification.show("User successfully registered");
+        UI.getCurrent().navigate("login");
+    }
+
+    private Profile createProfile() {
+        return new Profile();
+    }
+
+    private User createUser(Profile profile, String username, String password, String email) {
+        User user = new User();
+        user.setProfile(profile);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setBlacklisted(0);
+        user.setEmail(email);
+        return user;
+    }
+
+    private Student createStudent(User user) {
+        Student student = new Student();
+        student.setUser(user);
+        student.setLastName(lastName.getValue());
+        return student;
+    }
+
+    private void saveFirstNames(String[] vornamen, Student student) {
+        IntStream.range(0, vornamen.length).forEach(counter -> {
+            FirstName firstNameEntity = new FirstName();
+            firstNameEntity.setFirstNameName(vornamen[counter]);
+            firstNameEntity.setStudent(student);
+            firstNameEntity.setSerialNumber(counter);
+            registerService.saveVorname(firstNameEntity);
+        });
+    }
+
     private boolean validateInput() {
-        boolean isValid = true;
-
-        if (!password.getValue().equals(passwordConfirm.getValue())) {
-            Notification.show("Die Passwörter stimmen nicht überein.");
-            isValid = false;
-        } else if (!isPasswordComplex(password.getValue())) {
-            Notification.show("Das Passwort muss 8-16 Zeichen lang sein und Großbuchstaben, Kleinbuchstaben, Zahlen enthalten.");
-            isValid = false;
-        }
-
         if (firstName.getValue().isEmpty() || !isValidFirstName(firstName.getValue())) {
-            Notification.show("Bitte geben Sie einen gültigen Vornamen ein.");
-            isValid = false;
+            Notification.show("Please enter a valid first name.");
+            return false;
         }
-
         if (lastName.getValue().isEmpty() || !isValidLastName(lastName.getValue())) {
-            Notification.show("Bitte geben Sie einen gültigen Nachnamen ein.");
-            isValid = false;
+            Notification.show("Please enter a valid surname.");
+            return false;
         }
-
         if (username.getValue().isEmpty() || !isValidUsername(username.getValue())) {
-            Notification.show("Bitte geben Sie einen gültigen Benutzernamen ein.");
-            isValid = false;
+            Notification.show("Please enter a valid username.");
+            return false;
         }
-
         if (email.getValue().isEmpty() || !isValidEmail(email.getValue())) {
-            Notification.show("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
-            isValid = false;
+            Notification.show("Please enter a valid e-mail address.");
+            return false;
         }
-
-        return isValid;
+        if (!password.getValue().equals(passwordConfirm.getValue())) {
+            Notification.show("Passwords do not match.");
+            return false;
+        } else if (!isPasswordComplex(password.getValue())) {
+            Notification.show("The password must be 8-16 characters long and contain upper case letters, lower case letters and numbers.");
+            return false;
+        }
+        return true;
     }
 
     private boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        return pattern.matcher(email).matches();
+        return Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$").matcher(email).matches();
     }
 
     private boolean isPasswordComplex(String password) {
-        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,16}$";
-        Pattern pattern = Pattern.compile(passwordRegex);
-        return pattern.matcher(password).matches();
+        return Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,16}$").matcher(password).matches();
+    }
+
+    private boolean isValidFirstName(String firstName) {
+        return Pattern.compile("^[A-Za-z]{3,30}$").matcher(firstName).matches();
+    }
+
+    private boolean isValidLastName(String lastName) {
+        return Pattern.compile("^[A-Za-z]{3,30}$").matcher(lastName).matches();
+    }
+
+    private boolean isValidUsername(String username) {
+        return Pattern.matches("^[a-zA-Z0-9]+$", username) && username.length() < 20 && username.length() > 3;
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {

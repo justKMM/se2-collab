@@ -9,6 +9,6 @@ import hbrs.se2.collhbrs.util.Globals;
         2. Sprint
      */
 
-@Route(Globals.Pages.MERKZETTEL)
+@Route(Globals.Pages.REMINDER)
 public class ReminderView extends AppLayout {
 }

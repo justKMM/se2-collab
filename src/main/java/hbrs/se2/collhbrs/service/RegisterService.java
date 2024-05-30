@@ -37,7 +37,7 @@ public class RegisterService {
     }
 
     @Transactional
-    public void saveProfil(Profile profile) {
+    public void saveProfile(Profile profile) {
         profileRepository.save(profile);
     }
 

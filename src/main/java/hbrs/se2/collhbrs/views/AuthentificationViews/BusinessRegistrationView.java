@@ -12,7 +12,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.entity.Business;
 import hbrs.se2.collhbrs.entity.Profile;
 import hbrs.se2.collhbrs.entity.User;
@@ -24,13 +23,12 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-@Route(value = Globals.Pages.UNTERNEHMENREGISTRATION)
 @CssImport("./styles/index.css")
-// TODO: Bitte mehr refactoren ... Das ist irgendwie Spaghetti Code ; Logik vielleicht auslagern ?
 public class BusinessRegistrationView extends FormLayout {
 
-    private final Button submitButton = createButton("Registrieren", ButtonVariant.LUMO_PRIMARY);
-    private final Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
+    private final RegisterService registerService;
+    private final Button submitButton = createButton("Register", ButtonVariant.LUMO_PRIMARY);
+    private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
     private TextField businessName;
     private TextField username;
     private EmailField email;
@@ -38,103 +36,66 @@ public class BusinessRegistrationView extends FormLayout {
     private PasswordField passwordConfirm;
 
     public BusinessRegistrationView(RegisterService registerService) {
+        this.registerService = registerService;
         setupLayout();
         setupFields();
-        addButtons(registerService);
-    }
-
-    private static boolean isValidCompanyName(String companyName) {
-        String companyNameRegex = "^[A-Za-z\\s]{3,}[A-Za-z\\d\\s]*$";
-        Pattern pattern = Pattern.compile(companyNameRegex);
-        return pattern.matcher(companyName).matches();
-    }
-
-    private static boolean isValidUsername(String username) {
-        if (username.length() < 3 || username.length() > 20) {
-            return false;
-        }
-        return Pattern.matches("^[a-zA-Z0-9]+$", username);
+        addButtons();
     }
 
     private boolean validateInput() {
-        boolean isValid = true;
+        if (businessName.getValue().isEmpty() || !isValidCompanyName(businessName.getValue())) {
+            Notification.show("Please enter a valid first name.");
+            return false;
+        }
+        if (username.getValue().isEmpty() || !isValidUsername(username.getValue())) {
+            Notification.show("Please enter a valid username.");
+            return false;
+        }
+        if (email.getValue().isEmpty() || !isValidEmail(email.getValue())) {
+            Notification.show("Please enter a valid e-mail address.");
+            return false;
+        }
         if (!password.getValue().equals(passwordConfirm.getValue())) {
-            Notification.show("Die Passwörter stimmen nicht überein.");
-            isValid = false;
+            Notification.show("Passwords do not match.");
+            return false;
         } else if (!isPasswordComplex(password.getValue())) {
-            Notification.show("Das Passwort muss 8-16 Zeichen lang sein und Großbuchstaben, Kleinbuchstaben, Zahlen enthalten.");
-            isValid = false;
+            Notification.show("The password must be 8-16 characters long and contain upper case letters, lower case letters and numbers.");
+            return false;
         }
-        if (businessName.getValue().isEmpty()) {
-            Notification.show("Bitte Name des Unternehmens eingeben.");
-            isValid = false;
-        } else if (!isValidCompanyName(businessName.getValue())) {
-            Notification.show("Der Name des Unternehmens muss mindestens 3 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
-            isValid = false;
-        }
-        if (username.getValue().isEmpty()) {
-            Notification.show("Bitte Benutzernamen eingeben.");
-            isValid = false;
-        } else if (!isValidUsername(username.getValue())) {
-            Notification.show("Der Username muss 3-20 Zeichen lang sein und aus Buchstaben ggf. Zahlen bestehen.");
-            isValid = false;
-        }
-        if (email.getValue().isEmpty()) {
-            Notification.show("Bitte E-Mail-Adresse eingeben.");
-            isValid = false;
-        } else if (!isValidEmail(email.getValue())) {
-            Notification.show("Bitte eine gültige E-Mail-Adresse eingeben.");
-            isValid = false;
-        }
-        return isValid;
+        return true;
     }
 
-    private boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        return pattern.matcher(email).matches();
+    public boolean isUsernameAvailable(String username) {
+        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getUsername(), username));
     }
 
-    private boolean isPasswordComplex(String password) {
-        String passwordRegex = "^[A-Za-z\\d]{8,16}$";
-        Pattern pattern = Pattern.compile(passwordRegex);
-        return pattern.matcher(password).matches();
+    public boolean isEmailAvailable(String email) {
+        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getEmail(), email));
     }
 
-    public boolean validateUsername(RegisterService registerService, User user) {
-        List<User> users = registerService.getUsers();
+    private void registerUser() {
 
-        for (User existingUser : users) {
-            if (Objects.equals(existingUser.getUsername(), user.getUsername())) {
-                return true;
-            }
+        if (!isUsernameAvailable(username.getValue())) {
+            Notification.show("Registration failed: Username already taken");
+            return;
         }
-        return false;
-    }
 
-    public boolean validateEmail(RegisterService registerService, User user) {
-        List<User> users = registerService.getUsers();
-
-        for (User existingUser : users) {
-            if (Objects.equals(existingUser.getEmail(), user.getEmail())) {
-                return true;
-            }
+        if (!isEmailAvailable(email.getValue())) {
+            Notification.show("Registration failed: Email already taken");
+            return;
         }
-        return false;
-    }
 
-    private void registerUser(RegisterService registerService) {
         Profile profile = createProfile();
         User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
 
-        if (validateUsername(registerService, user)) {
+        registerService.saveProfile(profile);
+        registerService.saveUser(user);
 
+        Business business = createBusiness(businessName.getValue(), user);
+        registerService.saveBusiness(business);
 
-            Notification.show("Benutzer erfolgreich registriert");
-            UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
-        } else {
-            Notification.show("Registrierung ist fehlgeschlagen: Nutzername schon vergeben");
-        }
+        Notification.show("User successfully registered");
+        UI.getCurrent().navigate("login");
     }
 
     public Profile createProfile() {
@@ -175,13 +136,13 @@ public class BusinessRegistrationView extends FormLayout {
     }
 
     private void setupFields() {
-        H3 title = new H3("Unternehmensregistrierung");
+        H3 title = new H3("Business registration");
 
-        businessName = createTextField("Name des Unternehmens");
-        username = createTextField("Nutzername");
+        businessName = createTextField("Name of the organisation");
+        username = createTextField("Username");
         email = new EmailField("Email");
-        password = new PasswordField("Passwort");
-        passwordConfirm = new PasswordField("Passwort bestätigen");
+        password = new PasswordField("Password");
+        passwordConfirm = new PasswordField("Confirm password");
 
         setRequiredIndicatorVisible(businessName, username, email, password, passwordConfirm);
 
@@ -195,16 +156,16 @@ public class BusinessRegistrationView extends FormLayout {
         setColspan(businessName, 2);
     }
 
-    private void addButtons(RegisterService registerService) {
+    private void addButtons() {
 
         cancelButton.addClickListener(e -> {
-            Notification.show("Registration abgebrochen");
+            Notification.show("Registration cancelled");
             UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
         });
 
         submitButton.addClickListener(e -> {
             if (validateInput()) {
-                registerUser(registerService);
+                registerUser();
             }
         });
 
@@ -217,6 +178,22 @@ public class BusinessRegistrationView extends FormLayout {
         TextField textField = new TextField(label);
         textField.setRequiredIndicatorVisible(true);
         return textField;
+    }
+
+    private boolean isValidEmail(String email) {
+        return Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$").matcher(email).matches();
+    }
+
+    private boolean isPasswordComplex(String password) {
+        return Pattern.compile("^[A-Za-z\\d]{8,16}$").matcher(password).matches();
+    }
+
+    private static boolean isValidCompanyName(String companyName) {
+        return Pattern.compile("^[A-Za-z\\s]{3,}[A-Za-z\\d\\s]*$").matcher(companyName).matches();
+    }
+
+    private boolean isValidUsername(String username) {
+        return Pattern.matches("^[a-zA-Z0-9]+$", username) && username.length() < 20 && username.length() > 3;
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {

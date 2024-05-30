@@ -7,8 +7,7 @@
 
 .register {
     margin: 0 auto;
-    max-width: 1300px;
-    padding: 2rem;
+    max-width: 1400px;
     border-radius: 6px;
     overflow-x: hidden;
     word-break: break-word;
@@ -17,6 +16,17 @@
     line-height: 1.5;
 }
 
+.sign-in {
+    padding-top: 100px;
+    margin: 0 auto;
+    max-width: 1400px;
+    border-radius: 6px;
+    overflow-x: hidden;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: 1.03rem;
+    line-height: 1.5;
+}
 
 .register .button-layout {
     margin-bottom: var(--lumo-space-l);
