@@ -17,6 +17,7 @@ import hbrs.se2.collhbrs.entity.Profile;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.RegisterUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,36 +34,13 @@ public class BusinessRegistrationView extends FormLayout {
     private TextField username;
     private EmailField email;
     private PasswordField password;
-    private PasswordField passwordConfirm;
+    private PasswordField passwordConfirmation;
 
     public BusinessRegistrationView(RegisterService registerService) {
         this.registerService = registerService;
         setupLayout();
         setupFields();
         addButtons();
-    }
-
-    private boolean validateInput() {
-        if (businessName.getValue().isEmpty() || !isValidCompanyName(businessName.getValue())) {
-            Notification.show("Please enter a valid first name.");
-            return false;
-        }
-        if (username.getValue().isEmpty() || !isValidUsername(username.getValue())) {
-            Notification.show("Please enter a valid username.");
-            return false;
-        }
-        if (email.getValue().isEmpty() || !isValidEmail(email.getValue())) {
-            Notification.show("Please enter a valid e-mail address.");
-            return false;
-        }
-        if (!password.getValue().equals(passwordConfirm.getValue())) {
-            Notification.show("Passwords do not match.");
-            return false;
-        } else if (!isPasswordComplex(password.getValue())) {
-            Notification.show("The password must be 8-16 characters long and contain upper case letters, lower case letters and numbers.");
-            return false;
-        }
-        return true;
     }
 
     public boolean isUsernameAvailable(String username) {
@@ -142,13 +120,13 @@ public class BusinessRegistrationView extends FormLayout {
         username = createTextField("Username");
         email = new EmailField("Email");
         password = new PasswordField("Password");
-        passwordConfirm = new PasswordField("Confirm password");
+        passwordConfirmation = new PasswordField("Confirm password");
 
-        setRequiredIndicatorVisible(businessName, username, email, password, passwordConfirm);
+        setRequiredIndicatorVisible(businessName, username, email, password, passwordConfirmation);
 
         Span errorMessageField = new Span();
 
-        add(title, businessName, username, email, password, passwordConfirm, errorMessageField);
+        add(title, businessName, username, email, password, passwordConfirmation, errorMessageField);
         setColspan(title, 2);
         setColspan(email, 2);
         setColspan(username, 2);
@@ -164,7 +142,13 @@ public class BusinessRegistrationView extends FormLayout {
         });
 
         submitButton.addClickListener(e -> {
-            if (validateInput()) {
+            if (RegisterUtils.validateInput(
+                    username.getValue(),
+                    businessName.getValue(),
+                    email.getValue(),
+                    password.getValue(),
+                    passwordConfirmation.getValue()
+            )) {
                 registerUser();
             }
         });
@@ -178,22 +162,6 @@ public class BusinessRegistrationView extends FormLayout {
         TextField textField = new TextField(label);
         textField.setRequiredIndicatorVisible(true);
         return textField;
-    }
-
-    private boolean isValidEmail(String email) {
-        return Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$").matcher(email).matches();
-    }
-
-    private boolean isPasswordComplex(String password) {
-        return Pattern.compile("^[A-Za-z\\d]{8,16}$").matcher(password).matches();
-    }
-
-    private static boolean isValidCompanyName(String companyName) {
-        return Pattern.compile("^[A-Za-z\\s]{3,}[A-Za-z\\d\\s]*$").matcher(companyName).matches();
-    }
-
-    private boolean isValidUsername(String username) {
-        return Pattern.matches("^[a-zA-Z0-9]+$", username) && username.length() < 20 && username.length() > 3;
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {

@@ -18,6 +18,7 @@ import hbrs.se2.collhbrs.entity.Student;
 import hbrs.se2.collhbrs.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.RegisterUtils;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -35,7 +36,7 @@ public class StudentRegistrationView extends FormLayout {
     private TextField username;
     private EmailField email;
     private PasswordField password;
-    private PasswordField passwordConfirm;
+    private PasswordField passwordConfirmation;
 
     public StudentRegistrationView(RegisterService registerService) {
         this.registerService = registerService;
@@ -74,13 +75,13 @@ public class StudentRegistrationView extends FormLayout {
         username = createTextField("Username");
         email = new EmailField("Email");
         password = new PasswordField("Password");
-        passwordConfirm = new PasswordField("Confirm password");
+        passwordConfirmation = new PasswordField("Confirm password");
 
-        setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirm);
+        setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirmation);
 
         Span errorMessageField = new Span();
 
-        add(title, firstName, lastName, username, email, password, passwordConfirm, errorMessageField);
+        add(title, firstName, lastName, username, email, password, passwordConfirmation, errorMessageField);
         setColspan(title, 2);
         setColspan(email, 2);
         setColspan(username, 2);
@@ -95,7 +96,14 @@ public class StudentRegistrationView extends FormLayout {
         });
 
         submitButton.addClickListener(e -> {
-            if (validateInput()) {
+            if (RegisterUtils.validateInput(
+                    username.getValue(),
+                    firstName.getValue(),
+                    lastName.getValue(),
+                    email.getValue(),
+                    password.getValue(),
+                    passwordConfirmation.getValue())
+            ) {
                 registerUser();
             }
         });
@@ -169,53 +177,6 @@ public class StudentRegistrationView extends FormLayout {
             firstNameEntity.setSerialNumber(counter);
             registerService.saveVorname(firstNameEntity);
         });
-    }
-
-    private boolean validateInput() {
-        if (firstName.getValue().isEmpty() || !isValidFirstName(firstName.getValue())) {
-            Notification.show("Please enter a valid first name.");
-            return false;
-        }
-        if (lastName.getValue().isEmpty() || !isValidLastName(lastName.getValue())) {
-            Notification.show("Please enter a valid surname.");
-            return false;
-        }
-        if (username.getValue().isEmpty() || !isValidUsername(username.getValue())) {
-            Notification.show("Please enter a valid username.");
-            return false;
-        }
-        if (email.getValue().isEmpty() || !isValidEmail(email.getValue())) {
-            Notification.show("Please enter a valid e-mail address.");
-            return false;
-        }
-        if (!password.getValue().equals(passwordConfirm.getValue())) {
-            Notification.show("Passwords do not match.");
-            return false;
-        } else if (!isPasswordComplex(password.getValue())) {
-            Notification.show("The password must be 8-16 characters long and contain upper case letters, lower case letters and numbers.");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidEmail(String email) {
-        return Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$").matcher(email).matches();
-    }
-
-    private boolean isPasswordComplex(String password) {
-        return Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,16}$").matcher(password).matches();
-    }
-
-    private boolean isValidFirstName(String firstName) {
-        return Pattern.compile("^[A-Za-z]{3,30}$").matcher(firstName).matches();
-    }
-
-    private boolean isValidLastName(String lastName) {
-        return Pattern.compile("^[A-Za-z]{3,30}$").matcher(lastName).matches();
-    }
-
-    private boolean isValidUsername(String username) {
-        return Pattern.matches("^[a-zA-Z0-9]+$", username) && username.length() < 20 && username.length() > 3;
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
