@@ -10,7 +10,7 @@
 1. run this command:
 
 ```bash
-docker run --name my_postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -d -p 5432:5432 postgres
+docker run --name collhbrs_test -e POSTGRES_USER=collhbrs -e POSTGRES_PASSWORD=collhbrs -d -p 5432:5432 postgres
 ```
 
 2. Create a `./resources/application-dev.properties` file.
@@ -18,8 +18,8 @@ docker run --name my_postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypas
 ```properties
 spring.application.name=collhbrs
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
-spring.datasource.username=myuser
-spring.datasource.password=mypassword
+spring.datasource.username=collhbrs
+spring.datasource.password=collhbrs
 spring.jpa.hibernate.ddl-auto=update
 ```
 
