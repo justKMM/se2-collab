@@ -1,18 +1,18 @@
-package hbrs.se2.collhbrs.entity;
+package hbrs.se2.collhbrs.model.entity;
 
-import hbrs.se2.collhbrs.entity.ids.InterestID;
+import hbrs.se2.collhbrs.model.entity.ids.DegreeProgrammID;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "interessen", schema = "public")
-@IdClass(InterestID.class)
-public class Interest implements Serializable {
+@Table(name = "studiengang", schema = "public")
+@IdClass(DegreeProgrammID.class)
+public class DegreeProgramm implements Serializable {
     private Student student;
     private int serialNumber;
-    private String interestName;
+    private String degreeProgrammName;
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -36,27 +36,27 @@ public class Interest implements Serializable {
     }
 
     @Basic
-    @Column(name = "interessen", length = 256)
-    public String getInterestName() {
-        return interestName;
+    @Column(name = "studiengang", length = 256, nullable = false)
+    public String getDegreeProgrammName() {
+        return degreeProgrammName;
     }
 
-    public void setInterestName(String interestName) {
-        this.interestName = interestName;
+    public void setDegreeProgrammName(String degreeProgrammName) {
+        this.degreeProgrammName = degreeProgrammName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Interest that = (Interest) o;
-        return serialNumber == that.serialNumber &&
-                Objects.equals(student, that.student) &&
-                Objects.equals(interestName, that.interestName);
+        DegreeProgramm degreeProgramm = (DegreeProgramm) o;
+        return serialNumber == degreeProgramm.serialNumber &&
+                Objects.equals(student, degreeProgramm.student) &&
+                Objects.equals(degreeProgrammName, degreeProgramm.degreeProgrammName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serialNumber, student, interestName);
+        return Objects.hash(serialNumber, student, degreeProgrammName);
     }
 }

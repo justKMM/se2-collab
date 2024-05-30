@@ -1,9 +1,9 @@
 package hbrs.se2.collhbrs;
 
-import hbrs.se2.collhbrs.entity.Business;
-import hbrs.se2.collhbrs.entity.FirstName;
-import hbrs.se2.collhbrs.entity.Student;
-import hbrs.se2.collhbrs.entity.User;
+import hbrs.se2.collhbrs.model.entity.Business;
+import hbrs.se2.collhbrs.model.entity.FirstName;
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
@@ -32,7 +32,7 @@ public class SampleDataInitializer {
     private void createSampleStudent(String firstName, String lastName, String username, String email, String password) {
 
         //Refactor from "Profile" to e.g "UserProfile"
-        hbrs.se2.collhbrs.entity.Profile profile = new hbrs.se2.collhbrs.entity.Profile();
+        hbrs.se2.collhbrs.model.entity.Profile profile = new hbrs.se2.collhbrs.model.entity.Profile();
 
         User user = new User();
         user.setProfile(profile);
@@ -62,7 +62,7 @@ public class SampleDataInitializer {
 
     private void createSampleBusiness(String businessName, String username, String email, String password) {
 
-        hbrs.se2.collhbrs.entity.Profile profile = new hbrs.se2.collhbrs.entity.Profile();
+        hbrs.se2.collhbrs.model.entity.Profile profile = new hbrs.se2.collhbrs.model.entity.Profile();
 
         User user = new User();
         user.setProfile(profile);

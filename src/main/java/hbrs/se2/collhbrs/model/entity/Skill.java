@@ -1,18 +1,18 @@
-package hbrs.se2.collhbrs.entity;
+package hbrs.se2.collhbrs.model.entity;
 
-import hbrs.se2.collhbrs.entity.ids.DegreeProgrammID;
+import hbrs.se2.collhbrs.model.entity.ids.SkillID;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "studiengang", schema = "public")
-@IdClass(DegreeProgrammID.class)
-public class DegreeProgramm implements Serializable {
+@Table(name = "kompetenzen", schema = "public")
+@IdClass(SkillID.class)
+public class Skill implements Serializable {
     private Student student;
     private int serialNumber;
-    private String degreeProgrammName;
+    private String skillName;
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -36,27 +36,28 @@ public class DegreeProgramm implements Serializable {
     }
 
     @Basic
-    @Column(name = "studiengang", length = 256, nullable = false)
-    public String getDegreeProgrammName() {
-        return degreeProgrammName;
+    @Column(name = "kompetenzen", length = 256)
+    public String getSkillName() {
+        return skillName;
     }
 
-    public void setDegreeProgrammName(String degreeProgrammName) {
-        this.degreeProgrammName = degreeProgrammName;
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DegreeProgramm degreeProgramm = (DegreeProgramm) o;
-        return serialNumber == degreeProgramm.serialNumber &&
-                Objects.equals(student, degreeProgramm.student) &&
-                Objects.equals(degreeProgrammName, degreeProgramm.degreeProgrammName);
+        Skill skill = (Skill) o;
+        return serialNumber == skill.serialNumber &&
+                Objects.equals(student, skill.student) &&
+                Objects.equals(skillName, skill.skillName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serialNumber, student, degreeProgrammName);
+        return Objects.hash(serialNumber, student, skillName);
     }
+
 }

@@ -1,6 +1,6 @@
-package hbrs.se2.collhbrs.entity.ids;
+package hbrs.se2.collhbrs.model.entity.ids;
 
-import hbrs.se2.collhbrs.entity.Student;
+import hbrs.se2.collhbrs.model.entity.Student;
 
 import java.io.Serializable;
 import java.util.Objects;

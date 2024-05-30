@@ -12,16 +12,14 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import hbrs.se2.collhbrs.entity.Business;
-import hbrs.se2.collhbrs.entity.Profile;
-import hbrs.se2.collhbrs.entity.User;
+import hbrs.se2.collhbrs.model.entity.Business;
+import hbrs.se2.collhbrs.model.entity.Profile;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.RegisterUtils;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @CssImport("./styles/index.css")
@@ -41,60 +39,6 @@ public class BusinessRegistrationView extends FormLayout {
         setupLayout();
         setupFields();
         addButtons();
-    }
-
-    public boolean isUsernameAvailable(String username) {
-        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getUsername(), username));
-    }
-
-    public boolean isEmailAvailable(String email) {
-        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getEmail(), email));
-    }
-
-    private void registerUser() {
-
-        if (!isUsernameAvailable(username.getValue())) {
-            Notification.show("Registration failed: Username already taken");
-            return;
-        }
-
-        if (!isEmailAvailable(email.getValue())) {
-            Notification.show("Registration failed: Email already taken");
-            return;
-        }
-
-        Profile profile = createProfile();
-        User user = createUser(profile, username.getValue(), password.getValue(), email.getValue());
-
-        registerService.saveProfile(profile);
-        registerService.saveUser(user);
-
-        Business business = createBusiness(businessName.getValue(), user);
-        registerService.saveBusiness(business);
-
-        Notification.show("User successfully registered");
-        UI.getCurrent().navigate("login");
-    }
-
-    public Profile createProfile() {
-        return new Profile();
-    }
-
-    public User createUser(Profile profile, String username, String password, String email) {
-        User user = new User();
-        user.setProfile(profile);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setBlacklisted(0);
-        user.setEmail(email);
-        return user;
-    }
-
-    public Business createBusiness(String name, User user) {
-        Business business = new Business();
-        business.setName(name);
-        business.setUser(user);
-        return business;
     }
 
     private Button createButton(String text, ButtonVariant... variants) {
@@ -148,8 +92,16 @@ public class BusinessRegistrationView extends FormLayout {
                     email.getValue(),
                     password.getValue(),
                     passwordConfirmation.getValue()
-            )) {
-                registerUser();
+            ))
+            {
+                registerService.registerUser(
+                        username.getValue(),
+                        password.getValue(),
+                        email.getValue(),
+                        businessName.getValue()
+                );
+                Notification.show("Registration successful");
+                UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
             }
         });
 

@@ -1,6 +1,6 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.entity.User;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

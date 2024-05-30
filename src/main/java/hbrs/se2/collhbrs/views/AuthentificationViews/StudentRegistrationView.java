@@ -12,16 +12,15 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import hbrs.se2.collhbrs.entity.FirstName;
-import hbrs.se2.collhbrs.entity.Profile;
-import hbrs.se2.collhbrs.entity.Student;
-import hbrs.se2.collhbrs.entity.User;
+import hbrs.se2.collhbrs.model.entity.FirstName;
+import hbrs.se2.collhbrs.model.entity.Profile;
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.RegisterUtils;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -71,7 +70,7 @@ public class StudentRegistrationView extends FormLayout {
     private void setupFields() {
         H3 title = new H3("Student registration");
         firstName = createTextField("First name");
-        lastName = createTextField("Surname");
+        lastName = createTextField("Last name");
         username = createTextField("Username");
         email = new EmailField("Email");
         password = new PasswordField("Password");
@@ -104,79 +103,20 @@ public class StudentRegistrationView extends FormLayout {
                     password.getValue(),
                     passwordConfirmation.getValue())
             ) {
-                registerUser();
+                registerService.registerUser(username.getValue(),
+                        password.getValue(),
+                        email.getValue(),
+                        firstName.getValue(),
+                        lastName.getValue()
+                );
+                Notification.show("Registration successful");
+                UI.getCurrent().navigate(Globals.Pages.LOGIN_ALIAS);
             }
         });
 
         add(cancelButton, submitButton);
         setColspan(cancelButton, 1);
         setColspan(submitButton, 1);
-    }
-
-    public boolean isUsernameAvailable(String username) {
-        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getUsername(), username));
-    }
-
-    public boolean isEmailAvailable(String email) {
-        return registerService.getUsers().stream().noneMatch(user -> Objects.equals(user.getEmail(), email));
-    }
-
-    private void registerUser() {
-
-        if (!isUsernameAvailable(username.getValue())) {
-            Notification.show("Registration failed: Username already taken");
-            return;
-        }
-
-        if (!isEmailAvailable(email.getValue())) {
-            Notification.show("Registration failed: Email already taken");
-            return;
-        }
-
-        Profile profile = createProfile();
-        User user = createUser(profile, username.getValue(), password.getValue(),  email.getValue());
-
-        registerService.saveProfile(profile);
-        registerService.saveUser(user);
-
-        Student student = createStudent(user);
-        registerService.saveStudent(student);
-
-        saveFirstNames(firstName.getValue().split(" "), student);
-
-        Notification.show("User successfully registered");
-        UI.getCurrent().navigate("login");
-    }
-
-    private Profile createProfile() {
-        return new Profile();
-    }
-
-    private User createUser(Profile profile, String username, String password, String email) {
-        User user = new User();
-        user.setProfile(profile);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setBlacklisted(0);
-        user.setEmail(email);
-        return user;
-    }
-
-    private Student createStudent(User user) {
-        Student student = new Student();
-        student.setUser(user);
-        student.setLastName(lastName.getValue());
-        return student;
-    }
-
-    private void saveFirstNames(String[] vornamen, Student student) {
-        IntStream.range(0, vornamen.length).forEach(counter -> {
-            FirstName firstNameEntity = new FirstName();
-            firstNameEntity.setFirstNameName(vornamen[counter]);
-            firstNameEntity.setStudent(student);
-            firstNameEntity.setSerialNumber(counter);
-            registerService.saveVorname(firstNameEntity);
-        });
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {

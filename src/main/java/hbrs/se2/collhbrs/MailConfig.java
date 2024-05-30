@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.util;
+package hbrs.se2.collhbrs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

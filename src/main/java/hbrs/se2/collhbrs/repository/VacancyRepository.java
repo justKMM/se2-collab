@@ -1,6 +1,6 @@
 package hbrs.se2.collhbrs.repository;
 
-import hbrs.se2.collhbrs.entity.Vacancy;
+import hbrs.se2.collhbrs.model.entity.Vacancy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.entity;
+package hbrs.se2.collhbrs.model.entity;
 
 import jakarta.persistence.*;
 

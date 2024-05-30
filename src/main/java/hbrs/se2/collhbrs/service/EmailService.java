@@ -1,6 +1,6 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.entity.Email;
+import hbrs.se2.collhbrs.model.entity.Email;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;

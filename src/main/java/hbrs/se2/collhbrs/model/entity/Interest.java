@@ -1,18 +1,18 @@
-package hbrs.se2.collhbrs.entity;
+package hbrs.se2.collhbrs.model.entity;
 
-import hbrs.se2.collhbrs.entity.ids.SkillID;
+import hbrs.se2.collhbrs.model.entity.ids.InterestID;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "kompetenzen", schema = "public")
-@IdClass(SkillID.class)
-public class Skill implements Serializable {
+@Table(name = "interessen", schema = "public")
+@IdClass(InterestID.class)
+public class Interest implements Serializable {
     private Student student;
     private int serialNumber;
-    private String skillName;
+    private String interestName;
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -36,28 +36,27 @@ public class Skill implements Serializable {
     }
 
     @Basic
-    @Column(name = "kompetenzen", length = 256)
-    public String getSkillName() {
-        return skillName;
+    @Column(name = "interessen", length = 256)
+    public String getInterestName() {
+        return interestName;
     }
 
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
+    public void setInterestName(String interestName) {
+        this.interestName = interestName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Skill skill = (Skill) o;
-        return serialNumber == skill.serialNumber &&
-                Objects.equals(student, skill.student) &&
-                Objects.equals(skillName, skill.skillName);
+        Interest that = (Interest) o;
+        return serialNumber == that.serialNumber &&
+                Objects.equals(student, that.student) &&
+                Objects.equals(interestName, that.interestName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serialNumber, student, skillName);
+        return Objects.hash(serialNumber, student, interestName);
     }
-
 }
