@@ -1,5 +1,7 @@
 package hbrs.se2.collhbrs.model.dto;
 
+import hbrs.se2.collhbrs.model.entity.Profile;
+
 public interface ProfileDTO {
     long getProfileID();
 
@@ -20,4 +22,5 @@ public interface ProfileDTO {
     String getLinkedinUsername();
 
     void setLinkedinUsername(String linkedinUsername);
+    Profile getEntity();
 }

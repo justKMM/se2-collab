@@ -2,6 +2,7 @@ package hbrs.se2.collhbrs.model.dto.imp;
 
 import hbrs.se2.collhbrs.model.dto.ProfileDTO;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
+import hbrs.se2.collhbrs.model.entity.User;
 
 public class UserDTOImpl implements UserDTO {
     private long userID;
@@ -69,6 +70,17 @@ public class UserDTOImpl implements UserDTO {
     @Override
     public void setEmail(String email) {
         this.email = email;
+    }
+    @Override
+    public User getEntity() {
+        User user = new User();
+        user.setUserID(userID);
+        user.setProfile(profileDTO.getEntity());
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setBlacklisted(blacklisted);
+        user.setEmail(email);
+        return user;
     }
 
 

@@ -1,6 +1,7 @@
 package hbrs.se2.collhbrs.model.dto.imp;
 
 import hbrs.se2.collhbrs.model.dto.ProfileDTO;
+import hbrs.se2.collhbrs.model.entity.Profile;
 
 public class ProfileDTOImpl implements ProfileDTO {
     private long profileID;
@@ -57,5 +58,15 @@ public class ProfileDTOImpl implements ProfileDTO {
     @Override
     public void setLinkedinUsername(String linkedinUsername) {
         this.linkedinUsername = linkedinUsername;
+    }
+    @Override
+    public Profile getEntity() {
+        Profile profile = new Profile();
+        profile.setProfileID(profileID);
+        profile.setAvatarUrl(avatarUrl);
+        profile.setProfileDescription(profileDescription);
+        profile.setXingUsername(xingUsername);
+        profile.setLinkedinUsername(linkedinUsername);
+        return profile;
     }
 }

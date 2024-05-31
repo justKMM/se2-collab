@@ -14,12 +14,19 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import hbrs.se2.collhbrs.service.LoginService;
+import hbrs.se2.collhbrs.model.dto.DegreeProgrammDTO;
+import hbrs.se2.collhbrs.model.dto.FirstNameDTO;
+import hbrs.se2.collhbrs.model.dto.InterestDTO;
+import hbrs.se2.collhbrs.model.dto.SkillDTO;
+import hbrs.se2.collhbrs.model.dto.imp.*;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Route(value = Globals.Pages.PROFILSTUDENT, layout = AppView.class)
 @CssImport("./styles/index.css")
@@ -29,7 +36,15 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         private Button button_mail_edit;
         private Button button_merkzettel;
         private Button button_lebenslauf;
-        private ProfilLayout profileLayout;
+        private ProfilStudentLayout profileLayout;
+        private Button button_cancel = new Button("Abbrechen");
+        private Button button_confirm = new Button("Speichern");
+        private List<InterestDTOImpl> interestDTOList = null;
+        private List<FirstNameDTOImpl> firstNameDTOList = null;
+        private List<DegreeProgrammDTOImpl> degreeProgrammDTOList = null;
+        private List<SkillDTOImpl> skillDTOList = null;
+        private StudentDTOImpl student = null;
+        private ProfileDTOImpl profilDTO = null;
         Dialog dialog;
 
 
@@ -149,25 +164,126 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
             //setRatingIcons();
 
-            dialog = getContentProfile();
+            // dialog = getContentProfile();
 
             button_p_data_edit.addClickListener(e -> dialog.open());
+
+
+            // Aus der Methode rausgezogen um Zugriff auf ProfileLayout zu haben
+
+            profileLayout = new ProfilStudentLayout();
+
+            profileLayout.setWidth("50em");
+
+            dialog.setHeaderTitle("Persönliche Daten ändern");
+            dialog.add(profileLayout);
+
+            createFooter(dialog);
+
+
+
+
+
+
+
+            // Profil abspeichern
+
+
+            button_confirm.addClickListener(e -> {
+                 // TODO: Hier Studenten setzen nach Session
+                 // student = new StudentDTOImpl();
+                 profilDTO = new ProfileDTOImpl();
+
+
+
+                String lastName = profileLayout.getTf_nachname().getValue();
+                // TODO: Hier Studenten setzen nach Session
+                // student.setLastName(lastName);
+
+
+
+
+
+
+                String[] interests = profileLayout.getInterestField().getValue().split(" ");
+                interestDTOList = new ArrayList<>();
+                for (String interest : interests) {
+                    InterestDTOImpl interestDTO = new InterestDTOImpl();
+                    interestDTO.setInterestName(interest);
+                    // TODO: Hier Studenten setzen nach Session
+                    // interestDTO.setStudent(student);
+                    interestDTOList.add(interestDTO);
+                }
+
+                String[] firstNames = profileLayout.getTf_vorname().getValue().split(" ");
+                firstNameDTOList = new ArrayList<>();
+                for (String firstName : firstNames) {
+                        FirstNameDTOImpl firstNameDTO = new FirstNameDTOImpl();
+                        firstNameDTO.setFirstNameName(firstName);
+                        // TODO: Hier Studenten setzen nach Session
+                        // firstNameDTO.setStudent(student);
+                        firstNameDTOList.add(firstNameDTO);
+                }
+
+                String[] skills = profileLayout.getSkillsField().getValue().split(" ");
+                skillDTOList = new ArrayList<>();
+                for (String skill : skills) {
+                    SkillDTOImpl skillDTO = new SkillDTOImpl();
+                    skillDTO.setSkillName(skill);
+                    // TODO: Hier Studenten setzen nach Session
+                    // skillDTO.setStudent(student);
+                    skillDTOList.add(skillDTO);
+                }
+
+                String[] degrees = profileLayout.getDegreeField().getValue().split("");
+                degreeProgrammDTOList = new ArrayList<>();
+                for (String degree : degrees) {
+                    DegreeProgrammDTOImpl degreeProgrammDTO = new DegreeProgrammDTOImpl();
+                    degreeProgrammDTO.setDegreeProgrammName(degree);
+                    // TODO: Hier Studenten setzen nach Session
+                    // degreeProgrammDTO.setStudent(student);
+                    degreeProgrammDTOList.add(degreeProgrammDTO);
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                // Daten speichern
+
+
+
+
+
+
+
+
+                dialog.close();
+            });
+
+
+
     }
 
-    public Dialog getContentProfile(){
-        profileLayout = new ProfilLayout();
-        profileLayout.setWidth("50em");
+    public void createFooter(Dialog d){
 
-        dialog.setHeaderTitle("Persönliche Daten ändern");
-        dialog.add(profileLayout);
-        // Button Footer erstellen
-        createFooter(dialog);
-        return dialog;
-    }
-
-    public static void createFooter(Dialog d){
-            Button button_cancel = new Button("Abbrechen");
-            Button button_confirm = new Button("Speichern");
 
             // Button design
             button_confirm.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

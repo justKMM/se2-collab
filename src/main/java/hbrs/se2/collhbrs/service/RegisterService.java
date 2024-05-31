@@ -54,6 +54,7 @@ public class RegisterService {
         saveFirstNames(firstName.split(" "), student);
     }
 
+
     private User registerUser(String username, String password, String email) {
         if (!getUsers().stream().noneMatch(user -> Objects.equals(user.getUsername(), username))) {
             throw new RuntimeException("Username already taken");

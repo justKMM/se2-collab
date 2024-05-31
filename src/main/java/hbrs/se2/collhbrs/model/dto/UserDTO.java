@@ -1,5 +1,7 @@
 package hbrs.se2.collhbrs.model.dto;
 
+import hbrs.se2.collhbrs.model.entity.User;
+
 public interface UserDTO {
     long getUserID();
 
@@ -24,4 +26,5 @@ public interface UserDTO {
     String getEmail();
 
     void setEmail(String email);
+    User getEntity();
 }
