@@ -9,7 +9,7 @@ class CollApplicationTests {
     // TODO: Implement the contextLoads method
     @Test
     void contextLoads() {
-    
+
     }
 
 }

@@ -24,6 +24,8 @@ public class LoginView extends VerticalLayout {
     @Autowired
     private LoginService loginService;
 
+    private UserDTO userDTO = null;
+
     public LoginView() {
         addClassName("main");
         setSizeFull();
@@ -75,10 +77,11 @@ public class LoginView extends VerticalLayout {
             }
 
             if (isAuthenticated) {
-                UserDTO user = loginService.getCurrentUser();
+                userDTO = loginService.getCurrentUser();
 
-                grabAndSetUserIntoSession(user);
-                showNotification("Successfully logged in as: " + user.getUsername(), NotificationVariant.LUMO_SUCCESS);
+                grabAndSetUserIntoSession(userDTO);
+
+                showNotification("Successfully logged in as: " + Globals.CURRENT_USER, NotificationVariant.LUMO_SUCCESS);
                 UI.getCurrent().navigate(Globals.Pages.MAIN);
             } else {
                 showNotification("Login failed: User not found", NotificationVariant.LUMO_ERROR);
@@ -97,8 +100,6 @@ public class LoginView extends VerticalLayout {
     }
 
     private void grabAndSetUserIntoSession(UserDTO user) {
-        UserDTO userDTO = loginService.getCurrentUser();
-
         // Es hat mit dem unteren Befehl nicht funktioniert also hab ich direkt den User gesetzt in Global
         Globals.CURRENT_USER = userDTO.getUsername();
         // TODO: Was passiert hier ???

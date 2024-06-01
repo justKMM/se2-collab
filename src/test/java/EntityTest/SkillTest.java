@@ -5,9 +5,7 @@ import hbrs.se2.collhbrs.model.entity.Skill;
 import hbrs.se2.collhbrs.model.entity.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +29,7 @@ public class SkillTest {
         skill1.setSerialNumber(11);
         skill1.setSkillName("Juggle1");
     }
+
     @Test
     public void testGettersandSetters() {
         assertEquals(student, skill.getStudent());
@@ -41,12 +40,14 @@ public class SkillTest {
         assertEquals(11, skill1.getSerialNumber());
         assertNotEquals("Juggle", skill1.getSkillName());
     }
+
     @Test
     public void testEquals() {
-        assertTrue(skill1.equals(skill1));
-        assertTrue(skill.equals(skill));
-        assertFalse(skill.equals(skill1));
+        assertEquals(skill1, skill1);
+        assertEquals(skill, skill);
+        assertNotEquals(skill, skill1);
     }
+
     @Test
     public void testHashCode() {
         assertEquals(skill.hashCode(), skill.hashCode());

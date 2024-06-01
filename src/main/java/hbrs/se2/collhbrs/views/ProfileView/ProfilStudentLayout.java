@@ -78,6 +78,7 @@ public class ProfilStudentLayout extends VerticalLayout {
         layout_interest_skill_degree.add(interestField, skillsField, degreeField);
         layout_xing_linkedin.add(xingUsernameField, linkedinUsernameField);
         layout_profile_description.add(profileDescriptionField);
+        layout_avatar.add(avatarUrlField);
 
         // cb_anrede.setItems(anredeArray);
 

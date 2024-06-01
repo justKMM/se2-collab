@@ -1,12 +1,8 @@
 package EntityTest;
 
 import hbrs.se2.collhbrs.model.entity.Profile;
-import hbrs.se2.collhbrs.model.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,18 +27,20 @@ public class ProfileTest {
         profile1.setLinkedinUsername("usernameLI1");
         profile1.setXingUsername("usernameXing1");
     }
+
     @Test
     public void testSettersandGetters() {
-        assertEquals(1L,profile.getProfileID());
-        assertEquals("ExampleURL",profile.getAvatarUrl());
-        assertEquals("ProfileDescription",profile.getProfileDescription());
-        assertEquals("usernameLI",profile.getLinkedinUsername());
-        assertEquals("usernameXing",profile.getXingUsername());
+        assertEquals(1L, profile.getProfileID());
+        assertEquals("ExampleURL", profile.getAvatarUrl());
+        assertEquals("ProfileDescription", profile.getProfileDescription());
+        assertEquals("usernameLI", profile.getLinkedinUsername());
+        assertEquals("usernameXing", profile.getXingUsername());
     }
+
     @Test
     public void testEquals() {
-        assertTrue(profile.equals(profile));
-        assertTrue(profile1.equals(profile1));
-        assertFalse(profile.equals(profile1));
+        assertEquals(profile, profile);
+        assertEquals(profile1, profile1);
+        assertNotEquals(profile, profile1);
     }
 }

@@ -1,14 +1,11 @@
 package EntityTest;
 
-import hbrs.se2.collhbrs.model.entity.Rating;
 import hbrs.se2.collhbrs.model.entity.Business;
+import hbrs.se2.collhbrs.model.entity.Rating;
 import hbrs.se2.collhbrs.model.entity.Student;
-import hbrs.se2.collhbrs.model.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,6 +41,7 @@ public class RatingTest {
         rating1.setRatingDescriptionStudent("Auch Top1");
 
     }
+
     @Test
     public void testGettersAndSetters() {
         assertEquals(1L, rating.getRatingID());
@@ -58,15 +56,17 @@ public class RatingTest {
         assertEquals("Bad", rating.getRatingDescriptionBusiness());
         assertNotEquals("Top", rating.getRatingDescriptionBusiness());
     }
+
     @Test
     public void testEquals() {
-        assertTrue(rating.equals(rating));
-        assertTrue(rating1.equals(rating1));
-        assertFalse(rating.equals(rating1));
+        assertEquals(rating, rating);
+        assertEquals(rating1, rating1);
+        assertNotEquals(rating, rating1);
     }
+
     @Test
     public void testHashCode() {
-        assertNotEquals(rating.hashCode(),rating1.hashCode());
-        assertEquals(rating.hashCode(),rating.hashCode());
+        assertNotEquals(rating.hashCode(), rating1.hashCode());
+        assertEquals(rating.hashCode(), rating.hashCode());
     }
 }

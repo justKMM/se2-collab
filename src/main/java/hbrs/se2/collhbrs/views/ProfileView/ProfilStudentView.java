@@ -16,10 +16,15 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import hbrs.se2.collhbrs.model.dto.imp.*;
+import hbrs.se2.collhbrs.model.dto.ProfileDTO;
+import hbrs.se2.collhbrs.model.dto.StudentDTO;
+import hbrs.se2.collhbrs.model.dto.UserDTO;
+import hbrs.se2.collhbrs.model.dto.imp.StudentDTOImpl;
+import hbrs.se2.collhbrs.model.entity.*;
 import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,20 +43,21 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     private final StudentDTOImpl student = null;
     Dialog dialog;
     Icon icon;
-    private List<InterestDTOImpl> interestDTOList = null;
-    private List<FirstNameDTOImpl> firstNameDTOList = null;
-    private List<DegreeProgrammDTOImpl> degreeProgrammDTOList = null;
-    private List<SkillDTOImpl> skillDTOList = null;
-    private ProfileDTOImpl profileDTO = null;
-    private final ProfileService profileService = null;
+    private List<Interest> interestList = null;
+    private List<FirstName> firstNameList = null;
+    private List<DegreeProgramm> degreeProgrammList = null;
+    private List<Skill> skillList = null;
+    private ProfileService profileService = null;
+    private UserDTO userDTO = null;
+    private ProfileDTO profileDTO = null;
+    private StudentDTO studentDTO = null;
 
-    public ProfilStudentView() {
-        // TODO: Darf nicht so gemacht werden. Ein Boundary muss einen Controller haben, der die Daten aus der Datenbank holt
+
+    @Autowired
+    public ProfilStudentView(ProfileService profileService) {
 
         H1 h1 = new H1("Hallo " + Globals.CURRENT_USER + "!");
 
-
-        Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
 
         //Paragraph textMedium = new Paragraph("Email::" + user.getEmail());
 
@@ -139,8 +145,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn4.setMinHeight("200px");
         layoutColumn4.setAlignSelf(FlexComponent.Alignment.CENTER, h12);
         h12.setWidth("max-content");
-        textMedium.setWidth("100%");
-        textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
         layoutColumn4.setAlignSelf(FlexComponent.Alignment.START, button_p_data_edit);
         layoutColumn5.setHeightFull();
         layoutRow3.setFlexGrow(1.0, layoutColumn5);
@@ -159,7 +163,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutRow3.add(layoutColumn4, layoutColumn5);
         layoutColumn2.add(layoutRow, layoutRow3);
         layoutColumn3.add(h1, h6, layoutRow2, button_mail_edit, button_merkzettel);
-        layoutColumn4.add(h12, textMedium, button_p_data_edit);
+
         layoutColumn5.add(h13, textMedium2, button_lebenslauf);
 
 
@@ -187,76 +191,138 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         // TODO: Datenbankanbindung fehlt noch
 
+
+        // TODO: Darf nicht so gemacht werden. Ein Boundary muss einen Controller haben, der die Daten aus der Datenbank holt
+
+        this.profileService = profileService;
+
+
+        userDTO = profileService.getUserByUsername(Globals.CURRENT_USER);
+
+
+        profileDTO = userDTO.getProfile();
+
+
+        studentDTO = profileService.getStudentByStudentID(userDTO.getUserID());
+
+
+        // Student erstellen den wir schon kennen
+        Profile profile = new Profile();
+        profile.setProfileDescription(profileDTO.getProfileDescription());
+        profile.setAvatarUrl(profileDTO.getAvatarUrl());
+        profile.setXingUsername(profileDTO.getXingUsername());
+        profile.setLinkedinUsername(profileDTO.getLinkedinUsername());
+        profile.setProfileID(profileDTO.getProfileID());
+
+
+        User user = new User();
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setUsername(userDTO.getUsername());
+        user.setUserID(userDTO.getUserID());
+        user.setBlacklisted(userDTO.getBlacklisted());
+        user.setProfile(profile);
+
+
+        Student student = new Student();
+        student.setStudentID(studentDTO.getStudentID());
+        student.setLastName(studentDTO.getLastName());
+        student.setUser(user);
+
+        // Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
+        Paragraph textMedium = new Paragraph(
+                "Email: " + user.getEmail() +
+                        "Nachname: " + student.getLastName() +
+                        "Username: " + user.getUsername());
+
+        textMedium.setWidth("100%");
+        textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
+        layoutColumn4.add(h12, textMedium, button_p_data_edit);
+
+
+        System.out.println(user.getProfile().getProfileID());
+
+
         button_confirm.addClickListener(e -> {
-            // TODO: Hier Studenten setzen nach Session
-            // student = new StudentDTOImpl();
-            profileDTO = new ProfileDTOImpl();
+
 
             // Nachnamen ziehen und setzen
             String lastName = profileLayout.getTf_nachname().getValue();
-            // TODO: Hier Studenten setzen nach Session
-            // student.setLastName(lastName);
+            student.setLastName(lastName);
 
             // Interessen ziehen und setzen
             String[] interests = profileLayout.getInterestField().getValue().split(" ");
-            interestDTOList = new ArrayList<>();
-            for (String interest : interests) {
-                InterestDTOImpl interestDTO = new InterestDTOImpl();
-                interestDTO.setInterestName(interest);
-                // TODO: Hier Studenten setzen nach Session
-                // interestDTO.setStudent(student);
-                interestDTOList.add(interestDTO);
+            interestList = new ArrayList<>();
+            for (String interestName : interests) {
+                Interest interest = new Interest();
+                interest.setInterestName(interestName);
+                interest.setStudent(student);
+                interestList.add(interest);
             }
             // Vornamen ziehen und setzen
             String[] firstNames = profileLayout.getTf_vorname().getValue().split(" ");
-            firstNameDTOList = new ArrayList<>();
-            for (String firstName : firstNames) {
-                FirstNameDTOImpl firstNameDTO = new FirstNameDTOImpl();
-                firstNameDTO.setFirstNameName(firstName);
-                // TODO: Hier Studenten setzen nach Session
-                // firstNameDTO.setStudent(student);
-                firstNameDTOList.add(firstNameDTO);
+            firstNameList = new ArrayList<>();
+            for (String firstNameName : firstNames) {
+                FirstName firstName = new FirstName();
+                firstName.setFirstNameName(firstNameName);
+                firstName.setStudent(student);
+                firstNameList.add(firstName);
             }
             // Skills ziehen und setzen
             String[] skills = profileLayout.getSkillsField().getValue().split(" ");
-            skillDTOList = new ArrayList<>();
-            for (String skill : skills) {
-                SkillDTOImpl skillDTO = new SkillDTOImpl();
-                skillDTO.setSkillName(skill);
-                // TODO: Hier Studenten setzen nach Session
-                // skillDTO.setStudent(student);
-                skillDTOList.add(skillDTO);
+            skillList = new ArrayList<>();
+            for (String skillName : skills) {
+                Skill skill = new Skill();
+                skill.setSkillName(skillName);
+                skill.setStudent(student);
+                skillList.add(skill);
             }
             // Studiengänge ziehen und setzen
             String[] degrees = profileLayout.getDegreeField().getValue().split("");
-            degreeProgrammDTOList = new ArrayList<>();
-            for (String degree : degrees) {
-                DegreeProgrammDTOImpl degreeProgrammDTO = new DegreeProgrammDTOImpl();
-                degreeProgrammDTO.setDegreeProgrammName(degree);
-                // TODO: Hier Studenten setzen nach Session
-                // degreeProgrammDTO.setStudent(student);
-                degreeProgrammDTOList.add(degreeProgrammDTO);
+            degreeProgrammList = new ArrayList<>();
+            for (String degreeProgrammName : degrees) {
+                DegreeProgramm degreeProgramm = new DegreeProgramm();
+                degreeProgramm.setDegreeProgrammName(degreeProgrammName);
+                degreeProgramm.setStudent(student);
+                degreeProgrammList.add(degreeProgramm);
             }
             // Xing Username ziehen und setzen
             String xingUsername = profileLayout.getXingUsernameField().getValue();
-            profileDTO.setXingUsername(xingUsername);
+            profile.setXingUsername(xingUsername);
 
             // Linkedin Username ziehen und setzen
             String linkedinUsername = profileLayout.getLinkedinUsernameField().getValue();
-            profileDTO.setLinkedinUsername(linkedinUsername);
+            profile.setLinkedinUsername(linkedinUsername);
 
             // Profilbeschreibung ziehen und setzen
             String profileDescription = profileLayout.getProfileDescriptionField().getValue();
-            profileDTO.setProfileDescription(profileDescription);
+            profile.setProfileDescription(profileDescription);
 
             // Avatar URL ziehen und setzen
             String avatarUrl = profileLayout.getAvatarUrlField().getValue();
-            profileDTO.setAvatarUrl(avatarUrl);
+            profile.setAvatarUrl(avatarUrl);
 
 
             // DTOs von der Boundary an einen Controller weitergeben!
 
-            System.out.println(Globals.CURRENT_USER);
+
+            // Ich speicher die hier als Prototyp
+            profileService.saveProfile(profile);
+            profileService.saveUser(user);
+            profileService.saveStudent(student);
+
+            for (Interest interest : interestList) {
+                profileService.saveInterest(interest);
+            }
+            for (FirstName firstName : firstNameList) {
+                profileService.saveFirstName(firstName);
+            }
+            for (Skill skill : skillList) {
+                profileService.saveSkill(skill);
+            }
+            for (DegreeProgramm degreeProgramm : degreeProgrammList) {
+                profileService.saveDegreeProgramm(degreeProgramm);
+            }
 
 
             dialog.close();

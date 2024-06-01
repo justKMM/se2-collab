@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VacancyTest {
 
-    Vacancy vacancy;Vacancy vacancy1;
+    Vacancy vacancy;
+    Vacancy vacancy1;
 
 
     @Mock
@@ -40,11 +41,12 @@ public class VacancyTest {
 
 
     }
+
     @Test
     public void testEquals() {
-        assertTrue(vacancy.equals(vacancy));
-        assertTrue(vacancy.equals(vacancy));
-        assertFalse(vacancy.equals(vacancy1));
+        assertEquals(vacancy, vacancy);
+        assertEquals(vacancy, vacancy);
+        assertNotEquals(vacancy, vacancy1);
 
     }
 }
