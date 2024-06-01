@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(classes = CollhbrsApplication.class)
 public class ApplicationRepositoryTest {
-    /*
-    @Autowired
+
+/*    @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
@@ -66,6 +66,5 @@ public class ApplicationRepositoryTest {
 
         Optional<Application> deletedApplicationOptional = applicationRepository.findById(savedApplication.getApplicationID());
         assertFalse(deletedApplicationOptional.isPresent());
-    }
-    */
+    }*/
 }
