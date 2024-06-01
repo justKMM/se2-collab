@@ -9,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BusinessTest {
@@ -46,11 +44,12 @@ public class BusinessTest {
         assertEquals(user, business.getUser());
         assertEquals("name", business.getName());
     }
+
     @Test
     public void testEquals() {
-        assertTrue(business.equals(business));
-        assertTrue(business1.equals(business1));
-        assertTrue(business1.equals(business2));
-        assertFalse(business.equals(business1));
+        assertEquals(business, business);
+        assertEquals(business1, business1);
+        assertEquals(business1, business2);
+        assertNotEquals(business, business1);
     }
 }

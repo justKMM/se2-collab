@@ -29,6 +29,7 @@ public class DegreeProgrammTest {
         degreeProgramm1.setSerialNumber(101);
         degreeProgramm1.setDegreeProgrammName("BI");
     }
+
     @Test
     public void testGettersAndSetters() {
         assertEquals(student, degreeProgramm.getStudent());
@@ -39,17 +40,18 @@ public class DegreeProgrammTest {
         assertEquals(101, degreeProgramm1.getSerialNumber());
         assertEquals("BI", degreeProgramm1.getDegreeProgrammName());
     }
+
     @Test
     public void testEquals() {
-        assertTrue(degreeProgramm.equals(degreeProgramm));
-        assertTrue(degreeProgramm1.equals(degreeProgramm1));
-        assertFalse(degreeProgramm.equals(degreeProgramm1));
+        assertEquals(degreeProgramm, degreeProgramm);
+        assertEquals(degreeProgramm1, degreeProgramm1);
+        assertNotEquals(degreeProgramm, degreeProgramm1);
     }
 
     @Test
     public void testHashCode() {
-        assertNotEquals(degreeProgramm.hashCode(),degreeProgramm1.hashCode());
-        assertEquals(degreeProgramm.hashCode(),degreeProgramm.hashCode());
+        assertNotEquals(degreeProgramm.hashCode(), degreeProgramm1.hashCode());
+        assertEquals(degreeProgramm.hashCode(), degreeProgramm.hashCode());
     }
 
 }

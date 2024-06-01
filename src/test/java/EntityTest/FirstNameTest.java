@@ -4,7 +4,6 @@ import hbrs.se2.collhbrs.model.entity.FirstName;
 import hbrs.se2.collhbrs.model.entity.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +38,7 @@ public class FirstNameTest {
         firstName2.setSerialNumber(11);
         firstName2.setFirstNameName("Peter Hans Dieter");
     }
+
     @Test
     public void testSettersandGetters() {
         assertEquals(student, firstName.getStudent());
@@ -46,18 +46,20 @@ public class FirstNameTest {
         assertEquals("Hans Dieter", firstName.getFirstNameName());
 
         firstName.setStudent(student1);
-        assertEquals(student1,firstName.getStudent());
+        assertEquals(student1, firstName.getStudent());
     }
+
     @Test
     public void testEquals() {
-        assertTrue(firstName.equals(firstName));
-        assertTrue(firstName1.equals(firstName1));
-        assertTrue(firstName1.equals(firstName2));
-        assertFalse(firstName.equals(firstName2));
+        assertEquals(firstName, firstName);
+        assertEquals(firstName1, firstName1);
+        assertEquals(firstName1, firstName2);
+        assertNotEquals(firstName, firstName2);
     }
+
     @Test
     public void testHashCode() {
-        assertNotEquals(firstName.hashCode(),firstName2.hashCode());
-        assertEquals(firstName1.hashCode(),firstName2.hashCode());
+        assertNotEquals(firstName.hashCode(), firstName2.hashCode());
+        assertEquals(firstName1.hashCode(), firstName2.hashCode());
     }
 }

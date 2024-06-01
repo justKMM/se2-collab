@@ -48,12 +48,13 @@ public class ApplicationTest {
 
 
     }
+
     @Test
     public void testEquals() {
-        assertTrue(application.equals(application));
-        assertTrue(application1.equals(application1));
-        assertTrue(application1.equals(application2));
-        assertFalse(application.equals(application1));
+        assertEquals(application, application);
+        assertEquals(application1, application1);
+        assertEquals(application1, application2);
+        assertNotEquals(application, application1);
 
     }
 }

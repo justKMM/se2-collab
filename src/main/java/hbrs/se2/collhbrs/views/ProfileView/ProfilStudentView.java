@@ -40,9 +40,9 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     private final ProfilStudentLayout profileLayout;
     private final Button button_cancel = new Button("Abbrechen");
     private final Button button_confirm = new Button("Speichern");
+    private final StudentDTOImpl student = null;
     Dialog dialog;
     Icon icon;
-    private final StudentDTOImpl student = null;
     private List<Interest> interestList = null;
     private List<FirstName> firstNameList = null;
     private List<DegreeProgramm> degreeProgrammList = null;
@@ -58,8 +58,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         H1 h1 = new H1("Hallo " + Globals.CURRENT_USER + "!");
 
-
-        Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
 
         //Paragraph textMedium = new Paragraph("Email::" + user.getEmail());
 
@@ -147,8 +145,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn4.setMinHeight("200px");
         layoutColumn4.setAlignSelf(FlexComponent.Alignment.CENTER, h12);
         h12.setWidth("max-content");
-        textMedium.setWidth("100%");
-        textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
         layoutColumn4.setAlignSelf(FlexComponent.Alignment.START, button_p_data_edit);
         layoutColumn5.setHeightFull();
         layoutRow3.setFlexGrow(1.0, layoutColumn5);
@@ -167,7 +163,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutRow3.add(layoutColumn4, layoutColumn5);
         layoutColumn2.add(layoutRow, layoutRow3);
         layoutColumn3.add(h1, h6, layoutRow2, button_mail_edit, button_merkzettel);
-        layoutColumn4.add(h12, textMedium, button_p_data_edit);
+
         layoutColumn5.add(h13, textMedium2, button_lebenslauf);
 
 
@@ -232,6 +228,16 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         student.setStudentID(studentDTO.getStudentID());
         student.setLastName(studentDTO.getLastName());
         student.setUser(user);
+
+        // Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
+        Paragraph textMedium = new Paragraph(
+                "Email: " + user.getEmail() +
+                        "Nachname: " + student.getLastName() +
+                        "Username: " + user.getUsername());
+
+        textMedium.setWidth("100%");
+        textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
+        layoutColumn4.add(h12, textMedium, button_p_data_edit);
 
 
         System.out.println(user.getProfile().getProfileID());

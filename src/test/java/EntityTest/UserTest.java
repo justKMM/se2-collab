@@ -60,17 +60,19 @@ public class UserTest {
         assertEquals("password2", user.getPassword());
         assertNotEquals("password", user.getPassword());
     }
+
     @Test
     public void testEquals() {
-        assertTrue(user1.equals(user2));
-        assertTrue(user1.equals(user1));
-        assertTrue(user.equals(user));
+        assertEquals(user1, user2);
+        assertEquals(user1, user1);
+        assertEquals(user, user);
         //Email scheint nicht gleich sein zu müssen, damit 2 user als Equals gelten!?
-        assertFalse(user.equals(user1));
+        assertNotEquals(user, user1);
     }
+
     @Test
     public void testHashCode() {
-        assertNotEquals(user.hashCode(),user1.hashCode());
-        assertEquals(user2.hashCode(),user2.hashCode());
+        assertNotEquals(user.hashCode(), user1.hashCode());
+        assertEquals(user2.hashCode(), user2.hashCode());
     }
 }
