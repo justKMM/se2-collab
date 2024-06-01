@@ -17,6 +17,7 @@ public class FirstName implements Serializable {
     private Student student;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "laufende_nummer", length = 2, nullable = false)
     private int serialNumber;
 

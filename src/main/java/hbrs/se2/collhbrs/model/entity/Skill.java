@@ -27,6 +27,7 @@ public class Skill implements Serializable {
 
     @Id
     @Column(name = "laufende_nummer", length = 2, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getSerialNumber() {
         return serialNumber;
     }

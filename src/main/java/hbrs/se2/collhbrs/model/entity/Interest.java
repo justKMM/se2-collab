@@ -26,6 +26,7 @@ public class Interest implements Serializable {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "laufende_nummer", length = 2, nullable = false)
     public int getSerialNumber() {
         return serialNumber;

@@ -27,11 +27,11 @@ public class EntityFactory {
         return student;
     }
 
-    public FirstName createFirstName(String firstName, Student student, int serialNumber) {
+    public FirstName createFirstName(String firstName, Student student) {
         FirstName firstNameEntity = new FirstName();
         firstNameEntity.setFirstNameName(firstName);
         firstNameEntity.setStudent(student);
-        firstNameEntity.setSerialNumber(serialNumber);
+        // firstNameEntity.setSerialNumber(serialNumber);
         return firstNameEntity;
     }
 

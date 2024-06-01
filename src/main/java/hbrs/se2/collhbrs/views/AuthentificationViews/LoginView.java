@@ -11,16 +11,19 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
-import hbrs.se2.collhbrs.model.entity.User;
-import hbrs.se2.collhbrs.service.LoginService;
+import hbrs.se2.collhbrs.control.LoginControl;
+import hbrs.se2.collhbrs.control.exception.DatabaseUserException;
 import hbrs.se2.collhbrs.util.Globals;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "")
 @CssImport("./styles/index.css")
 public class LoginView extends VerticalLayout {
 
-    public LoginView(LoginService loginService) {
+    @Autowired
+    private LoginControl loginControl;
+
+    public LoginView() {
         addClassName("main");
         setSizeFull();
 
@@ -40,7 +43,7 @@ public class LoginView extends VerticalLayout {
             UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD);
         });
 
-        component.addLoginListener(input -> handleLogin(input, loginService));
+        component.addLoginListener(input -> handleLogin(input));
     }
 
     // TODO: Fehler Message fürs Username & Passwort Feld wenn man keins eingibt übersetzen
@@ -61,22 +64,33 @@ public class LoginView extends VerticalLayout {
         return component;
     }
 
-    private void handleLogin(LoginForm.LoginEvent input, LoginService loginService) {
+    private void handleLogin(LoginForm.LoginEvent input) {
         try {
-            User user = loginService.getUser(input.getUsername(), input.getPassword());
-            Notification notificationSuccess = Notification.show("Successfully logged in as " + user.getUsername());
-            notificationSuccess.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            if (user.getBlacklisted() == 1) {
-                Notification notificationBlacklisted = Notification.show("Login failed: User is blacklisted");
-                notificationBlacklisted.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            boolean isAuthenticated = loginControl.authenticate(input.getUsername(), input.getPassword());
+
+            if (isAuthenticated && loginControl.isBlacklisted(input.getUsername(), input.getPassword())) {
+                showNotification("Login failed: User is blacklisted", NotificationVariant.LUMO_ERROR);
                 return;
             }
-            notificationSuccess.open();
-            UI.getCurrent().navigate(Globals.Pages.MAIN);
-        } catch (Exception e) {
-            Notification notificationFailed = Notification.show("Login failed");
-            notificationFailed.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+            if (isAuthenticated) {
+                showNotification("Successfully logged in", NotificationVariant.LUMO_SUCCESS);
+                UI.getCurrent().navigate(Globals.Pages.MAIN);
+            } else {
+                showNotification("Login failed: User not found", NotificationVariant.LUMO_ERROR);
+            }
+        } catch (DatabaseUserException e) {
+            // Handle database exceptions
+            showNotification("Login failed", NotificationVariant.LUMO_ERROR);
             e.printStackTrace();
         }
     }
+
+    private void showNotification(String message, NotificationVariant variant) {
+        Notification notification = Notification.show(message);
+        notification.addThemeVariants(variant);
+        notification.open();
+    }
+
+
 }
