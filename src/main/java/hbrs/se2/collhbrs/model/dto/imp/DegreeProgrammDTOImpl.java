@@ -5,7 +5,7 @@ import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.DegreeProgramm;
 
 public class DegreeProgrammDTOImpl implements DegreeProgrammDTO {
-    private StudentDTO student;
+    private StudentDTOImpl student;
     private int serialNumber;
     private String degreeProgrammName;
 
@@ -14,8 +14,8 @@ public class DegreeProgrammDTOImpl implements DegreeProgrammDTO {
         return student;
     }
 
-    @Override
-    public void setStudent(StudentDTO student) {
+
+    public void setStudent(StudentDTOImpl student) {
         this.student = student;
     }
 
@@ -24,7 +24,7 @@ public class DegreeProgrammDTOImpl implements DegreeProgrammDTO {
         return serialNumber;
     }
 
-    @Override
+
     public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
     }
@@ -34,12 +34,12 @@ public class DegreeProgrammDTOImpl implements DegreeProgrammDTO {
         return degreeProgrammName;
     }
 
-    @Override
+
     public void setDegreeProgrammName(String degreeProgrammName) {
         this.degreeProgrammName = degreeProgrammName;
     }
 
-    @Override
+
     public DegreeProgramm getEntity() {
         DegreeProgramm degreeProgramm = new DegreeProgramm();
         degreeProgramm.setStudent(student.getEntity());

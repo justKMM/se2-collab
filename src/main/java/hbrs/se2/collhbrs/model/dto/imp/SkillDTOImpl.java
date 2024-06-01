@@ -5,7 +5,7 @@ import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.Skill;
 
 public class SkillDTOImpl implements SkillDTO {
-    private StudentDTO student;
+    private StudentDTOImpl student;
     private int serialNumber;
     private String skillName;
 
@@ -14,8 +14,8 @@ public class SkillDTOImpl implements SkillDTO {
         return student;
     }
 
-    @Override
-    public void setStudent(StudentDTO student) {
+
+    public void setStudent(StudentDTOImpl student) {
         this.student = student;
     }
 
@@ -24,7 +24,7 @@ public class SkillDTOImpl implements SkillDTO {
         return serialNumber;
     }
 
-    @Override
+
     public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
     }
@@ -34,12 +34,12 @@ public class SkillDTOImpl implements SkillDTO {
         return skillName;
     }
 
-    @Override
+
     public void setSkillName(String skillName) {
         this.skillName = skillName;
     }
 
-    @Override
+
     public Skill getEntity() {
         Skill skill = new Skill();
         skill.setStudent(student.getEntity());

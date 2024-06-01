@@ -5,7 +5,7 @@ import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.Interest;
 
 public class InterestDTOImpl implements InterestDTO {
-    private StudentDTO student;
+    private StudentDTOImpl student;
     private int serialNumber;
     private String interestName;
 
@@ -14,8 +14,8 @@ public class InterestDTOImpl implements InterestDTO {
         return student;
     }
 
-    @Override
-    public void setStudent(StudentDTO student) {
+
+    public void setStudent(StudentDTOImpl student) {
         this.student = student;
     }
 
@@ -24,7 +24,7 @@ public class InterestDTOImpl implements InterestDTO {
         return serialNumber;
     }
 
-    @Override
+
     public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
     }
@@ -34,12 +34,12 @@ public class InterestDTOImpl implements InterestDTO {
         return interestName;
     }
 
-    @Override
+
     public void setInterestName(String interestName) {
         this.interestName = interestName;
     }
 
-    @Override
+
     public Interest getEntity() {
         Interest interest = new Interest();
         interest.setStudent(student.getEntity());

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class StudentDTOImpl implements StudentDTO {
     private long studentID;
-    private UserDTO user;
+    private UserDTOImpl user;
     private String lastName;
     private LocalDate birthdate;
 
@@ -17,7 +17,6 @@ public class StudentDTOImpl implements StudentDTO {
         return studentID;
     }
 
-    @Override
     public void setStudentID(long studentID) {
         this.studentID = studentID;
     }
@@ -27,8 +26,8 @@ public class StudentDTOImpl implements StudentDTO {
         return user;
     }
 
-    @Override
-    public void setUser(UserDTO user) {
+
+    public void setUser(UserDTOImpl user) {
         this.user = user;
     }
 
@@ -37,7 +36,7 @@ public class StudentDTOImpl implements StudentDTO {
         return lastName;
     }
 
-    @Override
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -47,12 +46,12 @@ public class StudentDTOImpl implements StudentDTO {
         return birthdate;
     }
 
-    @Override
+
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
-    @Override
+
     public Student getEntity() {
         Student student = new Student();
         student.setStudentID(studentID);

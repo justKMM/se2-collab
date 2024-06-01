@@ -15,7 +15,7 @@ public class ProfileDTOImpl implements ProfileDTO {
         return profileID;
     }
 
-    @Override
+
     public void setProfileID(long profileID) {
         this.profileID = profileID;
     }
@@ -25,7 +25,7 @@ public class ProfileDTOImpl implements ProfileDTO {
         return avatarUrl;
     }
 
-    @Override
+
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
@@ -35,7 +35,7 @@ public class ProfileDTOImpl implements ProfileDTO {
         return profileDescription;
     }
 
-    @Override
+
     public void setProfileDescription(String profileDescription) {
         this.profileDescription = profileDescription;
     }
@@ -45,7 +45,7 @@ public class ProfileDTOImpl implements ProfileDTO {
         return xingUsername;
     }
 
-    @Override
+
     public void setXingUsername(String xingUsername) {
         this.xingUsername = xingUsername;
     }
@@ -55,12 +55,12 @@ public class ProfileDTOImpl implements ProfileDTO {
         return linkedinUsername;
     }
 
-    @Override
+
     public void setLinkedinUsername(String linkedinUsername) {
         this.linkedinUsername = linkedinUsername;
     }
 
-    @Override
+
     public Profile getEntity() {
         Profile profile = new Profile();
         profile.setProfileID(profileID);

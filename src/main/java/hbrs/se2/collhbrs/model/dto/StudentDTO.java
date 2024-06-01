@@ -7,19 +7,10 @@ import java.time.LocalDate;
 public interface StudentDTO {
     long getStudentID();
 
-    void setStudentID(long studentID);
-
     UserDTO getUser();
-
-    void setUser(UserDTO user);
 
     String getLastName();
 
-    void setLastName(String lastName);
-
     LocalDate getBirthdate();
 
-    void setBirthdate(LocalDate birthdate);
-
-    Student getEntity();
 }

@@ -13,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.control.LoginControl;
 import hbrs.se2.collhbrs.control.exception.DatabaseUserException;
+import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -74,6 +75,7 @@ public class LoginView extends VerticalLayout {
             }
 
             if (isAuthenticated) {
+                grabAndSetUserIntoSession();
                 showNotification("Successfully logged in", NotificationVariant.LUMO_SUCCESS);
                 UI.getCurrent().navigate(Globals.Pages.MAIN);
             } else {
@@ -90,6 +92,11 @@ public class LoginView extends VerticalLayout {
         Notification notification = Notification.show(message);
         notification.addThemeVariants(variant);
         notification.open();
+    }
+    private void grabAndSetUserIntoSession() {
+        UserDTO userDTO = loginControl.getCurrentUser();
+        System.out.println("UserDTO: " + userDTO.toString());
+        UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, userDTO );
     }
 
 

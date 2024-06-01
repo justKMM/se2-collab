@@ -6,7 +6,7 @@ import hbrs.se2.collhbrs.model.entity.User;
 
 public class UserDTOImpl implements UserDTO {
     private long userID;
-    private ProfileDTO profileDTO;
+    private ProfileDTOImpl profileDTO;
     private String username;
     private String password;
     private int blacklisted;
@@ -17,7 +17,7 @@ public class UserDTOImpl implements UserDTO {
         return userID;
     }
 
-    @Override
+
     public void setUserID(long userID) {
         this.userID = userID;
     }
@@ -27,8 +27,8 @@ public class UserDTOImpl implements UserDTO {
         return profileDTO;
     }
 
-    @Override
-    public void setProfile(ProfileDTO profileDTO) {
+
+    public void setProfile(ProfileDTOImpl profileDTO) {
         this.profileDTO = profileDTO;
     }
 
@@ -37,7 +37,7 @@ public class UserDTOImpl implements UserDTO {
         return username;
     }
 
-    @Override
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -47,7 +47,7 @@ public class UserDTOImpl implements UserDTO {
         return password;
     }
 
-    @Override
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -57,7 +57,7 @@ public class UserDTOImpl implements UserDTO {
         return blacklisted;
     }
 
-    @Override
+
     public void setBlacklisted(int blacklisted) {
         this.blacklisted = blacklisted;
     }
@@ -67,12 +67,12 @@ public class UserDTOImpl implements UserDTO {
         return email;
     }
 
-    @Override
+
     public void setEmail(String email) {
         this.email = email;
     }
 
-    @Override
+
     public User getEntity() {
         User user = new User();
         user.setUserID(userID);
