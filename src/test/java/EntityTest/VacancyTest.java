@@ -1,7 +1,7 @@
 package EntityTest;
 
-import hbrs.se2.collhbrs.entity.Business;
-import hbrs.se2.collhbrs.entity.Vacancy;
+import hbrs.se2.collhbrs.model.entity.Business;
+import hbrs.se2.collhbrs.model.entity.Vacancy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

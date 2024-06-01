@@ -1,7 +1,7 @@
 package EntityTest;
 
-import hbrs.se2.collhbrs.entity.Profile;
-import hbrs.se2.collhbrs.entity.User;
+import hbrs.se2.collhbrs.model.entity.Profile;
+import hbrs.se2.collhbrs.model.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

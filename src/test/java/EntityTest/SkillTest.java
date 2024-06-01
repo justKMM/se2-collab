@@ -1,8 +1,8 @@
 package EntityTest;
 
 
-import hbrs.se2.collhbrs.entity.Skill;
-import hbrs.se2.collhbrs.entity.Student;
+import hbrs.se2.collhbrs.model.entity.Skill;
+import hbrs.se2.collhbrs.model.entity.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

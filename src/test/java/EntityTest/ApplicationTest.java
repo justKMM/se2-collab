@@ -1,8 +1,8 @@
 package EntityTest;
 
-import hbrs.se2.collhbrs.entity.Application;
-import hbrs.se2.collhbrs.entity.Student;
-import hbrs.se2.collhbrs.entity.Vacancy;
+import hbrs.se2.collhbrs.model.entity.Application;
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.Vacancy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

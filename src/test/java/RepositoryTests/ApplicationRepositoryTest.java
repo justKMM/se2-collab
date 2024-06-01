@@ -1,7 +1,7 @@
 package RepositoryTests;
 
 import hbrs.se2.collhbrs.CollhbrsApplication;
-import hbrs.se2.collhbrs.entity.Application;
+import hbrs.se2.collhbrs.model.entity.Application;
 import hbrs.se2.collhbrs.repository.ApplicationRepository;
 
 import org.junit.jupiter.api.Test;
@@ -69,4 +69,3 @@ public class ApplicationRepositoryTest {
     }
     */
 }
-
