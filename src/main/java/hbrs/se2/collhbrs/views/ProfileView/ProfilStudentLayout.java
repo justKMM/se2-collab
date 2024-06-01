@@ -4,7 +4,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import lombok.Getter;
 
@@ -13,17 +12,16 @@ import lombok.Getter;
  */
 
 
-
 @CssImport("./styles/index.css")
 public class ProfilStudentLayout extends VerticalLayout {
 
-    private Button button_cancel = new Button("Abbrechen");
+    private final Button button_cancel = new Button("Abbrechen");
     @Getter
-    private Button button_confirm = new Button("Speichern");
+    private final Button button_confirm = new Button("Speichern");
     @Getter
-    private TextField tf_vorname = new TextField("Vorname:");
+    private final TextField tf_vorname = new TextField("Vorname:");
     @Getter
-    private TextField tf_nachname = new TextField("Nachname:");
+    private final TextField tf_nachname = new TextField("Nachname:");
     // private TextField tf_strasse = new TextField("Straße und Hausnummer:");
     // private TextField nf_plz = new TextField("PLZ:");
     // private TextField tf_ort = new TextField("Ort:");
@@ -32,22 +30,34 @@ public class ProfilStudentLayout extends VerticalLayout {
     // private EmailField ef_email = new EmailField("E-Mail:");
     // private ComboBox<String> cb_anrede = new ComboBox<>("Anrede:");
     @Getter
-    private TextField interestField = new TextField("Interessen:");
+    private final TextField interestField = new TextField("Interessen:");
     @Getter
-    private TextField skillsField = new TextField("Kompetenzen:");
+    private final TextField skillsField = new TextField("Kompetenzen:");
     @Getter
-    private TextField degreeField = new TextField("Studiengang");
+    private final TextField degreeField = new TextField("Studiengang");
+    @Getter
+    private final TextField xingUsernameField = new TextField("Xing Username");
+    @Getter
+    private final TextField linkedinUsernameField = new TextField("Linkedin Username");
+    @Getter
+    private final TextField profileDescriptionField = new TextField("Profilbeschreibung");
 
+    @Getter
+    private final TextField avatarUrlField = new TextField("Avatar URL");
 
 
     // private final String[] anredeArray = {"Herr", "Frau", "Andere"};
-    public ProfilStudentLayout(){
+    public ProfilStudentLayout() {
         addClassName("profile-form");
 
         HorizontalLayout layout_name = new HorizontalLayout();
         HorizontalLayout layout_adresse = new HorizontalLayout();
         //HorizontalLayout layout_mail = new HorizontalLayout();
         HorizontalLayout layout_interest_skill_degree = new HorizontalLayout();
+
+        HorizontalLayout layout_xing_linkedin = new HorizontalLayout();
+        HorizontalLayout layout_profile_description = new HorizontalLayout();
+        HorizontalLayout layout_avatar = new HorizontalLayout();
 
         // Error Message für Mail
         //ef_email.setErrorMessage("Enter a valid E-Mail.");
@@ -66,26 +76,24 @@ public class ProfilStudentLayout extends VerticalLayout {
         // layout_mail.add(tf_telefon, ef_email);
 
         layout_interest_skill_degree.add(interestField, skillsField, degreeField);
+        layout_xing_linkedin.add(xingUsernameField, linkedinUsernameField);
+        layout_profile_description.add(profileDescriptionField);
 
         // cb_anrede.setItems(anredeArray);
 
         add(/*cb_anrede,*/
                 layout_name,
-            layout_adresse,
-            /*layout_mail,*/
-            layout_interest_skill_degree
+                layout_adresse,
+                /*layout_mail,*/
+                layout_interest_skill_degree,
+                layout_xing_linkedin,
+                layout_profile_description,
+                layout_avatar
+
         );
 
 
-
-
-
     }
-
-
-
-
-
 
 
 }

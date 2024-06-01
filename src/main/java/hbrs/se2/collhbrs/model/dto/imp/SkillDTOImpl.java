@@ -1,7 +1,7 @@
 package hbrs.se2.collhbrs.model.dto.imp;
 
-import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.dto.SkillDTO;
+import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.Skill;
 
 public class SkillDTOImpl implements SkillDTO {
@@ -38,6 +38,7 @@ public class SkillDTOImpl implements SkillDTO {
     public void setSkillName(String skillName) {
         this.skillName = skillName;
     }
+
     @Override
     public Skill getEntity() {
         Skill skill = new Skill();

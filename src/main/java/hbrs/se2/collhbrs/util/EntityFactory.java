@@ -42,4 +42,25 @@ public class EntityFactory {
         business.setUser(user);
         return business;
     }
+
+    public DegreeProgramm createDegreeProgramm(String name, Student student) {
+        DegreeProgramm degreeProgramm = new DegreeProgramm();
+        degreeProgramm.setDegreeProgrammName(name);
+        degreeProgramm.setStudent(student);
+        return degreeProgramm;
+    }
+
+    public Interest createInterest(String name, Student student) {
+        Interest interest = new Interest();
+        interest.setInterestName(name);
+        interest.setStudent(student);
+        return interest;
+    }
+
+    public Skill createSkill(String name, Student student) {
+        Skill skill = new Skill();
+        skill.setSkillName(name);
+        skill.setStudent(student);
+        return skill;
+    }
 }

@@ -1,7 +1,7 @@
 package hbrs.se2.collhbrs.model.dto.imp;
 
-import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.dto.DegreeProgrammDTO;
+import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.DegreeProgramm;
 
 public class DegreeProgrammDTOImpl implements DegreeProgrammDTO {
@@ -38,6 +38,7 @@ public class DegreeProgrammDTOImpl implements DegreeProgrammDTO {
     public void setDegreeProgrammName(String degreeProgrammName) {
         this.degreeProgrammName = degreeProgrammName;
     }
+
     @Override
     public DegreeProgramm getEntity() {
         DegreeProgramm degreeProgramm = new DegreeProgramm();

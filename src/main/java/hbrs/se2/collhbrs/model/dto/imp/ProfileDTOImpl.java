@@ -59,6 +59,7 @@ public class ProfileDTOImpl implements ProfileDTO {
     public void setLinkedinUsername(String linkedinUsername) {
         this.linkedinUsername = linkedinUsername;
     }
+
     @Override
     public Profile getEntity() {
         Profile profile = new Profile();

@@ -26,5 +26,6 @@ public interface UserDTO {
     String getEmail();
 
     void setEmail(String email);
+
     User getEntity();
 }

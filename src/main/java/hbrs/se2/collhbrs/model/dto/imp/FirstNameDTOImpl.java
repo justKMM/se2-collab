@@ -1,7 +1,7 @@
 package hbrs.se2.collhbrs.model.dto.imp;
 
-import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.dto.FirstNameDTO;
+import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.FirstName;
 
 public class FirstNameDTOImpl implements FirstNameDTO {
@@ -38,6 +38,7 @@ public class FirstNameDTOImpl implements FirstNameDTO {
     public void setFirstNameName(String firstNameName) {
         this.firstNameName = firstNameName;
     }
+
     @Override
     public FirstName getEntity() {
         FirstName firstName = new FirstName();

@@ -71,6 +71,7 @@ public class UserDTOImpl implements UserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
     @Override
     public User getEntity() {
         User user = new User();

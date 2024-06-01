@@ -2,7 +2,6 @@ package hbrs.se2.collhbrs.model.dto.imp;
 
 import hbrs.se2.collhbrs.model.dto.InterestDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
-import hbrs.se2.collhbrs.model.dto.InterestDTO;
 import hbrs.se2.collhbrs.model.entity.Interest;
 
 public class InterestDTOImpl implements InterestDTO {
@@ -39,6 +38,7 @@ public class InterestDTOImpl implements InterestDTO {
     public void setInterestName(String interestName) {
         this.interestName = interestName;
     }
+
     @Override
     public Interest getEntity() {
         Interest interest = new Interest();

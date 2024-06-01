@@ -22,5 +22,6 @@ public interface ProfileDTO {
     String getLinkedinUsername();
 
     void setLinkedinUsername(String linkedinUsername);
+
     Profile getEntity();
 }

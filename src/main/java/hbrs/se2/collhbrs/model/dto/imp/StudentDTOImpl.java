@@ -1,7 +1,7 @@
 package hbrs.se2.collhbrs.model.dto.imp;
 
-import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
+import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.entity.Student;
 
 import java.time.LocalDate;
@@ -51,6 +51,7 @@ public class StudentDTOImpl implements StudentDTO {
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
+
     @Override
     public Student getEntity() {
         Student student = new Student();
