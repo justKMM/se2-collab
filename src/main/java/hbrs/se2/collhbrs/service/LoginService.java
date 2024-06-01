@@ -1,8 +1,8 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.repository.UserRepository;
+import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
