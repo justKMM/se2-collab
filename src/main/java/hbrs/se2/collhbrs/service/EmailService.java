@@ -17,14 +17,14 @@ import java.util.Objects;
 @Service
 public class EmailService {
     private final JavaMailSender javaMailSender;
+    /*@Value("${spring.mail.username}") private String sender;*/
+    private final String sender = "Sender";
 
     @Autowired
     public EmailService(@Qualifier("javaMailSender") JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
-    /*@Value("${spring.mail.username}") private String sender;*/
-    private final String sender = "Sender";
     // Send a simple email
     public String sendSimpleMail(Email email) {
         try {
@@ -37,8 +37,7 @@ public class EmailService {
             // Sending the email
             javaMailSender.send(message);
             return "Email sent successfully";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "Email sent failed - Email type: Simple Email. Message: " + e.getMessage();
         }

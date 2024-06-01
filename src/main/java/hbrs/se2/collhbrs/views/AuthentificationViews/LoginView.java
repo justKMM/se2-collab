@@ -13,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.control.LoginControl;
 import hbrs.se2.collhbrs.control.exception.DatabaseUserException;
+import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -74,7 +75,10 @@ public class LoginView extends VerticalLayout {
             }
 
             if (isAuthenticated) {
-                showNotification("Successfully logged in", NotificationVariant.LUMO_SUCCESS);
+                UserDTO user = loginControl.getCurrentUser();
+
+                grabAndSetUserIntoSession(user);
+                showNotification("Successfully logged in as: " + user.getUsername(), NotificationVariant.LUMO_SUCCESS);
                 UI.getCurrent().navigate(Globals.Pages.MAIN);
             } else {
                 showNotification("Login failed: User not found", NotificationVariant.LUMO_ERROR);
@@ -90,6 +94,15 @@ public class LoginView extends VerticalLayout {
         Notification notification = Notification.show(message);
         notification.addThemeVariants(variant);
         notification.open();
+    }
+
+    private void grabAndSetUserIntoSession(UserDTO user) {
+        UserDTO userDTO = loginControl.getCurrentUser();
+
+        // Es hat mit dem unteren Befehl nicht funktioniert also hab ich direkt den User gesetzt in Global
+        Globals.CURRENT_USER = userDTO.getUsername();
+        // TODO: Was passiert hier ???
+        UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, userDTO);
     }
 
 

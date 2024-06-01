@@ -19,7 +19,7 @@ public class SampleDataInitializer {
     public void init() {
         if (registerService.isEmpty()) {
             registerService.registerStudent("admin", "Password1", "admin@example.com", "Admin", "Madmin");
-            registerService.registerStudent("spongi", "Password2", "squarepants@example.com","Spongebob", "Squarepants");
+            registerService.registerStudent("spongi", "Password2", "squarepants@example.com", "Spongebob", "Squarepants");
             registerService.registerBusiness("krustykrab", "Password3", "krustykrab@example.com", "KrustyKrab");
         }
     }

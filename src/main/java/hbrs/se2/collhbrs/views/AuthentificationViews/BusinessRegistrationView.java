@@ -88,8 +88,7 @@ public class BusinessRegistrationView extends FormLayout {
                     email.getValue(),
                     password.getValue(),
                     passwordConfirmation.getValue()
-            ))
-            {
+            )) {
                 try {
                     registerService.registerBusiness(
                             username.getValue(),
