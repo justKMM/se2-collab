@@ -11,9 +11,9 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import hbrs.se2.collhbrs.control.LoginControl;
-import hbrs.se2.collhbrs.control.exception.DatabaseUserException;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
+import hbrs.se2.collhbrs.service.LoginService;
+import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LoginView extends VerticalLayout {
 
     @Autowired
-    private LoginControl loginControl;
+    private LoginService loginService;
 
     public LoginView() {
         addClassName("main");
@@ -67,15 +67,15 @@ public class LoginView extends VerticalLayout {
 
     private void handleLogin(LoginForm.LoginEvent input) {
         try {
-            boolean isAuthenticated = loginControl.authenticate(input.getUsername(), input.getPassword());
+            boolean isAuthenticated = loginService.authenticate(input.getUsername(), input.getPassword());
 
-            if (isAuthenticated && loginControl.isBlacklisted(input.getUsername(), input.getPassword())) {
+            if (isAuthenticated && loginService.isBlacklisted(input.getUsername(), input.getPassword())) {
                 showNotification("Login failed: User is blacklisted", NotificationVariant.LUMO_ERROR);
                 return;
             }
 
             if (isAuthenticated) {
-                UserDTO user = loginControl.getCurrentUser();
+                UserDTO user = loginService.getCurrentUser();
 
                 grabAndSetUserIntoSession(user);
                 showNotification("Successfully logged in as: " + user.getUsername(), NotificationVariant.LUMO_SUCCESS);
@@ -83,7 +83,7 @@ public class LoginView extends VerticalLayout {
             } else {
                 showNotification("Login failed: User not found", NotificationVariant.LUMO_ERROR);
             }
-        } catch (DatabaseUserException e) {
+        } catch (DatabaseLayerException e) {
             // Handle database exceptions
             showNotification("Login failed", NotificationVariant.LUMO_ERROR);
             e.printStackTrace();
@@ -97,7 +97,7 @@ public class LoginView extends VerticalLayout {
     }
 
     private void grabAndSetUserIntoSession(UserDTO user) {
-        UserDTO userDTO = loginControl.getCurrentUser();
+        UserDTO userDTO = loginService.getCurrentUser();
 
         // Es hat mit dem unteren Befehl nicht funktioniert also hab ich direkt den User gesetzt in Global
         Globals.CURRENT_USER = userDTO.getUsername();

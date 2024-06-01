@@ -1,19 +1,54 @@
 package hbrs.se2.collhbrs.service;
 
+import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LoginService {
+    private final UserRepository userRepository;
+    private UserDTO userDTO = null;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Transactional
-    public UserDTO getUser(String username, String password) {
-        return userRepository.findUserByUsernameAndPassword(username, password);
+    public LoginService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
+
+    public boolean authenticate(String username, String password) throws DatabaseLayerException {
+        UserDTO tmpUser = this.getUser(username, password);
+
+        if (tmpUser == null) {
+            return false;
+        }
+        this.userDTO = tmpUser;
+        return true;
+    }
+
+    public boolean isBlacklisted(String username, String password) throws DatabaseLayerException {
+        UserDTO tmpUser = this.getUser(username, password);
+        if (tmpUser == null) {
+            return true;
+        }
+
+        this.userDTO = tmpUser;
+        return this.userDTO.getBlacklisted() == 1;
+    }
+
+    public UserDTO getCurrentUser() {
+        return this.userDTO;
+    }
+
+    private UserDTO getUser(String username, String password) throws DatabaseLayerException {
+        UserDTO userTmp;
+
+        try {
+            userTmp = userRepository.findUserByUsernameAndPassword(username, password);
+        } catch (org.springframework.dao.DataAccessResourceFailureException e) {
+            throw new DatabaseLayerException("User mit diesem Username und/oder Passwort konnte nicht gefunden werden.");
+        }
+        return userTmp;
+    }
+
 }
