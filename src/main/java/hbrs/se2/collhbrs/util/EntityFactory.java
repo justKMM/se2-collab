@@ -27,11 +27,11 @@ public class EntityFactory {
         return student;
     }
 
-    public FirstName createFirstName(String firstName, Student student, int serialNumber) {
+    public FirstName createFirstName(String firstName, Student student) {
         FirstName firstNameEntity = new FirstName();
         firstNameEntity.setFirstNameName(firstName);
         firstNameEntity.setStudent(student);
-        firstNameEntity.setSerialNumber(serialNumber);
+        // firstNameEntity.setSerialNumber(serialNumber);
         return firstNameEntity;
     }
 
@@ -41,5 +41,26 @@ public class EntityFactory {
         business.setName(name);
         business.setUser(user);
         return business;
+    }
+
+    public DegreeProgramm createDegreeProgramm(String name, Student student) {
+        DegreeProgramm degreeProgramm = new DegreeProgramm();
+        degreeProgramm.setDegreeProgrammName(name);
+        degreeProgramm.setStudent(student);
+        return degreeProgramm;
+    }
+
+    public Interest createInterest(String name, Student student) {
+        Interest interest = new Interest();
+        interest.setInterestName(name);
+        interest.setStudent(student);
+        return interest;
+    }
+
+    public Skill createSkill(String name, Student student) {
+        Skill skill = new Skill();
+        skill.setSkillName(name);
+        skill.setStudent(student);
+        return skill;
     }
 }

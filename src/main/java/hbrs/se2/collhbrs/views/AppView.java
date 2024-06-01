@@ -2,7 +2,6 @@ package hbrs.se2.collhbrs.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -32,11 +31,18 @@ public class AppView extends AppLayout {
     private Tabs sidemenu;
     private H1 viewTitle;
 
-    public AppView(){
+    public AppView() {
         setUpUI();
     }
 
-    private void setUpUI(){
+    private static Tab createTab(String s, Class<? extends Component> navgationTarget) {
+        final Tab t = new Tab();
+        t.add(new RouterLink(s, navgationTarget));
+        ComponentUtil.setData(t, Class.class, navgationTarget);
+        return t;
+    }
+
+    private void setUpUI() {
         setPrimarySection(Section.DRAWER);
 
         addToNavbar(true, createHeaderContent());
@@ -46,7 +52,7 @@ public class AppView extends AppLayout {
 
     }
 
-    private Component createHeaderContent(){
+    private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setId("header");
         layout.setWidthFull();
@@ -55,14 +61,14 @@ public class AppView extends AppLayout {
         layout.add(new DrawerToggle());
         viewTitle = new H1();
         viewTitle.setWidthFull();
-        layout.add( viewTitle );
+        layout.add(viewTitle);
 
         HorizontalLayout topRightLayout = new HorizontalLayout();
         topRightLayout.setWidthFull();
-        topRightLayout.setJustifyContentMode( FlexComponent.JustifyContentMode.END );
-        topRightLayout.setAlignItems( FlexComponent.Alignment.CENTER );
+        topRightLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+        topRightLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        MenuBar menuBar =new MenuBar();
+        MenuBar menuBar = new MenuBar();
         MenuItem item = menuBar.addItem("Logout", e -> logoutUser());
         topRightLayout.add(menuBar);
 
@@ -70,9 +76,7 @@ public class AppView extends AppLayout {
         return layout;
     }
 
-
-
-    private Tabs createMenu(){
+    private Tabs createMenu() {
         final Tabs tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
 
@@ -80,7 +84,7 @@ public class AppView extends AppLayout {
         return tabs;
     }
 
-    private Component[] createMenuItems(){
+    private Component[] createMenuItems() {
         Tab[] tab_array = new Tab[]{createTab("profile-page", ProfilStudentView.class)};
 
         /*
@@ -91,14 +95,7 @@ public class AppView extends AppLayout {
         return tab_array;
     }
 
-    private static Tab createTab(String s, Class<? extends Component> navgationTarget){
-        final Tab t = new Tab();
-        t.add(new RouterLink(s, navgationTarget));
-        ComponentUtil.setData(t, Class.class, navgationTarget);
-        return t;
-    }
-
-    private void logoutUser(){
+    private void logoutUser() {
         //UI ui = this.getUI().get();
         //ui.getSession().close();
         //ui.getPage().setLocation(Globals.Pages.LOGIN);

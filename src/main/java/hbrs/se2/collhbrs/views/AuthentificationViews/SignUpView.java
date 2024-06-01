@@ -11,8 +11,8 @@ import hbrs.se2.collhbrs.util.Globals;
 @CssImport("./styles/index.css")
 public class SignUpView extends FormLayout {
 
-    private BusinessRegistrationView businessRegistrationView;
-    private StudentRegistrationView studentRegistrationView;
+    private final BusinessRegistrationView businessRegistrationView;
+    private final StudentRegistrationView studentRegistrationView;
 
     public SignUpView(RegisterService registerService) {
 

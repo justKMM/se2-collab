@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 @Service
 public class RegisterService {
@@ -54,6 +53,7 @@ public class RegisterService {
         saveFirstNames(firstName.split(" "), student);
     }
 
+
     private User registerUser(String username, String password, String email) {
         if (!getUsers().stream().noneMatch(user -> Objects.equals(user.getUsername(), username))) {
             throw new RuntimeException("Username already taken");
@@ -88,9 +88,11 @@ public class RegisterService {
 
     @Transactional
     public void saveFirstNames(String[] firstNames, Student student) {
-        IntStream.range(0, firstNames.length).forEach(counter -> {
-            saveVorname(entityFactory.createFirstName(firstNames[counter], student, counter));
-        });
+        System.out.println(firstNames.length);
+        for (String firstName : firstNames) {
+            System.out.println(firstName);
+            saveVorname(entityFactory.createFirstName(firstName, student));
+        }
     }
 
     @Transactional

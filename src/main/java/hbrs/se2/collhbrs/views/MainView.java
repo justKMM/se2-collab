@@ -1,14 +1,12 @@
 package hbrs.se2.collhbrs.views;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.util.Globals;
 
 // @Route(value = Globals.Pages.MAIN)
@@ -21,6 +19,7 @@ public class MainView extends HorizontalLayout {
 
     * */
     Button button_profile;
+
     public MainView() {
         addClassName("menu");
 
@@ -32,8 +31,6 @@ public class MainView extends HorizontalLayout {
         vertical_layout.getStyle().set("flex-grow", "1");
         vertical_layout.setAlignSelf(FlexComponent.Alignment.CENTER, header);
         header.setWidth("max-content");
-
-
 
 
         button_profile = new Button("Go to Profile");
