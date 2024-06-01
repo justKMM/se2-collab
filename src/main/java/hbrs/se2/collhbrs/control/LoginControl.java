@@ -38,7 +38,6 @@ public class LoginControl {
 
     public UserDTO getCurrentUser() {
         return this.userDTO;
-
     }
 
     private UserDTO getUser(String username, String password) throws DatabaseUserException {

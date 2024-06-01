@@ -17,6 +17,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.model.dto.imp.*;
+import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 
@@ -42,14 +43,25 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     private List<DegreeProgrammDTOImpl> degreeProgrammDTOList = null;
     private List<SkillDTOImpl> skillDTOList = null;
     private ProfileDTOImpl profileDTO = null;
+    private final ProfileService profileService = null;
 
     public ProfilStudentView() {
+        // TODO: Darf nicht so gemacht werden. Ein Boundary muss einen Controller haben, der die Daten aus der Datenbank holt
+
+        H1 h1 = new H1("Hallo " + Globals.CURRENT_USER + "!");
+
+
+        Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
+
+        //Paragraph textMedium = new Paragraph("Email::" + user.getEmail());
+
+
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         Avatar avatar = new Avatar();
         VerticalLayout layoutColumn3 = new VerticalLayout();
 
-        H1 h1 = new H1("Hallo " /* add userName*/);
+
         H6 h6 = new H6("Bewertung:");
         HorizontalLayout layoutRow2 = new HorizontalLayout();
 
@@ -73,7 +85,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         VerticalLayout layoutColumn4 = new VerticalLayout();
         H1 h12 = new H1("Persönliche Daten:");
 
-        Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
+
         H1 h13 = new H1("Dokumente");
         Paragraph textMedium2 = new Paragraph("Lebenslauf:");
 
@@ -243,6 +255,8 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
 
             // DTOs von der Boundary an einen Controller weitergeben!
+
+            System.out.println(Globals.CURRENT_USER);
 
 
             dialog.close();
