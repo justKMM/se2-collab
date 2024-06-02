@@ -56,16 +56,13 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         H1 h1 = new H1("Hallo " + student.getUser().getUsername() +  "!");
 
-
         VerticalLayout layoutColumn2 = new VerticalLayout();
         HorizontalLayout layoutRow = new HorizontalLayout();
         Avatar avatar = new Avatar();
         VerticalLayout layoutColumn3 = new VerticalLayout();
 
-
         H6 h6 = new H6("Bewertung:");
         HorizontalLayout layoutRow2 = new HorizontalLayout();
-
 
         // müssen noch ausgewählt werden für das Rating (später)
         icon = new Icon();
@@ -81,11 +78,9 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         button_lebenslauf = new Button("Lebenslauf hochladen");
         button_p_data_edit = new Button("Persönliche Daten bearbeiten");
 
-
         HorizontalLayout layoutRow3 = new HorizontalLayout();
         VerticalLayout layoutColumn4 = new VerticalLayout();
         H1 h12 = new H1("Persönliche Daten:");
-
 
         H1 h13 = new H1("Dokumente");
         Paragraph textMedium2 = new Paragraph("Lebenslauf:");
@@ -99,6 +94,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         button_p_data_edit.setWidth("min-content");
         button_p_data_edit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
+        //WTF????
         // Bullshit, braucht man aber fürs Design
         VerticalLayout layoutColumn5 = new VerticalLayout();
         getContent().setWidth("100%");
@@ -189,12 +185,14 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
         layoutColumn4.add(h12, textMedium, button_p_data_edit);
 
+
+        //Utils? oder Service?
         button_confirm.addClickListener(e -> {
-            // Nachnamen ziehen und setzen
+
             String lastName = profileLayout.getTf_nachname().getValue();
             student.setLastName(lastName);
 
-            // Interessen ziehen und setzen
+            //TODO: Factory!
             String[] interests = profileLayout.getInterestField().getValue().split(" ");
             interestList = new ArrayList<>();
             for (String interestName : interests) {
@@ -203,7 +201,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
                 interest.setStudent(student.getStudent());
                 interestList.add(interest);
             }
-            // Vornamen ziehen und setzen
             String[] firstNames = profileLayout.getTf_vorname().getValue().split(" ");
             firstNameList = new ArrayList<>();
             for (String firstNameName : firstNames) {
@@ -212,7 +209,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
                 firstName.setStudent(student.getStudent());
                 firstNameList.add(firstName);
             }
-            // Skills ziehen und setzen
+
             String[] skills = profileLayout.getSkillsField().getValue().split(" ");
             skillList = new ArrayList<>();
             for (String skillName : skills) {
@@ -230,21 +227,11 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
                 degreeProgramm.setStudent(student.getStudent());
                 degreeProgrammList.add(degreeProgramm);
             }
-            // Xing Username ziehen und setzen
-            String xingUsername = profileLayout.getXingUsernameField().getValue();
-            student.getUser().getProfile().setXingUsername(xingUsername);
 
-            // Linkedin Username ziehen und setzen
-            String linkedinUsername = profileLayout.getLinkedinUsernameField().getValue();
-            student.getUser().getProfile().setLinkedinUsername(linkedinUsername);
-
-            // Profilbeschreibung ziehen und setzen
-            String profileDescription = profileLayout.getProfileDescriptionField().getValue();
-            student.getUser().getProfile().setProfileDescription(profileDescription);
-
-            // Avatar URL ziehen und setzen
-            String avatarUrl = profileLayout.getAvatarUrlField().getValue();
-            student.getUser().getProfile().setAvatarUrl(avatarUrl);
+            student.getUser().getProfile().setXingUsername(profileLayout.getXingUsernameField().getValue());
+            student.getUser().getProfile().setLinkedinUsername(profileLayout.getLinkedinUsernameField().getValue());
+            student.getUser().getProfile().setProfileDescription(profileLayout.getProfileDescriptionField().getValue());
+            student.getUser().getProfile().setAvatarUrl(profileLayout.getAvatarUrlField().getValue());
 
             profileService.saveProfile(student.getUser().getProfile());
 
@@ -281,5 +268,4 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     public void setRatingIcons() {
         icon = new Icon("vaadin:star");
     }
-
 }
