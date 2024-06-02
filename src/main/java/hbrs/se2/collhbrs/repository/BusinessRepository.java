@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BusinessRepository extends JpaRepository<Business, Long> {
+    Business findBusinessByUser_UserID(Long userID);
+    boolean existsByUser_UserID(Long userID);
 }

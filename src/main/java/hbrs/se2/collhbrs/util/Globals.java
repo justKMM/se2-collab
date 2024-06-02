@@ -10,6 +10,7 @@ public class Globals {
         public static final String LOGIN = "";
         public static final String FORGOT_PASSWORD = "forgot-password";
         public static final String SIGNUP = "signup";
-        public static final String PROFILSTUDENT = "profile-page";
+        public static final String PROFILSTUDENT = "main/student/profile-page";
+        public static final String PROFILBUSSINESS = "main/bussiness/profile-page";
     }
 }

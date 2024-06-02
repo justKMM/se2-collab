@@ -1,14 +1,53 @@
 package hbrs.se2.collhbrs.model.dto;
 
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
+
 import java.time.LocalDate;
 
-public interface StudentDTO {
-    long getStudentID();
+public class StudentDTO {
 
-    UserDTO getUser();
+    private long studentID;
+    private User user;
+    private String lastName;
+    private LocalDate birthdate;
 
-    String getLastName();
+    public StudentDTO(Student entity) {
+        this.studentID = entity.getStudentID();
+        this.user = entity.getUser();
+        this.lastName = entity.getLastName();
+        this.birthdate = entity.getBirthdate();
+    }
 
-    LocalDate getBirthdate();
+    public long getStudentID() {
+        return studentID;
+    }
 
+    public void setStudentID(long studentID) {
+        this.studentID = studentID;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

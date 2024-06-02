@@ -16,12 +16,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import hbrs.se2.collhbrs.model.dto.ProfileDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
-import hbrs.se2.collhbrs.model.dto.UserDTO;
-import hbrs.se2.collhbrs.model.dto.imp.StudentDTOImpl;
 import hbrs.se2.collhbrs.model.entity.*;
+import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.service.ProfileService;
+import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,26 +39,17 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     private final ProfilStudentLayout profileLayout;
     private final Button button_cancel = new Button("Abbrechen");
     private final Button button_confirm = new Button("Speichern");
-    private final StudentDTOImpl student = null;
     Dialog dialog;
     Icon icon;
-    private List<Interest> interestList = null;
-    private List<FirstName> firstNameList = null;
-    private List<DegreeProgramm> degreeProgrammList = null;
-    private List<Skill> skillList = null;
-    private ProfileService profileService = null;
-    private UserDTO userDTO = null;
-    private ProfileDTO profileDTO = null;
-    private StudentDTO studentDTO = null;
 
+    private StudentDTO student;
 
     @Autowired
-    public ProfilStudentView(ProfileService profileService) {
+    public ProfilStudentView(ProfileService profileService, SessionService sessionService) {
 
-        H1 h1 = new H1("Hallo " + Globals.CURRENT_USER + "!");
+        student = sessionService.getCurrentStudent();
 
-
-        //Paragraph textMedium = new Paragraph("Email::" + user.getEmail());
+        H1 h1 = new H1("Hallo " + student.getUser().getUsername() +  "!");
 
 
         VerticalLayout layoutColumn2 = new VerticalLayout();
@@ -185,161 +175,29 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         createFooter(dialog);
 
-
-        // Profil abspeichern
-
-
-        // TODO: Datenbankanbindung fehlt noch
-
-
-        // TODO: Darf nicht so gemacht werden. Ein Boundary muss einen Controller haben, der die Daten aus der Datenbank holt
-
-        this.profileService = profileService;
-
-
-        userDTO = profileService.getUserByUsername(Globals.CURRENT_USER);
-
-
-        profileDTO = userDTO.getProfile();
-
-
-        studentDTO = profileService.getStudentByStudentID(userDTO.getUserID());
-
-
-        // Student erstellen den wir schon kennen
-        Profile profile = new Profile();
-        profile.setProfileDescription(profileDTO.getProfileDescription());
-        profile.setAvatarUrl(profileDTO.getAvatarUrl());
-        profile.setXingUsername(profileDTO.getXingUsername());
-        profile.setLinkedinUsername(profileDTO.getLinkedinUsername());
-        profile.setProfileID(profileDTO.getProfileID());
-
-
-        User user = new User();
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setUsername(userDTO.getUsername());
-        user.setUserID(userDTO.getUserID());
-        user.setBlacklisted(userDTO.getBlacklisted());
-        user.setProfile(profile);
-
-
-        Student student = new Student();
-        student.setStudentID(studentDTO.getStudentID());
-        student.setLastName(studentDTO.getLastName());
-        student.setUser(user);
-
-        // Paragraph textMedium = new Paragraph("Placeholer: Email: test@mail.de, geb.Datum: 01.01.2024, Adresse: straße PLZ Stadt, Handynummer");
         Paragraph textMedium = new Paragraph(
-                "Email: " + user.getEmail() +
-                        "Nachname: " + student.getLastName() +
-                        "Username: " + user.getUsername());
+                "Email: " + sessionService.getCurrentStudent().getUser().getEmail() +
+                        "Nachname: " + sessionService.getCurrentStudent().getLastName() +
+                        "Username: " +  sessionService.getCurrentStudent().getUser().getUsername());
 
         textMedium.setWidth("100%");
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
         layoutColumn4.add(h12, textMedium, button_p_data_edit);
 
-
-        System.out.println(user.getProfile().getProfileID());
-
-
         button_confirm.addClickListener(e -> {
-
-
-            // Nachnamen ziehen und setzen
-            String lastName = profileLayout.getTf_nachname().getValue();
-            student.setLastName(lastName);
-
-            // Interessen ziehen und setzen
-            String[] interests = profileLayout.getInterestField().getValue().split(" ");
-            interestList = new ArrayList<>();
-            for (String interestName : interests) {
-                Interest interest = new Interest();
-                interest.setInterestName(interestName);
-                interest.setStudent(student);
-                interestList.add(interest);
-            }
-            // Vornamen ziehen und setzen
-            String[] firstNames = profileLayout.getTf_vorname().getValue().split(" ");
-            firstNameList = new ArrayList<>();
-            for (String firstNameName : firstNames) {
-                FirstName firstName = new FirstName();
-                firstName.setFirstNameName(firstNameName);
-                firstName.setStudent(student);
-                firstNameList.add(firstName);
-            }
-            // Skills ziehen und setzen
-            String[] skills = profileLayout.getSkillsField().getValue().split(" ");
-            skillList = new ArrayList<>();
-            for (String skillName : skills) {
-                Skill skill = new Skill();
-                skill.setSkillName(skillName);
-                skill.setStudent(student);
-                skillList.add(skill);
-            }
-            // Studiengänge ziehen und setzen
-            String[] degrees = profileLayout.getDegreeField().getValue().split("");
-            degreeProgrammList = new ArrayList<>();
-            for (String degreeProgrammName : degrees) {
-                DegreeProgramm degreeProgramm = new DegreeProgramm();
-                degreeProgramm.setDegreeProgrammName(degreeProgrammName);
-                degreeProgramm.setStudent(student);
-                degreeProgrammList.add(degreeProgramm);
-            }
-            // Xing Username ziehen und setzen
-            String xingUsername = profileLayout.getXingUsernameField().getValue();
-            profile.setXingUsername(xingUsername);
-
-            // Linkedin Username ziehen und setzen
-            String linkedinUsername = profileLayout.getLinkedinUsernameField().getValue();
-            profile.setLinkedinUsername(linkedinUsername);
-
-            // Profilbeschreibung ziehen und setzen
-            String profileDescription = profileLayout.getProfileDescriptionField().getValue();
-            profile.setProfileDescription(profileDescription);
-
-            // Avatar URL ziehen und setzen
-            String avatarUrl = profileLayout.getAvatarUrlField().getValue();
-            profile.setAvatarUrl(avatarUrl);
-
-
-            // DTOs von der Boundary an einen Controller weitergeben!
-
-
-            // Ich speicher die hier als Prototyp
-            profileService.saveProfile(profile);
-            profileService.saveUser(user);
-            profileService.saveStudent(student);
-
-            for (Interest interest : interestList) {
-                profileService.saveInterest(interest);
-            }
-            for (FirstName firstName : firstNameList) {
-                profileService.saveFirstName(firstName);
-            }
-            for (Skill skill : skillList) {
-                profileService.saveSkill(skill);
-            }
-            for (DegreeProgramm degreeProgramm : degreeProgrammList) {
-                profileService.saveDegreeProgramm(degreeProgramm);
-            }
-
-
+            //2. Sprint
             dialog.close();
         });
 
 
     }
-
     public void createFooter(Dialog d) {
 
-
-        // Button design
         button_confirm.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button_cancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button_confirm.addClickShortcut(Key.ENTER);
         button_cancel.addClickShortcut(Key.ESCAPE);
-        // addListener
+
         button_cancel.addClickListener(e -> d.close());
         // speichern fehlt noch
         d.getFooter().add(button_cancel);

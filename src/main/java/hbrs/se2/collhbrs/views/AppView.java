@@ -17,8 +17,10 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.ProfileView.ProfilStudentView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /*
@@ -28,8 +30,12 @@ import hbrs.se2.collhbrs.views.ProfileView.ProfilStudentView;
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.MAIN)
 public class AppView extends AppLayout {
+
     private Tabs sidemenu;
     private H1 viewTitle;
+
+    @Autowired
+    private SessionService sessionService;
 
     public AppView() {
         setUpUI();
@@ -96,9 +102,6 @@ public class AppView extends AppLayout {
     }
 
     private void logoutUser() {
-        //UI ui = this.getUI().get();
-        //ui.getSession().close();
-        //ui.getPage().setLocation(Globals.Pages.LOGIN);
         UI.getCurrent().navigate(Globals.Pages.LOGIN);
     }
 
