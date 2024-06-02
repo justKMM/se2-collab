@@ -53,6 +53,14 @@ public class RoundTripTest {
         assertEquals(userAfterCreate.getPassword(), "Jakob1234!");
         assertEquals(userAfterCreate.getBlacklisted(), 0);
         assertEquals(userAfterCreate.getEmail(), "jakobus@test.de");
+        
+        // Schritt 3: Update (U)
+        userAfterCreate.setUsername("Jakob17");
+        userAfterCreate.setPassword("jakoB1734!");
+        userRepository.save(userAfterCreate);
+        // Überprüfung auf Gleichheit
+        assertEquals(userAfterCreate.getUsername(), "Jakob17");
+        assertEquals(userAfterCreate.getPassword(), "jakoB1734!");
 
         // Schritt 4: Deletion (D)
         userRepository.deleteById(UserID);
@@ -60,9 +68,5 @@ public class RoundTripTest {
         Optional<User> wrapperAfterDelete = userRepository.findById(UserID);
         assertFalse(wrapperAfterDelete.isPresent());
     }
-
-    @AfterEach
-    public void deleteUser() {
-        // Hier könnte man nach einem RoundTrip die DB noch weiter bereinigen
-    }
+    
 }
