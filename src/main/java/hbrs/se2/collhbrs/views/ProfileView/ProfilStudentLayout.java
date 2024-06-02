@@ -8,7 +8,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import lombok.Getter;
 
 /*
-    Dialog View
+    Dialog View Layout
  */
 
 
@@ -34,16 +34,16 @@ public class ProfilStudentLayout extends VerticalLayout {
     @Getter
     private final TextField skillsField = new TextField("Kompetenzen:");
     @Getter
-    private final TextField degreeField = new TextField("Studiengang");
+    private final TextField degreeField = new TextField("Studiengang: ");
     @Getter
-    private final TextField xingUsernameField = new TextField("Xing Username");
+    private final TextField xingUsernameField = new TextField("Xing Username:");
     @Getter
-    private final TextField linkedinUsernameField = new TextField("Linkedin Username");
+    private final TextField linkedinUsernameField = new TextField("Linkedin Username:");
     @Getter
-    private final TextField profileDescriptionField = new TextField("Profilbeschreibung");
+    private final TextField profileDescriptionField = new TextField("Profilbeschreibung:");
 
     @Getter
-    private final TextField avatarUrlField = new TextField("Avatar URL");
+    private final TextField avatarUrlField = new TextField("Avatar URL:");
 
 
     // private final String[] anredeArray = {"Herr", "Frau", "Andere"};
@@ -60,7 +60,7 @@ public class ProfilStudentLayout extends VerticalLayout {
         HorizontalLayout layout_avatar = new HorizontalLayout();
 
         // Error Message für Mail
-        //ef_email.setErrorMessage("Enter a valid E-Mail.");
+        // ef_email.setErrorMessage("Enter a valid E-Mail.");
         // ef_email.setPlaceholder("example@mail.com");
 
         /*nf_plz.setMaxLength(5);
@@ -94,5 +94,42 @@ public class ProfilStudentLayout extends VerticalLayout {
         );
 
 
+    }
+
+
+    public String getTf_vorname() {
+        return tf_vorname.getValue().toString();
+    }
+
+    public String getTf_nachname() {
+        return tf_nachname.getValue().toString();
+    }
+
+    public TextField getInterestField() {
+        return interestField;
+    }
+
+    public TextField getSkillsField() {
+        return skillsField;
+    }
+
+    public TextField getDegreeField() {
+        return degreeField;
+    }
+
+    public TextField getXingUsernameField() {
+        return xingUsernameField;
+    }
+
+    public TextField getLinkedinUsernameField() {
+        return linkedinUsernameField;
+    }
+
+    public TextField getProfileDescriptionField() {
+        return profileDescriptionField;
+    }
+
+    public TextField getAvatarUrlField() {
+        return avatarUrlField;
     }
 }
