@@ -19,6 +19,15 @@ public class StudentDTO {
         this.birthdate = entity.getBirthdate();
     }
 
+    public Student getStudent() {
+        Student student = new Student();
+        student.setStudentID(studentID);
+        student.setUser(user);
+        student.setLastName(lastName);
+        student.setBirthdate(birthdate);
+        return student;
+    }
+
     public long getStudentID() {
         return studentID;
     }

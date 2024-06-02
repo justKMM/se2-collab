@@ -22,6 +22,17 @@ public class UserDTO {
         this.email = entity.getEmail();
     }
 
+    public User getUser() {
+        User user = new User();
+        user.setUserID(userID);
+        user.setProfile(profile);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setBlacklisted(blacklisted);
+        user.setEmail(email);
+        return user;
+    }
+
     public long getUserID() {
         return userID;
     }

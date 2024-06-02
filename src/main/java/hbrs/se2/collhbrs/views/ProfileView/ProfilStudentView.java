@@ -43,6 +43,11 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     Icon icon;
 
     private StudentDTO student;
+    private List<Interest> interestList;
+    private List<FirstName> firstNameList;
+    private List<DegreeProgramm> degreeProgrammList;
+    private List<Skill> skillList;
+
 
     @Autowired
     public ProfilStudentView(ProfileService profileService, SessionService sessionService) {
@@ -185,7 +190,76 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn4.add(h12, textMedium, button_p_data_edit);
 
         button_confirm.addClickListener(e -> {
-            //2. Sprint
+            // Nachnamen ziehen und setzen
+            String lastName = profileLayout.getTf_nachname().getValue();
+            student.setLastName(lastName);
+
+            // Interessen ziehen und setzen
+            String[] interests = profileLayout.getInterestField().getValue().split(" ");
+            interestList = new ArrayList<>();
+            for (String interestName : interests) {
+                Interest interest = new Interest();
+                interest.setInterestName(interestName);
+                interest.setStudent(student.getStudent());
+                interestList.add(interest);
+            }
+            // Vornamen ziehen und setzen
+            String[] firstNames = profileLayout.getTf_vorname().getValue().split(" ");
+            firstNameList = new ArrayList<>();
+            for (String firstNameName : firstNames) {
+                FirstName firstName = new FirstName();
+                firstName.setFirstNameName(firstNameName);
+                firstName.setStudent(student.getStudent());
+                firstNameList.add(firstName);
+            }
+            // Skills ziehen und setzen
+            String[] skills = profileLayout.getSkillsField().getValue().split(" ");
+            skillList = new ArrayList<>();
+            for (String skillName : skills) {
+                Skill skill = new Skill();
+                skill.setSkillName(skillName);
+                skill.setStudent(student.getStudent());
+                skillList.add(skill);
+            }
+            // Studiengänge ziehen und setzen
+            String[] degrees = profileLayout.getDegreeField().getValue().split("");
+            degreeProgrammList = new ArrayList<>();
+            for (String degreeProgrammName : degrees) {
+                DegreeProgramm degreeProgramm = new DegreeProgramm();
+                degreeProgramm.setDegreeProgrammName(degreeProgrammName);
+                degreeProgramm.setStudent(student.getStudent());
+                degreeProgrammList.add(degreeProgramm);
+            }
+            // Xing Username ziehen und setzen
+            String xingUsername = profileLayout.getXingUsernameField().getValue();
+            student.getUser().getProfile().setXingUsername(xingUsername);
+
+            // Linkedin Username ziehen und setzen
+            String linkedinUsername = profileLayout.getLinkedinUsernameField().getValue();
+            student.getUser().getProfile().setLinkedinUsername(linkedinUsername);
+
+            // Profilbeschreibung ziehen und setzen
+            String profileDescription = profileLayout.getProfileDescriptionField().getValue();
+            student.getUser().getProfile().setProfileDescription(profileDescription);
+
+            // Avatar URL ziehen und setzen
+            String avatarUrl = profileLayout.getAvatarUrlField().getValue();
+            student.getUser().getProfile().setAvatarUrl(avatarUrl);
+
+            profileService.saveProfile(student.getUser().getProfile());
+
+            for (Interest interest : interestList) {
+                profileService.saveInterest(interest);
+            }
+            for (FirstName firstName : firstNameList) {
+                profileService.saveFirstName(firstName);
+            }
+            for (Skill skill : skillList) {
+                profileService.saveSkill(skill);
+            }
+            for (DegreeProgramm degreeProgramm : degreeProgrammList) {
+                profileService.saveDegreeProgramm(degreeProgramm);
+            }
             dialog.close();
         });
 
