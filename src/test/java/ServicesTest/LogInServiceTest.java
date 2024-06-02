@@ -1,7 +1,7 @@
 package ServicesTest;
 
 import hbrs.se2.collhbrs.model.dto.UserDTO;
-import hbrs.se2.collhbrs.model.dto.imp.UserDTOImpl;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
@@ -33,84 +33,54 @@ class LogInServiceTest {
     }
 
     @Test
-    void testAuthenticatePositive() throws DatabaseLayerException {
-
-        UserDTOImpl mockUser = new UserDTOImpl();
+    void testLoginPositive() {
+        User mockUser = new User();
         mockUser.setUsername(USERNAME);
         mockUser.setPassword(PASSWORD);
 
-        when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
+        when(userRepository.findByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
 
-        assertTrue(loginService.authenticate(USERNAME, PASSWORD));
-        assertEquals(mockUser, loginService.getCurrentUser());
+        User result = loginService.login(USERNAME, PASSWORD);
+        assertNotNull(result);
+        assertEquals(USERNAME, result.getUsername());
     }
 
     @Test
-    void testAuthenticateNegative() throws DatabaseLayerException {
-
-
-        when(userRepository.findUserByUsernameAndPassword(USERNAME, WRONGPASSWORD)).thenReturn(null);
-
-        assertFalse(loginService.authenticate(USERNAME, WRONGPASSWORD));
-        assertNull(loginService.getCurrentUser());
+    void testLoginNegative() {
+        when(userRepository.findByUsernameAndPassword(USERNAME, WRONGPASSWORD)).thenReturn(null);
+        assertNull(loginService.login(USERNAME, WRONGPASSWORD));
+        assertNull(loginService.login(WRONGUSERNAME, WRONGPASSWORD));
     }
 
     @Test
     void testIsBlacklistedPositive() throws DatabaseLayerException {
-
-        UserDTOImpl mockUser = new UserDTOImpl();
+        User mockUser = new User();
         mockUser.setUsername(USERNAME);
         mockUser.setPassword(PASSWORD);
         mockUser.setBlacklisted(1);
 
-        when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
+        when(userRepository.findByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
 
-        assertTrue(loginService.isBlacklisted(USERNAME, PASSWORD));
+        UserDTO userDTO = new UserDTO(loginService.login(USERNAME, PASSWORD));
+        userDTO.setUsername(USERNAME);
+        userDTO.setPassword(PASSWORD);
+
+        assertTrue(loginService.isBlacklisted(userDTO));
     }
 
     @Test
-    void testIsBlacklistedFNegative() throws DatabaseLayerException {
-
-        UserDTOImpl mockUser = new UserDTOImpl();
+    void testIsBlacklistedNegative() throws DatabaseLayerException {
+        User mockUser = new User();
         mockUser.setUsername(USERNAME);
         mockUser.setPassword(PASSWORD);
         mockUser.setBlacklisted(0);
 
-        when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
+        when(userRepository.findByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
 
-        assertFalse(loginService.isBlacklisted(USERNAME, PASSWORD));
-    }
+        UserDTO userDTO = new UserDTO(loginService.login(USERNAME, PASSWORD));
+        userDTO.setUsername(USERNAME);
+        userDTO.setPassword(PASSWORD);
 
-    @Test
-    void testIsBlacklistedUserNotFound() throws DatabaseLayerException {
-
-        when(userRepository.findUserByUsernameAndPassword(USERNAME, WRONGPASSWORD)).thenReturn(null);
-
-        assertTrue(loginService.isBlacklisted(USERNAME, WRONGPASSWORD));
-    }
-
-    @Test
-    void testGetCurrentUser() throws DatabaseLayerException {
-
-        UserDTOImpl mockUser = new UserDTOImpl();
-        mockUser.setUsername(USERNAME);
-        mockUser.setPassword(PASSWORD);
-
-        when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
-
-        loginService.authenticate(USERNAME, PASSWORD);
-
-        UserDTO currentUser = loginService.getCurrentUser();
-
-        assertNotNull(currentUser);
-        assertEquals(mockUser, currentUser);
-    }
-
-    @Test
-    void testGetUser() {
-
-        when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenThrow(new org.springframework.dao.DataAccessResourceFailureException("Database error"));
-
-        assertThrows(DatabaseLayerException.class, () -> loginService.authenticate(USERNAME, PASSWORD));
+        assertFalse(loginService.isBlacklisted(userDTO));
     }
 }

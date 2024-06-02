@@ -50,15 +50,15 @@ public class LoginService {
         return studentRepository.existsByUser_UserID(user.getUserID());
     }
 
-    public boolean isUserBusiness(UserDTO user) {
+    private boolean isUserBusiness(UserDTO user) {
         return businessRepository.existsByUser_UserID(user.getUserID());
     }
 
-    public User login(String username, String password) throws DatabaseLayerException {
+    public User login(String username, String password) {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 
-    private boolean isBlacklisted(UserDTO user) {
+    public boolean isBlacklisted(UserDTO user) {
         return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword()).getBlacklisted() == 1;
     }
 }
