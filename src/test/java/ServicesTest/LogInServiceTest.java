@@ -41,9 +41,7 @@ class LogInServiceTest {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
 
-        boolean result = loginService.authenticate(USERNAME, PASSWORD);
-
-        assertTrue(result);
+        assertTrue(loginService.authenticate(USERNAME, PASSWORD));
         assertEquals(mockUser, loginService.getCurrentUser());
     }
 
@@ -53,14 +51,12 @@ class LogInServiceTest {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, WRONGPASSWORD)).thenReturn(null);
 
-        boolean result = loginService.authenticate(USERNAME, WRONGPASSWORD);
-
-        assertFalse(result);
+        assertFalse(loginService.authenticate(USERNAME, WRONGPASSWORD));
         assertNull(loginService.getCurrentUser());
     }
 
     @Test
-    void testIsBlacklistedTrue() throws DatabaseLayerException {
+    void testIsBlacklistedPositive() throws DatabaseLayerException {
 
         UserDTOImpl mockUser = new UserDTOImpl();
         mockUser.setUsername(USERNAME);
@@ -69,13 +65,11 @@ class LogInServiceTest {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
 
-        boolean result = loginService.isBlacklisted(USERNAME, PASSWORD);
-
-        assertTrue(result);
+        assertTrue(loginService.isBlacklisted(USERNAME, PASSWORD));
     }
 
     @Test
-    void testIsBlacklistedFalse() throws DatabaseLayerException {
+    void testIsBlacklistedFNegative() throws DatabaseLayerException {
 
         UserDTOImpl mockUser = new UserDTOImpl();
         mockUser.setUsername(USERNAME);
@@ -84,9 +78,7 @@ class LogInServiceTest {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
 
-        boolean result = loginService.isBlacklisted(USERNAME, PASSWORD);
-
-        assertFalse(result);
+        assertFalse(loginService.isBlacklisted(USERNAME, PASSWORD));
     }
 
     @Test
@@ -94,9 +86,7 @@ class LogInServiceTest {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, WRONGPASSWORD)).thenReturn(null);
 
-        boolean result = loginService.isBlacklisted(USERNAME, WRONGPASSWORD);
-
-        assertTrue(result);
+        assertTrue(loginService.isBlacklisted(USERNAME, WRONGPASSWORD));
     }
 
     @Test
@@ -117,7 +107,7 @@ class LogInServiceTest {
     }
 
     @Test
-    void testGetUserDatabaseException() {
+    void testGetUser() {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenThrow(new org.springframework.dao.DataAccessResourceFailureException("Database error"));
 
