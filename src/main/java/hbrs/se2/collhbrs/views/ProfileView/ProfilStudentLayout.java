@@ -95,6 +95,4 @@ public class ProfilStudentLayout extends VerticalLayout {
 
 
     }
-
-
 }

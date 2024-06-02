@@ -1,7 +1,5 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.model.dto.StudentDTO;
-import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.entity.*;
 import hbrs.se2.collhbrs.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +30,7 @@ public class ProfileService {
     @Autowired
     private FirstNameRepository firstNameRepository;
 
-    @Transactional
+   /* @Transactional
     public UserDTO getUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
@@ -40,7 +38,7 @@ public class ProfileService {
     @Transactional
     public StudentDTO getStudentByStudentID(long studentID) {
         return studentRepository.findStudentByStudentID(studentID);
-    }
+    }*/
 
     @Transactional
     public void saveUser(User user) {

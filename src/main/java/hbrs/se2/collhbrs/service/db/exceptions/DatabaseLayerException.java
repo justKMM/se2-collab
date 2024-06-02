@@ -2,7 +2,7 @@ package hbrs.se2.collhbrs.service.db.exceptions;
 
 public class DatabaseLayerException extends Exception {
 
-    private String reason = null;
+    private String reason;
 
     public DatabaseLayerException(String reason) {
         this.reason = reason;
