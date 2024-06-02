@@ -90,8 +90,9 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         getContent().setFlexGrow(1.0, layoutColumn2);
 
         setRatingIcons();
-        setLayouts();
         setButtons();
+        setLayouts();
+
 
 
         // dialog = getContentProfile();
@@ -118,10 +119,10 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
             button_cancel_mail.addClickListener(e1 -> d.close());
             button_confirm_mail.addClickListener(e1 -> {
                 if(!ef_email.isEmpty()) {
-                    student.getUser().setEmail(ef_email.getValue().toString());
+                    student.getUser().setEmail(ef_email.getValue());
                     Notification.show("E-Mail wurde geändert. ");
                 }
-                dialog.close();
+                d.close();
             });
 
             d.open();
