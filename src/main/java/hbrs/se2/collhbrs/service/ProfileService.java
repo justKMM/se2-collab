@@ -30,16 +30,6 @@ public class ProfileService {
     @Autowired
     private FirstNameRepository firstNameRepository;
 
-   /* @Transactional
-    public UserDTO getUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
-    }
-
-    @Transactional
-    public StudentDTO getStudentByStudentID(long studentID) {
-        return studentRepository.findStudentByStudentID(studentID);
-    }*/
-
     @Transactional
     public void saveUser(User user) {
         userRepository.save(user);

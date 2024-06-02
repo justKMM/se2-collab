@@ -6,7 +6,6 @@ import com.vaadin.flow.server.VaadinSession;
 import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
-import hbrs.se2.collhbrs.model.entity.Student;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
