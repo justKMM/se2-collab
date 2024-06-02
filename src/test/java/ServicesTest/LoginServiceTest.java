@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class LoginServiceTest {
+class LogInServiceTest {
 
     public static final String USERNAME = "sasha123";
     public static final String WRONGUSERNAME = "wrongsasha";
@@ -60,7 +60,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void testIsBlacklistedPositive() throws DatabaseLayerException {
+    void testIsBlacklistedTrue() throws DatabaseLayerException {
 
         UserDTOImpl mockUser = new UserDTOImpl();
         mockUser.setUsername(USERNAME);
@@ -75,7 +75,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void testIsBlacklistedNegative() throws DatabaseLayerException {
+    void testIsBlacklistedFalse() throws DatabaseLayerException {
 
         UserDTOImpl mockUser = new UserDTOImpl();
         mockUser.setUsername(USERNAME);
@@ -89,7 +89,6 @@ class LoginServiceTest {
         assertFalse(result);
     }
 
-    /*
     @Test
     void testIsBlacklistedUserNotFound() throws DatabaseLayerException {
 
@@ -99,7 +98,6 @@ class LoginServiceTest {
 
         assertTrue(result);
     }
-    */
 
     @Test
     void testGetCurrentUser() throws DatabaseLayerException {
@@ -119,11 +117,10 @@ class LoginServiceTest {
     }
 
     @Test
-    void testGetUser() {
+    void testGetUserDatabaseException() {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenThrow(new org.springframework.dao.DataAccessResourceFailureException("Database error"));
 
         assertThrows(DatabaseLayerException.class, () -> loginService.authenticate(USERNAME, PASSWORD));
     }
 }
-
