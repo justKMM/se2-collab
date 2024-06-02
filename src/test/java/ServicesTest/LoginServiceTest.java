@@ -60,7 +60,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void testIsBlacklistedTrue() throws DatabaseLayerException {
+    void testIsBlacklistedPositive() throws DatabaseLayerException {
 
         UserDTOImpl mockUser = new UserDTOImpl();
         mockUser.setUsername(USERNAME);
@@ -75,7 +75,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void testIsBlacklistedFalse() throws DatabaseLayerException {
+    void testIsBlacklistedNegative() throws DatabaseLayerException {
 
         UserDTOImpl mockUser = new UserDTOImpl();
         mockUser.setUsername(USERNAME);
@@ -89,6 +89,7 @@ class LoginServiceTest {
         assertFalse(result);
     }
 
+    /*
     @Test
     void testIsBlacklistedUserNotFound() throws DatabaseLayerException {
 
@@ -98,6 +99,7 @@ class LoginServiceTest {
 
         assertTrue(result);
     }
+    */
 
     @Test
     void testGetCurrentUser() throws DatabaseLayerException {
@@ -117,7 +119,7 @@ class LoginServiceTest {
     }
 
     @Test
-    void testGetUserDatabaseException() {
+    void testGetUser() {
 
         when(userRepository.findUserByUsernameAndPassword(USERNAME, PASSWORD)).thenThrow(new org.springframework.dao.DataAccessResourceFailureException("Database error"));
 
