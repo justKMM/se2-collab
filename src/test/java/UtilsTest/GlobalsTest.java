@@ -14,7 +14,7 @@ public class GlobalsTest {
         assertEquals("", Globals.Pages.LOGIN);
         assertEquals("forgot-password", Globals.Pages.FORGOT_PASSWORD);
         assertEquals("signup", Globals.Pages.SIGNUP);
-        assertEquals("profile-page", Globals.Pages.PROFILSTUDENT);
+        assertEquals("main/student/profile-page", Globals.Pages.PROFILSTUDENT);
     }
 
     @Test

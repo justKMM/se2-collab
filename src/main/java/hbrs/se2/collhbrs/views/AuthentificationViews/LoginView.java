@@ -71,10 +71,4 @@ public class LoginView extends VerticalLayout {
             Notification.show("User with this username and/or password could not be found!");
         }
     }
-
-    private void showNotification(String message, NotificationVariant variant) {
-        Notification notification = Notification.show(message);
-        notification.addThemeVariants(variant);
-        notification.open();
-    }
 }

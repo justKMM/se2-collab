@@ -10,7 +10,6 @@ import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
-import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class LoginService {
     private BusinessRepository businessRepository;
 
 
-    public void startSession(UserDTO user) throws DatabaseLayerException {
+    public void startSession(UserDTO user) {
         if (isUserStudent(user) && !isBlacklisted(user)) {
             VaadinSession.getCurrent().setAttribute(
                     Globals.CURRENT_USER,
