@@ -1,5 +1,6 @@
 package hbrs.se2.collhbrs.views.AuthentificationViews;
 
+import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -7,6 +8,8 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.entity.Email;
@@ -17,18 +20,24 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 @Route(value = Globals.Pages.FORGOT_PASSWORD)
 @CssImport("./styles/index.css")
-public class ForgotPasswordView extends FormLayout {
+public class ForgotPasswordView extends Composite<VerticalLayout> {
+
+    FormLayout formLayout;
     public ForgotPasswordView(@Qualifier("javaMailSender") JavaMailSender javaMailSender) {
+
         setupLayout();
         setupFields(javaMailSender);
     }
 
     private void setupLayout() {
         addClassName("forgot_password_view");
-        setMaxWidth("500px");
-        setResponsiveSteps(
-                new ResponsiveStep("0", 1, ResponsiveStep.LabelsPosition.TOP),
-                new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP)
+        //getContent().setMaxWidth("500px");
+        getContent().setWidth("100%");
+        formLayout = new FormLayout();
+        formLayout.setWidth("500px");
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
+                new FormLayout.ResponsiveStep("490px", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP)
         );
     }
 
@@ -58,8 +67,11 @@ public class ForgotPasswordView extends FormLayout {
             UI.getCurrent().navigate(Globals.Pages.LOGIN);
         });
 
-        add(title, emailField, sendMailButton, cancelButton);
-        setColspan(title, 2);
-        setColspan(emailField, 2);
+        // add(title, emailField, cancelButton, sendMailButton);
+        formLayout.add(title, emailField, cancelButton, sendMailButton);
+        formLayout.setColspan(title, 2);
+        formLayout.setColspan(emailField, 2);
+        getContent().add(formLayout);
+        getContent().setAlignSelf(FlexComponent.Alignment.CENTER, formLayout);
     }
 }
