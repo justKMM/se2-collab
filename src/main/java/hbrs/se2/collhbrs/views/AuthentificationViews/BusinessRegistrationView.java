@@ -9,6 +9,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -77,7 +78,8 @@ public class BusinessRegistrationView extends FormLayout {
     private void addButtons() {
 
         cancelButton.addClickListener(e -> {
-            Notification.show("Registration cancelled");
+            Notification notification = Notification.show("Registration cancelled");
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             UI.getCurrent().navigate(Globals.Pages.LOGIN);
         });
 
@@ -96,7 +98,8 @@ public class BusinessRegistrationView extends FormLayout {
                             email.getValue(),
                             businessName.getValue()
                     );
-                    Notification.show("Registration successful");
+                    Notification notification = Notification.show("Registration successful");
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     UI.getCurrent().navigate(Globals.Pages.LOGIN);
                 } catch (RuntimeException runtimeException) {
                     Notification.show(runtimeException.getMessage());
