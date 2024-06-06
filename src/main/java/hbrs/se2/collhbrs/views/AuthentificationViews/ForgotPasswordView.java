@@ -14,23 +14,26 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.entity.Email;
 import hbrs.se2.collhbrs.service.EmailService;
+import hbrs.se2.collhbrs.service.ResetPasswordService;
 import hbrs.se2.collhbrs.util.Globals;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 
 @Route(value = Globals.Pages.FORGOT_PASSWORD)
 @CssImport("./styles/index.css")
 public class ForgotPasswordView extends Composite<VerticalLayout> {
+    @Autowired
+    ResetPasswordService resetPasswordService;
 
     FormLayout formLayout;
-    public ForgotPasswordView(@Qualifier("javaMailSender") JavaMailSender javaMailSender) {
-
+    public ForgotPasswordView() {
         setupLayout();
-        setupFields(javaMailSender);
+        setupFields();
     }
 
     private void setupLayout() {
-        addClassName("forgot_password_view");
+        addClassName("reset-password");
         //getContent().setMaxWidth("500px");
         getContent().setWidth("100%");
         formLayout = new FormLayout();
@@ -41,7 +44,7 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
         );
     }
 
-    private void setupFields(@Qualifier("javaMailSender") JavaMailSender javaMailSender) {
+    private void setupFields() {
         H3 title = new H3("Reset Password");
         // Email Input Field
         EmailField emailField = new EmailField();
@@ -49,14 +52,12 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
         emailField.setLabel("Email");
         emailField.setRequiredIndicatorVisible(true);
         emailField.setErrorMessage("E-mail is required");
-        emailField.setPlaceholder("muster@musterdomain.com");
+        emailField.setPlaceholder("example@domain.com");
         // Send reset password email button
         Button sendMailButton = new Button("Reset Password");
         sendMailButton.addClickListener(e -> {
             String recipient = emailField.getValue();
-            Email email = new Email(recipient, "Click here to reset password:\n[URL]\n\nAldaringhausen Klangkreationen GmbH\n[Impressum]", "collhbrs - Reset Your Password", "");
-            EmailService emailService = new EmailService(javaMailSender);
-            String status = emailService.sendSimpleMail(email);
+            String status = resetPasswordService.sendResetPasswordMail(recipient);
             Notification.show(status);
             UI.getCurrent().navigate(Globals.Pages.LOGIN);
         });
@@ -66,7 +67,6 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
         cancelButton.addClickListener(e -> {
             UI.getCurrent().navigate(Globals.Pages.LOGIN);
         });
-
         // add(title, emailField, cancelButton, sendMailButton);
         formLayout.add(title, emailField, cancelButton, sendMailButton);
         formLayout.setColspan(title, 2);

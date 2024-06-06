@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,13 @@ import java.util.Objects;
 
 @Service
 public class EmailService {
-    private final JavaMailSender javaMailSender;
-    /*@Value("${spring.mail.username}") private String sender;*/
-    private final String sender = "Sender";
+    private final String sender = "Aldaringhausen-Klangkreationen-GmbH";
 
     @Autowired
-    public EmailService(@Qualifier("javaMailSender") JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
+    private JavaMailSender javaMailSender;
+
+    public EmailService() {}
+
 
     // Send a simple email
     public String sendSimpleMail(Email email) {
