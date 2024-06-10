@@ -105,6 +105,7 @@ public class AppView extends AppLayout {
         //     System.out.println("User is Admin!");
         //     tabs = Utils.append( tabs , createTab("Enter Car", EnterCarView.class)  );
         //}
+
         tab_array = Utils.append( tab_array , createTab("Add vacancy", AddVacancyView.class)  );
         /*
          ToDo: append new Tabs later

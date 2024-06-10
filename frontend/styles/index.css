@@ -44,3 +44,14 @@
     font-size: 1.03rem;
     line-height: 1.5;
 }
+.add-vacancy-view {
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-start;
+    align-items: center;
+}
+.add-vacancy-view .button-layout {
+    margin-bottom: var(--lumo-space-l);
+    margin-top: var(--lumo-space-m);
+}
