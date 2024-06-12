@@ -21,7 +21,7 @@ import hbrs.se2.collhbrs.service.AuthorizationControl;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Utils;
-import hbrs.se2.collhbrs.views.AuthentificationViews.AddVacancyView;
+import hbrs.se2.collhbrs.views.AuthentificationViews.VacancyView;
 import hbrs.se2.collhbrs.views.ProfileView.ProfilStudentView;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -106,7 +106,7 @@ public class AppView extends AppLayout {
         //     tabs = Utils.append( tabs , createTab("Enter Car", EnterCarView.class)  );
         //}
 
-        tab_array = Utils.append( tab_array , createTab("Add vacancy", AddVacancyView.class)  );
+        tab_array = Utils.append( tab_array , createTab("Add vacancy", VacancyView.class)  );
         /*
          ToDo: append new Tabs later
          Admin rechte?

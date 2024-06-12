@@ -88,9 +88,7 @@ public class RegisterService {
 
     @Transactional
     public void saveFirstNames(String[] firstNames, Student student) {
-        System.out.println(firstNames.length);
         for (String firstName : firstNames) {
-            System.out.println(firstName);
             saveVorname(entityFactory.createFirstName(firstName, student));
         }
     }

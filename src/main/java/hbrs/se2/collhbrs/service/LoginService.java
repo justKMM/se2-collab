@@ -29,20 +29,28 @@ public class LoginService {
 
     public void startSession(UserDTO user) {
         if (isUserStudent(user) && !isBlacklisted(user)) {
-            VaadinSession.getCurrent().setAttribute(
-                    Globals.CURRENT_USER,
-                    new StudentDTO(studentRepository.findStudentByUser_UserID(user.getUserID())));
-            Notification.show("Login Successful");
-            UI.getCurrent().navigate(Globals.Pages.MAIN);
+            startStudentSession(user);
         } else if (isUserBusiness(user) && !isBlacklisted(user)) {
-            VaadinSession.getCurrent().setAttribute(
-                    Globals.CURRENT_USER,
-                    new BusinessDTO(businessRepository.findBusinessByUser_UserID(user.getUserID())));
-            Notification.show("Login Successful");
-            UI.getCurrent().navigate(Globals.Pages.PROFILBUSSINESS);
+            startBusinessSession(user);
         } else {
             Notification.show("Account is Blacklisted!");
         }
+    }
+
+    private void startBusinessSession(UserDTO user) {
+        VaadinSession.getCurrent().setAttribute(
+                Globals.CURRENT_USER,
+                new BusinessDTO(businessRepository.findBusinessByUser_UserID(user.getUserID())));
+        Notification.show("Login Successful");
+        UI.getCurrent().navigate(Globals.Pages.PROFILBUSSINESS);
+    }
+
+    private void startStudentSession(UserDTO user) {
+        VaadinSession.getCurrent().setAttribute(
+                Globals.CURRENT_USER,
+                new StudentDTO(studentRepository.findStudentByUser_UserID(user.getUserID())));
+        Notification.show("Login Successful");
+        UI.getCurrent().navigate(Globals.Pages.MAIN);
     }
 
     private boolean isUserStudent(UserDTO user) {

@@ -15,7 +15,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
-import hbrs.se2.collhbrs.service.VacancyControl;
+import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.views.AppView;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
@@ -24,7 +24,7 @@ import hbrs.se2.collhbrs.model.dto.UserDTO;
 @Route(value = Globals.Pages.BUSINESSVACANCY, layout = AppView.class)
 @CssImport("./styles/index.css")
 //@RolesAllowed("ADMIN")
-public class AddVacancyView extends Div {
+public class VacancyView extends Div {
 
     private TextField titel = new TextField("Titel");
     private TextField description = new TextField("Description");
@@ -34,7 +34,7 @@ public class AddVacancyView extends Div {
 
     private Binder<VacancyDTO> binder = new Binder(VacancyDTO.class);
 
-    public AddVacancyView(VacancyControl vacancyControl) {
+    public VacancyView(VacancyService vacancyService) {
         addClassName("add-vacancy-view");
 
         add(createTitle());
@@ -53,7 +53,7 @@ public class AddVacancyView extends Div {
                     // Zusätzlich wird das aktuelle UserDTO übergeben.
                     UserDTO userDTO =
                             (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-                    vacancyControl.createVacancy(binder.getBean(), userDTO);
+                    vacancyService.createVacancy(binder.getBean(), userDTO);
 
                     Notification.show("Vacancy stored.");
                     clearForm();

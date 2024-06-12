@@ -9,8 +9,10 @@ import java.time.LocalDate;
 
 @Service
 public class SecurityService {
+
     @Autowired
     PasswordTokenRepository passwordTokenRepository;
+
     protected String validatePasswordResetToken(String token) {
         final ResetPasswordToken passToken = passwordTokenRepository.findByToken(token);
         return !isTokenFound(passToken) ? "invalidToken"

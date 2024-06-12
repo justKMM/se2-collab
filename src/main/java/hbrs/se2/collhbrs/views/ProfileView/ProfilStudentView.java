@@ -21,15 +21,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.*;
-import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Route(value = Globals.Pages.PROFILSTUDENT, layout = AppView.class)
 @CssImport("./styles/index.css")
@@ -93,8 +89,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         setButtons();
         setLayouts();
 
-
-
         // dialog = getContentProfile();
 
         button_p_data_edit.addClickListener(e -> {
@@ -128,22 +122,14 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
             d.open();
         });
 
-
-
-
-
         String s = "Email: " + sessionService.getCurrentStudent().getUser().getEmail() + "\n" +
                 " Last name: " + sessionService.getCurrentStudent().getLastName() + "\n" +
                 " Username: " +  sessionService.getCurrentStudent().getUser().getUsername();
-        Paragraph textMedium = new Paragraph(
-               s);
+        Paragraph textMedium = new Paragraph(s);
 
         textMedium.setWidth("100%");
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
         layoutColumn4.add(h12, textMedium, button_p_data_edit);
-
-
-
 
     }
 
@@ -172,9 +158,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         button_cancel.addClickListener(e -> d.close());
         button_confirm.addClickListener(e -> {
             changeData();
-
-
-
             dialog.close();
         });
         // speichern fehlt noch
@@ -203,8 +186,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         if(!profileLayout.getTf_nachname().isEmpty()) {
             student.setLastName(profileLayout.getTf_nachname());
             // Notification.show("Last name has been changed.  ");
-
-
         }
 
 

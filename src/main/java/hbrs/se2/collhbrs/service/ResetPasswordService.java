@@ -13,70 +13,83 @@ import java.util.UUID;
 
 @Service
 public class ResetPasswordService {
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private PasswordTokenRepository passwordTokenRepository;
+
     @Autowired
     private SecurityService securityService;
+
     @Autowired
     private EmailService emailService;
 
-    // Sending the mail
     public String sendResetPasswordMail(String usermail) {
-        boolean userExists = checkUserExistence(usermail);
-        if (userExists) {
-            // Saving the token
-            String token = UUID.randomUUID().toString();
-            User user = userRepository.findByEmail(usermail);
-            createPasswordResetTokenForUser(user, token);
-            // Creating the email
-            Email email = createResetPasswordEmail(Globals.BASE_URL, token, usermail);
-            return emailService.sendSimpleMail(email);
-        }
-        return "User does not exist, please create a new account.";
+        return userExists(usermail) ? emailService.sendSimpleMail(
+                createResetPasswordEmail(
+                        Globals.BASE_URL,
+                        createPasswordResetTokenForUser(userRepository.findByEmail(usermail)),
+                        userRepository.findByEmail(usermail)
+                )
+        ) : "User does not exist, please create a new account.";
     }
 
-    private boolean checkUserExistence(String email) {
+    private boolean userExists(String email) {
         return userRepository.existsByEmail(email);
     }
 
-    private String findUserNameByEmail(String email) {
-        return userRepository.findByEmail(email).getUsername();
+    private Email createResetPasswordEmail(String contextPath, String token, User user) {
+        return new Email(
+                user.getEmail(),
+                "Hi " +
+                        user.getUsername() +
+                        ", click here to reset password:\n" +
+                        contextPath + "/" +
+                        Globals.Pages.RESET_PASSWORD +
+                        "?token=" +
+                        token +
+                        "\n\n\nAldaringhausen Klangkreationen GmbH\n[Impressum]",
+                "collhbrs - Reset Your Password",
+                ""
+        );
     }
-    // Creating the email
-    private Email createResetPasswordEmail(String contextPath, String token, String usermail) {
-        String username = findUserNameByEmail(usermail);
-        // String components
-        String url = contextPath + "/" + Globals.Pages.RESET_PASSWORD + "?token=" + token;
-        String messageBegin = "Hi " + username + ", click here to reset password:\n";
-        String messageEnd = "\n\n\nAldaringhausen Klangkreationen GmbH\n[Impressum]";
-        // Entire message
-        String message = messageBegin + url + messageEnd;
-        // Creating the email
-        return new Email(usermail, message, "collhbrs - Reset Your Password", "");
-    }
-    // Creating the token
-    private void createPasswordResetTokenForUser(User user, String token) {
-        ResetPasswordToken myToken = new ResetPasswordToken(token, user);
-        passwordTokenRepository.save(myToken);
+
+    private String createPasswordResetTokenForUser(User user) {
+        return passwordTokenRepository.save(
+                new ResetPasswordToken(
+                        UUID.randomUUID().toString(),
+                        user)
+        ).getToken();
     }
 
     public String resetPassword(String token, String password) {
         String tokenValidity = securityService.validatePasswordResetToken(token);
         if (tokenValidity != null) {
-            return "Error" + tokenValidity;
+            return "Error: " + tokenValidity;
         }
-        ResetPasswordToken tmpToken = passwordTokenRepository.findByToken(token);
-        User user = tmpToken.getUser();
+
         try {
-            user.setPassword(password);
-            userRepository.save(user);
-            passwordTokenRepository.delete(tmpToken);
+            updateUserPassword(getUserFromToken(token), password);
+            deleteToken(token);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();
         }
         return "Password reset successful";
+    }
+
+    private User getUserFromToken(String token) {
+        return passwordTokenRepository.findByToken(token).getUser();
+    }
+
+    private void updateUserPassword(User user, String password) {
+        user.setPassword(password);
+        userRepository.save(user);
+    }
+
+    private void deleteToken(String token) {
+        passwordTokenRepository.delete(passwordTokenRepository.findByToken(token));
     }
 }
