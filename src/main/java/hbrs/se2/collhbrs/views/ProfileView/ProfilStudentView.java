@@ -26,6 +26,7 @@ import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.List;
 
 @Route(value = Globals.Pages.PROFILSTUDENT, layout = AppView.class)
 @CssImport("./styles/index.css")
+@PermitAll
 public class ProfilStudentView extends Composite<VerticalLayout> {
 
     private  Button button_p_data_edit;

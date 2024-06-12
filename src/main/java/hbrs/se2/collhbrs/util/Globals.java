@@ -10,11 +10,18 @@ public class Globals {
     public static class Pages {
         public static final String MAIN = "main";
         public static final String REMINDER = "reminder";
-        public static final String LOGIN = "";
+        public static final String LOGIN = "login";
         public static final String FORGOT_PASSWORD = "forgot-password";
         public static final String RESET_PASSWORD = "reset-password";
         public static final String SIGNUP = "signup";
         public static final String PROFILSTUDENT = "main/student/profile-page";
         public static final String PROFILBUSSINESS = "main/bussiness/profile-page";
+    }
+
+    public static class Roles {
+        public static final String ADMIN = "admin";
+        public static final String USER = "user";
+        public static final String STUDENT = "student";
+        public static final String BUSINESS = "business";
     }
 }

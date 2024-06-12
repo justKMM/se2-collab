@@ -17,9 +17,12 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+import hbrs.se2.collhbrs.service.SecurityService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.ProfileView.ProfilStudentView;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -29,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.MAIN)
+@PermitAll
 public class AppView extends AppLayout {
 
     private Tabs sidemenu;
@@ -36,6 +40,9 @@ public class AppView extends AppLayout {
 
     @Autowired
     private SessionService sessionService;
+
+    @Autowired
+    SecurityService securityService;
 
     public AppView() {
         setUpUI();
@@ -102,7 +109,7 @@ public class AppView extends AppLayout {
     }
 
     private void logoutUser() {
-        UI.getCurrent().navigate(Globals.Pages.LOGIN);
+        securityService.logout();
     }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {
