@@ -2,6 +2,17 @@
 -- _______________
 CREATE SCHEMA IF NOT EXISTS public;
 
+-- Database Section
+-- _______________
+
+
+-- create database collAtHbrs;
+
+
+-- DBSpace Section
+-- _______________
+
+
 -- Tables Section
 -- _____________
 
@@ -12,7 +23,7 @@ create table public.Benutzer
     Username    varchar(32) not null,
     Passwort    varchar(64) not null,
     Blacklisted numeric(1),
-    Email       varchar(320),
+    Email varchar(320),
     constraint uk_Benutzer_Username unique (Username),
     constraint uk_Benutzer_Email unique (Email),
     constraint pk_Benutzer primary key (BenutzerID),
@@ -118,9 +129,39 @@ create table public.Vorname
     constraint pk_Vorname primary key (StudentID, laufende_nummer)
 );
 
+create table public.Authority
+(
+    BenutzerID SERIAL not null,
+    laufende_nummer numeric(2) not null,
+    AuthorityRank varchar(16) not null,
+    constraint pk_Authority primary key (BenutzerID, laufende_nummer)
+);
+
+create table public.PasswortResetToken
+(
+    PasswortResetTokenID SERIAL not null,
+    BenutzerID SERIAL not null,
+    Token varchar(256) not null,
+    Ablaufdatum date not null,
+    constraint pk_PasswortResetToken primary key (PasswortResetTokenID)
+);
+
 
 -- Constraints Section
 -- ___________________
+
+
+--    alter table collAtHbrs.Benutzer
+--        add constraint chk_Benutzer_Unternehmen_BenutzerID
+--            check (exists(select *
+--                          from Unternehmen
+--                          where Unternehmen.BenutzerID = BenutzerID));
+
+--    alter table collAtHbrs.Benutzer
+--        add constraint chk_Benutzer_Student_BenutzerID
+--            check (exists(select *
+--                          from Student
+--                          where Student.BenutzerID = BenutzerID));
 
 alter table public.Benutzer
     add constraint fk_Benutzer_Profil
@@ -136,8 +177,6 @@ alter table public.bewirbt
     add constraint fk_bewirbt_Stellenausschreibung
         foreign key (StellenausschreibungID)
             references Stellenausschreibung;
-
-
 
 alter table public.Interessen
     add constraint fk_Interessen_Student
@@ -159,10 +198,70 @@ alter table public.Kontaktverknuepfung
         foreign key (StudentID)
             references Student;
 
+alter table public.Authority
+    add constraint fk_Authority_Benutzer
+        foreign key (BenutzerID)
+            references Benutzer;
+
+alter table public.PasswortResetToken
+    add constraint fk_PasswortResetToken_Benutzer
+        foreign key (BenutzerID)
+            references Benutzer;
+
+
+
+--    alter table collAtHbrs.Profil
+--        add constraint chk_Profil_Benutzer_ProfilID
+--            check (exists(select *
+--                          from Benutzer
+--                          where Benutzer.ProfilID = ProfilID));
+
+--    alter table collAtHbrs.Stellenausschreibung
+--        add constraint chk_Stellenausschreibung_bewirbt_StellenausschreibungID
+--            check (exists(select *
+--                          from bewirbt
+--                          where bewirbt.StellenausschreibungID = StellenausschreibungID));
+
 alter table public.Stellenausschreibung
     add constraint fk_Stellenausschreibung_Unternehmen
         foreign key (UnternehmenID)
             references Unternehmen;
+
+--    alter table collAtHbrs.Student
+--        add constraint chk_Student_Interessen_StudentID
+--            check (exists(select *
+--                          from Interessen
+--                          where Interessen.StudentID = StudentID));
+
+--    alter table collAtHbrs.Student
+--        add constraint chk_Student_Kompetenzen_StudentID
+--            check (exists(select *
+--                          from Kompetenzen
+--                          where Kompetenzen.StudentID = StudentID));
+
+--    alter table collAtHbrs.Student
+--        add constraint chk_Student_Studiengang_StudentID
+--            check (exists(select *
+--                          from Studiengang
+--                          where Studiengang.StudentID = StudentID));
+
+--    alter table collAtHbrs.Student
+--        add constraint chk_Student_Vorname_StudentID
+--            check (exists(select *
+--                          from Vorname
+--                          where Vorname.StudentID = StudentID));
+
+--    alter table collAtHbrs.Student
+--        add constraint chk_Student_Kontaktverknuepfung_StudentID
+--            check (exists(select *
+--                          from Kontaktverknuepfung
+--                          where Kontaktverknuepfung.StudentID = StudentID));
+
+--    alter table collAtHbrs.Student
+--        add constraint chk_Student_bewirbt_StudentID
+--            check (exists(select *
+--                          from bewirbt
+--                          where bewirbt.StudentID = StudentID));
 
 alter table public.Student
     add constraint fk_Student_Benutzer
@@ -174,6 +273,12 @@ alter table public.Studiengang
         foreign key (StudentID)
             references Student;
 
+--    alter table collAtHbrs.Unternehmen
+--        add constraint chk_Unternehmen_Kontaktverknuepfung_UnternehmenID
+--            check (exists(select *
+--                          from Kontaktverknuepfung
+--                          where Kontaktverknuepfung.UnternehmenID = UnternehmenID));
+
 alter table public.Unternehmen
     add constraint fk_Unternehmen_Benutzer
         foreign key (BenutzerID)
@@ -183,3 +288,8 @@ alter table public.Vorname
     add constraint fk_Vorname_Student
         foreign key (StudentID)
             references Student;
+
+
+-- Index Section
+-- _____________
+
