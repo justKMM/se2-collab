@@ -13,21 +13,13 @@ import static java.util.Collections.emptyList;
 
 @Entity
 @Table(name = "benutzer", schema = "public")
-public class User implements Serializable, UserDetails {
+public class User implements Serializable {
     private long userID;
     private Profile profile;
     private String username;
     private String password;
     private int blacklisted;
     private String email;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "authorities", targetEntity = Authority.class)
-    @Convert(converter = AuthorityListConverter.class)
-    @Setter
-    private List<Authority> authorities = new ArrayList<>() {
-        {
-            add(new Authority(Globals.Roles.USER));
-        }
-    };
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,64 +92,5 @@ public class User implements Serializable, UserDetails {
 
     public int hashCode() {
         return Objects.hash(userID, profile, username, password, blacklisted);
-    }
-
-    //
-    @Setter
-    private boolean accountNonExpired = true;
-    @Override
-    public boolean isAccountNonExpired() {
-        return accountNonExpired;
-    }
-    @Setter
-    private boolean accountNonLocked = true;
-    @Override
-    public boolean isAccountNonLocked() {
-        return accountNonLocked;
-    }
-    @Setter
-    private boolean credentialsNonExpired = true;
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
-    }
-    @Setter
-    private boolean enabled = true;
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    @Converter
-    public class AuthorityListConverter implements AttributeConverter<List<Authority>, String> {
-        private static final String SPLIT_CHAR = ";";
-        private String toString(List<Authority> authorities) {
-            StringBuilder result = new StringBuilder();
-            for (Authority authority : authorities) {
-                result.append(authority.toString()).append(SPLIT_CHAR);
-            }
-            return result.toString();
-        }
-        private List<Authority> toList(String string) {
-            List<Authority> result = new ArrayList<>();
-            for (String s : string.split(SPLIT_CHAR)) {
-                result.add(new Authority(s));
-            }
-            return result;
-        }
-        @Override
-        public String convertToDatabaseColumn(List<Authority> authorities) {
-            return authorities != null ? toString(authorities) : null;
-        }
-
-        @Override
-        public List<Authority> convertToEntityAttribute(String string) {
-            return string != null ? toList(string) : emptyList();
-        }
     }
 }
