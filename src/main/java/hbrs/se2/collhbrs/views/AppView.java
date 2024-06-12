@@ -17,8 +17,11 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+import hbrs.se2.collhbrs.service.AuthorizationControl;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.Utils;
+import hbrs.se2.collhbrs.views.AuthentificationViews.AddVacancyView;
 import hbrs.se2.collhbrs.views.ProfileView.ProfilStudentView;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,6 +36,8 @@ public class AppView extends AppLayout {
 
     private Tabs sidemenu;
     private H1 viewTitle;
+
+    private AuthorizationControl authorizationControl;
 
     @Autowired
     private SessionService sessionService;
@@ -91,8 +96,17 @@ public class AppView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        Tab[] tab_array = new Tab[]{createTab("profile-page", ProfilStudentView.class)};
+        authorizationControl = new AuthorizationControl();
 
+        Tab[] tab_array = new Tab[]{createTab("Profile", ProfilStudentView.class)};
+
+        //TODO: Klasse AuthorizationControl
+        //if ( this.authorizationControl.isUserInRole( this.getCurrentUser() , Globals.Roles.ADMIN ) ) {
+        //     System.out.println("User is Admin!");
+        //     tabs = Utils.append( tabs , createTab("Enter Car", EnterCarView.class)  );
+        //}
+
+        tab_array = Utils.append( tab_array , createTab("Add vacancy", AddVacancyView.class)  );
         /*
          ToDo: append new Tabs later
          Admin rechte?
@@ -102,8 +116,9 @@ public class AppView extends AppLayout {
     }
 
     private void logoutUser() {
-        UI.getCurrent().navigate(Globals.Pages.LOGIN);
-    }
+        UI ui = this.getUI().get();
+        ui.getSession().close();
+        ui.getPage().setLocation("/");    }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {
         String slot = "navbar" + (touchOptimized ? " touch-optimized" : "");

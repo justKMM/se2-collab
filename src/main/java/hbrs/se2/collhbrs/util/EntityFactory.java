@@ -1,5 +1,7 @@
 package hbrs.se2.collhbrs.util;
 
+import hbrs.se2.collhbrs.model.dto.UserDTO;
+import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.model.entity.*;
 import org.springframework.stereotype.Component;
 
@@ -62,5 +64,16 @@ public class EntityFactory {
         skill.setSkillName(name);
         skill.setStudent(student);
         return skill;
+    }
+    public static Vacancy creatVacancy(VacancyDTO vacancyDTO, UserDTO userDTO) {
+        Vacancy vacancy = new Vacancy();
+
+        vacancy.setTitel(vacancyDTO.getTitel());
+        vacancy.setDescription(vacancyDTO.getDescription());
+
+        //TODO
+        // vacancy.setBusiness(userDTO.getUserID());
+
+        return vacancy;
     }
 }
