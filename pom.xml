@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hbrs.se2</groupId>
-    <artifactId>collhbrs</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>ar_kk_gmbh</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <name>collhbrs</name>
     <description>collhbrs</description>
     <properties>
