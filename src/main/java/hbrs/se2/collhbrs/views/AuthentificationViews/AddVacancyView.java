@@ -10,12 +10,14 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
-import hbrs.se2.collhbrs.service.VacancyControl;
+import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.views.AppView;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
@@ -30,16 +32,19 @@ public class AddVacancyView extends Div {
     private TextField description = new TextField("Description");
 
     private Button cancel = new Button("Cancel");
-    private  Button save = new Button("Save");
+    private Button save = new Button("Save");
 
     private Binder<VacancyDTO> binder = new Binder(VacancyDTO.class);
 
-    public AddVacancyView(VacancyControl vacancyControl) {
+    public AddVacancyView(VacancyService vacancyService) {
         addClassName("add-vacancy-view");
 
-        add(createTitle());
-        add(createFormLayout());
-        add(createButtonLayout());
+        VerticalLayout c1 = new VerticalLayout();
+        c1.add(createTitle());
+        c1.add(createFormLayout());
+        c1.add(createButtonLayout());
+
+        add(c1);
 
         binder.bindInstanceFields(this); // Nr. 1 HOOK / API-Methode
         clearForm();
@@ -51,9 +56,9 @@ public class AddVacancyView extends Div {
                     // Speicherung der Daten über das zuhörige Control-Object.
                     // Daten des Autos werden aus Formular erfasst und als DTO übergeben.
                     // Zusätzlich wird das aktuelle UserDTO übergeben.
-                    UserDTO userDTO =
-                            (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-                    vacancyControl.createVacancy(binder.getBean(), userDTO);
+                    BusinessDTO businessDTO =
+                            (BusinessDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+                    vacancyService.createVacancy(binder.getBean(), businessDTO);
 
                     Notification.show("Vacancy stored.");
                     clearForm();

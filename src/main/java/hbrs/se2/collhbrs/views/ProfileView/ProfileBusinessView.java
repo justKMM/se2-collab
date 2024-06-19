@@ -16,7 +16,7 @@ import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 
-@Route(value = Globals.Pages.PROFILBUSSINESS)
+@Route(value = Globals.Pages.PROFILBUSSINESS, layout = AppView.class)
 public class ProfileBusinessView extends Composite<VerticalLayout> {
 
     Business business;

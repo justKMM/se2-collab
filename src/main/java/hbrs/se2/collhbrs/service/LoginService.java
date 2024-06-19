@@ -32,24 +32,24 @@ public class LoginService {
             VaadinSession.getCurrent().setAttribute(
                     Globals.CURRENT_USER,
                     new StudentDTO(studentRepository.findStudentByUser_UserID(user.getUserID())));
-            Notification.show("Login Successful");
+            Notification.show("Student logged in successfully");
             UI.getCurrent().navigate(Globals.Pages.MAIN);
         } else if (isUserBusiness(user) && !isBlacklisted(user)) {
             VaadinSession.getCurrent().setAttribute(
                     Globals.CURRENT_USER,
                     new BusinessDTO(businessRepository.findBusinessByUser_UserID(user.getUserID())));
-            Notification.show("Login Successful");
-            UI.getCurrent().navigate(Globals.Pages.PROFILBUSSINESS);
+            Notification.show("Company logged in successfully");
+            UI.getCurrent().navigate(Globals.Pages.MAIN);
         } else {
             Notification.show("Account is Blacklisted!");
         }
     }
 
-    private boolean isUserStudent(UserDTO user) {
+    public boolean isUserStudent(UserDTO user) {
         return studentRepository.existsByUser_UserID(user.getUserID());
     }
 
-    private boolean isUserBusiness(UserDTO user) {
+    public boolean isUserBusiness(UserDTO user) {
         return businessRepository.existsByUser_UserID(user.getUserID());
     }
 

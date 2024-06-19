@@ -1,8 +1,10 @@
 package hbrs.se2.collhbrs.util;
 
+import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.model.entity.*;
+import hbrs.se2.collhbrs.service.VacancyService;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -65,14 +67,12 @@ public class EntityFactory {
         skill.setStudent(student);
         return skill;
     }
-    public static Vacancy creatVacancy(VacancyDTO vacancyDTO, UserDTO userDTO) {
+    public static Vacancy creatVacancy(VacancyDTO vacancyDTO, BusinessDTO businessDTO) {
         Vacancy vacancy = new Vacancy();
 
         vacancy.setTitel(vacancyDTO.getTitel());
         vacancy.setDescription(vacancyDTO.getDescription());
-
-        //TODO
-        // vacancy.setBusiness(userDTO.getUserID());
+        vacancy.setBusiness(VacancyService.findBusiness(businessDTO.getBusinessID()));
 
         return vacancy;
     }
