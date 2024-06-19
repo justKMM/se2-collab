@@ -26,7 +26,6 @@ public class LoginService {
     @Autowired
     private BusinessRepository businessRepository;
 
-
     public void startSession(UserDTO user) {
         if (isUserStudent(user) && !isBlacklisted(user)) {
             startStudentSession(user);
@@ -42,7 +41,7 @@ public class LoginService {
                 Globals.CURRENT_USER,
                 new BusinessDTO(businessRepository.findBusinessByUser_UserID(user.getUserID())));
         Notification.show("Login Successful");
-        UI.getCurrent().navigate(Globals.Pages.PROFILBUSSINESS);
+        UI.getCurrent().navigate(Globals.Pages.PROFIL_BUSINESS);
     }
 
     private void startStudentSession(UserDTO user) {

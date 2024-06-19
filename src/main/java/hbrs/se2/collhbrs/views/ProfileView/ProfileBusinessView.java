@@ -1,9 +1,7 @@
 package hbrs.se2.collhbrs.views.ProfileView;
 
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.avatar.Avatar;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.Icon;
@@ -14,9 +12,10 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
-import hbrs.se2.collhbrs.views.AppView;
+import jakarta.annotation.security.PermitAll;
 
-@Route(value = Globals.Pages.PROFILBUSSINESS)
+@Route(value = Globals.Pages.PROFIL_BUSINESS)
+@PermitAll
 public class ProfileBusinessView extends Composite<VerticalLayout> {
 
     Business business;

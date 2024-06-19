@@ -15,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.service.ResetPasswordService;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 @Route(Globals.Pages.RESET_PASSWORD)
 @CssImport("./styles/index.css")
+@AnonymousAllowed
 public class ResetPasswordView extends Composite<VerticalLayout> implements HasUrlParameter<String> {
     @Autowired
     ResetPasswordService resetPasswordService;

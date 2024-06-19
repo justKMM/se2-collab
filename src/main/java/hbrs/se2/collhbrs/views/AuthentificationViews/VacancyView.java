@@ -21,7 +21,7 @@ import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 
 @PageTitle("Add vacancy")
-@Route(value = Globals.Pages.BUSINESSVACANCY, layout = AppView.class)
+@Route(value = Globals.Pages.BUSINESS_VACANCY, layout = AppView.class)
 @CssImport("./styles/index.css")
 //@RolesAllowed("ADMIN")
 public class VacancyView extends Div {
