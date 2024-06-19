@@ -34,7 +34,7 @@ public class MainView extends HorizontalLayout {
 
 
         button_profile = new Button("Go to Profile");
-        button_profile.addClickListener(e -> UI.getCurrent().navigate(Globals.Pages.PROFILSTUDENT));
+        button_profile.addClickListener(e -> UI.getCurrent().navigate(Globals.Pages.PROFIL_STUDENT));
 
         vertical_layout.add(header, button_profile);
 
