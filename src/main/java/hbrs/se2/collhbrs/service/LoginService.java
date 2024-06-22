@@ -41,7 +41,6 @@ public class LoginService {
                 Globals.CURRENT_USER,
                 new BusinessDTO(businessRepository.findBusinessByUser_UserID(user.getUserID())));
         Notification.show("Login Successful");
-        UI.getCurrent().navigate(Globals.Pages.PROFIL_BUSINESS);
     }
 
     private void startStudentSession(UserDTO user) {
@@ -49,7 +48,6 @@ public class LoginService {
                 Globals.CURRENT_USER,
                 new StudentDTO(studentRepository.findStudentByUser_UserID(user.getUserID())));
         Notification.show("Login Successful");
-        UI.getCurrent().navigate(Globals.Pages.MAIN);
     }
 
     private boolean isUserStudent(UserDTO user) {

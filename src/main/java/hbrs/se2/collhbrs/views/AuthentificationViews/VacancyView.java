@@ -19,11 +19,13 @@ import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.views.AppView;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Add vacancy")
 @Route(value = Globals.Pages.BUSINESS_VACANCY, layout = AppView.class)
 @CssImport("./styles/index.css")
-//@RolesAllowed("ADMIN")
+@RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyView extends Div {
 
     private TextField titel = new TextField("Titel");

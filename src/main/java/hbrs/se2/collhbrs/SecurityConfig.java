@@ -57,6 +57,7 @@ public class SecurityConfig extends VaadinWebSecurity {
                 }
 
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                System.out.println(userDetails.getAuthorities());
                 return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
             }
 

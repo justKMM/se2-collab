@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.ProfileView;
+package hbrs.se2.collhbrs.views.ProfileViews;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
@@ -25,12 +25,12 @@ import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
-import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = Globals.Pages.PROFIL_STUDENT, layout = AppView.class)
 @CssImport("./styles/index.css")
-@PermitAll
+@RolesAllowed(Globals.Roles.STUDENT)
 public class ProfilStudentView extends Composite<VerticalLayout> {
 
     private  Button button_p_data_edit;

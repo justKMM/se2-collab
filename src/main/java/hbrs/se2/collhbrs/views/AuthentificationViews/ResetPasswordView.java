@@ -41,6 +41,9 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
         setupLayout();
         setupFields();
         addButtons();
+
+        getContent().add(formLayout);
+        getContent().setAlignSelf(FlexComponent.Alignment.CENTER, formLayout);
     }
 
     @Override
@@ -117,9 +120,6 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
         formLayout.add(cancelButton, submitButton);
         formLayout.setColspan(cancelButton, 1);
         formLayout.setColspan(submitButton, 1);
-
-        getContent().add(formLayout);
-        getContent().setAlignSelf(FlexComponent.Alignment.CENTER, formLayout);
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
