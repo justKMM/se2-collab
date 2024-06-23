@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.ProfileView;
+package hbrs.se2.collhbrs.views.ProfileViews;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;

@@ -17,12 +17,19 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.VaadinSession;
+import hbrs.se2.collhbrs.model.dto.BusinessDTO;
+import hbrs.se2.collhbrs.model.dto.StudentDTO;
+import hbrs.se2.collhbrs.repository.BusinessRepository;
+import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.service.AuthorizationControl;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Utils;
 import hbrs.se2.collhbrs.views.AuthentificationViews.VacancyView;
-import hbrs.se2.collhbrs.views.ProfileView.ProfilStudentView;
+import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
+import hbrs.se2.collhbrs.views.ProfileViews.ProfileBusinessView;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -32,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.MAIN)
+@PermitAll
 public class AppView extends AppLayout {
 
     private Tabs sidemenu;
@@ -98,15 +106,21 @@ public class AppView extends AppLayout {
     private Component[] createMenuItems() {
         authorizationControl = new AuthorizationControl();
 
-        Tab[] tab_array = new Tab[]{createTab("Profile", ProfilStudentView.class)};
+        Tab[] tab_array = new Tab[]{createTab("Dashboard", AppView.class)};
 
         //TODO: Klasse AuthorizationControl
         //if ( this.authorizationControl.isUserInRole( this.getCurrentUser() , Globals.Roles.ADMIN ) ) {
         //     System.out.println("User is Admin!");
         //     tabs = Utils.append( tabs , createTab("Enter Car", EnterCarView.class)  );
         //}
+        if (VaadinSession.getCurrent().getAttribute(Globals.CURRENT_USER) instanceof StudentDTO) {
+            tab_array = Utils.append( tab_array , createTab("My Profile", ProfilStudentView.class)  );
+        }
+        else if (VaadinSession.getCurrent().getAttribute(Globals.CURRENT_USER) instanceof BusinessDTO) {
+            tab_array = Utils.append( tab_array , createTab("Company Profile", ProfileBusinessView.class)  );
+            tab_array = Utils.append( tab_array , createTab("Add vacancy", VacancyView.class)  );
+        }
 
-        tab_array = Utils.append( tab_array , createTab("Add vacancy", VacancyView.class)  );
         /*
          ToDo: append new Tabs later
          Admin rechte?

@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.ProfileView;
+package hbrs.se2.collhbrs.views.ProfileViews;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -12,10 +12,10 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
-import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 
 @Route(value = Globals.Pages.PROFIL_BUSINESS)
-@PermitAll
+@RolesAllowed(Globals.Roles.BUSINESS)
 public class ProfileBusinessView extends Composite<VerticalLayout> {
 
     Business business;
