@@ -1,6 +1,5 @@
 package hbrs.se2.collhbrs.service;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.server.VaadinSession;
 import hbrs.se2.collhbrs.model.dto.BusinessDTO;

@@ -20,7 +20,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
-import hbrs.se2.collhbrs.model.entity.*;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;

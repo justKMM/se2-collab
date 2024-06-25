@@ -19,7 +19,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinSession;
 import hbrs.se2.collhbrs.util.Globals;
-import jakarta.annotation.security.PermitAll;
 
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.APP)
