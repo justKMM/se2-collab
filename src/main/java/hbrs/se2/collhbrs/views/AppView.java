@@ -18,37 +18,15 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinSession;
-import hbrs.se2.collhbrs.model.dto.BusinessDTO;
-import hbrs.se2.collhbrs.model.dto.StudentDTO;
-import hbrs.se2.collhbrs.repository.BusinessRepository;
-import hbrs.se2.collhbrs.repository.StudentRepository;
-import hbrs.se2.collhbrs.service.AuthorizationControl;
-import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
-import hbrs.se2.collhbrs.util.Utils;
-import hbrs.se2.collhbrs.views.AuthentificationViews.VacancyView;
-import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
-import hbrs.se2.collhbrs.views.ProfileViews.ProfileBusinessView;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.beans.factory.annotation.Autowired;
 
-
-/*
-    Main View Top-level Placeholder
-
- */
 @CssImport("./styles/index.css")
-@Route(Globals.Pages.MAIN)
-@PermitAll
+@Route(Globals.Pages.APP)
 public class AppView extends AppLayout {
 
     private Tabs sidemenu;
     private H1 viewTitle;
-
-    private AuthorizationControl authorizationControl;
-
-    @Autowired
-    private SessionService sessionService;
 
     public AppView() {
         setUpUI();
@@ -68,7 +46,6 @@ public class AppView extends AppLayout {
         sidemenu = createMenu();
 
         addToDrawer(createDrawerContent(sidemenu));
-
     }
 
     private Component createHeaderContent() {
@@ -98,41 +75,20 @@ public class AppView extends AppLayout {
     private Tabs createMenu() {
         final Tabs tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
-
         tabs.add(createMenuItems());
         return tabs;
     }
 
     private Component[] createMenuItems() {
-        authorizationControl = new AuthorizationControl();
-
         Tab[] tab_array = new Tab[]{createTab("Dashboard", AppView.class)};
-
-        //TODO: Klasse AuthorizationControl
-        //if ( this.authorizationControl.isUserInRole( this.getCurrentUser() , Globals.Roles.ADMIN ) ) {
-        //     System.out.println("User is Admin!");
-        //     tabs = Utils.append( tabs , createTab("Enter Car", EnterCarView.class)  );
-        //}
-        if (VaadinSession.getCurrent().getAttribute(Globals.CURRENT_USER) instanceof StudentDTO) {
-            tab_array = Utils.append( tab_array , createTab("My Profile", ProfilStudentView.class)  );
-        }
-        else if (VaadinSession.getCurrent().getAttribute(Globals.CURRENT_USER) instanceof BusinessDTO) {
-            tab_array = Utils.append( tab_array , createTab("Company Profile", ProfileBusinessView.class)  );
-            tab_array = Utils.append( tab_array , createTab("Add vacancy", VacancyView.class)  );
-        }
-
-        /*
-         ToDo: append new Tabs later
-         Admin rechte?
-         */
-
         return tab_array;
     }
 
     private void logoutUser() {
-        UI ui = this.getUI().get();
-        ui.getSession().close();
-        ui.getPage().setLocation("/");    }
+        UI.getCurrent().getPage().setLocation(Globals.Pages.LOGIN);
+        VaadinSession.getCurrent().getSession().invalidate();
+        VaadinSession.getCurrent().close();
+    }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {
         String slot = "navbar" + (touchOptimized ? " touch-optimized" : "");
@@ -147,10 +103,7 @@ public class AppView extends AppLayout {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
         verticalLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-
         verticalLayout.add(menu);
         return verticalLayout;
-
     }
-
 }

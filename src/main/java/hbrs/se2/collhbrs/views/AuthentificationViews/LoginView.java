@@ -16,15 +16,13 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.service.LoginService;
-import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
-import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(value = Globals.Pages.LOGIN)
+@Route(Globals.Pages.LOGIN)
 @CssImport("./styles/index.css")
 @AnonymousAllowed
-public class LoginView extends VerticalLayout implements BeforeEnterObserver {
+public class LoginView extends VerticalLayout {
 
     @Autowired
     private LoginService loginService;
@@ -74,19 +72,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             loginService.startSession(new UserDTO(loginService.login(input.getUsername(), input.getPassword())));
         } catch (Exception e) {
             Notification.show("User with this username and/or password could not be found!");
-        }
-    }
-
-    @Override
-    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        // inform the user about an authentication error
-        if(beforeEnterEvent.getLocation()
-                .getQueryParameters()
-                .getParameters()
-                .containsKey("error")) {
-            loginForm.setError(true);
-            Notification notification = Notification.show("Login failed");
-            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 }
