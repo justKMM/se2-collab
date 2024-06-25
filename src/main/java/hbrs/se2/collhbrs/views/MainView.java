@@ -1,43 +1,36 @@
 package hbrs.se2.collhbrs.views;
 
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.views.AuthentificationViews.LoginView;
+import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
+import hbrs.se2.collhbrs.views.ProfileViews.ProfileBusinessView;
+import jakarta.annotation.security.PermitAll;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
-// @Route(value = Globals.Pages.MAIN)
-@CssImport("./styles/index.css")
-public class MainView extends HorizontalLayout {
+@Route(Globals.Pages.MAIN)
+@PermitAll
+public class MainView extends VerticalLayout implements BeforeEnterObserver {
 
-    /*
-        Changed to AppView
-
-
-    * */
-    Button button_profile;
-
-    public MainView() {
-        addClassName("menu");
-
-
-        VerticalLayout vertical_layout = new VerticalLayout();
-        H1 header = new H1("MainView: Menu");
-        vertical_layout.setWidthFull();
-        vertical_layout.setWidth("100%");
-        vertical_layout.getStyle().set("flex-grow", "1");
-        vertical_layout.setAlignSelf(FlexComponent.Alignment.CENTER, header);
-        header.setWidth("max-content");
-
-
-        button_profile = new Button("Go to Profile");
-        button_profile.addClickListener(e -> UI.getCurrent().navigate(Globals.Pages.PROFIL_STUDENT));
-
-        vertical_layout.add(header, button_profile);
-
-        add(vertical_layout);
+    @Override
+    public synchronized void beforeEnter(BeforeEnterEvent event) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String role = userDetails.getAuthorities().iterator().next().getAuthority();
+            switch (role) {
+                case "ROLE_"+Globals.Roles.STUDENT -> event.forwardTo(ProfilStudentView.class);
+                case "ROLE_"+Globals.Roles.BUSINESS -> event.forwardTo(ProfileBusinessView.class);
+                default -> throw new IllegalStateException("Unexpected value: " + role);
+            }
+        } else {
+            event.rerouteTo(LoginView.class);
+        }
     }
 }
+

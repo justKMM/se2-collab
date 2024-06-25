@@ -12,24 +12,14 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
 
-@Route(value = Globals.Pages.PROFIL_BUSINESS)
+@Route(value = Globals.Pages.PROFIL_BUSINESS, layout = AppView.class)
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ProfileBusinessView extends Composite<VerticalLayout> {
 
-    Business business;
-
     public ProfileBusinessView(SessionService sessionService) {
-
-
-        /*add(
-                new Text("Name: " + sessionService.getCurrentBusiness().getName() + " "),
-                new Text("Email: " + sessionService.getCurrentBusiness().getUser().getEmail() + " "),
-                new Text("lorem: " + sessionService.getCurrentBusiness().getUser().getPassword() + " ")
-        );
-
-         */
 
         HorizontalLayout layoutRow = new HorizontalLayout();
         Avatar avatar = new Avatar();
@@ -60,11 +50,7 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         layoutColumn2.setWidth("100%");
         layoutColumn2.getStyle().set("flex-grow", "1");
 
-
-
         h1.setText("Hallo " + sessionService.getCurrentBusiness().getName() + "! ");
-
-
 
 
         h1.setWidth("max-content");
@@ -101,5 +87,4 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         layoutColumn3.add(h62);
         getContent().add(layoutColumn4);
     }
-
 }

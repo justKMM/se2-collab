@@ -134,7 +134,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
                 " Last name: " + sessionService.getCurrentStudent().getLastName() + "\n" +
                 " Username: " +  sessionService.getCurrentStudent().getUser().getUsername();
         Paragraph textMedium = new Paragraph(
-               s);
+                s);
 
         textMedium.setWidth("100%");
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
@@ -204,9 +204,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
 
         }
-
-
-
     }
 
     private void setLayouts(){
@@ -270,5 +267,4 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         layoutColumn5.add(h13, textMedium2, button_lebenslauf);
     }
-
 }
