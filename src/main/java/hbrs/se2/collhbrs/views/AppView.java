@@ -19,6 +19,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinSession;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.Utils;
+import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
+import hbrs.se2.collhbrs.views.SearchView.SearchView;
 
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.APP)
@@ -79,7 +82,16 @@ public class AppView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        Tab[] tab_array = new Tab[]{createTab("Dashboard", AppView.class)};
+        // Tab[] tab_array = new Tab[]{createTab("Dashboard", AppView.class)};
+        Tab[] tab_array = new Tab[]{createTab("Profile", ProfilStudentView.class)};
+        //Tab[] tab_array = new Tab[]{createTab("Job suche", SearchView.class)};
+
+
+        // new Tab
+        tab_array = Utils.append(tab_array, createTab("Job suche", SearchView.class));
+        // tab_array = Utils.append(tab_array, createTab("Profil", ProfilStudentView.class));
+
+
         return tab_array;
     }
 
