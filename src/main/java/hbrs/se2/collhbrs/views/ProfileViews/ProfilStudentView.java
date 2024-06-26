@@ -2,6 +2,7 @@ package hbrs.se2.collhbrs.views.ProfileViews;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -33,10 +34,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RolesAllowed(Globals.Roles.STUDENT)
 public class ProfilStudentView extends Composite<VerticalLayout> {
 
-    private  Button button_p_data_edit;
-    private  Button button_mail_edit;
-    private  Button button_merkzettel;
-    private  Button button_lebenslauf;
+    private Button button_p_data_edit;
+    private Button button_mail_edit;
+    private Button button_merkzettel;
+    private Button button_lebenslauf;
+    private Button button_updatePass;
     private final ProfilStudentLayout profileLayout = new ProfilStudentLayout();
     private final Button button_cancel = new Button("Cancel");
     private final Button button_confirm = new Button("Save");
@@ -81,8 +83,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         // dialog Object für Änderungsmaske
         dialog = new Dialog();
 
-
-
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().setFlexGrow(1.0, layoutColumn2);
@@ -90,8 +90,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         setRatingIcons();
         setButtons();
         setLayouts();
-
-
 
         // dialog = getContentProfile();
 
@@ -126,9 +124,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
             d.open();
         });
 
-
-
-
+        button_updatePass.addClickListener(e -> UI.getCurrent().navigate("update-password"));
 
         String s = "Email: " + sessionService.getCurrentStudent().getUser().getEmail() + "\n" +
                 " Last name: " + sessionService.getCurrentStudent().getLastName() + "\n" +
@@ -141,8 +137,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn4.add(h12, textMedium, button_p_data_edit);
 
 
-
-
     }
 
     private void setButtons() {
@@ -150,6 +144,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         button_merkzettel = new Button("Notespad");
         button_lebenslauf = new Button("upload Lebenslauf");
         button_p_data_edit = new Button("Edit personal data");
+        button_updatePass = new Button("Update Password");
 
         button_mail_edit.setWidth("min-content");
         button_merkzettel.setWidth("min-content");
@@ -170,8 +165,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         button_cancel.addClickListener(e -> d.close());
         button_confirm.addClickListener(e -> {
             changeData();
-
-
 
             dialog.close();
         });
@@ -254,7 +247,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         textMedium2.setWidth("100%");
         textMedium2.getStyle().set("font-size", "var(--lumo-font-size-m)");
 
-
         profileLayout.setWidth("50em");
 
         // Objekte den Layouts zuweisen
@@ -264,7 +256,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutRow3.add(layoutColumn4, layoutColumn5);
         layoutColumn2.add(layoutRow, layoutRow3);
         layoutColumn3.add(h1, h6, layoutRow2, button_mail_edit, button_merkzettel);
-
         layoutColumn5.add(h13, textMedium2, button_lebenslauf);
     }
 }

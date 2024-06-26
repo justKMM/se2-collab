@@ -10,6 +10,7 @@ import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,5 +64,17 @@ public class LoginService {
 
     public boolean isBlacklisted(UserDTO user) {
         return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword()).getBlacklisted() == 1;
+    }
+    @Transactional
+    public User getUser(String username, String password) {
+        return userRepository.findByUsernameAndPassword(username, password);
+    }
+    public boolean checkPassword(User user, String rawPassword) {
+        return rawPassword.equals(user.getPassword());
+    }
+    @Transactional
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(newPassword);
+        userRepository.save(user);
     }
 }

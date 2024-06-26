@@ -66,7 +66,8 @@ public class AppView extends AppLayout {
         topRightLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         topRightLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        MenuBar menuBar = new MenuBar();
+        MenuBar menuBar =new MenuBar();
+        MenuItem update = menuBar.addItem("Update Password", e -> updatePass());
         MenuItem item = menuBar.addItem("Logout", e -> logoutUser());
         topRightLayout.add(menuBar);
 
@@ -116,5 +117,8 @@ public class AppView extends AppLayout {
         verticalLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
         verticalLayout.add(menu);
         return verticalLayout;
+    }
+    private void updatePass(){
+        UI.getCurrent().navigate("update-password");
     }
 }
