@@ -15,8 +15,10 @@ import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
+import jakarta.annotation.security.PermitAll;
 
-@Route(value = Globals.Pages.PROFILBUSSINESS, layout = AppView.class)
+@Route(value = Globals.Pages.PROFILBUSSINESS)
+@PermitAll
 public class ProfileBusinessView extends Composite<VerticalLayout> {
 
     Business business;

@@ -1,9 +1,15 @@
 package hbrs.se2.collhbrs.model.entity;
 
+import hbrs.se2.collhbrs.util.Globals;
 import jakarta.persistence.*;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
+
+import static java.util.Collections.emptyList;
 
 @Entity
 @Table(name = "benutzer", schema = "public")

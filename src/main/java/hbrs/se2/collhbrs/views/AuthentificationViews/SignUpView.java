@@ -4,11 +4,13 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
 
 @Route(value = Globals.Pages.SIGNUP)
 @CssImport("./styles/index.css")
+@AnonymousAllowed
 public class SignUpView extends FormLayout {
 
     private final BusinessRegistrationView businessRegistrationView;

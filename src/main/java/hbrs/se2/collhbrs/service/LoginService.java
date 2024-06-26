@@ -26,7 +26,6 @@ public class LoginService {
     @Autowired
     private BusinessRepository businessRepository;
 
-
     public void startSession(UserDTO user) {
         if (isUserStudent(user) && !isBlacklisted(user)) {
             VaadinSession.getCurrent().setAttribute(
