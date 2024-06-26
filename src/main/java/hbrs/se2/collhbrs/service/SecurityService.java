@@ -31,16 +31,16 @@ public class SecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new CostumUserDetails(userRepository.findByUsername(username));
+        return new CustomUserDetails(userRepository.findByUsername(username));
     }
 
-    class CostumUserDetails implements UserDetails {
+    class CustomUserDetails implements UserDetails {
 
         private String username;
         private String password;
         private List<GrantedAuthority> authorities;
 
-        public CostumUserDetails(User user) {
+        public CustomUserDetails(User user) {
             try {
                 this.username = user.getUsername();
                 this.password = user.getPassword();
