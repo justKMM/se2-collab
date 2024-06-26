@@ -5,7 +5,6 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.util.Globals;
-import hbrs.se2.collhbrs.views.AuthentificationViews.LoginView;
 import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
 import hbrs.se2.collhbrs.views.ProfileViews.ProfileBusinessView;
 import jakarta.annotation.security.PermitAll;
@@ -28,8 +27,6 @@ public class MainView extends VerticalLayout implements BeforeEnterObserver {
                 case "ROLE_"+Globals.Roles.BUSINESS -> event.forwardTo(ProfileBusinessView.class);
                 default -> throw new IllegalStateException("Unexpected value: " + role);
             }
-        } else {
-            event.rerouteTo(LoginView.class);
         }
     }
 }

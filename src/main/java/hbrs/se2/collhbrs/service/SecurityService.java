@@ -41,14 +41,18 @@ public class SecurityService implements UserDetailsService {
         private List<GrantedAuthority> authorities;
 
         public CostumUserDetails(User user) {
-            this.username = user.getUsername();
-            this.password = user.getPassword();
-            this.authorities = new ArrayList<>();
+            try {
+                this.username = user.getUsername();
+                this.password = user.getPassword();
+                this.authorities = new ArrayList<>();
 
-            if (studentRepository.existsByUser_UserID(user.getUserID())) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_" + Globals.Roles.STUDENT));
-            } else if (businessRepository.existsByUser_UserID(user.getUserID())) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_" + Globals.Roles.BUSINESS));
+                if (studentRepository.existsByUser_UserID(user.getUserID())) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + Globals.Roles.STUDENT));
+                } else if (businessRepository.existsByUser_UserID(user.getUserID())) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + Globals.Roles.BUSINESS));
+                }
+            } catch (Exception e) {
+                throw new UsernameNotFoundException(e.getMessage());
             }
         }
 

@@ -7,8 +7,11 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
@@ -19,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Route(Globals.Pages.LOGIN)
 @CssImport("./styles/index.css")
 @AnonymousAllowed
-public class LoginView extends VerticalLayout {
+public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     @Autowired
     private LoginService loginService;
@@ -69,6 +72,18 @@ public class LoginView extends VerticalLayout {
             loginService.startSession(new UserDTO(loginService.login(input.getUsername(), input.getPassword())));
         } catch (Exception e) {
             Notification.show("User with this username and/or password could not be found!");
+        }
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        if(beforeEnterEvent.getLocation()
+                .getQueryParameters()
+                .getParameters()
+                .containsKey("error")) {
+            loginForm.setError(true);
+            Notification notification = Notification.show("Login failed");
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 }
