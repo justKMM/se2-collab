@@ -58,7 +58,7 @@ public class AddVacancyView extends Div {
                     // Zusätzlich wird das aktuelle UserDTO übergeben.
                     BusinessDTO businessDTO =
                             (BusinessDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-                    vacancyService.createVacancy(binder.getBean(), businessDTO);
+                    vacancyService.saveVacancy(binder.getBean(), businessDTO);
 
                     Notification.show("Vacancy stored.");
                     clearForm();

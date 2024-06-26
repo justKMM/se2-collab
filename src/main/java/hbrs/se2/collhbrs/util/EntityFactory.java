@@ -67,12 +67,12 @@ public class EntityFactory {
         skill.setStudent(student);
         return skill;
     }
-    public static Vacancy creatVacancy(VacancyDTO vacancyDTO, BusinessDTO businessDTO) {
+    public Vacancy creatVacancy(VacancyDTO vacancyDTO, Business business) {
         Vacancy vacancy = new Vacancy();
 
+        vacancy.setBusiness(business);
         vacancy.setTitel(vacancyDTO.getTitel());
         vacancy.setDescription(vacancyDTO.getDescription());
-        vacancy.setBusiness(VacancyService.findBusiness(businessDTO.getBusinessID()));
 
         return vacancy;
     }
