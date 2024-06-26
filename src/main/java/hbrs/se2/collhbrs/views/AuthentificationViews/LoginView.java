@@ -12,12 +12,16 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
+import hbrs.se2.collhbrs.model.entity.User;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 @Route(Globals.Pages.LOGIN)
 @CssImport("./styles/index.css")
@@ -69,7 +73,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private void handleLogin(LoginForm.LoginEvent input) {
         try {
+            Optional<User> userOpt = Optional.ofNullable(loginService.getUser(input.getUsername(), input.getPassword()));
+            User user = userOpt.get();
             loginService.startSession(new UserDTO(loginService.login(input.getUsername(), input.getPassword())));
+            VaadinSession.getCurrent().setAttribute("currentUser", user);
+            UI.getCurrent().navigate(Globals.Pages.MAIN);
         } catch (Exception e) {
             Notification.show("User with this username and/or password could not be found!");
         }
