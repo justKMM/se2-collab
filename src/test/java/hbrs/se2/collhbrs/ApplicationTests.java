@@ -72,7 +72,7 @@ public class ApplicationTests {
   @Test
   void testFindStudentByFirstName() {
     Student student = studentRepository.findStudentByUser_UserID((long) 1);
-    assertEquals(student.getStudentID(), firstNameRepository.findAll().getFirst().getStudent().getStudentID());
+    assertEquals(student.getStudentID(), firstNameRepository.findAll().get(0).getStudent().getStudentID());
     assertEquals(student.getStudentID(), firstNameRepository.findAll().get(1).getStudent().getStudentID());
     assertEquals(student.getStudentID(), firstNameRepository.findAll().get(2).getStudent().getStudentID());
   }
