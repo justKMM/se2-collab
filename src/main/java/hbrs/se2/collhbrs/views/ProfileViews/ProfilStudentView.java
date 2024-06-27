@@ -23,6 +23,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.ProfileService;
+import hbrs.se2.collhbrs.service.SecurityService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
@@ -70,10 +71,8 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
     private StudentDTO student;
 
-    private ProfileService profileService;
 
-    @Autowired
-    public ProfilStudentView(ProfileService profileService, SessionService sessionService) {
+    public ProfilStudentView(SessionService sessionService) {
 
         student = sessionService.getCurrentStudent()  ;
         h1 = new H1("Hallo " + student.getUser().getUsername() +  "!");
