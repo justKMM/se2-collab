@@ -16,11 +16,11 @@ import lombok.Getter;
 public class ProfilStudentLayout extends VerticalLayout {
 
     @Getter
-    private final Button button_confirm = new Button("Speichern");
+    private final Button buttonConfirm = new Button("Speichern");
     @Getter
-    private final TextField tf_vorname = new TextField("Vorname:");
+    private final TextField tfVorname = new TextField("Vorname:");
     @Getter
-    private final TextField tf_nachname = new TextField("Nachname:");
+    private final TextField tfNachname = new TextField("Nachname:");
     @Getter
     private final TextField interestField = new TextField("Interessen:");
     @Getter
@@ -47,7 +47,7 @@ public class ProfilStudentLayout extends VerticalLayout {
         HorizontalLayout layoutProfileDescription = new HorizontalLayout();
         HorizontalLayout layoutAvatar = new HorizontalLayout();
 
-        layoutName.add(tf_vorname, tf_nachname);
+        layoutName.add(tfVorname, tfNachname);
 
         layoutInterestSkillDegree.add(interestField, skillsField, degreeField);
         layoutXingLinkedin.add(xingUsernameField, linkedinUsernameField);
@@ -66,12 +66,12 @@ public class ProfilStudentLayout extends VerticalLayout {
 
     }
 
-    public String getTf_vorname() {
-        return tf_vorname.getValue().toString();
+    public String getTfVorname() {
+        return tfVorname.getValue().toString();
     }
 
-    public String getTf_nachname() {
-        return tf_nachname.getValue().toString();
+    public String getTfNachname() {
+        return tfNachname.getValue().toString();
     }
 
     public TextField getInterestField() {

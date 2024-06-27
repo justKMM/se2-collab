@@ -15,8 +15,8 @@ public class SignUpView extends FormLayout {
 
     private final BusinessRegistrationView businessRegistrationView;
     private final StudentRegistrationView studentRegistrationView;
-    private final String student = "Student";
-    private final String company = "Company";
+    private static final String student = "Student";
+    private static final String company = "Company";
 
     public SignUpView(RegisterService registerService) {
 

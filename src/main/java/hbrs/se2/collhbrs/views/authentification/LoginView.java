@@ -36,20 +36,20 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     }
 
     private LoginForm setUpUI() {
-        final LoginForm loginForm;
+        LoginForm setUpLoginForm;
         addClassName("main");
         setSizeFull();
-        loginForm = createLoginForm();
-        loginForm.setAction("login");
-        add(loginForm);
+        setUpLoginForm = createLoginForm();
+        setUpLoginForm.setAction("login");
+        add(setUpLoginForm);
         this.setAlignItems(Alignment.CENTER);
         HorizontalLayout additionalInfoLayout = new HorizontalLayout();
         additionalInfoLayout.add(new Text("Don't have an Account? "), new Anchor(Globals.Pages.SIGNUP, "Sign up"));
         additionalInfoLayout.setAlignItems(Alignment.CENTER);
-        VerticalLayout layout = new VerticalLayout(loginForm, additionalInfoLayout);
+        VerticalLayout layout = new VerticalLayout(setUpLoginForm, additionalInfoLayout);
         layout.setAlignItems(Alignment.CENTER);
         add(layout);
-        return loginForm;
+        return setUpLoginForm;
     }
 
     private LoginForm createLoginForm() {

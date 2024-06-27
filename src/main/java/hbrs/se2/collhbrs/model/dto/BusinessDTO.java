@@ -32,6 +32,7 @@ public class BusinessDTO extends UserDTO {
         this.name = name;
     }
 
+    @Override
     public User getUser() {
         return user;
     }

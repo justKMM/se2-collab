@@ -12,6 +12,11 @@ public class Globals {
     public static final String BASE_URL = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 
     public static class Pages {
+
+        private Pages() {
+            throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+        }
+
         public static final String MAIN = "";
         public static final String APP = "main/";
         public static final String REMINDER = "reminder";
@@ -22,10 +27,15 @@ public class Globals {
         public static final String SIGNUP = "signup";
         public static final String PROFIL_STUDENT = "student/profile";
         public static final String PROFIL_BUSINESS = "business/profile";
-        public static final String Search_Student = "student/search";
+        public static final String Search_STUDENT = "student/search";
     }
 
     public static class Roles {
+
+        private Roles() {
+            throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+        }
+
         public static final String STUDENT = "student";
         public static final String BUSINESS = "business";
     }

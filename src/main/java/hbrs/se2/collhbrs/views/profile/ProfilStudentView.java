@@ -31,13 +31,13 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed(Globals.Roles.STUDENT)
 public class ProfilStudentView extends Composite<VerticalLayout> {
 
-    private Button button_p_data_edit;
-    private Button button_mail_edit;
-    private Button button_merkzettel;
-    private Button button_lebenslauf;
+    private Button buttonPDataEdit;
+    private Button buttonMailEdit;
+    private Button buttonMerkzettel;
+    private Button buttonLebenslauf;
     private final ProfilStudentLayout profileLayout = new ProfilStudentLayout();
-    private final Button button_cancel = new Button("Cancel");
-    private final Button button_confirm = new Button("Save");
+    private final Button buttonCancel = new Button("Cancel");
+    private final Button buttonConfirm = new Button("Save");
 
 
     private VerticalLayout layoutColumn2 = new VerticalLayout();
@@ -85,14 +85,14 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         setLayouts();
 
 
-        button_p_data_edit.addClickListener(e -> {
+        buttonPDataEdit.addClickListener(e -> {
             dialog.setHeaderTitle("Change personal data");
             dialog.add(profileLayout);
             createFooter(dialog);
             dialog.open();
         });
 
-        button_mail_edit.addClickListener(e -> {
+        buttonMailEdit.addClickListener(e -> {
             Dialog d = new Dialog();
             VerticalLayout verticalLayout = new VerticalLayout();
             EmailField efEmail = new EmailField("E-Mail:");
@@ -124,42 +124,42 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         textMedium.setWidth("100%");
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
-        layoutColumn4.add(h12, textMedium, button_p_data_edit);
+        layoutColumn4.add(h12, textMedium, buttonPDataEdit);
 
 
     }
 
     private void setButtons() {
-        button_mail_edit = new Button("Edit Email");
-        button_merkzettel = new Button("Notespad");
-        button_lebenslauf = new Button("upload Lebenslauf");
-        button_p_data_edit = new Button("Edit personal data");
+        buttonMailEdit = new Button("Edit Email");
+        buttonMerkzettel = new Button("Notespad");
+        buttonLebenslauf = new Button("upload Lebenslauf");
+        buttonPDataEdit = new Button("Edit personal data");
 
-        button_mail_edit.setWidth("min-content");
-        button_merkzettel.setWidth("min-content");
-        button_merkzettel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        button_lebenslauf.setWidth("min-content");
-        button_lebenslauf.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        button_p_data_edit.setWidth("min-content");
-        button_p_data_edit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonMailEdit.setWidth("min-content");
+        buttonMerkzettel.setWidth("min-content");
+        buttonMerkzettel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonLebenslauf.setWidth("min-content");
+        buttonLebenslauf.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonPDataEdit.setWidth("min-content");
+        buttonPDataEdit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     }
 
     public void createFooter(Dialog d) {
 
-        button_confirm.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        button_cancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        button_confirm.addClickShortcut(Key.ENTER);
-        button_cancel.addClickShortcut(Key.ESCAPE);
+        buttonConfirm.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonCancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonConfirm.addClickShortcut(Key.ENTER);
+        buttonCancel.addClickShortcut(Key.ESCAPE);
 
-        button_cancel.addClickListener(e -> d.close());
-        button_confirm.addClickListener(e -> {
+        buttonCancel.addClickListener(e -> d.close());
+        buttonConfirm.addClickListener(e -> {
             changeData();
 
             dialog.close();
         });
         // speichern fehlt noch
-        d.getFooter().add(button_cancel);
-        d.getFooter().add(button_confirm);
+        d.getFooter().add(buttonCancel);
+        d.getFooter().add(buttonConfirm);
     }
 
     private void setRatingIcons() {
@@ -173,18 +173,18 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
     private void changeData(){
         User u = student.getUser();
-        u.setUsername(profileLayout.getTf_vorname());
+        u.setUsername(profileLayout.getTfVorname());
 
-        if(!profileLayout.getTf_vorname().isEmpty()) {
+        if(!profileLayout.getTfVorname().isEmpty()) {
             student.setUser(u);
         }
-        if(!profileLayout.getTf_nachname().isEmpty()) {
-            student.setLastName(profileLayout.getTf_nachname());
+        if(!profileLayout.getTfNachname().isEmpty()) {
+            student.setLastName(profileLayout.getTfNachname());
         }
     }
 
     private void setLayouts(){
-        layoutColumn3.setAlignSelf(FlexComponent.Alignment.START, button_merkzettel);
+        layoutColumn3.setAlignSelf(FlexComponent.Alignment.START, buttonMerkzettel);
         layoutColumn2.setWidthFull();
         layoutColumn2.setWidth("100%");
         layoutColumn2.getStyle().set("flex-grow", "1");
@@ -221,7 +221,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn4.setMinHeight("200px");
         layoutColumn4.setAlignSelf(FlexComponent.Alignment.CENTER, h12);
         h12.setWidth("max-content");
-        layoutColumn4.setAlignSelf(FlexComponent.Alignment.START, button_p_data_edit);
+        layoutColumn4.setAlignSelf(FlexComponent.Alignment.START, buttonPDataEdit);
         layoutColumn5.setHeightFull();
         layoutRow3.setFlexGrow(1.0, layoutColumn5);
         layoutColumn5.getStyle().set("flex-grow", "1");
@@ -239,7 +239,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutRow2.add(icon, icon2, icon3, icon4, icon5);
         layoutRow3.add(layoutColumn4, layoutColumn5);
         layoutColumn2.add(layoutRow, layoutRow3);
-        layoutColumn3.add(h1, h6, layoutRow2, button_mail_edit, button_merkzettel);
-        layoutColumn5.add(h13, textMedium2, button_lebenslauf);
+        layoutColumn3.add(h1, h6, layoutRow2, buttonMailEdit, buttonMerkzettel);
+        layoutColumn5.add(h13, textMedium2, buttonLebenslauf);
     }
 }
