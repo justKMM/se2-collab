@@ -1,5 +1,6 @@
 package hbrs.se2.collhbrs.service;
 
+import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;

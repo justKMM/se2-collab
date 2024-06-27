@@ -2,7 +2,6 @@ package hbrs.se2.collhbrs.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -17,15 +16,24 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.VaadinSession;
+import hbrs.se2.collhbrs.service.SecurityService;
+import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Utils;
+import hbrs.se2.collhbrs.views.AuthentificationViews.UpdatePasswordView;
 import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
 import hbrs.se2.collhbrs.views.SearchView.SearchView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.APP)
 public class AppView extends AppLayout {
+
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private SessionService sessionService;
 
     private Tabs sidemenu;
     private H1 viewTitle;
@@ -67,7 +75,6 @@ public class AppView extends AppLayout {
         topRightLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         MenuBar menuBar =new MenuBar();
-        MenuItem update = menuBar.addItem("Update Password", e -> updatePass());
         MenuItem item = menuBar.addItem("Logout", e -> logoutUser());
         topRightLayout.add(menuBar);
 
@@ -83,23 +90,17 @@ public class AppView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        // Tab[] tab_array = new Tab[]{createTab("Dashboard", AppView.class)};
-        Tab[] tab_array = new Tab[]{createTab("Profile", ProfilStudentView.class)};
-        //Tab[] tab_array = new Tab[]{createTab("Job suche", SearchView.class)};
 
-
-        // new Tab
-        tab_array = Utils.append(tab_array, createTab("Job suche", SearchView.class));
-        // tab_array = Utils.append(tab_array, createTab("Profil", ProfilStudentView.class));
-
-
+        Tab[] tab_array = new Tab[]{
+                createTab("Profile", ProfilStudentView.class),
+                createTab("Search job", SearchView.class),
+                createTab("Update Password", UpdatePasswordView.class),
+        };
         return tab_array;
     }
 
     private void logoutUser() {
-        UI.getCurrent().getPage().setLocation(Globals.Pages.LOGIN);
-        VaadinSession.getCurrent().getSession().invalidate();
-        VaadinSession.getCurrent().close();
+        sessionService.endSession();
     }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {
@@ -117,8 +118,5 @@ public class AppView extends AppLayout {
         verticalLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
         verticalLayout.add(menu);
         return verticalLayout;
-    }
-    private void updatePass(){
-        UI.getCurrent().navigate("update-password");
     }
 }

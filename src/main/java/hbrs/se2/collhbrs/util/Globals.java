@@ -14,6 +14,7 @@ public class Globals {
         public static final String LOGIN = "login";
         public static final String FORGOT_PASSWORD = "forgot/password";
         public static final String RESET_PASSWORD = "reset/password";
+        public static final String UPDATE_PASSWORD = "update/password";
         public static final String SIGNUP = "signup";
         public static final String PROFIL_STUDENT = "student/profile";
         public static final String PROFIL_BUSINESS = "business/profile";
