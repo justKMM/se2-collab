@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.AuthentificationViews;
+package hbrs.se2.collhbrs.views.authentification;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasValueAndElement;
@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 @CssImport("./styles/index.css")
 @AnonymousAllowed
 public class ResetPasswordView extends Composite<VerticalLayout> implements HasUrlParameter<String> {
+
     @Autowired
     ResetPasswordService resetPasswordService;
     FormLayout formLayout;

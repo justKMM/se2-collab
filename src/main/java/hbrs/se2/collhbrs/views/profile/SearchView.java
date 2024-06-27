@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.SearchView;
+package hbrs.se2.collhbrs.views.profile;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
@@ -23,7 +23,7 @@ public class SearchView extends Composite<VerticalLayout> {
     private HorizontalLayout layoutRow = new HorizontalLayout();
     private ComboBox<String> comboBox = new ComboBox<>();
     private TextField textField = new TextField();
-    private Button button_search = new Button("Search");
+    private Button buttonSearch = new Button("Search");
 
     private String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
             "Masterprojekt", "Büro", "Homeoffice"};
@@ -43,7 +43,6 @@ public class SearchView extends Composite<VerticalLayout> {
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        // getContent().setAlignItems(FlexComponent.Alignment.BASELINE);
         getContent().setFlexGrow(1.0, layoutRow);
 
         layoutRow.setWidthFull();
@@ -55,7 +54,7 @@ public class SearchView extends Composite<VerticalLayout> {
         layoutRow.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, comboBox);
         layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, textField);
-        layoutRow.setAlignSelf(FlexComponent.Alignment.END, button_search);
+        layoutRow.setAlignSelf(FlexComponent.Alignment.END, buttonSearch);
 
         comboBox.setLabel("Jobtitel");
         comboBox.setWidth("200px");
@@ -64,12 +63,12 @@ public class SearchView extends Composite<VerticalLayout> {
         textField.setWidth("400px");
 
 
-        button_search.setWidth("min-content");
-        button_search.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonSearch.setWidth("min-content");
+        buttonSearch.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         getContent().add(layoutRow);
         layoutRow.add(comboBox);
         layoutRow.add(textField);
-        layoutRow.add(button_search);
+        layoutRow.add(buttonSearch);
     }
 }

@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.AuthentificationViews;
+package hbrs.se2.collhbrs.views.authentification;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
@@ -12,9 +12,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
-import hbrs.se2.collhbrs.model.entity.User;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.service.LoginService;
@@ -30,14 +28,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private LoginService loginService;
 
     private final LoginForm loginForm;
+
     public LoginView() {
         loginForm = setUpUI();
-
-        loginForm.addForgotPasswordListener(e -> {
-            UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD);
-        });
-
-        loginForm.addLoginListener(input -> handleLogin(input));
+        loginForm.addForgotPasswordListener(e -> UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD));
+        loginForm.addLoginListener(this::handleLogin);
     }
 
     private LoginForm setUpUI() {

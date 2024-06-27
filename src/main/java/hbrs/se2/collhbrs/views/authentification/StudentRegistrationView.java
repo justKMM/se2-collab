@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.AuthentificationViews;
+package hbrs.se2.collhbrs.views.authentification;
 
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.UI;

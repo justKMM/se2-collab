@@ -4,7 +4,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class Globals {
 
-    public static String CURRENT_USER = "current_user";
+    private Globals() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    public static final String CURRENT_USER = "current_user";
     public static final String BASE_URL = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 
     public static class Pages {

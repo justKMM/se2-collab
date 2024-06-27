@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.AuthentificationViews;
+package hbrs.se2.collhbrs.views.authentification;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @CssImport("./styles/index.css")
 @AnonymousAllowed
 public class ForgotPasswordView extends Composite<VerticalLayout> {
+
     @Autowired
     ResetPasswordService resetPasswordService;
 
@@ -32,7 +33,6 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
 
     private void setupLayout() {
         addClassName("reset-password");
-        //getContent().setMaxWidth("500px");
         getContent().setWidth("100%");
         formLayout = new FormLayout();
         formLayout.setWidth("500px");
@@ -62,10 +62,7 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
         // Cancel button
         Button cancelButton = new Button("Cancel");
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        cancelButton.addClickListener(e -> {
-            UI.getCurrent().navigate(Globals.Pages.LOGIN);
-        });
-        // add(title, emailField, cancelButton, sendMailButton);
+        cancelButton.addClickListener(e -> UI.getCurrent().navigate(Globals.Pages.LOGIN));
         formLayout.add(title, emailField, cancelButton, sendMailButton);
         formLayout.setColspan(title, 2);
         formLayout.setColspan(emailField, 2);

@@ -2,7 +2,7 @@ package hbrs.se2.collhbrs;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import hbrs.se2.collhbrs.service.SecurityService;
-import hbrs.se2.collhbrs.views.AuthentificationViews.LoginView;
+import hbrs.se2.collhbrs.views.authentification.LoginView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

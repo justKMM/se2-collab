@@ -16,13 +16,15 @@ public class ResetPasswordToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "passwortresettokenid", nullable = false)
+
     public Long getTokenID() {
         return tokenid;
-    };
+    }
+
     public void setTokenID(Long tokenid) {
         this.tokenid = tokenid;
     }
-    // Constructor
+
     public ResetPasswordToken(String token, User user) {
         this.token = token;
         this.user = user;
@@ -32,10 +34,11 @@ public class ResetPasswordToken {
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
-    // The token itself
+
     @Basic
     @Column(name = "token", nullable = false)
     public String getToken() {
@@ -44,14 +47,14 @@ public class ResetPasswordToken {
     public void setToken(String token) {
         this.token = token;
     }
-    // Validity duration of token
+
+
     @Getter
     @Setter
     @Basic
     @Column(name = "ablaufdatum", nullable = false)
-    public LocalDate EXPIRE_DATE = LocalDate.now().plusDays(1);
+    public LocalDate expireDate = LocalDate.now().plusDays(1);
 
-    // Disallow empty constructor
     protected ResetPasswordToken() {}
 }
 

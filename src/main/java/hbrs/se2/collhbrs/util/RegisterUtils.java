@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 
 public class RegisterUtils {
 
+    private RegisterUtils() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
     public static boolean validateInput(String username, String firstName, String lastName, String email, String password, String passwordConfirmation) {
         if (firstName.isEmpty() || !isValidFirstName(firstName)) {
             Notification.show("Please enter a valid first name.");

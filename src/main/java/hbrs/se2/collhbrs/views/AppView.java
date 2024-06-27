@@ -4,7 +4,6 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -19,18 +18,15 @@ import com.vaadin.flow.router.RouterLink;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Utils;
-import hbrs.se2.collhbrs.views.AuthentificationViews.UpdatePasswordView;
-import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
-import hbrs.se2.collhbrs.views.ProfileViews.ProfileBusinessView;
-import hbrs.se2.collhbrs.views.SearchView.SearchView;
+import hbrs.se2.collhbrs.views.authentification.UpdatePasswordView;
+import hbrs.se2.collhbrs.views.profile.ProfilStudentView;
+import hbrs.se2.collhbrs.views.profile.ProfileBusinessView;
+import hbrs.se2.collhbrs.views.profile.SearchView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.APP)
 public class AppView extends AppLayout {
-
-    private Tabs sidemenu;
-    private H1 viewTitle;
 
     private final SessionService sessionService;
 
@@ -48,6 +44,7 @@ public class AppView extends AppLayout {
     }
 
     private void setUpUI() {
+        Tabs sidemenu;
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         sidemenu = createMenu();
@@ -55,6 +52,7 @@ public class AppView extends AppLayout {
     }
 
     private Component createHeaderContent() {
+        H1 viewTitle;
         HorizontalLayout layout = new HorizontalLayout();
         layout.setId("header");
         layout.setWidthFull();
@@ -71,7 +69,7 @@ public class AppView extends AppLayout {
         topRightLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         MenuBar menuBar =new MenuBar();
-        MenuItem item = menuBar.addItem("Logout", e -> logoutUser());
+        menuBar.addItem("Logout", e -> logoutUser());
         topRightLayout.add(menuBar);
 
         layout.add(topRightLayout);

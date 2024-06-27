@@ -33,7 +33,6 @@ public class EntityFactory {
         FirstName firstNameEntity = new FirstName();
         firstNameEntity.setFirstNameName(firstName);
         firstNameEntity.setStudent(student);
-        // firstNameEntity.setSerialNumber(serialNumber);
         return firstNameEntity;
     }
 
@@ -65,15 +64,11 @@ public class EntityFactory {
         skill.setStudent(student);
         return skill;
     }
-    public static Vacancy creatVacancy(VacancyDTO vacancyDTO, UserDTO userDTO) {
+    public static Vacancy createVacancy(String titel, String description, Business business) {
         Vacancy vacancy = new Vacancy();
-
-        vacancy.setTitel(vacancyDTO.getTitel());
-        vacancy.setDescription(vacancyDTO.getDescription());
-
-        //TODO
-        // vacancy.setBusiness(userDTO.getUserID());
-
+        vacancy.setTitel(titel);
+        vacancy.setDescription(description);
+        vacancy.setBusiness(business);
         return vacancy;
     }
 }

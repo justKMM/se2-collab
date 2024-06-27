@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.ProfileViews;
+package hbrs.se2.collhbrs.views.profile;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -9,7 +9,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;

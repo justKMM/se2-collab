@@ -92,10 +92,13 @@ public class ResetPasswordService {
     }
 
     protected String validatePasswordResetToken(String token) {
-        final ResetPasswordToken passToken = passwordTokenRepository.findByToken(token);
-        return !isTokenFound(passToken) ? "invalidToken"
-                : isTokenExpired(passToken) ? "expiredToken"
-                : null;
+        if (!isTokenFound(passwordTokenRepository.findByToken(token))) {
+            return "invalidToken";
+        }
+        if (isTokenExpired(passwordTokenRepository.findByToken(token))) {
+            return "expiredToken";
+        }
+        return null;
     }
 
     private boolean isTokenFound(ResetPasswordToken passToken) {
@@ -103,6 +106,6 @@ public class ResetPasswordService {
     }
 
     private boolean isTokenExpired(ResetPasswordToken passToken) {
-        return LocalDate.now().isAfter(passToken.getEXPIRE_DATE());
+        return LocalDate.now().isAfter(passToken.getExpireDate());
     }
 }

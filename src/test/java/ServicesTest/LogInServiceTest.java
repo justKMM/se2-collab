@@ -4,7 +4,6 @@ import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.service.LoginService;
-import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -53,7 +52,7 @@ class LogInServiceTest {
     }
 
     @Test
-    void testIsBlacklistedPositive() throws DatabaseLayerException {
+    void testIsBlacklistedPositive() {
         User mockUser = new User();
         mockUser.setUsername(USERNAME);
         mockUser.setPassword(PASSWORD);
@@ -69,7 +68,7 @@ class LogInServiceTest {
     }
 
     @Test
-    void testIsBlacklistedNegative() throws DatabaseLayerException {
+    void testIsBlacklistedNegative() {
         User mockUser = new User();
         mockUser.setUsername(USERNAME);
         mockUser.setPassword(PASSWORD);

@@ -1,8 +1,7 @@
-package hbrs.se2.collhbrs.views.ProfileViews;
+package hbrs.se2.collhbrs.views.profile;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -22,13 +21,10 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.User;
-import hbrs.se2.collhbrs.service.ProfileService;
-import hbrs.se2.collhbrs.service.SecurityService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = Globals.Pages.PROFIL_STUDENT, layout = AppView.class)
 @CssImport("./styles/index.css")
@@ -88,7 +84,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         setButtons();
         setLayouts();
 
-        // dialog = getContentProfile();
 
         button_p_data_edit.addClickListener(e -> {
             dialog.setHeaderTitle("Change personal data");
@@ -100,19 +95,19 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         button_mail_edit.addClickListener(e -> {
             Dialog d = new Dialog();
             VerticalLayout verticalLayout = new VerticalLayout();
-            EmailField ef_email = new EmailField("E-Mail:");
-            Button button_confirm_mail = new Button("Save");
-            Button button_cancel_mail = new Button("Cancel");
-            verticalLayout.add(ef_email);
+            EmailField efEmail = new EmailField("E-Mail:");
+            Button buttonConfirmMail = new Button("Save");
+            Button buttonCancelMail = new Button("Cancel");
+            verticalLayout.add(efEmail);
             verticalLayout.getStyle().set("width", "20rem").set("max-width", "100%");
             d.setHeaderTitle("E-Mail ändern: ");
             d.add(verticalLayout);
-            d.getFooter().add(button_cancel_mail, button_confirm_mail);
+            d.getFooter().add(buttonCancelMail, buttonConfirmMail);
 
-            button_cancel_mail.addClickListener(e1 -> d.close());
-            button_confirm_mail.addClickListener(e1 -> {
-                if(!ef_email.isEmpty()) {
-                    student.getUser().setEmail(ef_email.getValue());
+            buttonCancelMail.addClickListener(e1 -> d.close());
+            buttonConfirmMail.addClickListener(e1 -> {
+                if(!efEmail.isEmpty()) {
+                    student.getUser().setEmail(efEmail.getValue());
                     Notification.show("E-Mail wurde geändert. ");
                 }
                 d.close();
@@ -168,7 +163,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     }
 
     private void setRatingIcons() {
-        // müssen noch ausgewählt werden für das Rating (später)
 
         icon = VaadinIcon.STAR.create();
         icon2 = VaadinIcon.STAR.create();
@@ -183,11 +177,9 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         if(!profileLayout.getTf_vorname().isEmpty()) {
             student.setUser(u);
-            // Notification.show("First name has been changed.");
         }
         if(!profileLayout.getTf_nachname().isEmpty()) {
             student.setLastName(profileLayout.getTf_nachname());
-            // Notification.show("Last name has been changed.  ");
         }
     }
 
