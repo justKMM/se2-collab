@@ -16,7 +16,6 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
-import hbrs.se2.collhbrs.service.SecurityService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Utils;
@@ -25,9 +24,6 @@ import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
 import hbrs.se2.collhbrs.views.ProfileViews.ProfileBusinessView;
 import hbrs.se2.collhbrs.views.SearchView.SearchView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.List;
 
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.APP)
@@ -37,12 +33,10 @@ public class AppView extends AppLayout {
     private H1 viewTitle;
 
     private final SessionService sessionService;
-    private final SecurityService securityService;
 
     @Autowired
-    public AppView(SessionService sessionService1, SecurityService securityService1) {
-        this.sessionService = sessionService1;
-        this.securityService = securityService1;
+    public AppView(SessionService sessionService) {
+        this.sessionService = sessionService;
         setUpUI();
     }
 
@@ -57,7 +51,6 @@ public class AppView extends AppLayout {
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         sidemenu = createMenu();
-
         addToDrawer(createDrawerContent(sidemenu));
     }
 
@@ -96,13 +89,11 @@ public class AppView extends AppLayout {
 
         Tab[] tabs = new Tab[]{};
 
-        if (securityService.loadUserByUsername(sessionService.getCurrentUser().getUsername())
-                .getAuthorities().toString().contains(Globals.Roles.STUDENT)) {
+        if (sessionService.getUserRole().contains(Globals.Roles.STUDENT)) {
             tabs = Utils.append(tabs, createTab("Profile", ProfilStudentView.class));
             tabs = Utils.append(tabs, createTab("Search Job", SearchView.class));
             tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
-        } else if (securityService.loadUserByUsername(sessionService.getCurrentUser().getUsername())
-                .getAuthorities().toString().contains(Globals.Roles.BUSINESS)) {
+        } else if (sessionService.getUserRole().contains(Globals.Roles.BUSINESS)) {
             tabs = Utils.append(tabs, createTab("Profile", ProfileBusinessView.class));
             tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
         }

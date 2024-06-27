@@ -31,27 +31,30 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm loginForm;
     public LoginView() {
-        addClassName("main");
-        setSizeFull();
-
-        loginForm = createLoginForm();
-        loginForm.setAction("login");
-        add(loginForm);
-        this.setAlignItems(Alignment.CENTER);
-
-        HorizontalLayout additionalInfoLayout = new HorizontalLayout();
-        additionalInfoLayout.add(new Text("Don't have an Account? "), new Anchor(Globals.Pages.SIGNUP, "Sign up"));
-        additionalInfoLayout.setAlignItems(Alignment.CENTER);
-
-        VerticalLayout layout = new VerticalLayout(loginForm, additionalInfoLayout);
-        layout.setAlignItems(Alignment.CENTER);
-        add(layout);
+        loginForm = setUpUI();
 
         loginForm.addForgotPasswordListener(e -> {
             UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD);
         });
 
         loginForm.addLoginListener(input -> handleLogin(input));
+    }
+
+    private LoginForm setUpUI() {
+        final LoginForm loginForm;
+        addClassName("main");
+        setSizeFull();
+        loginForm = createLoginForm();
+        loginForm.setAction("login");
+        add(loginForm);
+        this.setAlignItems(Alignment.CENTER);
+        HorizontalLayout additionalInfoLayout = new HorizontalLayout();
+        additionalInfoLayout.add(new Text("Don't have an Account? "), new Anchor(Globals.Pages.SIGNUP, "Sign up"));
+        additionalInfoLayout.setAlignItems(Alignment.CENTER);
+        VerticalLayout layout = new VerticalLayout(loginForm, additionalInfoLayout);
+        layout.setAlignItems(Alignment.CENTER);
+        add(layout);
+        return loginForm;
     }
 
     private LoginForm createLoginForm() {
