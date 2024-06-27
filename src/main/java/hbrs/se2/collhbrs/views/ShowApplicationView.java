@@ -7,6 +7,7 @@ import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.InMemoryDataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
@@ -14,40 +15,34 @@ import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.ApplicationDTO;
 import hbrs.se2.collhbrs.service.ManageApplicationService;
 import hbrs.se2.collhbrs.util.Globals;
+import jakarta.annotation.security.RolesAllowed;
 import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
-@Route(value = Globals.Pages.SHOW_Applicaiton, layout = AppView.class)
+@Route(value = Globals.Pages.SHOW_APPLICATION, layout = AppView.class)
 @PageTitle("Show Applications")
 @CssImport("./styles/index.css")
+@RolesAllowed(Globals.Roles.BUSINESS)
 public class ShowApplicationView extends Div  {
 
     private List<ApplicationDTO> personList;
 
     public ShowApplicationView( ManageApplicationService manageApplicationService ) {
         addClassName("show-application-view");
-
-        // Auslesen alle abgespeicherten Applications aus der DB (über das Control)
         personList = manageApplicationService.readAllApplications();
-
-        // Titel überhalb der Tabelle
         add(this.createTitle());
-
-        // Hinzufügen der Tabelle (bei Vaadin: ein Grid)
         add(this.createGridTable());
     }
 
     private Component createGridTable() {
         Grid<ApplicationDTO> grid = new Grid<>();
-
-        // Befüllen der Tabelle mit den zuvor ausgelesenen Applicaitons
-        ListDataProvider<ApplicationDTO> dataProvider = new ListDataProvider<>(
+        InMemoryDataProvider<ApplicationDTO> dataProvider = new ListDataProvider<>(
                 personList);
         grid.setDataProvider(dataProvider);
 
         Grid.Column<ApplicationDTO> brandColumn = grid
-                .addColumn(ApplicationDTO::getTitle).setHeader("Title");
-        Grid.Column<ApplicationDTO> modelColumn = grid.addColumn(ApplicationDTO::getDescription)
+                .addColumn("Title").setHeader("Title");
+        Grid.Column<ApplicationDTO> modelColumn = grid.addColumn("Description")
                 .setHeader("Description");
 
 
@@ -56,8 +51,7 @@ public class ShowApplicationView extends Div  {
         // First filter
         TextField modelField = new TextField();
         modelField.addValueChangeListener(event -> dataProvider.addFilter(
-                application -> StringUtils.containsIgnoreCase(application.getTitle(),
-                        modelField.getValue())));
+                application -> StringUtils.containsIgnoreCase("test",  modelField.getValue())));
 
         modelField.setValueChangeMode(ValueChangeMode.EAGER);
 
@@ -69,7 +63,7 @@ public class ShowApplicationView extends Div  {
         TextField brandField = new TextField();
         brandField.addValueChangeListener(event -> dataProvider
                 .addFilter(application -> StringUtils.containsIgnoreCase(
-                        String.valueOf(application.getDescription()), brandField.getValue())));
+                        "test", brandField.getValue())));
 
         brandField.setValueChangeMode(ValueChangeMode.EAGER);
 

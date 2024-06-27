@@ -20,12 +20,13 @@ import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.util.Globals;
+import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Add vacancy")
-@Route(value = Globals.Pages.BUSINESSVACANCY, layout = AppView.class)
+@Route(value = Globals.Pages.VACANCY, layout = AppView.class)
 @CssImport("./styles/index.css")
-//@RolesAllowed("ADMIN")
-public class AddVacancyView extends Div {
+@RolesAllowed(Globals.Roles.BUSINESS)
+public class VacancyView extends Div {
 
     //private TextField titel = new TextField("Titel");
     private ComboBox<String> titel = new ComboBox<>("Titel");
@@ -39,7 +40,7 @@ public class AddVacancyView extends Div {
 
     private Binder<VacancyDTO> binder = new Binder(VacancyDTO.class);
 
-    public AddVacancyView(VacancyService vacancyService) {
+    public VacancyView(VacancyService vacancyService) {
         addClassName("add-vacancy-view");
 
         titel.setItems(comboBoxItems);
@@ -56,19 +57,7 @@ public class AddVacancyView extends Div {
 
         cancel.addClickListener(event -> clearForm());
 
-        save.addClickListener(
-                e -> {
-                    // Speicherung der Daten über das zuhörige Control-Object.
-                    // Daten des Autos werden aus Formular erfasst und als DTO übergeben.
-                    // Zusätzlich wird das aktuelle UserDTO übergeben.
-                    BusinessDTO businessDTO =
-                            (BusinessDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-                    vacancyService.saveVacancy(binder.getBean(), businessDTO);
-
-                    Notification.show("Vacancy stored.");
-                    clearForm();
-                });
-
+        save.addClickListener(e -> {});
     }
     private void clearForm() {
         binder.setBean(new VacancyDTO());

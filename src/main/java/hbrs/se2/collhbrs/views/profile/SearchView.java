@@ -16,7 +16,7 @@ import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
 
 @CssImport("./styles/index.css")
-@Route(value = Globals.Pages.Search_Student, layout = AppView.class)
+@Route(value = Globals.Pages.SEARCH_STUDENT, layout = AppView.class)
 @RolesAllowed(Globals.Roles.STUDENT)
 public class SearchView extends Composite<VerticalLayout> {
 

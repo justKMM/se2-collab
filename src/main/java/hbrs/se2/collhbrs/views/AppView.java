@@ -94,6 +94,8 @@ public class AppView extends AppLayout {
         } else if (sessionService.getUserRole().contains(Globals.Roles.BUSINESS)) {
             tabs = Utils.append(tabs, createTab("Profile", ProfileBusinessView.class));
             tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
+            tabs = Utils.append(tabs, createTab("Vacancy",VacancyView.class));
+            tabs = Utils.append(tabs, createTab("Show Applications", ShowApplicationView.class));
         }
         return tabs;
     }

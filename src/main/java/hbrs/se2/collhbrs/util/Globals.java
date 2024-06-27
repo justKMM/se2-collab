@@ -27,7 +27,9 @@ public class Globals {
         public static final String SIGNUP = "signup";
         public static final String PROFIL_STUDENT = "student/profile";
         public static final String PROFIL_BUSINESS = "business/profile";
-        public static final String Search_STUDENT = "student/search";
+        public static final String SHOW_APPLICATION = "business/show/application";
+        public static final String VACANCY = "business/vacancy";
+        public static final String SEARCH_STUDENT = "student/search";
     }
 
     public static class Roles {
