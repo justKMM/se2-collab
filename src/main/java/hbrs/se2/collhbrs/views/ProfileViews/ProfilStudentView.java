@@ -23,6 +23,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.ProfileService;
+import hbrs.se2.collhbrs.service.SecurityService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
@@ -38,7 +39,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     private Button button_mail_edit;
     private Button button_merkzettel;
     private Button button_lebenslauf;
-    private Button button_updatePass;
     private final ProfilStudentLayout profileLayout = new ProfilStudentLayout();
     private final Button button_cancel = new Button("Cancel");
     private final Button button_confirm = new Button("Save");
@@ -71,14 +71,11 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
     private StudentDTO student;
 
-    private ProfileService profileService;
 
-    @Autowired
-    public ProfilStudentView(ProfileService profileService, SessionService sessionService) {
+    public ProfilStudentView(SessionService sessionService) {
 
-        student = sessionService.getCurrentStudent();
+        student = sessionService.getCurrentStudent()  ;
         h1 = new H1("Hallo " + student.getUser().getUsername() +  "!");
-
 
         // dialog Object für Änderungsmaske
         dialog = new Dialog();
@@ -124,11 +121,9 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
             d.open();
         });
 
-        button_updatePass.addClickListener(e -> UI.getCurrent().navigate("update-password"));
-
-        String s = "Email: " + sessionService.getCurrentStudent().getUser().getEmail() + "\n" +
-                " Last name: " + sessionService.getCurrentStudent().getLastName() + "\n" +
-                " Username: " +  sessionService.getCurrentStudent().getUser().getUsername();
+        String s = "Email: " + student.getUser().getEmail() + "\n" +
+                " Last name: " + student.getLastName() + "\n" +
+                " Username: " +  student.getUser().getUsername();
         Paragraph textMedium = new Paragraph(
                 s);
 
@@ -144,7 +139,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         button_merkzettel = new Button("Notespad");
         button_lebenslauf = new Button("upload Lebenslauf");
         button_p_data_edit = new Button("Edit personal data");
-        button_updatePass = new Button("Update Password");
 
         button_mail_edit.setWidth("min-content");
         button_merkzettel.setWidth("min-content");
@@ -194,8 +188,6 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         if(!profileLayout.getTf_nachname().isEmpty()) {
             student.setLastName(profileLayout.getTf_nachname());
             // Notification.show("Last name has been changed.  ");
-
-
         }
     }
 

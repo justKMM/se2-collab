@@ -2,7 +2,6 @@ package hbrs.se2.collhbrs.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -17,11 +16,18 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.VaadinSession;
+import hbrs.se2.collhbrs.service.SecurityService;
+import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Utils;
+import hbrs.se2.collhbrs.views.AuthentificationViews.UpdatePasswordView;
 import hbrs.se2.collhbrs.views.ProfileViews.ProfilStudentView;
+import hbrs.se2.collhbrs.views.ProfileViews.ProfileBusinessView;
 import hbrs.se2.collhbrs.views.SearchView.SearchView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
 
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.APP)
@@ -30,7 +36,13 @@ public class AppView extends AppLayout {
     private Tabs sidemenu;
     private H1 viewTitle;
 
-    public AppView() {
+    private final SessionService sessionService;
+    private final SecurityService securityService;
+
+    @Autowired
+    public AppView(SessionService sessionService1, SecurityService securityService1) {
+        this.sessionService = sessionService1;
+        this.securityService = securityService1;
         setUpUI();
     }
 
@@ -43,7 +55,6 @@ public class AppView extends AppLayout {
 
     private void setUpUI() {
         setPrimarySection(Section.DRAWER);
-
         addToNavbar(true, createHeaderContent());
         sidemenu = createMenu();
 
@@ -67,7 +78,6 @@ public class AppView extends AppLayout {
         topRightLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         MenuBar menuBar =new MenuBar();
-        MenuItem update = menuBar.addItem("Update Password", e -> updatePass());
         MenuItem item = menuBar.addItem("Logout", e -> logoutUser());
         topRightLayout.add(menuBar);
 
@@ -83,23 +93,24 @@ public class AppView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        // Tab[] tab_array = new Tab[]{createTab("Dashboard", AppView.class)};
-        Tab[] tab_array = new Tab[]{createTab("Profile", ProfilStudentView.class)};
-        //Tab[] tab_array = new Tab[]{createTab("Job suche", SearchView.class)};
 
+        Tab[] tabs = new Tab[]{};
 
-        // new Tab
-        tab_array = Utils.append(tab_array, createTab("Job suche", SearchView.class));
-        // tab_array = Utils.append(tab_array, createTab("Profil", ProfilStudentView.class));
-
-
-        return tab_array;
+        if (securityService.loadUserByUsername(sessionService.getCurrentUser().getUsername())
+                .getAuthorities().toString().contains(Globals.Roles.STUDENT)) {
+            tabs = Utils.append(tabs, createTab("Profile", ProfilStudentView.class));
+            tabs = Utils.append(tabs, createTab("Search Job", SearchView.class));
+            tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
+        } else if (securityService.loadUserByUsername(sessionService.getCurrentUser().getUsername())
+                .getAuthorities().toString().contains(Globals.Roles.BUSINESS)) {
+            tabs = Utils.append(tabs, createTab("Profile", ProfileBusinessView.class));
+            tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
+        }
+        return tabs;
     }
 
     private void logoutUser() {
-        UI.getCurrent().getPage().setLocation(Globals.Pages.LOGIN);
-        VaadinSession.getCurrent().getSession().invalidate();
-        VaadinSession.getCurrent().close();
+        sessionService.endSession();
     }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {
@@ -117,8 +128,5 @@ public class AppView extends AppLayout {
         verticalLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
         verticalLayout.add(menu);
         return verticalLayout;
-    }
-    private void updatePass(){
-        UI.getCurrent().navigate("update-password");
     }
 }

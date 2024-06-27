@@ -19,8 +19,7 @@ public class MainView extends VerticalLayout implements BeforeEnterObserver {
     @Override
     public synchronized void beforeEnter(BeforeEnterEvent event) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
             String role = userDetails.getAuthorities().iterator().next().getAuthority();
             switch (role) {
                 case "ROLE_"+Globals.Roles.STUDENT -> event.forwardTo(ProfilStudentView.class);

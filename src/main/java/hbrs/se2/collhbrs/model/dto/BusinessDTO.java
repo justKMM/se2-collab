@@ -3,16 +3,17 @@ package hbrs.se2.collhbrs.model.dto;
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.model.entity.User;
 
-public class BusinessDTO {
+public class BusinessDTO extends UserDTO {
 
     private long businessID;
     private User user;
     private String name;
 
     public BusinessDTO(Business entity) {
+        super(entity.getUser());
+        this.user = entity.getUser();
         this.businessID = entity.getBusinessID();
         this.name = entity.getName();
-        this.user = entity.getUser();
     }
 
     public long getBusinessID() {

@@ -13,12 +13,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
-import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 
 @CssImport("./styles/index.css")
 @Route(value = Globals.Pages.Search_Student, layout = AppView.class)
-@PermitAll
+@RolesAllowed(Globals.Roles.STUDENT)
 public class SearchView extends Composite<VerticalLayout> {
 
     private HorizontalLayout layoutRow = new HorizontalLayout();
