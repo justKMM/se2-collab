@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.AuthentificationViews;
+package hbrs.se2.collhbrs.views.authentification;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -15,6 +15,8 @@ public class SignUpView extends FormLayout {
 
     private final BusinessRegistrationView businessRegistrationView;
     private final StudentRegistrationView studentRegistrationView;
+    private static final String student = "Student";
+    private static final String company = "Company";
 
     public SignUpView(RegisterService registerService) {
 
@@ -25,18 +27,18 @@ public class SignUpView extends FormLayout {
 
         RadioButtonGroup<String> roleSelector = new RadioButtonGroup<>();
         roleSelector.setLabel("Register as:");
-        roleSelector.setItems("Student", "Company");
+        roleSelector.setItems(student, company);
 
         FormLayout dynamicFields = new FormLayout();
 
-        roleSelector.setValue("Student");
+        roleSelector.setValue(student);
         dynamicFields.add(studentRegistrationView);
 
         roleSelector.addValueChangeListener(event -> {
             dynamicFields.removeAll();
-            if ("Student".equals(event.getValue())) {
+            if (student.equals(event.getValue())) {
                 dynamicFields.add(studentRegistrationView);
-            } else if ("Company".equals(event.getValue())) {
+            } else if (company.equals(event.getValue())) {
                 dynamicFields.add(businessRegistrationView);
             }
         });

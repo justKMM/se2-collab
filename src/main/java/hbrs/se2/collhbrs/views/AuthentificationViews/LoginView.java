@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.AuthentificationViews;
+package hbrs.se2.collhbrs.views.authentification;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
@@ -16,41 +16,40 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.service.LoginService;
-import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
-import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(value = Globals.Pages.LOGIN)
+@Route(Globals.Pages.LOGIN)
 @CssImport("./styles/index.css")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     @Autowired
     private LoginService loginService;
+
     private final LoginForm loginForm;
+
     public LoginView() {
+        loginForm = setUpUI();
+        loginForm.addForgotPasswordListener(e -> UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD));
+        loginForm.addLoginListener(this::handleLogin);
+    }
+
+    private LoginForm setUpUI() {
+        LoginForm setUpLoginForm;
         addClassName("main");
         setSizeFull();
-
-        loginForm = createLoginForm();
-        loginForm.setAction("login");
-        add(loginForm);
+        setUpLoginForm = createLoginForm();
+        setUpLoginForm.setAction("login");
+        add(setUpLoginForm);
         this.setAlignItems(Alignment.CENTER);
-
         HorizontalLayout additionalInfoLayout = new HorizontalLayout();
         additionalInfoLayout.add(new Text("Don't have an Account? "), new Anchor(Globals.Pages.SIGNUP, "Sign up"));
         additionalInfoLayout.setAlignItems(Alignment.CENTER);
-
-        VerticalLayout layout = new VerticalLayout(loginForm, additionalInfoLayout);
+        VerticalLayout layout = new VerticalLayout(setUpLoginForm, additionalInfoLayout);
         layout.setAlignItems(Alignment.CENTER);
         add(layout);
-
-        loginForm.addForgotPasswordListener(e -> {
-            UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD);
-        });
-
-        loginForm.addLoginListener(input -> handleLogin(input));
+        return setUpLoginForm;
     }
 
     private LoginForm createLoginForm() {
@@ -79,7 +78,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        // inform the user about an authentication error
         if(beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()
