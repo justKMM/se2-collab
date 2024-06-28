@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views;
+package hbrs.se2.collhbrs.views.profile.business;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -15,6 +15,7 @@ import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.ApplicationDTO;
 import hbrs.se2.collhbrs.service.ManageApplicationService;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
 import org.apache.commons.lang3.StringUtils;
 import java.util.List;
