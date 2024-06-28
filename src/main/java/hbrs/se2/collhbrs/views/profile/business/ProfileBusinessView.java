@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.profile;
+package hbrs.se2.collhbrs.views.profile.business;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.avatar.Avatar;
