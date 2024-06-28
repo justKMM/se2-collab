@@ -1,9 +1,10 @@
-package hbrs.se2.collhbrs.views.AuthentificationViews;
+package hbrs.se2.collhbrs.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -18,9 +19,7 @@ import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.service.VacancyService;
-import hbrs.se2.collhbrs.views.AppView;
 import hbrs.se2.collhbrs.util.Globals;
-import hbrs.se2.collhbrs.model.dto.UserDTO;
 
 @PageTitle("Add vacancy")
 @Route(value = Globals.Pages.BUSINESSVACANCY, layout = AppView.class)
@@ -28,16 +27,22 @@ import hbrs.se2.collhbrs.model.dto.UserDTO;
 //@RolesAllowed("ADMIN")
 public class AddVacancyView extends Div {
 
-    private TextField titel = new TextField("Titel");
+    //private TextField titel = new TextField("Titel");
+    private ComboBox<String> titel = new ComboBox<>("Titel");
     private TextField description = new TextField("Description");
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
+    private String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
+            "Masterprojekt", "Büro", "Homeoffice"};
+
     private Binder<VacancyDTO> binder = new Binder(VacancyDTO.class);
 
     public AddVacancyView(VacancyService vacancyService) {
         addClassName("add-vacancy-view");
+
+        titel.setItems(comboBoxItems);
 
         VerticalLayout c1 = new VerticalLayout();
         c1.add(createTitle());

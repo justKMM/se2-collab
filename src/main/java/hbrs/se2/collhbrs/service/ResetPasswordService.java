@@ -9,7 +9,6 @@ import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -38,24 +37,6 @@ public class ResetPasswordService {
         return "User does not exist, please create a new account.";
     }
 
-    public String resetPassword(String token, String password) {
-        String tokenValidity = validatePasswordResetToken(token);
-        if (tokenValidity != null) {
-            return "Error" + tokenValidity;
-        }
-        ResetPasswordToken tmpToken = passwordTokenRepository.findByToken(token);
-        User user = tmpToken.getUser();
-        try {
-            user.setPassword(password);
-            userRepository.save(user);
-            passwordTokenRepository.delete(tmpToken);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error: " + e.getMessage();
-        }
-        return "Password reset successful";
-    }
-
     private boolean checkUserExistence(String email) {
         return userRepository.existsByEmail(email);
     }
@@ -81,20 +62,21 @@ public class ResetPasswordService {
         passwordTokenRepository.save(myToken);
     }
 
-
-
-    protected String validatePasswordResetToken(String token) {
-        final ResetPasswordToken passToken = passwordTokenRepository.findByToken(token);
-        return !isTokenFound(passToken) ? "invalidToken"
-                : isTokenExpired(passToken) ? "expiredToken"
-                : null;
-    }
-
-    private boolean isTokenFound(ResetPasswordToken passToken) {
-        return passToken != null;
-    }
-
-    private boolean isTokenExpired(ResetPasswordToken passToken) {
-        return LocalDate.now().isAfter(passToken.getEXPIRE_DATE());
+    public String resetPassword(String token, String password) {
+        String tokenValidity = securityService.validatePasswordResetToken(token);
+        if (tokenValidity != null) {
+            return "Error" + tokenValidity;
+        }
+        ResetPasswordToken tmpToken = passwordTokenRepository.findByToken(token);
+        User user = tmpToken.getUser();
+        try {
+            user.setPassword(password);
+            userRepository.save(user);
+            passwordTokenRepository.delete(tmpToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+        return "Password reset successful";
     }
 }

@@ -26,6 +26,7 @@ public class VacancyService {
     @Transactional
     public void saveVacancy(VacancyDTO vacancyDTO, BusinessDTO businessDTO) {
         Vacancy vacancyEntity = entityFactory.creatVacancy(vacancyDTO, findBusiness(businessDTO));
+        System.out.println(vacancyEntity.getBusiness().getBusinessID());
         this.repository.save(vacancyEntity);
     }
 

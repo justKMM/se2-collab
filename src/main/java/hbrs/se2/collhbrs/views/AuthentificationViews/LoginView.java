@@ -1,4 +1,4 @@
-package hbrs.se2.collhbrs.views.authentification;
+package hbrs.se2.collhbrs.views.AuthentificationViews;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
@@ -10,46 +10,42 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.service.LoginService;
+import hbrs.se2.collhbrs.service.db.exceptions.DatabaseLayerException;
+import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(Globals.Pages.LOGIN)
+@Route(value = "")
 @CssImport("./styles/index.css")
-@AnonymousAllowed
-public class LoginView extends VerticalLayout implements BeforeEnterObserver {
+public class LoginView extends VerticalLayout {
 
     @Autowired
     private LoginService loginService;
 
-    private final LoginForm loginForm;
-
     public LoginView() {
-        loginForm = setUpUI();
-        loginForm.addForgotPasswordListener(e -> UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD));
-        loginForm.addLoginListener(this::handleLogin);
-    }
-
-    private LoginForm setUpUI() {
-        LoginForm setUpLoginForm;
         addClassName("main");
         setSizeFull();
-        setUpLoginForm = createLoginForm();
-        setUpLoginForm.setAction("login");
-        add(setUpLoginForm);
+
+        LoginForm component = createLoginForm();
+        add(component);
         this.setAlignItems(Alignment.CENTER);
+
         HorizontalLayout additionalInfoLayout = new HorizontalLayout();
         additionalInfoLayout.add(new Text("Don't have an Account? "), new Anchor(Globals.Pages.SIGNUP, "Sign up"));
         additionalInfoLayout.setAlignItems(Alignment.CENTER);
-        VerticalLayout layout = new VerticalLayout(setUpLoginForm, additionalInfoLayout);
+
+        VerticalLayout layout = new VerticalLayout(component, additionalInfoLayout);
         layout.setAlignItems(Alignment.CENTER);
         add(layout);
-        return setUpLoginForm;
+
+        component.addForgotPasswordListener(e -> {
+            UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD);
+        });
+
+        component.addLoginListener(input -> handleLogin(input));
     }
 
     private LoginForm createLoginForm() {
@@ -73,18 +69,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             loginService.startSession(new UserDTO(loginService.login(input.getUsername(), input.getPassword())));
         } catch (Exception e) {
             Notification.show("User with this username and/or password could not be found!");
-        }
-    }
-
-    @Override
-    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        if(beforeEnterEvent.getLocation()
-                .getQueryParameters()
-                .getParameters()
-                .containsKey("error")) {
-            loginForm.setError(true);
-            Notification notification = Notification.show("Login failed");
-            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 }

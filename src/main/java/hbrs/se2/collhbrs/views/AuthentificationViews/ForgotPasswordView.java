@@ -12,7 +12,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.entity.Email;
 import hbrs.se2.collhbrs.service.EmailService;
 import hbrs.se2.collhbrs.service.ResetPasswordService;
@@ -23,7 +22,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 @Route(value = Globals.Pages.FORGOT_PASSWORD)
 @CssImport("./styles/index.css")
-@AnonymousAllowed
 public class ForgotPasswordView extends Composite<VerticalLayout> {
     @Autowired
     ResetPasswordService resetPasswordService;

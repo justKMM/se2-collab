@@ -17,12 +17,14 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
-import hbrs.se2.collhbrs.service.SecurityService;
+import hbrs.se2.collhbrs.model.dto.BusinessDTO;
+import hbrs.se2.collhbrs.model.dto.StudentDTO;
+import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.Utils;
 import hbrs.se2.collhbrs.views.ProfileView.ProfilStudentView;
-import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
+import hbrs.se2.collhbrs.views.ProfileView.ProfileBusinessView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -32,17 +34,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @CssImport("./styles/index.css")
 @Route(Globals.Pages.MAIN)
-@PermitAll
 public class AppView extends AppLayout {
 
     private Tabs sidemenu;
     private H1 viewTitle;
+    
+    @Autowired
+    private LoginService loginService;
 
     @Autowired
     private SessionService sessionService;
-
-    @Autowired
-    SecurityService securityService;
 
     public AppView() {
         setUpUI();
@@ -98,7 +99,21 @@ public class AppView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        Tab[] tab_array = new Tab[]{createTab("profile-page", ProfilStudentView.class)};
+        loginService = new LoginService();
+
+        Tab[] tab_array = new Tab[]{};
+
+        if ( getCurrentUser() instanceof StudentDTO) {
+            System.out.println("User is Student!");
+            tab_array = Utils.append( tab_array , createTab("Profile", ProfilStudentView.class)  );
+        }
+
+        if ( getCurrentUser() instanceof BusinessDTO) {
+            System.out.println("User is Unternehmer!");
+            tab_array = Utils.append( tab_array , createTab("Profile", ProfileBusinessView.class)  );
+            tab_array = Utils.append( tab_array , createTab("Add vacancy", AddVacancyView.class)  );
+            tab_array = Utils.append( tab_array , createTab("Show Applications", ShowApplicationView.class)  );
+        }
 
         /*
          ToDo: append new Tabs later
@@ -109,8 +124,9 @@ public class AppView extends AppLayout {
     }
 
     private void logoutUser() {
-        securityService.logout();
-    }
+        UI ui = this.getUI().get();
+        ui.getSession().close();
+        ui.getPage().setLocation("/");    }
 
     public void addToNavbar(boolean touchOptimized, Component... components) {
         String slot = "navbar" + (touchOptimized ? " touch-optimized" : "");
@@ -130,5 +146,7 @@ public class AppView extends AppLayout {
         return verticalLayout;
 
     }
-
+    private Object getCurrentUser() {
+        return UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+    }
 }
