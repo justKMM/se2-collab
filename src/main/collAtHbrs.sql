@@ -129,23 +129,6 @@ create table public.Vorname
     constraint pk_Vorname primary key (StudentID, laufende_nummer)
 );
 
-create table public.Authority
-(
-    BenutzerID SERIAL not null,
-    laufende_nummer numeric(2) not null,
-    AuthorityRank varchar(16) not null,
-    constraint pk_Authority primary key (BenutzerID, laufende_nummer)
-);
-
-create table public.PasswortResetToken
-(
-    PasswortResetTokenID SERIAL not null,
-    BenutzerID SERIAL not null,
-    Token varchar(256) not null,
-    Ablaufdatum date not null,
-    constraint pk_PasswortResetToken primary key (PasswortResetTokenID)
-);
-
 
 -- Constraints Section
 -- ___________________
@@ -197,16 +180,6 @@ alter table public.Kontaktverknuepfung
     add constraint fk_Kontaktverknuepfung_Student
         foreign key (StudentID)
             references Student;
-
-alter table public.Authority
-    add constraint fk_Authority_Benutzer
-        foreign key (BenutzerID)
-            references Benutzer;
-
-alter table public.PasswortResetToken
-    add constraint fk_PasswortResetToken_Benutzer
-        foreign key (BenutzerID)
-            references Benutzer;
 
 
 
