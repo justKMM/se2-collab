@@ -2,25 +2,31 @@ package hbrs.se2.collhbrs.views.profile.business;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.avatar.Avatar;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import hbrs.se2.collhbrs.service.SessionService;
+import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
+import java.io.InputStream;
+import java.util.Base64;
 
 @Route(value = Globals.Pages.PROFIL_BUSINESS, layout = AppView.class)
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ProfileBusinessView extends Composite<VerticalLayout> {
 
-    public ProfileBusinessView(SessionService sessionService) {
-
+    public ProfileBusinessView(SessionService sessionService, ProfileService profileService) {
         HorizontalLayout layoutRow = new HorizontalLayout();
+        Div avatarWrapper = new Div(); // Wrapping Div
         Avatar avatar = new Avatar();
         VerticalLayout layoutColumn2 = new VerticalLayout();
         H1 h1 = new H1();
@@ -44,13 +50,13 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         avatar.setName("Firstname Lastname");
         avatar.setWidth("200px");
         avatar.setHeight("200px");
+        avatarWrapper.add(avatar); // Add avatar to the wrapper
         layoutColumn2.setHeightFull();
         layoutRow.setFlexGrow(1.0, layoutColumn2);
         layoutColumn2.setWidth("100%");
         layoutColumn2.getStyle().set("flex-grow", "1");
 
         h1.setText("Hallo " + (sessionService.getCurrentBusiness()).getName() + "! ");
-
 
         h1.setWidth("max-content");
         h6.setText("Rating:");
@@ -72,7 +78,7 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         layoutColumn4.setWidth("100%");
         layoutColumn4.getStyle().set("flex-grow", "1");
         getContent().add(layoutRow);
-        layoutRow.add(avatar);
+        layoutRow.add(avatarWrapper); // Add wrapper to the layout
         layoutRow.add(layoutColumn2);
         layoutColumn2.add(h1);
         layoutColumn2.add(h6);
@@ -85,5 +91,32 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         layoutRow2.add(layoutColumn3);
         layoutColumn3.add(h62);
         getContent().add(layoutColumn4);
+
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload upload = new Upload(buffer);
+        upload.setVisible(false);
+
+        avatarWrapper.addClickListener(event -> upload.setVisible(true));
+
+        upload.addSucceededListener(event -> {
+            try (InputStream inputStream = buffer.getInputStream()) {
+                byte[] bytes = inputStream.readAllBytes();
+                String base64Image = Base64.getEncoder().encodeToString(bytes);
+                profileService.deleteProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID());
+                profileService.saveProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID(), base64Image);
+                avatar.setImage("data:image/jpeg;base64," + base64Image);
+                upload.setVisible(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        layoutColumn4.add(upload);
+
+        String base64Image = profileService.getProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID());
+        if (base64Image != null) {
+            avatar.setImage("data:image/jpeg;base64," + base64Image);
+        }
     }
 }

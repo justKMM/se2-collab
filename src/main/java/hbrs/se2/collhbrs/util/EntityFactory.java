@@ -64,7 +64,8 @@ public class EntityFactory {
         skill.setStudent(student);
         return skill;
     }
-    public static Vacancy createVacancy(String titel, String description, Business business) {
+
+    public Vacancy createVacancy(String titel, String description, Business business) {
         Vacancy vacancy = new Vacancy();
         vacancy.setTitel(titel);
         vacancy.setDescription(description);

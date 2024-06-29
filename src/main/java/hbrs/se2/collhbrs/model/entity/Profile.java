@@ -26,7 +26,7 @@ public class Profile implements Serializable {
     }
 
     @Basic
-    @Column(name = "avatar_url", length = 2048)
+    @Column(name = "avatar_url", length = 6400)
     public String getAvatarUrl() {
         return avatarUrl;
     }
