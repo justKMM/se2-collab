@@ -2,10 +2,13 @@ package hbrs.se2.collhbrs.util;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
 public class Globals {
 
+    private static final String EXCEPTION_1 = "This is a utility class and cannot be instantiated";
+
     private Globals() {
-        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+        throw new UnsupportedOperationException(EXCEPTION_1);
     }
 
     public static final String CURRENT_USER = "current_user";
@@ -14,7 +17,7 @@ public class Globals {
     public static class Pages {
 
         private Pages() {
-            throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+            throw new UnsupportedOperationException(EXCEPTION_1);
         }
 
         public static final String MAIN = "";
@@ -35,7 +38,7 @@ public class Globals {
     public static class Roles {
 
         private Roles() {
-            throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+            throw new UnsupportedOperationException(EXCEPTION_1);
         }
 
         public static final String STUDENT = "student";

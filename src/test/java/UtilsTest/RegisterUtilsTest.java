@@ -8,13 +8,15 @@ import static org.junit.Assert.*;
 
 public class RegisterUtilsTest {
 
+    private final static String TESTPW = "password123";
+    private final static String USERNAME = "username";
 
     @Test
     public void testValidEmails() {
-        assertTrue(RegisterUtils.validateInput("username", "John", "Doe", "test@example.com", "Password123", "Password123"));
-        assertTrue(RegisterUtils.validateInput("username", "John", "Doe", "user.name@example.com", "Password123", "Password123"));
-        assertTrue(RegisterUtils.validateInput("username", "John", "Doe", "user123@example.co.uk", "Password123", "Password123"));
-        assertTrue(RegisterUtils.validateInput("username", "John", "Doe", "user_name@example-domain.com", "Password123", "Password123"));
+        assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "test@example.com", TESTPW, TESTPW));
+        assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user.name@example.com", TESTPW, TESTPW));
+        assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user123@example.co.uk", TESTPW, TESTPW));
+        assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user_name@example-domain.com", TESTPW, TESTPW));
     }
     @Test
     public void testValidateInput_InvalidFirstName() {
