@@ -3,6 +3,7 @@ package hbrs.se2.collhbrs.model.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +13,9 @@ public class Vacancy implements Serializable {
     private Business business;
     private String titel;
     private String description;
+    private String location;
+    private Date publishDate;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +56,26 @@ public class Vacancy implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Basic
+    @Column(name = "standort", length = 256, nullable = false)
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    @Basic
+    @Column(name = "veroeffentlichungsdatum", nullable = false)
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 
     @Override
