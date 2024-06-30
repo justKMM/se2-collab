@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfileTest {
 
+    private final static String EXAMPLE_URL = "ExampleURL";
+    private final static String PROFILEDESCRIPTION = "ProfileDescription";
+
     Profile profile;
     Profile profile1;
 
@@ -15,15 +18,15 @@ public class ProfileTest {
     public void setUp() {
         profile = new Profile();
         profile.setProfileID(1L);
-        profile.setAvatarUrl("ExampleURL");
-        profile.setProfileDescription("ProfileDescription");
+        profile.setAvatarUrl(EXAMPLE_URL);
+        profile.setProfileDescription(PROFILEDESCRIPTION);
         profile.setLinkedinUsername("usernameLI");
         profile.setXingUsername("usernameXing");
 
         profile1 = new Profile();
         profile1.setProfileID(1L);
-        profile1.setAvatarUrl("ExampleURL");
-        profile1.setProfileDescription("ProfileDescription");
+        profile1.setAvatarUrl(EXAMPLE_URL);
+        profile1.setProfileDescription(PROFILEDESCRIPTION);
         profile1.setLinkedinUsername("usernameLI1");
         profile1.setXingUsername("usernameXing1");
     }
@@ -31,8 +34,8 @@ public class ProfileTest {
     @Test
     public void testSettersandGetters() {
         assertEquals(1L, profile.getProfileID());
-        assertEquals("ExampleURL", profile.getAvatarUrl());
-        assertEquals("ProfileDescription", profile.getProfileDescription());
+        assertEquals(EXAMPLE_URL, profile.getAvatarUrl());
+        assertEquals(PROFILEDESCRIPTION, profile.getProfileDescription());
         assertEquals("usernameLI", profile.getLinkedinUsername());
         assertEquals("usernameXing", profile.getXingUsername());
     }

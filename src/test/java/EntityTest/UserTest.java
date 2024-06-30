@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class UserTest {
 
+    private final static String TESTPW = "password";
     User user;
     User user1;
     User user2;
@@ -25,7 +26,7 @@ public class UserTest {
         user = new User();
         user.setUserID(1);
         user.setUsername("testuser");
-        user.setPassword("password");
+        user.setPassword(TESTPW);
         user.setBlacklisted(0);
         user.setEmail("testuser@example.com");
         user.setProfile(profile);
@@ -51,14 +52,14 @@ public class UserTest {
     public void testGettersAndSetters() {
         assertEquals(1L, user.getUserID());
         assertEquals("testuser", user.getUsername());
-        assertEquals("password", user.getPassword());
+        assertEquals(TESTPW, user.getPassword());
         assertEquals(0, user.getBlacklisted());
         assertEquals("testuser@example.com", user.getEmail());
         assertEquals(profile, user.getProfile());
 
         user.setPassword("password2");
         assertEquals("password2", user.getPassword());
-        assertNotEquals("password", user.getPassword());
+        assertNotEquals(TESTPW, user.getPassword());
     }
 
     @Test

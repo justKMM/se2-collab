@@ -31,6 +31,10 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed(Globals.Roles.STUDENT)
 public class ProfilStudentView extends Composite<VerticalLayout> {
 
+    private final static String FLEX_GROW = "flex-grow";
+    private final static String MIN_CONTENT = "min-content";
+    private final static String MAX_CONTENT = "max-content";
+    private final static String PX = "200px";
     private Button buttonPDataEdit;
     private Button buttonMailEdit;
     private Button buttonMerkzettel;
@@ -77,7 +81,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         dialog = new Dialog();
 
         getContent().setWidth("100%");
-        getContent().getStyle().set("flex-grow", "1");
+        getContent().getStyle().set(FLEX_GROW, "1");
         getContent().setFlexGrow(1.0, layoutColumn2);
 
         setRatingIcons();
@@ -135,12 +139,12 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         buttonLebenslauf = new Button("upload Lebenslauf");
         buttonPDataEdit = new Button("Edit personal data");
 
-        buttonMailEdit.setWidth("min-content");
-        buttonMerkzettel.setWidth("min-content");
+        buttonMailEdit.setWidth(MIN_CONTENT);
+        buttonMerkzettel.setWidth(MIN_CONTENT);
         buttonMerkzettel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLebenslauf.setWidth("min-content");
+        buttonLebenslauf.setWidth(MIN_CONTENT);
         buttonLebenslauf.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonPDataEdit.setWidth("min-content");
+        buttonPDataEdit.setWidth(MIN_CONTENT);
         buttonPDataEdit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     }
 
@@ -187,47 +191,47 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn3.setAlignSelf(FlexComponent.Alignment.START, buttonMerkzettel);
         layoutColumn2.setWidthFull();
         layoutColumn2.setWidth("100%");
-        layoutColumn2.getStyle().set("flex-grow", "1");
+        layoutColumn2.getStyle().set(FLEX_GROW, "1");
         layoutRow.setWidthFull();
         layoutColumn2.setFlexGrow(1.0, layoutRow);
         layoutRow.addClassName(Gap.MEDIUM);
         layoutRow.setWidth("100%");
-        layoutRow.getStyle().set("flex-grow", "1");
+        layoutRow.getStyle().set(FLEX_GROW, "1");
         avatar.setName("Firstname Lastname");
         layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, avatar);
-        avatar.setMinWidth("200px");
-        avatar.setMinHeight("200px");
+        avatar.setMinWidth(PX);
+        avatar.setMinHeight(PX);
         layoutColumn3.setHeightFull();
         layoutRow.setFlexGrow(1.0, layoutColumn3);
         layoutColumn3.setWidth("100%");
-        layoutColumn3.getStyle().set("flex-grow", "1");
-        h1.setWidth("max-content");
-        h6.setWidth("max-content");
+        layoutColumn3.getStyle().set(FLEX_GROW, "1");
+        h1.setWidth(MAX_CONTENT);
+        h6.setWidth(MAX_CONTENT);
         layoutRow2.setWidthFull();
         layoutColumn3.setFlexGrow(1.0, layoutRow2);
         layoutRow2.addClassName(Gap.MEDIUM);
-        layoutRow2.setWidth("min-content");
-        layoutRow2.setHeight("min-content");
+        layoutRow2.setWidth(MIN_CONTENT);
+        layoutRow2.setHeight(MIN_CONTENT);
         layoutRow3.setWidthFull();
         layoutColumn2.setFlexGrow(1.0, layoutRow3);
         layoutRow3.addClassName(Gap.MEDIUM);
         layoutRow3.setWidth("100%");
-        layoutRow3.getStyle().set("flex-grow", "1");
+        layoutRow3.getStyle().set(FLEX_GROW, "1");
         layoutColumn4.setHeightFull();
         layoutRow3.setFlexGrow(1.0, layoutColumn4);
-        layoutColumn4.setWidth("min-content");
+        layoutColumn4.setWidth(MIN_CONTENT);
         layoutColumn4.setMinWidth("750px");
         layoutColumn4.setHeight("100%");
-        layoutColumn4.setMinHeight("200px");
+        layoutColumn4.setMinHeight(PX);
         layoutColumn4.setAlignSelf(FlexComponent.Alignment.CENTER, h12);
-        h12.setWidth("max-content");
+        h12.setWidth(MAX_CONTENT);
         layoutColumn4.setAlignSelf(FlexComponent.Alignment.START, buttonPDataEdit);
         layoutColumn5.setHeightFull();
         layoutRow3.setFlexGrow(1.0, layoutColumn5);
-        layoutColumn5.getStyle().set("flex-grow", "1");
-        layoutColumn5.getStyle().set("flex-grow", "1");
+        layoutColumn5.getStyle().set(FLEX_GROW, "1");
+        layoutColumn5.getStyle().set(FLEX_GROW, "1");
         layoutColumn5.setAlignSelf(FlexComponent.Alignment.CENTER, h13);
-        h13.setWidth("max-content");
+        h13.setWidth(MAX_CONTENT);
         textMedium2.setWidth("100%");
         textMedium2.getStyle().set("font-size", "var(--lumo-font-size-m)");
 
