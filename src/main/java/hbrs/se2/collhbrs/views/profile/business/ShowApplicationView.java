@@ -7,6 +7,7 @@ import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,6 +21,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.ApplicationDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
+import hbrs.se2.collhbrs.model.entity.Application;
 import hbrs.se2.collhbrs.model.entity.Student;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.service.LoginService;
@@ -54,7 +56,7 @@ public class ShowApplicationView extends Div implements AfterNavigationObserver 
         setSizeFull();
         grid.setHeight("100%");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
-        grid.addComponentColumn(student -> createCard(student));
+        grid.addComponentColumn(application -> createCard(application));
         add(grid);
     }
 
@@ -64,6 +66,9 @@ public class ShowApplicationView extends Div implements AfterNavigationObserver 
         card.setSpacing(false);
         card.getThemeList().add("spacing-s");
 
+
+        Image image = new Image();
+        image.setSrc("");
         VerticalLayout description = new VerticalLayout();
         description.addClassName("description");
         description.setSpacing(false);
@@ -73,6 +78,7 @@ public class ShowApplicationView extends Div implements AfterNavigationObserver 
         header.addClassName("header");
         header.setSpacing(false);
         header.getThemeList().add("spacing-s");
+
 
         Span name = new Span(application.getUsername());
         name.addClassName("name");
@@ -88,6 +94,8 @@ public class ShowApplicationView extends Div implements AfterNavigationObserver 
         actions.setSpacing(false);
         actions.getThemeList().add("spacing-s");
 
+
+
         description.add(header, post, actions);
         card.add(description);
         return card;
@@ -95,14 +103,13 @@ public class ShowApplicationView extends Div implements AfterNavigationObserver 
 
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-        List<StudentDTO> student = Arrays.asList(
-                createPerson(entityFactory.createStudent(entityFactory.createUser(entityFactory.createProfile(),
-                        "russelmrcl", "Password8", "russel@info.com"), "Musk"))
+        /*List<ApplicationDTO> applications = Arrays.asList(
+                createPerson()
         );
-        grid.setItems(student);
+        grid.setItems(applications);*/
     }
 
-    private static StudentDTO createPerson(Student student) {
-        return new StudentDTO(student);
+    private static ApplicationDTO createPerson(Application application) {
+        return new ApplicationDTO(application);
     }
 }
