@@ -22,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 @SpringBootTest
 public class ApplicationTests {
-  
+
+  private final static String HUENCHEN = "huenchen";
   @Autowired
   private UserRepository userRepository;
   @Autowired
@@ -46,9 +47,9 @@ public class ApplicationTests {
   
   @Test
   void testUserDTOAndFindUserWithJPA() {
-    UserDTO testDTO = new UserDTO(userRepository.findByUsernameAndPassword("huenchen", "hund")); //User huenchen
+    UserDTO testDTO = new UserDTO(userRepository.findByUsernameAndPassword(HUENCHEN, "hund")); //User huenchen
     System.out.println("User: " + testDTO.getUsername());
-    assertEquals("huenchen", testDTO.getUsername());
+    assertEquals(HUENCHEN, testDTO.getUsername());
     assertEquals(0, testDTO.getBlacklisted());
     assertEquals("huhn@huhn.de", testDTO.getEmail());
   }
@@ -57,7 +58,7 @@ public class ApplicationTests {
   void testStudentDTOByStudentID() {
     StudentDTO studentDTO = new StudentDTO(studentRepository.findStudentByUser_UserID((long) 1)); //User huenchen
     System.out.println("Student: " + studentDTO.getUser().getUsername());
-    assertEquals("huenchen", studentDTO.getUser().getUsername());
+    assertEquals(HUENCHEN, studentDTO.getUser().getUsername());
     assertEquals(1, studentDTO.getStudentID());
   }
   

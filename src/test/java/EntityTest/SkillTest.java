@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SkillTest {
 
+    private final static String TESTING = "Testing";
+
     Skill skill;
     Skill skill1;
 
@@ -22,7 +24,7 @@ public class SkillTest {
         skill = new Skill();
         skill.setStudent(student);
         skill.setSerialNumber(10);
-        skill.setSkillName("Juggle");
+        skill.setSkillName(TESTING);
 
         skill1 = new Skill();
         skill1.setStudent(student);
@@ -34,11 +36,11 @@ public class SkillTest {
     public void testGettersandSetters() {
         assertEquals(student, skill.getStudent());
         assertEquals(10, skill.getSerialNumber());
-        assertEquals("Juggle", skill.getSkillName());
+        assertEquals(TESTING, skill.getSkillName());
 
         assertEquals(student, skill1.getStudent());
         assertEquals(11, skill1.getSerialNumber());
-        assertNotEquals("Juggle", skill1.getSkillName());
+        assertNotEquals(TESTING, skill1.getSkillName());
     }
 
     @Test

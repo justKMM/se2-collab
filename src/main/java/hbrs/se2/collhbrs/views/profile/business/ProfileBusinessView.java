@@ -24,7 +24,11 @@ import java.util.Base64;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ProfileBusinessView extends Composite<VerticalLayout> {
 
+    private final static String FLEX_GROW = "flex-grow";
+    private final static String MAX_CONTENT = "max-content";
+
     public ProfileBusinessView(SessionService sessionService, ProfileService profileService) {
+
         HorizontalLayout layoutRow = new HorizontalLayout();
         Div avatarWrapper = new Div(); // Wrapping Div
         Avatar avatar = new Avatar();
@@ -41,12 +45,12 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         H6 h62 = new H6();
         VerticalLayout layoutColumn4 = new VerticalLayout();
         getContent().setWidth("100%");
-        getContent().getStyle().set("flex-grow", "1");
+        getContent().getStyle().set(FLEX_GROW, "1");
         layoutRow.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow);
         layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
         layoutRow.setWidth("100%");
-        layoutRow.getStyle().set("flex-grow", "1");
+        layoutRow.getStyle().set(FLEX_GROW, "1");
         avatar.setName("Firstname Lastname");
         avatar.setWidth("200px");
         avatar.setHeight("200px");
@@ -54,29 +58,30 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         layoutColumn2.setHeightFull();
         layoutRow.setFlexGrow(1.0, layoutColumn2);
         layoutColumn2.setWidth("100%");
-        layoutColumn2.getStyle().set("flex-grow", "1");
+        layoutColumn2.getStyle().set(FLEX_GROW, "1");
 
         h1.setText("Hallo " + (sessionService.getCurrentBusiness()).getName() + "! ");
 
-        h1.setWidth("max-content");
+
+        h1.setWidth(MAX_CONTENT);
         h6.setText("Rating:");
-        h6.setWidth("max-content");
+        h6.setWidth(MAX_CONTENT);
         layoutRow2.setWidthFull();
         layoutColumn2.setFlexGrow(1.0, layoutRow2);
         layoutRow2.addClassName(LumoUtility.Gap.MEDIUM);
         layoutRow2.setWidth("100%");
-        layoutRow2.getStyle().set("flex-grow", "1");
+        layoutRow2.getStyle().set(FLEX_GROW, "1");
 
         layoutColumn3.setHeightFull();
         layoutRow2.setFlexGrow(1.0, layoutColumn3);
         layoutColumn3.setWidth("100%");
-        layoutColumn3.getStyle().set("flex-grow", "1");
+        layoutColumn3.getStyle().set(FLEX_GROW, "1");
         h62.setText("5/5 Sternen");
-        h62.setWidth("max-content");
+        h62.setWidth(MAX_CONTENT);
         layoutColumn4.setWidthFull();
         getContent().setFlexGrow(1.0, layoutColumn4);
         layoutColumn4.setWidth("100%");
-        layoutColumn4.getStyle().set("flex-grow", "1");
+        layoutColumn4.getStyle().set(FLEX_GROW, "1");
         getContent().add(layoutRow);
         layoutRow.add(avatarWrapper); // Add wrapper to the layout
         layoutRow.add(layoutColumn2);
