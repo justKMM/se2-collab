@@ -21,6 +21,7 @@ import hbrs.se2.collhbrs.util.Utils;
 import hbrs.se2.collhbrs.views.authentification.UpdatePasswordView;
 import hbrs.se2.collhbrs.views.profile.business.ProfileBusinessView;
 import hbrs.se2.collhbrs.views.profile.business.ShowApplicationView;
+import hbrs.se2.collhbrs.views.profile.business.VacancyListView;
 import hbrs.se2.collhbrs.views.profile.business.VacancyView;
 import hbrs.se2.collhbrs.views.profile.student.ProfilStudentView;
 import hbrs.se2.collhbrs.views.profile.student.SearchView;
@@ -97,6 +98,7 @@ public class AppView extends AppLayout {
             tabs = Utils.append(tabs, createTab("Profile", ProfileBusinessView.class));
             tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
             tabs = Utils.append(tabs, createTab("Vacancy", VacancyView.class));
+            tabs = Utils.append(tabs, createTab("Show Vacancy", VacancyListView.class));
             tabs = Utils.append(tabs, createTab("Show Applications", ShowApplicationView.class));
         }
         return tabs;

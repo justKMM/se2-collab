@@ -78,14 +78,28 @@
     padding: calc(var(--lumo-space-s) * 1.5) var(--lumo-space-m);
 }
 
-.feed-view img {
-    border-radius: 50%;
-    flex-shrink: 0;
-    height: var(--lumo-size-m);
-    margin-right: calc(var(--lumo-space-s) * 1.5);
-    width: var(--lumo-size-m);
-}
-
 .feed-view .header {
     align-items: baseline;
+}
+
+.feed-view .name {
+    font-size: var(--lumo-font-size-s);
+    font-weight: bold;
+    margin-right: var(--lumo-space-s);
+}
+
+.feed-view .date {
+    color: var(--lumo-tertiary-text-color);
+    font-size: var(--lumo-font-size-xs);
+}
+
+.feed-view .post {
+    color: var(--lumo-secondary-text-color);
+    font-size: var(--lumo-font-size-s);
+    margin-bottom: var(--lumo-space-s);
+    white-space: normal;
+}
+
+.feed-view .actions {
+    align-items: center;
 }
