@@ -23,7 +23,7 @@ create table public.Benutzer
     Username    varchar(32) not null,
     Passwort    varchar(64) not null,
     Blacklisted numeric(1),
-    Email varchar(320),
+    Email       varchar(320),
     constraint uk_Benutzer_Username unique (Username),
     constraint uk_Benutzer_Email unique (Email),
     constraint pk_Benutzer primary key (BenutzerID),
@@ -75,7 +75,7 @@ create table public.Kontaktverknuepfung
 create table public.Profil
 (
     ProfilID              SERIAL not null,
-    Avatar_URL            varchar(2048),
+    Avatar                TEXT,
     Profilbeschreibung    varchar(6400),
     Xing_Benutzername     varchar(256),
     LinkedIn_Benutzername varchar(256),
@@ -86,10 +86,12 @@ create table public.Profil
 
 create table public.Stellenausschreibung
 (
-    StellenausschreibungID SERIAL        not null,
-    UnternehmenID          SERIAL        not null,
-    Titel                  varchar(256)  not null,
-    Beschreibung           varchar(6400) not null,
+    StellenausschreibungID  SERIAL        not null,
+    UnternehmenID           SERIAL        not null,
+    Titel                   varchar(256)  not null,
+    Beschreibung            varchar(6400) not null,
+    Standort                varchar(256)  not null,
+    Veroeffentlichungsdatum date,
     constraint pk_Stellenausschreibung primary key (StellenausschreibungID),
     constraint uk_Stellenausschreibung_UnternehmenID unique (UnternehmenID)
 );
@@ -129,22 +131,25 @@ create table public.Vorname
     constraint pk_Vorname primary key (StudentID, laufende_nummer)
 );
 
+create table public.Anforderungen
+(
+    StellenausschreibungID SERIAL       not null,
+    laufende_nummer        numeric(2)   not null,
+    Anforderungen          varchar(128) not null,
+    constraint pk_Anforderungen primary key (StellenausschreibungID, laufende_nummer)
+);
+
+create table public.Aufgaben
+(
+    StellenausschreibungID SERIAL       not null,
+    laufende_nummer        numeric(2)   not null,
+    Aufgaben               varchar(128) not null,
+    constraint pk_Aufgaben primary key (StellenausschreibungID, laufende_nummer)
+);
+
 
 -- Constraints Section
 -- ___________________
-
-
---    alter table collAtHbrs.Benutzer
---        add constraint chk_Benutzer_Unternehmen_BenutzerID
---            check (exists(select *
---                          from Unternehmen
---                          where Unternehmen.BenutzerID = BenutzerID));
-
---    alter table collAtHbrs.Benutzer
---        add constraint chk_Benutzer_Student_BenutzerID
---            check (exists(select *
---                          from Student
---                          where Student.BenutzerID = BenutzerID));
 
 alter table public.Benutzer
     add constraint fk_Benutzer_Profil
@@ -183,58 +188,11 @@ alter table public.Kontaktverknuepfung
 
 
 
---    alter table collAtHbrs.Profil
---        add constraint chk_Profil_Benutzer_ProfilID
---            check (exists(select *
---                          from Benutzer
---                          where Benutzer.ProfilID = ProfilID));
-
---    alter table collAtHbrs.Stellenausschreibung
---        add constraint chk_Stellenausschreibung_bewirbt_StellenausschreibungID
---            check (exists(select *
---                          from bewirbt
---                          where bewirbt.StellenausschreibungID = StellenausschreibungID));
-
 alter table public.Stellenausschreibung
     add constraint fk_Stellenausschreibung_Unternehmen
         foreign key (UnternehmenID)
             references Unternehmen;
 
---    alter table collAtHbrs.Student
---        add constraint chk_Student_Interessen_StudentID
---            check (exists(select *
---                          from Interessen
---                          where Interessen.StudentID = StudentID));
-
---    alter table collAtHbrs.Student
---        add constraint chk_Student_Kompetenzen_StudentID
---            check (exists(select *
---                          from Kompetenzen
---                          where Kompetenzen.StudentID = StudentID));
-
---    alter table collAtHbrs.Student
---        add constraint chk_Student_Studiengang_StudentID
---            check (exists(select *
---                          from Studiengang
---                          where Studiengang.StudentID = StudentID));
-
---    alter table collAtHbrs.Student
---        add constraint chk_Student_Vorname_StudentID
---            check (exists(select *
---                          from Vorname
---                          where Vorname.StudentID = StudentID));
-
---    alter table collAtHbrs.Student
---        add constraint chk_Student_Kontaktverknuepfung_StudentID
---            check (exists(select *
---                          from Kontaktverknuepfung
---                          where Kontaktverknuepfung.StudentID = StudentID));
-
---    alter table collAtHbrs.Student
---        add constraint chk_Student_bewirbt_StudentID
---            check (exists(select *
---                          from bewirbt
---                          where bewirbt.StudentID = StudentID));
 
 alter table public.Student
     add constraint fk_Student_Benutzer
@@ -246,11 +204,6 @@ alter table public.Studiengang
         foreign key (StudentID)
             references Student;
 
---    alter table collAtHbrs.Unternehmen
---        add constraint chk_Unternehmen_Kontaktverknuepfung_UnternehmenID
---            check (exists(select *
---                          from Kontaktverknuepfung
---                          where Kontaktverknuepfung.UnternehmenID = UnternehmenID));
 
 alter table public.Unternehmen
     add constraint fk_Unternehmen_Benutzer
@@ -262,6 +215,15 @@ alter table public.Vorname
         foreign key (StudentID)
             references Student;
 
+alter table public.Anforderungen
+    add constraint fk_Anforderungen_Stellenausschreibung
+        foreign key (StellenausschreibungID)
+            references Stellenausschreibung;
+
+alter table public.Aufgaben
+    add constraint fk_Aufgaben_Stellenausschreibung
+        foreign key (StellenausschreibungID)
+            references Stellenausschreibung;
 
 -- Index Section
 -- _____________
