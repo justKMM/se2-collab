@@ -5,6 +5,8 @@ import hbrs.se2.collhbrs.repository.ResponsibilitiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ResponsibilitiesService {
 
@@ -13,5 +15,9 @@ public class ResponsibilitiesService {
 
     public void saveResponsibilities(Responsibilities responsibilities) {
         responsibilitiesRepository.save(responsibilities);
+    }
+
+    public List<Responsibilities> getResponsibilitiesByVacancyId(Long vacancyId) {
+        return responsibilitiesRepository.findResponsibilitiesByVacancyVacancyID(vacancyId);
     }
 }

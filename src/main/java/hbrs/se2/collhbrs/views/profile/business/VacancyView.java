@@ -16,6 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.service.RequirementsService;
 import hbrs.se2.collhbrs.service.ResponsibilitiesService;
 import hbrs.se2.collhbrs.service.SessionService;
@@ -37,8 +38,6 @@ import java.util.List;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyView extends Composite<VerticalLayout> {
 
-    private final List<String> requirementItems = new ArrayList<>();
-    private final List<String> responsibilityItems = new ArrayList<>();
     @Autowired
     EntityFactory entityFactory;
     @Autowired
@@ -49,6 +48,7 @@ public class VacancyView extends Composite<VerticalLayout> {
     SessionService sessionService;
     @Autowired
     VacancyService vacancyService;
+
     private MultiSelectListBox<String> requirementsList;
     private MultiSelectListBox<String> responsibilitiesList;
 
@@ -107,11 +107,14 @@ public class VacancyView extends Composite<VerticalLayout> {
         VerticalLayout responsibilitiesLayout = new VerticalLayout(responsibilities, responsibilitiesButtonsLayout, responsibilitiesList);
         formLayout2Col.add(requirementsLayout, responsibilitiesLayout);
 
+        List<String> requirementItems = new ArrayList<>();
+        List<String> responsibilityItems = new ArrayList<>();
+
         addRequirements.addClickListener(event -> {
             String requirement = requirements.getValue();
             if (!requirement.isEmpty() && !requirementItems.contains(requirement)) {
                 requirementItems.add(requirement);
-                updateRequirementsList();
+                updateRequirementsList(requirementItems);
                 requirements.clear();
             }
         });
@@ -120,19 +123,19 @@ public class VacancyView extends Composite<VerticalLayout> {
             String responsibility = responsibilities.getValue();
             if (!responsibility.isEmpty() && !responsibilityItems.contains(responsibility)) {
                 responsibilityItems.add(responsibility);
-                updateResponsibilitiesList();
+                updateResponsibilitiesList(responsibilityItems);
                 responsibilities.clear();
             }
         });
 
         deleteRequirements.addClickListener(event -> {
             requirementsList.getSelectedItems().forEach(requirementItems::remove);
-            updateRequirementsList();
+            updateRequirementsList(requirementItems);
         });
 
         deleteResponsibilities.addClickListener(event -> {
             responsibilitiesList.getSelectedItems().forEach(responsibilityItems::remove);
-            updateResponsibilitiesList();
+            updateResponsibilitiesList(responsibilityItems);
         });
 
         requirementsList.setWidth("100%");
@@ -143,27 +146,42 @@ public class VacancyView extends Composite<VerticalLayout> {
         layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
 
         save.addClickListener(event -> {
-            vacancyService.saveVacancy(entityFactory.createVacancy(comboBox.getValue(),
-                    location.getValue(), textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(),
-                    Date.valueOf(LocalDate.now())));
+            Vacancy vacancy = entityFactory.createVacancy(comboBox.getValue(), location.getValue(),
+                    textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(),
+                    Date.valueOf(LocalDate.now()));
+            vacancyService.saveVacancy(vacancy);
+
             for (String requirement : requirementItems) {
-                requirementsService.saveRequirements(entityFactory.createRequirements(
-                        vacancyService.getVacancyByBusinessId(
-                                sessionService.getCurrentBusiness().getBusiness().getBusinessID()), requirement)
-                );
+                requirementsService.saveRequirements(entityFactory.createRequirements(vacancy, requirement));
             }
-            for (String responsibilties : responsibilityItems) {
-                responsibilitiesService.saveResponsibilities(entityFactory.createResponsibilties(
-                        vacancyService.getVacancyByBusinessId(sessionService.getCurrentBusiness().getBusinessID()), responsibilties)
-                );
+            for (String responsibility : responsibilityItems) {
+                responsibilitiesService.saveResponsibilities(entityFactory.createResponsibilties(vacancy, responsibility));
             }
+
+            // Clear the lists after saving
+            requirementItems.clear();
+            responsibilityItems.clear();
+            updateRequirementsList(requirementItems);
+            updateResponsibilitiesList(responsibilityItems);
+
+            // Optionally clear the form fields
+            comboBox.clear();
+            location.clear();
+            requirements.clear();
+            responsibilities.clear();
+            textArea.clear();
         });
 
         cancel.addClickListener(event -> {
             comboBox.clear();
+            location.clear();
             requirements.clear();
             responsibilities.clear();
             textArea.clear();
+            requirementItems.clear();
+            responsibilityItems.clear();
+            updateRequirementsList(requirementItems);
+            updateResponsibilitiesList(responsibilityItems);
         });
 
         layoutRow.add(save, cancel);
@@ -176,15 +194,15 @@ public class VacancyView extends Composite<VerticalLayout> {
         getContent().add(layoutColumn2);
         layoutColumn2.add(h3, comboBox, location, formLayout2Col, textArea, layoutRow);
 
-        updateRequirementsList();
-        updateResponsibilitiesList();
+        updateRequirementsList(requirementItems);
+        updateResponsibilitiesList(responsibilityItems);
     }
 
-    private void updateRequirementsList() {
-        requirementsList.setItems(requirementItems);
+    private void updateRequirementsList(List<String> items) {
+        requirementsList.setItems(items);
     }
 
-    private void updateResponsibilitiesList() {
-        responsibilitiesList.setItems(responsibilityItems);
+    private void updateResponsibilitiesList(List<String> items) {
+        responsibilitiesList.setItems(items);
     }
 }

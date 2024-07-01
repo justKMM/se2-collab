@@ -4,7 +4,9 @@ import hbrs.se2.collhbrs.model.entity.Requirements;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RequirementsRepository extends JpaRepository<Requirements, Long> {
-
+    List<Requirements> getRequirementsByVacancyVacancyID(Long vacancyId);
 }
