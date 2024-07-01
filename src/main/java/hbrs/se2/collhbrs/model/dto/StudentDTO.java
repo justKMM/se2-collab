@@ -2,9 +2,10 @@ package hbrs.se2.collhbrs.model.dto;
 
 import hbrs.se2.collhbrs.model.entity.Student;
 import hbrs.se2.collhbrs.model.entity.User;
+
 import java.time.LocalDate;
 
-public class StudentDTO extends UserDTO{
+public class StudentDTO extends UserDTO {
 
     private long studentID;
     private User user;

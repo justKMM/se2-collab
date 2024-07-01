@@ -18,6 +18,7 @@ public class RegisterUtilsTest {
         assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user123@example.co.uk", TESTPW, TESTPW));
         assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user_name@example-domain.com", TESTPW, TESTPW));
     }
+
     @Test
     public void testValidateInput_InvalidFirstName() {
         Throwable exception = assertThrows(IllegalStateException.class, () -> {

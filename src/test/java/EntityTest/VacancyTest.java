@@ -6,9 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class VacancyTest {
+class VacancyTest {
 
     Vacancy vacancy;
     Vacancy vacancy1;
@@ -33,7 +34,7 @@ public class VacancyTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         assertEquals(1L, vacancy.getVacancyID());
         assertEquals(business, vacancy.getBusiness());
         assertEquals("Shk", vacancy.getTitel());
@@ -43,7 +44,7 @@ public class VacancyTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(vacancy, vacancy);
         assertEquals(vacancy, vacancy);
         assertNotEquals(vacancy, vacancy1);

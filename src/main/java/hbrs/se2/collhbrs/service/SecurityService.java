@@ -1,6 +1,5 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
@@ -37,9 +36,9 @@ public class SecurityService implements UserDetailsService {
 
     class CustomUserDetails implements UserDetails {
 
-        private String username;
-        private String password;
-        private List<GrantedAuthority> authorities;
+        private final String username;
+        private final String password;
+        private final List<GrantedAuthority> authorities;
 
         public CustomUserDetails(User user) {
             try {

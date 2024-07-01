@@ -8,16 +8,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UserDTOTest {
 
-    private UserDTO userDTO;
-
     @Mock
     ProfileDTO profileDTO;
+    private UserDTO userDTO;
 
     @BeforeEach
     void setUp() {
@@ -27,7 +25,7 @@ class UserDTOTest {
     @Test
     void testGettersAndSetters() {
         assertEquals(0, userDTO.getUserID());
-        assertNull( userDTO.getUsername());
+        assertNull(userDTO.getUsername());
         assertNull(userDTO.getEmail());
         assertNull(userDTO.getPassword());
         assertEquals(0, userDTO.getBlacklisted());

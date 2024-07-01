@@ -71,7 +71,7 @@ public class AppView extends AppLayout {
         topRightLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         topRightLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        MenuBar menuBar =new MenuBar();
+        MenuBar menuBar = new MenuBar();
         menuBar.addItem("Logout", e -> logoutUser());
         topRightLayout.add(menuBar);
 
@@ -108,11 +108,13 @@ public class AppView extends AppLayout {
         sessionService.endSession();
     }
 
+    @Override
     public void addToNavbar(boolean touchOptimized, Component... components) {
         String slot = "navbar" + (touchOptimized ? " touch-optimized" : "");
         SlotUtils.addToSlot(this, slot, components);
     }
 
+    @Override
     public void addToDrawer(Component... components) {
         SlotUtils.addToSlot(this, "drawer", components);
     }

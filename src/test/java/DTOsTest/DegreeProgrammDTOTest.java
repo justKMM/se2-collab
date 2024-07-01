@@ -13,10 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DegreeProgrammDTOTest {
 
-    private DegreeProgrammDTO degreeProgrammDTO;
-
     @Mock
     StudentDTO studentDTO;
+    private DegreeProgrammDTO degreeProgrammDTO;
 
     @BeforeEach
     void setUp() {

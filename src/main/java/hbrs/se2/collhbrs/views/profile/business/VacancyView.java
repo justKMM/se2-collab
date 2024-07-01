@@ -16,7 +16,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import hbrs.se2.collhbrs.model.entity.Requirements;
 import hbrs.se2.collhbrs.service.RequirementsService;
 import hbrs.se2.collhbrs.service.ResponsibilitiesService;
 import hbrs.se2.collhbrs.service.SessionService;
@@ -38,37 +37,31 @@ import java.util.List;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyView extends Composite<VerticalLayout> {
 
+    private final List<String> requirementItems = new ArrayList<>();
+    private final List<String> responsibilityItems = new ArrayList<>();
     @Autowired
     EntityFactory entityFactory;
-
-    private ComboBox<String> comboBox;
-    private TextArea textArea;
-    private TextField location;
-    private TextField requirements;
-    private TextField responsibilities;
-    private MultiSelectListBox<String> requirementsList;
-    private MultiSelectListBox<String> responsibilitiesList;
-
-    private List<String> requirementItems = new ArrayList<>();
-    private List<String> responsibilityItems = new ArrayList<>();
-
     @Autowired
     RequirementsService requirementsService;
-
     @Autowired
     ResponsibilitiesService responsibilitiesService;
-
     @Autowired
     SessionService sessionService;
-
     @Autowired
     VacancyService vacancyService;
+    private MultiSelectListBox<String> requirementsList;
+    private MultiSelectListBox<String> responsibilitiesList;
 
     public VacancyView() {
         setUpUI();
     }
 
     private void setUpUI() {
+        ComboBox<String> comboBox;
+        TextArea textArea;
+        TextField location;
+        TextField requirements;
+        TextField responsibilities;
         VerticalLayout layoutColumn2 = new VerticalLayout();
         H3 h3 = new H3("Add Vacancy");
         comboBox = new ComboBox<>("Titel");
@@ -96,14 +89,15 @@ public class VacancyView extends Composite<VerticalLayout> {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         Button cancel = new Button("Cancel");
 
+        String minContent = "min-content";
         layoutColumn2.setWidthFull();
         layoutColumn2.setMaxWidth("800px");
-        layoutColumn2.setHeight("min-content");
+        layoutColumn2.setHeight(minContent);
         layoutColumn2.setPadding(true);
 
-        h3.setWidth("min-content");
+        h3.setWidth(minContent);
 
-        comboBox.setWidth("min-content");
+        comboBox.setWidth(minContent);
 
         formLayout2Col.setWidth("100%");
 
@@ -152,7 +146,7 @@ public class VacancyView extends Composite<VerticalLayout> {
             vacancyService.saveVacancy(entityFactory.createVacancy(comboBox.getValue(),
                     location.getValue(), textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(),
                     Date.valueOf(LocalDate.now())));
-            for (String requirement: requirementItems) {
+            for (String requirement : requirementItems) {
                 requirementsService.saveRequirements(entityFactory.createRequirements(
                         vacancyService.getVacancyByBusinessId(
                                 sessionService.getCurrentBusiness().getBusiness().getBusinessID()), requirement)

@@ -15,10 +15,10 @@ public class SignUpView extends FormLayout {
 
     private final BusinessRegistrationView businessRegistrationView;
     private final StudentRegistrationView studentRegistrationView;
-    private static final String student = "Student";
-    private static final String company = "Company";
 
     public SignUpView(RegisterService registerService) {
+        String student = "Student";
+        String company = "Company";
 
         setupLayout();
 

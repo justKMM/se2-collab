@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GlobalsTest {
+class GlobalsTest {
 
     @Test
-    public void testPages(){
+    void testPages() {
         assertEquals("main", Globals.Pages.MAIN);
         assertEquals("reminder", Globals.Pages.REMINDER);
         assertEquals("", Globals.Pages.LOGIN);
@@ -18,11 +18,12 @@ public class GlobalsTest {
     }
 
     @Test
-    public void testRoles(){
+    void testRoles() {
         //Für spätere Globals
         //assertEquals();
     }
 
     @Test
-    public void testLanguage(){}
+    void testLanguage() {
+    }
 }

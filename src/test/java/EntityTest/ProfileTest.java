@@ -4,9 +4,10 @@ import hbrs.se2.collhbrs.model.entity.Profile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class ProfileTest {
+class ProfileTest {
 
     private final static String EXAMPLE_URL = "ExampleURL";
     private final static String PROFILEDESCRIPTION = "ProfileDescription";
@@ -32,7 +33,7 @@ public class ProfileTest {
     }
 
     @Test
-    public void testSettersandGetters() {
+    void testSettersandGetters() {
         assertEquals(1L, profile.getProfileID());
         assertEquals(EXAMPLE_URL, profile.getAvatarUrl());
         assertEquals(PROFILEDESCRIPTION, profile.getProfileDescription());
@@ -41,7 +42,7 @@ public class ProfileTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(profile, profile);
         assertEquals(profile1, profile1);
         assertNotEquals(profile, profile1);

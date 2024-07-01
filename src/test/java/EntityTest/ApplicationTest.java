@@ -7,9 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class ApplicationTest {
+class ApplicationTest {
 
     Application application;
     Application application1;
@@ -41,7 +42,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         assertEquals(1L, application.getApplicationID());
         assertEquals(student, application.getStudent());
         assertEquals(vacancy, application.getVacancy());
@@ -50,7 +51,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(application, application);
         assertEquals(application1, application1);
         assertEquals(application1, application2);

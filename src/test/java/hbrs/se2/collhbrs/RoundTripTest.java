@@ -4,7 +4,6 @@ import hbrs.se2.collhbrs.model.entity.Profile;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.ProfileRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
-public class RoundTripTest {
+class RoundTripTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -49,18 +48,20 @@ public class RoundTripTest {
         }
 
         // Überprüfung auf Gleichheit
-        assertEquals(userAfterCreate.getUsername(), "Jakob9");
-        assertEquals(userAfterCreate.getPassword(), "Jakob1234!");
-        assertEquals(userAfterCreate.getBlacklisted(), 0);
-        assertEquals(userAfterCreate.getEmail(), "jakobus@test.de");
-        
+
+        assert userAfterCreate != null;
+        assertEquals("Jakob9", userAfterCreate.getUsername());
+        assertEquals("Jakob1234!", userAfterCreate.getPassword());
+        assertEquals(0, userAfterCreate.getBlacklisted());
+        assertEquals("jakobus@test.de", userAfterCreate.getEmail());
+
         // Schritt 3: Update (U)
         userAfterCreate.setUsername("Jakob17");
         userAfterCreate.setPassword("jakoB1734!");
         userRepository.save(userAfterCreate);
         // Überprüfung auf Gleichheit
-        assertEquals(userAfterCreate.getUsername(), "Jakob17");
-        assertEquals(userAfterCreate.getPassword(), "jakoB1734!");
+        assertEquals("Jakob17", userAfterCreate.getUsername());
+        assertEquals("jakoB1734!", userAfterCreate.getPassword());
 
         // Schritt 4: Deletion (D)
         userRepository.deleteById(UserID);
@@ -68,5 +69,5 @@ public class RoundTripTest {
         Optional<User> wrapperAfterDelete = userRepository.findById(UserID);
         assertFalse(wrapperAfterDelete.isPresent());
     }
-    
+
 }

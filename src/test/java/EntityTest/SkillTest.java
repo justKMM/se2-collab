@@ -7,9 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class SkillTest {
+class SkillTest {
 
     private final static String TESTING = "Testing";
 
@@ -33,7 +34,7 @@ public class SkillTest {
     }
 
     @Test
-    public void testGettersandSetters() {
+    void testGettersandSetters() {
         assertEquals(student, skill.getStudent());
         assertEquals(10, skill.getSerialNumber());
         assertEquals(TESTING, skill.getSkillName());
@@ -44,14 +45,14 @@ public class SkillTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(skill1, skill1);
         assertEquals(skill, skill);
         assertNotEquals(skill, skill1);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(skill.hashCode(), skill.hashCode());
         assertNotEquals(skill.hashCode(), skill1.hashCode());
     }

@@ -20,12 +20,12 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed(Globals.Roles.STUDENT)
 public class SearchView extends Composite<VerticalLayout> {
 
-    private HorizontalLayout layoutRow = new HorizontalLayout();
-    private ComboBox<String> comboBox = new ComboBox<>();
-    private TextField textField = new TextField();
-    private Button buttonSearch = new Button("Search");
+    private final HorizontalLayout layoutRow = new HorizontalLayout();
+    private final ComboBox<String> comboBox = new ComboBox<>();
+    private final TextField textField = new TextField();
+    private final Button buttonSearch = new Button("Search");
 
-    private String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
+    private final String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
             "Masterprojekt", "Büro", "Homeoffice"};
 
 
@@ -35,11 +35,11 @@ public class SearchView extends Composite<VerticalLayout> {
     }
 
     private void setComboBoxSampleData(ComboBox<String> comboBox) {
-            comboBox.setItems(comboBoxItems);
+        comboBox.setItems(comboBoxItems);
     }
 
 
-    private void setLayouts(){
+    private void setLayouts() {
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);

@@ -12,15 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class VacancyDTOTest {
 
-    private VacancyDTO vacancyDTO;
-
     @Mock
     BusinessDTO businessDTO;
     Business business;
+    private VacancyDTO vacancyDTO;
 
     @BeforeEach
     void setUp() {
-        //vacancyDTO = new VacancyDTO();
         businessDTO = new BusinessDTO(new Business());
     }
 

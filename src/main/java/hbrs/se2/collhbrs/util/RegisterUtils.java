@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 public class RegisterUtils {
 
+    private static final Pattern FIRST_NAME_PATTERN = Pattern.compile("^[A-Za-z\\s-]{3,30}$");
+
     private RegisterUtils() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
@@ -62,7 +64,7 @@ public class RegisterUtils {
     }
 
     private static boolean isValidFirstName(String firstName) {
-        return Pattern.compile("^[A-Za-z\\s-]{3,30}$").matcher(firstName).matches();
+        return FIRST_NAME_PATTERN.matcher(firstName).matches();
     }
 
     private static boolean isValidLastName(String lastName) {

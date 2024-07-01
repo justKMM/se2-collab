@@ -23,18 +23,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+
 @Route(Globals.Pages.RESET_PASSWORD)
 @CssImport("./styles/index.css")
 @AnonymousAllowed
 public class ResetPasswordView extends Composite<VerticalLayout> implements HasUrlParameter<String> {
 
+    private final Button submitButton = createButton("Confirm", ButtonVariant.LUMO_PRIMARY);
+    private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
     @Autowired
     ResetPasswordService resetPasswordService;
     FormLayout formLayout;
-    Map<String, List<String>> parameters;
-
-    private final Button submitButton = createButton("Confirm", ButtonVariant.LUMO_PRIMARY);
-    private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
+    private Map<String, List<String>> parameters;
     private PasswordField password;
     private PasswordField passwordConfirmation;
 
@@ -105,12 +105,13 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
             String newPassword = password.getValue();
             String confirmPassword = passwordConfirmation.getValue();
             if (!newPassword.equals(confirmPassword)) {
-                Notification notification = Notification.show(  "Error: Password doesn't match\n" +
-                                                                    "with confirmation password.\n" +
-                                                                    "Please try again.");
+                Notification notification = Notification.show("""
+                        Error: Password doesn't match
+                        with confirmation password.
+                        Please try again.
+                        """);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }
-            else {
+            } else {
                 String status = finishResetPassword(newPassword);
                 Notification notification = Notification.show(status);
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

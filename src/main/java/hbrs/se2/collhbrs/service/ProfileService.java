@@ -73,15 +73,13 @@ public class ProfileService {
     }
 
     @Transactional
-    public String getProfileImage(Long profileId) {;
+    public String getProfileImage(Long profileId) {
         return profileRepository.findById(profileId).get().getAvatarUrl();
     }
 
     public void deleteProfileImage(Long businessId) {
         Profile profile = profileRepository.findById(businessId).get();
-        if (profile != null) {
-            profile.setAvatarUrl(null);
-            profileRepository.save(profile);
-        }
+        profile.setAvatarUrl(null);
+        profileRepository.save(profile);
     }
 }

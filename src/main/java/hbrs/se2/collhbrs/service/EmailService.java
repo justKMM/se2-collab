@@ -9,15 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    private static final String emailSender = "Aldaringhausen-Klangkreationen-GmbH";
-
     @Autowired
     private JavaMailSender javaMailSender;
 
     public String sendSimpleMail(Email email) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(emailSender);
+            message.setFrom("Aldaringhausen-Klangkreationen-GmbH");
             message.setTo(email.getRecipient());
             message.setSubject(email.getSubject());
             message.setText(email.getMsgBody());

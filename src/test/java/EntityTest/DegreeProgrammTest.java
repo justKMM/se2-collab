@@ -7,9 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class DegreeProgrammTest {
+class DegreeProgrammTest {
 
     DegreeProgramm degreeProgramm;
     DegreeProgramm degreeProgramm1;
@@ -31,7 +32,7 @@ public class DegreeProgrammTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         assertEquals(student, degreeProgramm.getStudent());
         assertEquals(100, degreeProgramm.getSerialNumber());
         assertEquals("BWI", degreeProgramm.getDegreeProgrammName());
@@ -42,14 +43,14 @@ public class DegreeProgrammTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(degreeProgramm, degreeProgramm);
         assertEquals(degreeProgramm1, degreeProgramm1);
         assertNotEquals(degreeProgramm, degreeProgramm1);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertNotEquals(degreeProgramm.hashCode(), degreeProgramm1.hashCode());
         assertEquals(degreeProgramm.hashCode(), degreeProgramm.hashCode());
     }

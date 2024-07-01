@@ -8,10 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class BusinessTest {
+class BusinessTest {
 
 
     Business business;
@@ -39,14 +40,14 @@ public class BusinessTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         assertEquals(1L, business.getBusinessID());
         assertEquals(user, business.getUser());
         assertEquals("name", business.getName());
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(business, business);
         assertEquals(business1, business1);
         assertEquals(business1, business2);

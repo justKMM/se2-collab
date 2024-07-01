@@ -17,7 +17,7 @@ public class SampleDataInitializer {
 
     @PostConstruct
     public void init() {
-        if (registerService.isEmpty()) {
+        if (Boolean.TRUE.equals(registerService.isEmpty())) {
             registerService.registerStudent("admin", "Password1", "admin@example.com", "Admin", "Madmin");
             registerService.registerStudent("spongi", "Password2", "squarepants@example.com", "Spongebob", "Squarepants");
             registerService.registerBusiness("krustykrab", "Password3", "krustykrab@example.com", "KrustyKrab");
