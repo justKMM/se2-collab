@@ -51,7 +51,7 @@ public class ShowApplicationView extends Div implements AfterNavigationObserver 
     private HorizontalLayout createCard(StudentDTO application) {
         String spacing = "spacing-s";
         HorizontalLayout card = new HorizontalLayout();
-        card.addClassName("card");
+        card.addClassName("ResponsiveCardView");
         card.setSpacing(false);
         card.getThemeList().add(spacing);
 

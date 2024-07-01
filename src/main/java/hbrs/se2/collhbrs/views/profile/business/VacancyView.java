@@ -16,6 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.service.RequirementsService;
 import hbrs.se2.collhbrs.service.ResponsibilitiesService;
 import hbrs.se2.collhbrs.service.SessionService;
@@ -146,17 +147,17 @@ public class VacancyView extends Composite<VerticalLayout> {
             vacancyService.saveVacancy(entityFactory.createVacancy(comboBox.getValue(),
                     location.getValue(), textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(),
                     Date.valueOf(LocalDate.now())));
-            for (String requirement : requirementItems) {
-                requirementsService.saveRequirements(entityFactory.createRequirements(
-                        vacancyService.getVacancyByBusinessId(
-                                sessionService.getCurrentBusiness().getBusiness().getBusinessID()), requirement)
-                );
+            List<Vacancy> vacancies = vacancyService.getVacanciesByBusinessId(sessionService.getCurrentBusiness().getBusiness().getBusinessID());
+            for (Vacancy vacancy : vacancies) {
+                for (String requirement : requirementItems) {
+                    requirementsService.saveRequirements(entityFactory.createRequirements(vacancy, requirement));
+                }
+                for (String responsibility : responsibilityItems) {
+                    responsibilitiesService.saveResponsibilities(entityFactory.createResponsibilties(vacancy, responsibility));
+                }
             }
-            for (String responsibilties : responsibilityItems) {
-                responsibilitiesService.saveResponsibilities(entityFactory.createResponsibilties(
-                        vacancyService.getVacancyByBusinessId(sessionService.getCurrentBusiness().getBusinessID()), responsibilties)
-                );
-            }
+            requirementItems.clear();
+            responsibilityItems.clear();
         });
 
         cancel.addClickListener(event -> {

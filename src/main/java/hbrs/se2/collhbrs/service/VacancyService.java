@@ -18,7 +18,7 @@ public class VacancyService {
     }
 
     public List<Vacancy> getVacanciesByBusinessId(Long businessId) {
-        return vacancyRepository.findVacanciesByBusiness_BusinessID(businessId);
+        return vacancyRepository.findVacancByBusiness_BusinessID(businessId);
     }
 
     public Vacancy getVacancyByBusinessId(Long businessId) {
