@@ -19,7 +19,7 @@ import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.Utils;
 import hbrs.se2.collhbrs.views.authentification.UpdatePasswordView;
-import hbrs.se2.collhbrs.views.profile.business.VacancyCardView;
+import hbrs.se2.collhbrs.views.profile.business.MyVacanciesView;
 import hbrs.se2.collhbrs.views.profile.business.ProfileBusinessView;
 import hbrs.se2.collhbrs.views.profile.business.ShowApplicationView;
 import hbrs.se2.collhbrs.views.profile.business.VacancyView;
@@ -97,8 +97,8 @@ public class AppView extends AppLayout {
         } else if (sessionService.getUserRole().contains(Globals.Roles.BUSINESS)) {
             tabs = Utils.append(tabs, createTab("Profile", ProfileBusinessView.class));
             tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
-            tabs = Utils.append(tabs, createTab("Vacancy", VacancyView.class));
-            tabs = Utils.append(tabs, createTab("Show Vacancy", VacancyCardView.class));
+            tabs = Utils.append(tabs, createTab("Add Vacancy", VacancyView.class));
+            tabs = Utils.append(tabs, createTab("My Vacancies", MyVacanciesView.class));
             tabs = Utils.append(tabs, createTab("Show Applications", ShowApplicationView.class));
         }
         return tabs;
