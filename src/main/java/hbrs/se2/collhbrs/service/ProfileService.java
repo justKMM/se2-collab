@@ -65,5 +65,23 @@ public class ProfileService {
         firstNameRepository.save(firstName);
     }
 
+    @Transactional
+    public void saveProfileImage(Long profileId, String base64Image) {
+        Profile profile = profileRepository.findById(profileId).get();
+        profile.setAvatarUrl(base64Image);
+        profileRepository.save(profile);
+    }
 
+    @Transactional
+    public String getProfileImage(Long profileId) {;
+        return profileRepository.findById(profileId).get().getAvatarUrl();
+    }
+
+    public void deleteProfileImage(Long businessId) {
+        Profile profile = profileRepository.findById(businessId).get();
+        if (profile != null) {
+            profile.setAvatarUrl(null);
+            profileRepository.save(profile);
+        }
+    }
 }

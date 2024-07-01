@@ -16,6 +16,14 @@ public class BusinessDTO extends UserDTO {
         this.name = entity.getName();
     }
 
+    public Business getBusiness() {
+        Business business = new Business();
+        business.setBusinessID(businessID);
+        business.setName(name);
+        business.setUser(user);
+        return business;
+    }
+
     public long getBusinessID() {
         return businessID;
     }

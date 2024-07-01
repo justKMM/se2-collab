@@ -20,7 +20,7 @@ class VacancyDTOTest {
 
     @BeforeEach
     void setUp() {
-        vacancyDTO = new VacancyDTO();
+        //vacancyDTO = new VacancyDTO();
         businessDTO = new BusinessDTO(new Business());
     }
 

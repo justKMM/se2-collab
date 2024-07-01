@@ -16,7 +16,6 @@ public class Vacancy implements Serializable {
     private String location;
     private Date publishDate;
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stellenausschreibungid", length = 64, nullable = false)

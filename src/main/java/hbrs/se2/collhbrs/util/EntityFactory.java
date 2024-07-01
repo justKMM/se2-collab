@@ -5,6 +5,8 @@ import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.model.entity.*;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+
 @Component
 public class EntityFactory {
 
@@ -64,11 +66,28 @@ public class EntityFactory {
         skill.setStudent(student);
         return skill;
     }
-    public static Vacancy createVacancy(String titel, String description, Business business) {
+
+    public Vacancy createVacancy(String titel, String location, String description, Business business, Date date) {
         Vacancy vacancy = new Vacancy();
         vacancy.setTitel(titel);
+        vacancy.setLocation(location);
         vacancy.setDescription(description);
         vacancy.setBusiness(business);
+        vacancy.setPublishDate(date);
         return vacancy;
+    }
+
+    public Requirements createRequirements(Vacancy vacancy, String requirementsName) {
+        Requirements requirements = new Requirements();
+        requirements.setVacancy(vacancy);
+        requirements.setRequirementsName(requirementsName);
+        return requirements;
+    }
+
+    public Responsibilities createResponsibilties(Vacancy vacancy, String responsibiltiesName) {
+        Responsibilities responsibilities = new Responsibilities();
+        responsibilities.setVacancy(vacancy);
+        responsibilities.setResponsibilitiesName(responsibiltiesName);
+        return responsibilities;
     }
 }
