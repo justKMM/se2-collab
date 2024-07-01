@@ -28,31 +28,33 @@ import java.util.stream.Collectors;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyListView extends Div implements AfterNavigationObserver {
 
-    private Grid<VacancyDTO> grid = new Grid<>();
-
     @Autowired
     EntityFactory entityFactory;
-
     @Autowired
     SessionService sessionService;
-
     @Autowired
     VacancyService vacancyService;
+    private final Grid<VacancyDTO> grid = new Grid<>();
 
     public VacancyListView() {
         addClassName("feed-view");
         setSizeFull();
         grid.setHeight("100%");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
-        grid.addComponentColumn(vacancy -> createCard(vacancy));
+        grid.addComponentColumn(this::createCard);
         add(grid);
     }
 
+    private static VacancyDTO getVacancy(Vacancy vacancy) {
+        return new VacancyDTO(vacancy);
+    }
+
     private HorizontalLayout createCard(VacancyDTO vacancy) {
+        String spacing = "spacing-s";
         HorizontalLayout card = new HorizontalLayout();
         card.addClassName("card");
         card.setSpacing(false);
-        card.getThemeList().add("spacing-s");
+        card.getThemeList().add(spacing);
 
         VerticalLayout description = new VerticalLayout();
         description.addClassName("description");
@@ -62,12 +64,12 @@ public class VacancyListView extends Div implements AfterNavigationObserver {
         HorizontalLayout header = new HorizontalLayout();
         header.addClassName("header");
         header.setSpacing(false);
-        header.getThemeList().add("spacing-s");
+        header.getThemeList().add(spacing);
 
 
         Span name = new Span(vacancy.getBusiness().getName());
         name.addClassName("name");
-        Span date = new Span(vacancy.getTitel() );
+        Span date = new Span(vacancy.getTitel());
         date.addClassName("date");
         header.add(name, date);
 
@@ -77,7 +79,7 @@ public class VacancyListView extends Div implements AfterNavigationObserver {
         HorizontalLayout actions = new HorizontalLayout();
         actions.addClassName("actions");
         actions.setSpacing(false);
-        actions.getThemeList().add("spacing-s");
+        actions.getThemeList().add(spacing);
 
         description.add(header, post, actions);
         card.add(description);
@@ -93,9 +95,5 @@ public class VacancyListView extends Div implements AfterNavigationObserver {
                 .collect(Collectors.toList());
 
         grid.setItems(vacancyList);
-    }
-
-    private static VacancyDTO getVacancy(Vacancy vacancy) {
-        return new VacancyDTO(vacancy);
     }
 }

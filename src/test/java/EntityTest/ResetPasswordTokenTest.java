@@ -6,10 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class ResetPasswordTokenTest {
+class ResetPasswordTokenTest {
 
     ResetPasswordToken resetPasswordToken;
     ResetPasswordToken resetPasswordToken1;
@@ -23,15 +23,16 @@ public class ResetPasswordTokenTest {
         resetPasswordToken = new ResetPasswordToken("sampleToken123", user);
         resetPasswordToken1 = new ResetPasswordToken("sampleToken321", user1);
     }
+
     @Test
     void testGettersAndSetters() {
         assertNull(resetPasswordToken.getUser());
         assertNull(resetPasswordToken.getTokenID());
-        assertEquals("sampleToken123" , resetPasswordToken.getToken());
+        assertEquals("sampleToken123", resetPasswordToken.getToken());
 
         assertNull(resetPasswordToken1.getUser());
         assertNull(resetPasswordToken1.getTokenID());
-        assertEquals("sampleToken321" , resetPasswordToken1.getToken());
+        assertEquals("sampleToken321", resetPasswordToken1.getToken());
 
         resetPasswordToken.setTokenID(1L);
         resetPasswordToken1.setTokenID(2L);
@@ -42,11 +43,11 @@ public class ResetPasswordTokenTest {
 
         assertEquals(user1, resetPasswordToken.getUser());
         assertEquals(1L, resetPasswordToken.getTokenID());
-        assertEquals("anotherToken456" , resetPasswordToken.getToken());
+        assertEquals("anotherToken456", resetPasswordToken.getToken());
 
         assertEquals(user, resetPasswordToken1.getUser());
         assertEquals(2L, resetPasswordToken1.getTokenID());
-        assertEquals("anotherToken123" , resetPasswordToken1.getToken());
+        assertEquals("anotherToken123", resetPasswordToken1.getToken());
     }
 
 }

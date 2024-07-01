@@ -6,9 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class FirstNameTest {
+class FirstNameTest {
 
     FirstName firstName;
     FirstName firstName1;
@@ -40,7 +41,7 @@ public class FirstNameTest {
     }
 
     @Test
-    public void testSettersandGetters() {
+    void testSettersandGetters() {
         assertEquals(student, firstName.getStudent());
         assertEquals(10, firstName.getSerialNumber());
         assertEquals("Hans Dieter", firstName.getFirstNameName());
@@ -50,7 +51,7 @@ public class FirstNameTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(firstName, firstName);
         assertEquals(firstName1, firstName1);
         assertEquals(firstName1, firstName2);
@@ -58,7 +59,7 @@ public class FirstNameTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertNotEquals(firstName.hashCode(), firstName2.hashCode());
         assertEquals(firstName1.hashCode(), firstName2.hashCode());
     }

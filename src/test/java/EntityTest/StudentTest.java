@@ -8,9 +8,10 @@ import org.mockito.Mock;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class StudentTest {
+class StudentTest {
 
     Student student;
     Student student1;
@@ -34,7 +35,7 @@ public class StudentTest {
     }
 
     @Test
-    public void testSettersandGetters() {
+    void testSettersandGetters() {
         assertEquals(1L, student.getStudentID());
         assertEquals(user, student.getUser());
         assertEquals("Bill", student.getLastName());
@@ -45,14 +46,14 @@ public class StudentTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(student, student);
         assertEquals(student1, student1);
         assertNotEquals(student, student1);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(student.hashCode(), student.hashCode());
         assertNotEquals(student.hashCode(), student1.hashCode());
     }

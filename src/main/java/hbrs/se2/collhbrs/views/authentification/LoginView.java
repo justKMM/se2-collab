@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.notification.Notification;
@@ -24,10 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
+    private final LoginForm loginForm;
     @Autowired
     private LoginService loginService;
-
-    private final LoginForm loginForm;
 
     public LoginView() {
         loginForm = setUpUI();
@@ -68,7 +68,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         return component;
     }
 
-    private void handleLogin(LoginForm.LoginEvent input) {
+    private void handleLogin(AbstractLogin.LoginEvent input) {
         try {
             loginService.startSession(new UserDTO(loginService.login(input.getUsername(), input.getPassword())));
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        if(beforeEnterEvent.getLocation()
+        if (beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {

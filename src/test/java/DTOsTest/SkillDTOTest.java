@@ -13,10 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class SkillDTOTest {
 
-    private SkillDTO skillDTO;
-
     @Mock
     StudentDTO studentDTO;
+    private SkillDTO skillDTO;
 
     @BeforeEach
     void setUp() {

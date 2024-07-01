@@ -7,9 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class RatingTest {
+class RatingTest {
 
     Rating rating;
     Rating rating1;
@@ -43,7 +44,7 @@ public class RatingTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         assertEquals(1L, rating.getRatingID());
         assertEquals(business, rating.getBusiness());
         assertEquals(student, rating.getStudent());
@@ -58,14 +59,14 @@ public class RatingTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(rating, rating);
         assertEquals(rating1, rating1);
         assertNotEquals(rating, rating1);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertNotEquals(rating.hashCode(), rating1.hashCode());
         assertEquals(rating.hashCode(), rating.hashCode());
     }

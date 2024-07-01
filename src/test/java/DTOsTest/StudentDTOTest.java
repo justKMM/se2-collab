@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,10 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class StudentDTOTest {
 
-    private StudentDTO studentDTO;
-
     @Mock
     UserDTO userDTO;
+    private StudentDTO studentDTO;
 
     @BeforeEach
     void setUp() {

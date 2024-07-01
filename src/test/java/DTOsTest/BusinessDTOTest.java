@@ -13,10 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BusinessDTOTest {
 
-    private BusinessDTO businessDTO;
-
     @Mock
     UserDTO userDTO;
+    private BusinessDTO businessDTO;
 
     @BeforeEach
     void setUp() {

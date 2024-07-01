@@ -1,9 +1,9 @@
 package hbrs.se2.collhbrs.service;
 
 import hbrs.se2.collhbrs.model.dto.ApplicationDTO;
+import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.repository.ApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import hbrs.se2.collhbrs.model.dto.UserDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,7 @@ public class ManageApplicationService {
     private ApplicationRepository repository;
 
     @Transactional
-    public void createApplication(ApplicationDTO applicationDTO , UserDTO userDTO ) {
+    public void createApplication(ApplicationDTO applicationDTO, UserDTO userDTO) {
 
         //TODO
         //Application ApplicationEntity = EntityFactory.createApplication(  );
@@ -27,7 +27,7 @@ public class ManageApplicationService {
     }
 
     public List<ApplicationDTO> readAllApplications() {
-        return new ArrayList<ApplicationDTO>();
+        return new ArrayList<>();
         //TODO repository.findAllApplications();
     }
 }

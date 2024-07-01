@@ -67,11 +67,11 @@ public class ProfilStudentLayout extends VerticalLayout {
     }
 
     public String getTfVorname() {
-        return tfVorname.getValue().toString();
+        return tfVorname.getValue();
     }
 
     public String getTfNachname() {
-        return tfNachname.getValue().toString();
+        return tfNachname.getValue();
     }
 
     public TextField getInterestField() {

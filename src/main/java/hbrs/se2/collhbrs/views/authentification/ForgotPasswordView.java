@@ -26,6 +26,7 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
     ResetPasswordService resetPasswordService;
 
     FormLayout formLayout;
+
     public ForgotPasswordView() {
         setupLayout();
         setupFields();

@@ -38,53 +38,44 @@ import java.util.Base64;
 @RolesAllowed(Globals.Roles.STUDENT)
 public class ProfilStudentView extends Composite<VerticalLayout> {
 
-    private final static String FLEX_GROW = "flex-grow";
-    private final static String MIN_CONTENT = "min-content";
-    private final static String MAX_CONTENT = "max-content";
-    private final static String PX = "200px";
+    private static final String FLEX_GROW = "flex-grow";
+    private static final String MIN_CONTENT = "min-content";
+    private static final String MAX_CONTENT = "max-content";
+    private static final String PX = "200px";
+    private final ProfilStudentLayout profileLayout = new ProfilStudentLayout();
+    private final Button buttonCancel = new Button("Cancel");
+    private final Button buttonConfirm = new Button("Save");
+    private final Div avatarWrapper = new Div();
+    private final VerticalLayout layoutColumn2 = new VerticalLayout();
+    private final VerticalLayout layoutColumn3 = new VerticalLayout();
+    private final VerticalLayout layoutColumn4 = new VerticalLayout();
+    private final VerticalLayout layoutColumn5 = new VerticalLayout();
+    private final HorizontalLayout layoutRow = new HorizontalLayout();
+    private final HorizontalLayout layoutRow2 = new HorizontalLayout();
+    private final HorizontalLayout layoutRow3 = new HorizontalLayout();
+    private final H1 h12 = new H1("Personal data:");
+    private final H1 h13 = new H1("Documents");
+    private final H6 h6 = new H6("Rating:");
+    private final H1 h1;
+    private final Paragraph textMedium2 = new Paragraph("Lebenslauf:");
+    private final StudentDTO student;
+    Dialog dialog;
+    Avatar avatar = new Avatar();
     private Button buttonPDataEdit;
     private Button buttonMailEdit;
     private Button buttonMerkzettel;
     private Button buttonLebenslauf;
-    private final ProfilStudentLayout profileLayout = new ProfilStudentLayout();
-    private final Button buttonCancel = new Button("Cancel");
-    private final Button buttonConfirm = new Button("Save");
-
-    private final Div avatarWrapper = new Div();
-
-
-    private VerticalLayout layoutColumn2 = new VerticalLayout();
-    private VerticalLayout layoutColumn3 = new VerticalLayout();
-    private VerticalLayout layoutColumn4 = new VerticalLayout();
-    private VerticalLayout layoutColumn5 = new VerticalLayout();
-
-    private HorizontalLayout layoutRow = new HorizontalLayout();
-    private HorizontalLayout layoutRow2 = new HorizontalLayout();
-    private HorizontalLayout layoutRow3 = new HorizontalLayout();
-
-    private H1 h12 = new H1("Personal data:");
-    private H1 h13 = new H1("Documents");
-    private H6 h6 = new H6("Rating:");
-    private H1 h1;
-
-    private Paragraph textMedium2 = new Paragraph("Lebenslauf:");
-
-    Dialog dialog;
     private Icon icon = new Icon();
     private Icon icon2 = new Icon();
     private Icon icon3 = new Icon();
     private Icon icon4 = new Icon();
     private Icon icon5 = new Icon();
 
-    Avatar avatar = new Avatar();
-
-    private StudentDTO student;
-
 
     public ProfilStudentView(SessionService sessionService, ProfileService profileService) {
         this.avatar.setName("Firstname Lastname"); // Warum ?
-        this.avatar.setWidth("200px");
-        this.avatar.setHeight("200px");
+        this.avatar.setWidth(PX);
+        this.avatar.setHeight(PX);
 
         this.avatarWrapper.add(this.avatar); // Add avatar to the wrapper
 
@@ -116,7 +107,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         student = sessionService.getCurrentStudent();
 
-        h1 = new H1("Hallo " + student.getUser().getUsername() +  "!");
+        h1 = new H1("Hallo " + student.getUser().getUsername() + "!");
 
         // dialog Object für Änderungsmaske
         dialog = new Dialog();
@@ -151,7 +142,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
             buttonCancelMail.addClickListener(e1 -> d.close());
             buttonConfirmMail.addClickListener(e1 -> {
-                if(!efEmail.isEmpty()) {
+                if (!efEmail.isEmpty()) {
                     student.getUser().setEmail(efEmail.getValue());
                     Notification.show("E-Mail wurde geändert. ");
                 }
@@ -163,7 +154,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         String s = "Email: " + student.getUser().getEmail() + "\n" +
                 " Last name: " + student.getLastName() + "\n" +
-                " Username: " +  student.getUser().getUsername();
+                " Username: " + student.getUser().getUsername();
         Paragraph textMedium = new Paragraph(
                 s);
 
@@ -216,19 +207,19 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         icon5 = VaadinIcon.STAR.create();
     }
 
-    private void changeData(){
+    private void changeData() {
         User u = student.getUser();
         u.setUsername(profileLayout.getTfVorname());
 
-        if(!profileLayout.getTfVorname().isEmpty()) {
+        if (!profileLayout.getTfVorname().isEmpty()) {
             student.setUser(u);
         }
-        if(!profileLayout.getTfNachname().isEmpty()) {
+        if (!profileLayout.getTfNachname().isEmpty()) {
             student.setLastName(profileLayout.getTfNachname());
         }
     }
 
-    private void setLayouts(){
+    private void setLayouts() {
         layoutColumn3.setAlignSelf(FlexComponent.Alignment.START, buttonMerkzettel);
         layoutColumn2.setWidthFull();
         layoutColumn2.setWidth("100%");

@@ -1,7 +1,5 @@
 package hbrs.se2.collhbrs.util;
 
-import hbrs.se2.collhbrs.model.dto.UserDTO;
-import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.model.entity.*;
 import org.springframework.stereotype.Component;
 

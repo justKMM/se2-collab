@@ -8,10 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class UserTest {
+class UserTest {
 
     private final static String TESTPW = "password";
     User user;
@@ -49,7 +50,7 @@ public class UserTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         assertEquals(1L, user.getUserID());
         assertEquals("testuser", user.getUsername());
         assertEquals(TESTPW, user.getPassword());
@@ -63,16 +64,16 @@ public class UserTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(user1, user2);
         assertEquals(user1, user1);
         assertEquals(user, user);
-        //Email scheint nicht gleich sein zu müssen, damit 2 user als Equals gelten!?
+        //E-Mail scheint nicht gleich sein zu müssen, damit 2 user als Equals gelten!?
         assertNotEquals(user, user1);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertNotEquals(user.hashCode(), user1.hashCode());
         assertEquals(user2.hashCode(), user2.hashCode());
     }

@@ -16,7 +16,7 @@ import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(value = Globals.Pages.UPDATE_PASSWORD,  layout = AppView.class)
+@Route(value = Globals.Pages.UPDATE_PASSWORD, layout = AppView.class)
 @PageTitle("Update Password")
 @CssImport("./styles/index.css")
 @PermitAll

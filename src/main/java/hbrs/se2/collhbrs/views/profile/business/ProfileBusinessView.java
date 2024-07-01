@@ -12,20 +12,18 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.service.ProfileService;
+import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
+
 import java.io.InputStream;
 import java.util.Base64;
 
 @Route(value = Globals.Pages.PROFIL_BUSINESS, layout = AppView.class)
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ProfileBusinessView extends Composite<VerticalLayout> {
-
-    private final static String FLEX_GROW = "flex-grow";
-    private final static String MAX_CONTENT = "max-content";
 
     public ProfileBusinessView(SessionService sessionService, ProfileService profileService) {
 
@@ -45,12 +43,13 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         H6 h62 = new H6();
         VerticalLayout layoutColumn4 = new VerticalLayout();
         getContent().setWidth("100%");
-        getContent().getStyle().set(FLEX_GROW, "1");
+        String flexGrow = "flex-grow";
+        getContent().getStyle().set(flexGrow, "1");
         layoutRow.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow);
         layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
         layoutRow.setWidth("100%");
-        layoutRow.getStyle().set(FLEX_GROW, "1");
+        layoutRow.getStyle().set(flexGrow, "1");
         avatar.setName("Firstname Lastname");
         avatar.setWidth("200px");
         avatar.setHeight("200px");
@@ -58,30 +57,31 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
         layoutColumn2.setHeightFull();
         layoutRow.setFlexGrow(1.0, layoutColumn2);
         layoutColumn2.setWidth("100%");
-        layoutColumn2.getStyle().set(FLEX_GROW, "1");
+        layoutColumn2.getStyle().set(flexGrow, "1");
 
         h1.setText("Hallo " + (sessionService.getCurrentBusiness()).getName() + "! ");
 
 
-        h1.setWidth(MAX_CONTENT);
+        String maxContent = "max-content";
+        h1.setWidth(maxContent);
         h6.setText("Rating:");
-        h6.setWidth(MAX_CONTENT);
+        h6.setWidth(maxContent);
         layoutRow2.setWidthFull();
         layoutColumn2.setFlexGrow(1.0, layoutRow2);
         layoutRow2.addClassName(LumoUtility.Gap.MEDIUM);
         layoutRow2.setWidth("100%");
-        layoutRow2.getStyle().set(FLEX_GROW, "1");
+        layoutRow2.getStyle().set(flexGrow, "1");
 
         layoutColumn3.setHeightFull();
         layoutRow2.setFlexGrow(1.0, layoutColumn3);
         layoutColumn3.setWidth("100%");
-        layoutColumn3.getStyle().set(FLEX_GROW, "1");
+        layoutColumn3.getStyle().set(flexGrow, "1");
         h62.setText("5/5 Sternen");
-        h62.setWidth(MAX_CONTENT);
+        h62.setWidth(maxContent);
         layoutColumn4.setWidthFull();
         getContent().setFlexGrow(1.0, layoutColumn4);
         layoutColumn4.setWidth("100%");
-        layoutColumn4.getStyle().set(FLEX_GROW, "1");
+        layoutColumn4.getStyle().set(flexGrow, "1");
         getContent().add(layoutRow);
         layoutRow.add(avatarWrapper); // Add wrapper to the layout
         layoutRow.add(layoutColumn2);
