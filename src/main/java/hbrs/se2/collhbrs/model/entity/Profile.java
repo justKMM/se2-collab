@@ -27,7 +27,6 @@ public class Profile implements Serializable {
 
     @Basic
     @Column(name = "avatar", columnDefinition = "TEXT")
-    @Lob
     public String getAvatarUrl() {
         return avatarUrl;
     }

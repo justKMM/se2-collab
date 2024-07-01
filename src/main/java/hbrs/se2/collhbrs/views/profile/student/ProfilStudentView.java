@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Paragraph;
@@ -17,14 +18,20 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.User;
+import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
+
+import java.io.InputStream;
+import java.util.Base64;
 
 @Route(value = Globals.Pages.PROFIL_STUDENT, layout = AppView.class)
 @CssImport("./styles/index.css")
@@ -42,6 +49,8 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     private final ProfilStudentLayout profileLayout = new ProfilStudentLayout();
     private final Button buttonCancel = new Button("Cancel");
     private final Button buttonConfirm = new Button("Save");
+
+    private final Div avatarWrapper = new Div();
 
 
     private VerticalLayout layoutColumn2 = new VerticalLayout();
@@ -72,9 +81,41 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
     private StudentDTO student;
 
 
-    public ProfilStudentView(SessionService sessionService) {
+    public ProfilStudentView(SessionService sessionService, ProfileService profileService) {
+        this.avatar.setName("Firstname Lastname"); // Warum ?
+        this.avatar.setWidth("200px");
+        this.avatar.setHeight("200px");
 
-        student = sessionService.getCurrentStudent()  ;
+        this.avatarWrapper.add(this.avatar); // Add avatar to the wrapper
+
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload upload = new Upload(buffer);
+
+        avatarWrapper.addClickListener(event -> upload.setVisible(true));
+
+        upload.addSucceededListener(event -> {
+            try (InputStream inputStream = buffer.getInputStream()) {
+                byte[] bytes = inputStream.readAllBytes();
+                String base64Image = Base64.getEncoder().encodeToString(bytes);
+                profileService.deleteProfileImage(sessionService.getCurrentStudent().getProfile().getProfileID());
+                profileService.saveProfileImage(sessionService.getCurrentStudent().getProfile().getProfileID(), base64Image);
+                avatar.setImage("data:image/jpeg;base64," + base64Image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        layoutColumn4.add(upload);
+
+        String base64Image = profileService.getProfileImage(sessionService.getCurrentStudent().getProfile().getProfileID());
+        if (base64Image != null) {
+            avatar.setImage("data:image/jpeg;base64," + base64Image);
+        }
+
+
+        student = sessionService.getCurrentStudent();
+
         h1 = new H1("Hallo " + student.getUser().getUsername() +  "!");
 
         // dialog Object für Änderungsmaske
@@ -193,6 +234,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn2.setWidth("100%");
         layoutColumn2.getStyle().set(FLEX_GROW, "1");
         layoutRow.setWidthFull();
+        layoutRow.add(avatarWrapper); // Add wrapper to the layout
         layoutColumn2.setFlexGrow(1.0, layoutRow);
         layoutRow.addClassName(Gap.MEDIUM);
         layoutRow.setWidth("100%");
