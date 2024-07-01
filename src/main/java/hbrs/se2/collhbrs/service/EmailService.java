@@ -23,7 +23,6 @@ public class EmailService {
             javaMailSender.send(message);
             return "Email sent successfully";
         } catch (Exception e) {
-            e.printStackTrace();
             return "Email sent failed - Email type: Simple Email. Message: " + e.getMessage();
         }
     }

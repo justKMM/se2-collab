@@ -72,7 +72,6 @@ public class ResetPasswordService {
             updateUserPassword(getUserFromToken(token), password);
             deleteToken(token);
         } catch (Exception e) {
-            e.printStackTrace();
             return "Error: " + e.getMessage();
         }
         return "Password reset successful";
