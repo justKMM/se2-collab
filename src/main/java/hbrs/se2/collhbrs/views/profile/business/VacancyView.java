@@ -5,14 +5,20 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import hbrs.se2.collhbrs.model.entity.Requirements;
+import hbrs.se2.collhbrs.service.RequirementsService;
+import hbrs.se2.collhbrs.service.ResponsibilitiesService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.util.EntityFactory;
@@ -21,76 +27,170 @@ import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @PageTitle("Add vacancy")
 @Route(value = Globals.Pages.VACANCY, layout = AppView.class)
 @CssImport("./styles/index.css")
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyView extends Composite<VerticalLayout> {
 
-
     @Autowired
     EntityFactory entityFactory;
 
-    private Button cancel;
-    private Button save;
-    private ComboBox comboBox;
+    private ComboBox<String> comboBox;
     private TextArea textArea;
+    private TextField location;
+    private TextField requirements;
+    private TextField responsibilities;
+    private MultiSelectListBox<String> requirementsList;
+    private MultiSelectListBox<String> responsibilitiesList;
 
-    private String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
-            "Masterprojekt", "Büro", "Homeoffice"};
+    private List<String> requirementItems = new ArrayList<>();
+    private List<String> responsibilityItems = new ArrayList<>();
 
-    public VacancyView(SessionService sessionService, VacancyService vacancyService) {
+    @Autowired
+    RequirementsService requirementsService;
+
+    @Autowired
+    ResponsibilitiesService responsibilitiesService;
+
+    @Autowired
+    SessionService sessionService;
+
+    @Autowired
+    VacancyService vacancyService;
+
+    public VacancyView() {
         setUpUI();
-
-        cancel.addClickListener(e -> {
-            comboBox.clear();
-            textArea.clear();
-        });
-
-        save.addClickListener(e ->
-            vacancyService.saveVacancy(entityFactory.createVacancy(
-                    (String) comboBox.getValue(),
-                    textArea.getValue(),
-                    sessionService.getCurrentBusiness().getBusiness())
-            )
-        );
     }
 
     private void setUpUI() {
         VerticalLayout layoutColumn2 = new VerticalLayout();
-        H3 h3 = new H3();
-        comboBox = new ComboBox();
-        textArea = new TextArea();
+        H3 h3 = new H3("Add Vacancy");
+        comboBox = new ComboBox<>("Titel");
+        comboBox.setItems("Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
+                "Masterprojekt", "Büro", "Homeoffice");
+        location = new TextField("Location");
+        FormLayout formLayout2Col = new FormLayout();
+        requirements = new TextField("Requirements");
+        responsibilities = new TextField("Responsibilities");
+        Button addRequirements = new Button("Add");
+        Button addResponsibility = new Button("Add");
+        Button deleteRequirements = new Button("Delete");
+        Button deleteResponsibilities = new Button("Delete");
+        addRequirements.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        addResponsibility.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        deleteRequirements.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        deleteResponsibilities.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        requirementsList = new MultiSelectListBox<>();
+        responsibilitiesList = new MultiSelectListBox<>();
+        textArea = new TextArea("Description");
+        textArea.setWidth("100%");
+        textArea.setHeight("200px");
         HorizontalLayout layoutRow = new HorizontalLayout();
-        save = new Button("Save");
-        cancel = new Button("Cancel");
+        Button save = new Button("Save");
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button cancel = new Button("Cancel");
+
+        layoutColumn2.setWidthFull();
+        layoutColumn2.setMaxWidth("800px");
+        layoutColumn2.setHeight("min-content");
+        layoutColumn2.setPadding(true);
+
+        h3.setWidth("min-content");
+
+        comboBox.setWidth("min-content");
+
+        formLayout2Col.setWidth("100%");
+
+        HorizontalLayout requirementsButtonsLayout = new HorizontalLayout(addRequirements, deleteRequirements);
+        VerticalLayout requirementsLayout = new VerticalLayout(requirements, requirementsButtonsLayout, requirementsList);
+        HorizontalLayout responsibilitiesButtonsLayout = new HorizontalLayout(addResponsibility, deleteResponsibilities);
+        VerticalLayout responsibilitiesLayout = new VerticalLayout(responsibilities, responsibilitiesButtonsLayout, responsibilitiesList);
+        formLayout2Col.add(requirementsLayout, responsibilitiesLayout);
+
+        addRequirements.addClickListener(event -> {
+            String requirement = requirements.getValue();
+            if (!requirement.isEmpty() && !requirementItems.contains(requirement)) {
+                requirementItems.add(requirement);
+                updateRequirementsList();
+                requirements.clear();
+            }
+        });
+
+        addResponsibility.addClickListener(event -> {
+            String responsibility = responsibilities.getValue();
+            if (!responsibility.isEmpty() && !responsibilityItems.contains(responsibility)) {
+                responsibilityItems.add(responsibility);
+                updateResponsibilitiesList();
+                responsibilities.clear();
+            }
+        });
+
+        deleteRequirements.addClickListener(event -> {
+            requirementsList.getSelectedItems().forEach(requirementItems::remove);
+            updateRequirementsList();
+        });
+
+        deleteResponsibilities.addClickListener(event -> {
+            responsibilitiesList.getSelectedItems().forEach(responsibilityItems::remove);
+            updateResponsibilitiesList();
+        });
+
+        requirementsList.setWidth("100%");
+        responsibilitiesList.setWidth("100%");
+
+        layoutRow.setWidthFull();
+        layoutRow.setHeight("min-content");
+        layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
+
+        save.addClickListener(event -> {
+            vacancyService.saveVacancy(entityFactory.createVacancy(comboBox.getValue(),
+                    location.getValue(), textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(),
+                    Date.valueOf(LocalDate.now())));
+            for (String requirement: requirementItems) {
+                requirementsService.saveRequirements(entityFactory.createRequirements(
+                        vacancyService.getVacancyByBusinessId(
+                                sessionService.getCurrentBusiness().getBusiness().getBusinessID()), requirement)
+                );
+            }
+            for (String responsibilties : responsibilityItems) {
+                responsibilitiesService.saveResponsibilities(entityFactory.createResponsibilties(
+                        vacancyService.getVacancyByBusinessId(sessionService.getCurrentBusiness().getBusinessID()), responsibilties)
+                );
+            }
+        });
+
+        cancel.addClickListener(event -> {
+            comboBox.clear();
+            requirements.clear();
+            responsibilities.clear();
+            textArea.clear();
+        });
+
+        layoutRow.add(save, cancel);
+
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
         getContent().setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         getContent().setAlignItems(FlexComponent.Alignment.CENTER);
-        layoutColumn2.setWidth("100%");
-        layoutColumn2.setMaxWidth("800px"); 
-        layoutColumn2.setHeight("min-content");
-        h3.setText("Add Vacancy");
-        h3.setWidth("100%");
-        comboBox.setLabel("Title");
-        comboBox.setWidth("min-content");
-        comboBox.setItems(comboBoxItems);
-        textArea.setLabel("Description");
-        textArea.setWidth("100%");
-        textArea.setHeight("150px");
-        layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
-        layoutRow.setWidth("100%");
-        layoutRow.getStyle().set("flex-grow", "1");
-        save.setWidth("min-content");
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        cancel.setWidth("min-content");
+
         getContent().add(layoutColumn2);
-        layoutColumn2.add(h3);
-        layoutColumn2.add(comboBox);
-        layoutColumn2.add(textArea);
-        layoutColumn2.add(layoutRow);
-        layoutRow.add(save);
-        layoutRow.add(cancel);
+        layoutColumn2.add(h3, comboBox, location, formLayout2Col, textArea, layoutRow);
+
+        updateRequirementsList();
+        updateResponsibilitiesList();
+    }
+
+    private void updateRequirementsList() {
+        requirementsList.setItems(requirementItems);
+    }
+
+    private void updateResponsibilitiesList() {
+        responsibilitiesList.setItems(responsibilityItems);
     }
 }

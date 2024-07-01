@@ -3,16 +3,23 @@ package hbrs.se2.collhbrs.model.dto;
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
 
+import java.sql.Date;
+
 public class VacancyDTO {
+
     private long vacancyID;
     private Business business;
     private String titel;
+    private String location;
     private String description;
+    private Date publishDate;
 
     public VacancyDTO(Vacancy entity) {
         this.vacancyID = entity.getVacancyID();
         this.business = entity.getBusiness();
         this.titel = entity.getTitel();
+        this.location = entity.getLocation();
+        this.publishDate = entity.getPublishDate();
         this.description = entity.getDescription();
     }
 

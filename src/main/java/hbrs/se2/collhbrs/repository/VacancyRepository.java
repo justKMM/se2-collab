@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     List<Vacancy> findVacanciesByBusiness_BusinessID(Long businessId);
+    Vacancy findVacancyByBusiness_BusinessID(Long businessId);
 }
