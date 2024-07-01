@@ -48,6 +48,8 @@ class RoundTripTest {
         }
 
         // Überprüfung auf Gleichheit
+
+        assert userAfterCreate != null;
         assertEquals("Jakob9", userAfterCreate.getUsername());
         assertEquals("Jakob1234!", userAfterCreate.getPassword());
         assertEquals(0, userAfterCreate.getBlacklisted());
