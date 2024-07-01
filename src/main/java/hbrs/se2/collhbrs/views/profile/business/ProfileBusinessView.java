@@ -99,7 +99,6 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
 
         MemoryBuffer buffer = new MemoryBuffer();
         Upload upload = new Upload(buffer);
-        upload.setVisible(false);
 
         avatarWrapper.addClickListener(event -> upload.setVisible(true));
 
@@ -110,7 +109,6 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
                 profileService.deleteProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID());
                 profileService.saveProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID(), base64Image);
                 avatar.setImage("data:image/jpeg;base64," + base64Image);
-                upload.setVisible(false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
