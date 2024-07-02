@@ -2,9 +2,13 @@ package hbrs.se2.collhbrs.model.dto;
 
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Date;
 
+@Setter
+@Getter
 public class VacancyDTO {
 
     private long vacancyID;
@@ -32,51 +36,4 @@ public class VacancyDTO {
         return vacancy;
     }
 
-    public long getVacancyID() {
-        return vacancyID;
-    }
-
-    public void setVacancyID(long vacancyID) {
-        this.vacancyID = vacancyID;
-    }
-
-    public Business getBusiness() {
-        return business;
-    }
-
-    public void setBusiness(Business business) {
-        this.business = business;
-    }
-
-    public String getTitel() {
-        return titel;
-    }
-
-    public void setTitel(String titel) {
-        this.titel = titel;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Date getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
-    }
 }

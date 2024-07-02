@@ -6,14 +6,17 @@ import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SessionService {
 
-    @Autowired
+    final
     SecurityService securityService;
+
+    public SessionService(SecurityService securityService) {
+        this.securityService = securityService;
+    }
 
     public void endSession() {
         UI.getCurrent().getPage().setLocation(Globals.Pages.LOGIN);

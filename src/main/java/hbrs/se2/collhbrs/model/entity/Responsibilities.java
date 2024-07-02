@@ -2,10 +2,14 @@ package hbrs.se2.collhbrs.model.entity;
 
 import hbrs.se2.collhbrs.model.entity.ids.ResponsibilitiesID;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "aufgaben", schema = "public")
 @IdClass(ResponsibilitiesID.class)
@@ -13,44 +17,18 @@ public class Responsibilities implements Serializable {
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "StellenausschreibungID", nullable = false)
     private Vacancy vacancy;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "laufende_nummer", length = 2, nullable = false)
     private int serialNumber;
 
     @Basic
-    private String requirementsName;
-
-    @JoinColumn(name = "StellenausschreibungID", nullable = false)
-    public Vacancy getVacancy() {
-        return vacancy;
-    }
-
-    @JoinColumn(name = "StellenausschreibungID", nullable = false)
-    public void setVacancy(Vacancy vacancy) {
-        this.vacancy = vacancy;
-    }
-
-
-    @Column(name = "laufende_nummer", length = 2, nullable = false)
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-
     @Column(name = "aufgaben", length = 128, nullable = false)
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
+    private String responsibilitiesName;
 
-
-    public String getResponsibilitiesName() {
-        return requirementsName;
-    }
-
-    public void setResponsibilitiesName(String requirementsName) {
-        this.requirementsName = requirementsName;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -59,11 +37,11 @@ public class Responsibilities implements Serializable {
         Responsibilities responsibilities = (Responsibilities) o;
         return serialNumber == responsibilities.serialNumber &&
                 vacancy.equals(responsibilities.vacancy) &&
-                requirementsName.equals(responsibilities.requirementsName);
+                responsibilitiesName.equals(responsibilities.responsibilitiesName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vacancy, serialNumber, requirementsName);
+        return Objects.hash(vacancy, serialNumber, responsibilitiesName);
     }
 }

@@ -1,7 +1,11 @@
 package hbrs.se2.collhbrs.model.dto;
 
 import hbrs.se2.collhbrs.model.entity.Profile;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class ProfileDTO {
 
     private long profileID;
@@ -12,49 +16,10 @@ public class ProfileDTO {
 
     public ProfileDTO(Profile entity) {
         this.profileID = entity.getProfileID();
-        this.avatarUrl = entity.getAvatarUrl();
+        this.avatarUrl = entity.getAvatar();
         this.profileDescription = entity.getProfileDescription();
         this.xingUsername = entity.getXingUsername();
         this.linkedinUsername = entity.getLinkedinUsername();
     }
 
-    public long getProfileID() {
-        return profileID;
-    }
-
-    public void setProfileID(long profileID) {
-        this.profileID = profileID;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getProfileDescription() {
-        return profileDescription;
-    }
-
-    public void setProfileDescription(String profileDescription) {
-        this.profileDescription = profileDescription;
-    }
-
-    public String getXingUsername() {
-        return xingUsername;
-    }
-
-    public void setXingUsername(String xingUsername) {
-        this.xingUsername = xingUsername;
-    }
-
-    public String getLinkedinUsername() {
-        return linkedinUsername;
-    }
-
-    public void setLinkedinUsername(String linkedinUsername) {
-        this.linkedinUsername = linkedinUsername;
-    }
 }

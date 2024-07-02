@@ -4,7 +4,10 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.H5;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.AfterNavigationEvent;
@@ -33,7 +36,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @PageTitle("Vacancy Details")
-@Route(value = Globals.Pages.MY_VACANCIES, layout = AppView.class)@CssImport("./styles/index.css")
+@Route(value = Globals.Pages.MY_VACANCIES, layout = AppView.class)
+@CssImport("./styles/index.css")
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class MyVacanciesView extends Composite<VerticalLayout> implements AfterNavigationObserver {
 
@@ -42,7 +46,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
     private final ResponsibilitiesService responsibilitiesService;
     private final SessionService sessionService;
     private final VacancyService vacancyService;
-    private VerticalLayout layout;
+    private final VerticalLayout layout;
 
     @Autowired
     public MyVacanciesView(EntityFactory entityFactory,
@@ -57,6 +61,18 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         this.vacancyService = vacancyService;
         this.layout = new VerticalLayout();
         getContent().add(layout);
+    }
+
+    public static VacancyDTO getVacancy(Vacancy vacancy) {
+        return new VacancyDTO(vacancy);
+    }
+
+    public static RequirmentsDTO getRequirements(Requirements requirements) {
+        return new RequirmentsDTO(requirements);
+    }
+
+    public static ResponsibilitiesDTO getResponsibilities(Responsibilities responsibilities) {
+        return new ResponsibilitiesDTO(responsibilities);
     }
 
     public VerticalLayout createVacancyCard(String titleValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
@@ -111,7 +127,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
 
             for (ResponsibilitiesDTO resp : allResponsibilities) {
                 if (resp.getVacancy().getVacancyID() == vacancy.getVacancyID()) {
-                    responsibilities.add(resp.getRequirementsName());
+                    responsibilities.add(resp.getResponsibilitiesName());
                 }
             }
 
@@ -127,18 +143,6 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         }
 
         return cardsLayout;
-    }
-
-    public static VacancyDTO getVacancy(Vacancy vacancy) {
-        return new VacancyDTO(vacancy);
-    }
-
-    public static RequirmentsDTO getRequirements(Requirements requirements) {
-        return new RequirmentsDTO(requirements);
-    }
-
-    public static ResponsibilitiesDTO getResponsibilities(Responsibilities responsibilities) {
-        return new ResponsibilitiesDTO(responsibilities);
     }
 
     @Override

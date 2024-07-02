@@ -1,47 +1,32 @@
 package hbrs.se2.collhbrs.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "bewirbt", schema = "public")
 public class Application implements Serializable {
-    private long applicationID;
-    private Student student;
-    private Vacancy vacancy;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bewirbtid")
-    public long getApplicationID() {
-        return applicationID;
-    }
-
-    public void setApplicationID(long applicationID) {
-        this.applicationID = applicationID;
-    }
+    private long applicationID;
 
     @ManyToOne
     @JoinColumn(name = "studentid")
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+    @Getter
+    private Student student;
 
     @ManyToOne
     @JoinColumn(name = "stellenausschreibungid")
-    public Vacancy getVacancy() {
-        return vacancy;
-    }
-
-    public void setVacancy(Vacancy vacancy) {
-        this.vacancy = vacancy;
-    }
+    @Getter
+    private Vacancy vacancy;
 
     @Override
     public boolean equals(Object o) {

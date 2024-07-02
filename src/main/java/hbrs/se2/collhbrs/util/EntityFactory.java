@@ -82,10 +82,10 @@ public class EntityFactory {
         return requirements;
     }
 
-    public Responsibilities createResponsibilties(Vacancy vacancy, String responsibiltiesName) {
+    public Responsibilities createResponsibilities(Vacancy vacancy, String responsibilitiesName) {
         Responsibilities responsibilities = new Responsibilities();
         responsibilities.setVacancy(vacancy);
-        responsibilities.setResponsibilitiesName(responsibiltiesName);
+        responsibilities.setResponsibilitiesName(responsibilitiesName);
         return responsibilities;
     }
 }

@@ -2,7 +2,11 @@ package hbrs.se2.collhbrs.model.dto;
 
 import hbrs.se2.collhbrs.model.entity.Requirements;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class RequirmentsDTO {
 
     private Vacancy vacancy;
@@ -23,27 +27,4 @@ public class RequirmentsDTO {
         return requirements;
     }
 
-    public Vacancy getVacancy() {
-        return vacancy;
-    }
-
-    public void setVacancy(Vacancy vacancy) {
-        this.vacancy = vacancy;
-    }
-
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public String getRequirementsName() {
-        return requirementsName;
-    }
-
-    public void setRequirementsName(String requirementsName) {
-        this.requirementsName = requirementsName;
-    }
 }

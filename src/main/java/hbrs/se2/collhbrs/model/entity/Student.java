@@ -1,61 +1,32 @@
 package hbrs.se2.collhbrs.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "student", schema = "public")
 public class Student implements Serializable {
-    private long studentID;
-    private User user;
-    private String lastName;
-    private LocalDate birthdate;
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "studentid", length = 64, nullable = false)
-    public long getStudentID() {
-        return studentID;
-    }
-
-    public void setStudentID(long studentID) {
-        this.studentID = studentID;
-    }
-
+    private long studentID;
     @OneToOne
     @JoinColumn(name = "benutzerid", nullable = false, unique = true)
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
+    private User user;
     @Basic
     @Column(name = "nachname", length = 128, nullable = false)
-    public String getLastName() {
-        return lastName;
-    }
-
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    private String lastName;
     @Basic
     @Column(name = "geburtsdatum")
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
+    private LocalDate birthdate;
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
 
     @Override
     public boolean equals(Object o) {

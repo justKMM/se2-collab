@@ -2,10 +2,14 @@ package hbrs.se2.collhbrs.model.entity;
 
 import hbrs.se2.collhbrs.model.entity.ids.RequirementsID;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "anforderungen", schema = "public")
 @IdClass(RequirementsID.class)
@@ -13,41 +17,17 @@ public class Requirements implements Serializable {
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "StellenausschreibungID", nullable = false)
     private Vacancy vacancy;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "laufende_nummer", length = 2, nullable = false)
     private int serialNumber;
 
     @Basic
-    private String requirementsName;
-
-    @JoinColumn(name = "StellenausschreibungID", nullable = false)
-    public Vacancy getVacancy() {
-        return vacancy;
-    }
-
-    public void setVacancy(Vacancy vacancy) {
-        this.vacancy = vacancy;
-    }
-
-    @Column(name = "laufende_nummer", length = 2, nullable = false)
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
     @Column(name = "anforderungen", length = 128, nullable = false)
-    public String getRequirementsName() {
-        return requirementsName;
-    }
-
-    public void setRequirementsName(String requirementsName) {
-        this.requirementsName = requirementsName;
-    }
+    private String requirementsName;
 
     @Override
     public boolean equals(Object o) {

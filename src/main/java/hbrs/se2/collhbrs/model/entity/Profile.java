@@ -1,69 +1,34 @@
 package hbrs.se2.collhbrs.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "profil", schema = "public")
 public class Profile implements Serializable {
-    private long profileID;
-    private String avatarUrl;
-    private String profileDescription;
-    private String xingUsername;
-    private String linkedinUsername;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profilid", nullable = false)
-    public long getProfileID() {
-        return profileID;
-    }
-
-    public void setProfileID(long profileID) {
-        this.profileID = profileID;
-    }
-
+    private long profileID;
     @Basic
     @Column(name = "avatar", columnDefinition = "TEXT")
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
+    private String avatar;
     @Basic
     @Column(name = "profilbeschreibung", length = 6400)
-    public String getProfileDescription() {
-        return profileDescription;
-    }
-
-    public void setProfileDescription(String profileDescription) {
-        this.profileDescription = profileDescription;
-    }
-
+    private String profileDescription;
     @Basic
     @Column(name = "xing_benutzername", length = 2048, unique = true)
-    public String getXingUsername() {
-        return xingUsername;
-    }
-
-    public void setXingUsername(String xingUsername) {
-        this.xingUsername = xingUsername;
-    }
-
+    private String xingUsername;
     @Basic
     @Column(name = "linkedin_benutzername", length = 2048, unique = true)
-    public String getLinkedinUsername() {
-        return linkedinUsername;
-    }
+    private String linkedinUsername;
 
-    public void setLinkedinUsername(String linkedinUsername) {
-        this.linkedinUsername = linkedinUsername;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -71,7 +36,7 @@ public class Profile implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Profile profile = (Profile) o;
         return profileID == profile.profileID &&
-                Objects.equals(avatarUrl, profile.avatarUrl) &&
+                Objects.equals(avatar, profile.avatar) &&
                 Objects.equals(profileDescription, profile.profileDescription) &&
                 Objects.equals(xingUsername, profile.xingUsername) &&
                 Objects.equals(linkedinUsername, profile.linkedinUsername);
@@ -79,6 +44,6 @@ public class Profile implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(profileID, avatarUrl, profileDescription, xingUsername, linkedinUsername);
+        return Objects.hash(profileID, avatar, profileDescription, xingUsername, linkedinUsername);
     }
 }

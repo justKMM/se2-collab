@@ -3,7 +3,6 @@ package hbrs.se2.collhbrs;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import hbrs.se2.collhbrs.service.SecurityService;
 import hbrs.se2.collhbrs.views.authentification.LoginView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,8 +18,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Configuration
 public class SecurityConfig extends VaadinWebSecurity {
 
-    @Autowired
+    final
     SecurityService securityService;
+
+    public SecurityConfig(SecurityService securityService) {
+        this.securityService = securityService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,13 +36,7 @@ public class SecurityConfig extends VaadinWebSecurity {
         return new CustomAuthenticationProvider(securityService);
     }
 
-    private static class CustomAuthenticationProvider implements AuthenticationProvider {
-
-        private final SecurityService securityService;
-
-        public CustomAuthenticationProvider(SecurityService securityService) {
-            this.securityService = securityService;
-        }
+    private record CustomAuthenticationProvider(SecurityService securityService) implements AuthenticationProvider {
 
         @Override
         public Authentication authenticate(Authentication authentication) throws AuthenticationException {

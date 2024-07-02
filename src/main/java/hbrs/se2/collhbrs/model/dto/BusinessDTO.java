@@ -2,7 +2,11 @@ package hbrs.se2.collhbrs.model.dto;
 
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.model.entity.User;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class BusinessDTO extends UserDTO {
 
     private long businessID;
@@ -24,28 +28,9 @@ public class BusinessDTO extends UserDTO {
         return business;
     }
 
-    public long getBusinessID() {
-        return businessID;
-    }
-
-    public void setBusinessID(long businessID) {
-        this.businessID = businessID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

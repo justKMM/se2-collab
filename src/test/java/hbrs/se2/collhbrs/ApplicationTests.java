@@ -35,7 +35,7 @@ class ApplicationTests {
             User user = wrapper.get();
             System.out.println("User: " + user.getUsername());
             Profile profile = user.getProfile();
-            assertEquals("dsakldaskldaskldaskldsalk", profile.getAvatarUrl());
+            assertEquals("dsakldaskldaskldaskldsalk", profile.getAvatar());
             assertEquals("adsladskldasladskldaslkdsakl", profile.getProfileDescription());
             assertEquals("Loool", profile.getXingUsername());
             assertEquals("Laaal", profile.getLinkedinUsername());
@@ -53,7 +53,7 @@ class ApplicationTests {
 
     @Test
     void testStudentDTOByStudentID() {
-        StudentDTO studentDTO = new StudentDTO(studentRepository.findStudentByUser_UserID((long) 1)); //User huenchen
+        StudentDTO studentDTO = new StudentDTO(studentRepository.findStudentByUserUserID((long) 1)); //User huenchen
         System.out.println("Student: " + studentDTO.getUser().getUsername());
         assertEquals(HUENCHEN, studentDTO.getUser().getUsername());
         assertEquals(1, studentDTO.getStudentID());
@@ -70,7 +70,7 @@ class ApplicationTests {
 
     @Test
     void testFindStudentByFirstName() {
-        Student student = studentRepository.findStudentByUser_UserID((long) 1);
+        Student student = studentRepository.findStudentByUserUserID((long) 1);
         assertEquals(student.getStudentID(), firstNameRepository.findAll().get(0).getStudent().getStudentID());
         assertEquals(student.getStudentID(), firstNameRepository.findAll().get(1).getStudent().getStudentID());
         assertEquals(student.getStudentID(), firstNameRepository.findAll().get(2).getStudent().getStudentID());

@@ -2,7 +2,11 @@ package hbrs.se2.collhbrs.model.dto;
 
 import hbrs.se2.collhbrs.model.entity.FirstName;
 import hbrs.se2.collhbrs.model.entity.Student;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class FirstNameDTO {
 
     private Student student;
@@ -15,27 +19,4 @@ public class FirstNameDTO {
         this.firstNameName = entity.getFirstNameName();
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public String getFirstNameName() {
-        return firstNameName;
-    }
-
-    public void setFirstNameName(String firstNameName) {
-        this.firstNameName = firstNameName;
-    }
 }

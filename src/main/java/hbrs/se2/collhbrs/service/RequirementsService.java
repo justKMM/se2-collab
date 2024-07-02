@@ -1,9 +1,7 @@
 package hbrs.se2.collhbrs.service;
 
 import hbrs.se2.collhbrs.model.entity.Requirements;
-import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.repository.RequirementsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +9,12 @@ import java.util.List;
 @Service
 public class RequirementsService {
 
-    @Autowired
+    final
     RequirementsRepository requirementsRepository;
+
+    public RequirementsService(RequirementsRepository requirementsRepository) {
+        this.requirementsRepository = requirementsRepository;
+    }
 
     public void saveRequirements(Requirements requirements) {
         requirementsRepository.save(requirements);

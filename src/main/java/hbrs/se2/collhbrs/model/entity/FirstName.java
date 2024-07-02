@@ -2,10 +2,14 @@ package hbrs.se2.collhbrs.model.entity;
 
 import hbrs.se2.collhbrs.model.entity.ids.FirstNameID;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "vorname", schema = "public")
 @IdClass(FirstNameID.class)
@@ -25,29 +29,6 @@ public class FirstName implements Serializable {
     @Column(name = "vorname", length = 128, nullable = false)
     private String firstNameName;
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public String getFirstNameName() {
-        return firstNameName;
-    }
-
-    public void setFirstNameName(String firstNameName) {
-        this.firstNameName = firstNameName;
-    }
 
     @Override
     public boolean equals(Object o) {

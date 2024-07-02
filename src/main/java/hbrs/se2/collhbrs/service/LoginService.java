@@ -10,20 +10,22 @@ import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    private BusinessRepository businessRepository;
+    private final BusinessRepository businessRepository;
+
+    public LoginService(UserRepository userRepository, StudentRepository studentRepository, BusinessRepository businessRepository) {
+        this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
+        this.businessRepository = businessRepository;
+    }
 
     public void startSession(UserDTO user) {
         if (isUserStudent(user) && !isBlacklisted(user)) {
@@ -38,23 +40,23 @@ public class LoginService {
     private void startBusinessSession(UserDTO user) {
         VaadinSession.getCurrent().setAttribute(
                 Globals.CURRENT_USER,
-                new BusinessDTO(businessRepository.findBusinessByUser_UserID(user.getUserID())));
+                new BusinessDTO(businessRepository.findBusinessByUserUserID(user.getUserID())));
         Notification.show("Login Successful");
     }
 
     private void startStudentSession(UserDTO user) {
         VaadinSession.getCurrent().setAttribute(
                 Globals.CURRENT_USER,
-                new StudentDTO(studentRepository.findStudentByUser_UserID(user.getUserID())));
+                new StudentDTO(studentRepository.findStudentByUserUserID(user.getUserID())));
         Notification.show("Login Successful");
     }
 
     private boolean isUserStudent(UserDTO user) {
-        return studentRepository.existsByUser_UserID(user.getUserID());
+        return studentRepository.existsByUserUserID(user.getUserID());
     }
 
     private boolean isUserBusiness(UserDTO user) {
-        return businessRepository.existsByUser_UserID(user.getUserID());
+        return businessRepository.existsByUserUserID(user.getUserID());
     }
 
     public User login(String username, String password) {

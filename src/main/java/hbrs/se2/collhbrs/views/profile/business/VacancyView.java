@@ -155,7 +155,7 @@ public class VacancyView extends Composite<VerticalLayout> {
                 requirementsService.saveRequirements(entityFactory.createRequirements(vacancy, requirement));
             }
             for (String responsibility : responsibilityItems) {
-                responsibilitiesService.saveResponsibilities(entityFactory.createResponsibilties(vacancy, responsibility));
+                responsibilitiesService.saveResponsibilities(entityFactory.createResponsibilities(vacancy, responsibility));
             }
 
             // Clear the lists after saving
