@@ -13,6 +13,7 @@ public class Vacancy implements Serializable {
     private Business business;
     private String titel;
     private String description;
+    private String employmentType;
     private String location;
     private Date publishDate;
 
@@ -77,6 +78,16 @@ public class Vacancy implements Serializable {
         this.publishDate = publishDate;
     }
 
+    @Basic
+    @Column(name = "anstellungsart", length = 128, nullable = false)
+    public String getEmploymentType() {
+        return this.employmentType;
+    }
+
+    public void setEmploymentType(String employmentType) {
+        this.employmentType = employmentType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,11 +96,14 @@ public class Vacancy implements Serializable {
         return vacancyID == vacancy.vacancyID &&
                 Objects.equals(business, vacancy.business) &&
                 Objects.equals(titel, vacancy.titel) &&
-                Objects.equals(description, vacancy.description);
+                Objects.equals(description, vacancy.description) &&
+                Objects.equals(location, vacancy.location) &&
+                Objects.equals(publishDate, vacancy.publishDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vacancyID, business, titel, description);
+        return Objects.hash(vacancyID, business, titel, description, location, publishDate);
     }
+
 }
