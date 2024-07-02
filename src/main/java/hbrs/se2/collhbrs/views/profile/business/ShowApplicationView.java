@@ -29,11 +29,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ShowApplicationView extends Div implements AfterNavigationObserver {
 
+    private final Grid<StudentDTO> grid = new Grid<>();
     @Autowired
     EntityFactory entityFactory;
     @Autowired
     SessionService sessionService;
-    private final Grid<StudentDTO> grid = new Grid<>();
 
     public ShowApplicationView() {
         addClassName("feed-view");

@@ -46,9 +46,9 @@ public class SecurityService implements UserDetailsService {
                 this.password = user.getPassword();
                 this.authorities = new ArrayList<>();
 
-                if (studentRepository.existsByUser_UserID(user.getUserID())) {
+                if (studentRepository.existsByUserUserID(user.getUserID())) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_" + Globals.Roles.STUDENT));
-                } else if (businessRepository.existsByUser_UserID(user.getUserID())) {
+                } else if (businessRepository.existsByUserUserID(user.getUserID())) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_" + Globals.Roles.BUSINESS));
                 }
             } catch (Exception e) {

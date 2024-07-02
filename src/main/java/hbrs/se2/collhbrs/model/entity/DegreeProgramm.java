@@ -2,49 +2,30 @@ package hbrs.se2.collhbrs.model.entity;
 
 import hbrs.se2.collhbrs.model.entity.ids.DegreeProgrammID;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "studiengang", schema = "public")
 @IdClass(DegreeProgrammID.class)
 public class DegreeProgramm implements Serializable {
-    private Student student;
-    private int serialNumber;
-    private String degreeProgrammName;
-
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "studentid", nullable = false)
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
+    private Student student;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "laufende_nummer", length = 2, nullable = false)
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
+    private int serialNumber;
     @Basic
     @Column(name = "studiengang", length = 256, nullable = false)
-    public String getDegreeProgrammName() {
-        return degreeProgrammName;
-    }
+    private String degreeProgrammName;
 
-    public void setDegreeProgrammName(String degreeProgrammName) {
-        this.degreeProgrammName = degreeProgrammName;
-    }
 
     @Override
     public boolean equals(Object o) {

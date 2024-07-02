@@ -8,6 +8,7 @@ public class Globals {
     public static final String CURRENT_USER = "current_user";
     public static final String BASE_URL = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
     private static final String EXCEPTION_1 = "This is a utility class and cannot be instantiated";
+
     private Globals() {
         throw new UnsupportedOperationException(EXCEPTION_1);
     }
@@ -28,6 +29,7 @@ public class Globals {
         public static final String SHOW_APPLICATION = "business/show/application";
         public static final String VACANCY = "business/vacancy";
         public static final String SEARCH_STUDENT = "student/search";
+
         private Pages() {
             throw new UnsupportedOperationException(EXCEPTION_1);
         }
@@ -37,6 +39,7 @@ public class Globals {
 
         public static final String STUDENT = "student";
         public static final String BUSINESS = "business";
+
         private Roles() {
             throw new UnsupportedOperationException(EXCEPTION_1);
         }

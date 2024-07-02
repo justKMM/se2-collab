@@ -19,14 +19,14 @@ class ProfileTest {
     public void setUp() {
         profile = new Profile();
         profile.setProfileID(1L);
-        profile.setAvatarUrl(EXAMPLE_URL);
+        profile.setAvatar(EXAMPLE_URL);
         profile.setProfileDescription(PROFILEDESCRIPTION);
         profile.setLinkedinUsername("usernameLI");
         profile.setXingUsername("usernameXing");
 
         profile1 = new Profile();
         profile1.setProfileID(1L);
-        profile1.setAvatarUrl(EXAMPLE_URL);
+        profile1.setAvatar(EXAMPLE_URL);
         profile1.setProfileDescription(PROFILEDESCRIPTION);
         profile1.setLinkedinUsername("usernameLI1");
         profile1.setXingUsername("usernameXing1");
@@ -35,7 +35,7 @@ class ProfileTest {
     @Test
     void testSettersandGetters() {
         assertEquals(1L, profile.getProfileID());
-        assertEquals(EXAMPLE_URL, profile.getAvatarUrl());
+        assertEquals(EXAMPLE_URL, profile.getAvatar());
         assertEquals(PROFILEDESCRIPTION, profile.getProfileDescription());
         assertEquals("usernameLI", profile.getLinkedinUsername());
         assertEquals("usernameXing", profile.getXingUsername());

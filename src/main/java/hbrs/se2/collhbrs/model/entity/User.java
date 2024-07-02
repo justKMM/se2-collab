@@ -1,76 +1,33 @@
 package hbrs.se2.collhbrs.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "benutzer", schema = "public")
 public class User implements Serializable {
-    private long userID;
-    private Profile profile;
-    private String username;
-    private String password;
-    private int blacklisted;
-    private String email;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "benutzerid", nullable = false)
-    public long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(long userID) {
-        this.userID = userID;
-    }
-
+    private long userID;
     @OneToOne
     @JoinColumn(name = "profilid", nullable = false, unique = true)
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
+    private Profile profile;
     @Column(name = "username", nullable = false, length = 32, unique = true)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    private String username;
     @Column(name = "passwort", nullable = false, length = 64, unique = true)
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    private String password;
     @Column(name = "blacklisted", nullable = false, length = 1)
-    public int getBlacklisted() {
-        return blacklisted;
-    }
-
-    public void setBlacklisted(int blacklisted) {
-        this.blacklisted = blacklisted;
-    }
-
+    private int blacklisted;
     @Column(name = "email", nullable = false, length = 320, unique = true)
-    public String getEmail() {
-        return email;
-    }
+    private String email;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     @Override
     public boolean equals(Object o) {

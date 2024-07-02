@@ -96,6 +96,10 @@ public class RegisterUtils {
     }
 
     private static boolean isValidFirstName(String firstName) {
+        return checkLength(firstName);
+    }
+
+    private static boolean checkLength(String firstName) {
         if (firstName.length() < 3 || firstName.length() > 30) {
             return false;
         }
@@ -109,16 +113,7 @@ public class RegisterUtils {
     }
 
     private static boolean isValidLastName(String lastName) {
-        if (lastName.length() < 3 || lastName.length() > 30) {
-            return false;
-        }
-
-        for (char c : lastName.toCharArray()) {
-            if (!Character.isLetter(c) && c != ' ' && c != '-') {
-                return false;
-            }
-        }
-        return true;
+        return checkLength(lastName);
     }
 
     private static boolean isValidUsername(String username) {

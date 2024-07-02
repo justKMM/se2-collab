@@ -1,47 +1,31 @@
 package hbrs.se2.collhbrs.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "unternehmen", schema = "public")
 public class Business implements Serializable {
-    private long businessID;
-    private User user;
-    private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "unternehmenid", length = 64, nullable = false)
-    public long getBusinessID() {
-        return businessID;
-    }
-
-    public void setBusinessID(long businessID) {
-        this.businessID = businessID;
-    }
+    private long businessID;
 
     @OneToOne
     @JoinColumn(name = "benutzerid", nullable = false, unique = true)
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private User user;
 
     @Basic
     @Column(name = "name", length = 128, nullable = false)
-    public String getName() {
-        return name;
-    }
+    private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public boolean equals(Object o) {

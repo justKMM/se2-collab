@@ -18,10 +18,10 @@ public class VacancyService {
     }
 
     public List<Vacancy> getVacanciesByBusinessId(Long businessId) {
-        return vacancyRepository.findVacancByBusiness_BusinessID(businessId);
+        return vacancyRepository.findVacancByBusinessBusinessID(businessId);
     }
 
     public Vacancy getVacancyByBusinessId(Long businessId) {
-        return vacancyRepository.findVacancyByBusiness_BusinessID(businessId);
+        return vacancyRepository.findVacancyByBusinessBusinessID(businessId);
     }
 }

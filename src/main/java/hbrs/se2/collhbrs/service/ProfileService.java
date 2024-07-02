@@ -68,18 +68,19 @@ public class ProfileService {
     @Transactional
     public void saveProfileImage(Long profileId, String base64Image) {
         Profile profile = profileRepository.findById(profileId).get();
-        profile.setAvatarUrl(base64Image);
+        profile.setAvatar(base64Image);
         profileRepository.save(profile);
     }
 
     @Transactional
     public String getProfileImage(Long profileId) {
-        return profileRepository.findById(profileId).get().getAvatarUrl();
+        return profileRepository.findById(profileId).get().getAvatar();
     }
 
+    @Transactional
     public void deleteProfileImage(Long businessId) {
         Profile profile = profileRepository.findById(businessId).get();
-        profile.setAvatarUrl(null);
+        profile.setAvatar(null);
         profileRepository.save(profile);
     }
 }
