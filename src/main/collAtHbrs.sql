@@ -90,6 +90,7 @@ create table public.Stellenausschreibung
     UnternehmenID           SERIAL        not null,
     Titel                   varchar(256)  not null,
     Beschreibung            varchar(6400) not null,
+    Anstellungsart          varchar(128)  not null,
     Standort                varchar(256)  not null,
     Veroeffentlichungsdatum date,
     constraint pk_Stellenausschreibung primary key (StellenausschreibungID),
