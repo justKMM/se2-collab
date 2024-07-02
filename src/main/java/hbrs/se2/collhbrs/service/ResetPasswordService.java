@@ -6,7 +6,6 @@ import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.PasswordTokenRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,14 +14,17 @@ import java.util.UUID;
 @Service
 public class ResetPasswordService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordTokenRepository passwordTokenRepository;
+    private final PasswordTokenRepository passwordTokenRepository;
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
+
+    public ResetPasswordService(UserRepository userRepository, PasswordTokenRepository passwordTokenRepository, EmailService emailService) {
+        this.userRepository = userRepository;
+        this.passwordTokenRepository = passwordTokenRepository;
+        this.emailService = emailService;
+    }
 
     public String sendResetPasswordMail(String usermail) {
         return userExists(usermail) ? emailService.sendSimpleMail(

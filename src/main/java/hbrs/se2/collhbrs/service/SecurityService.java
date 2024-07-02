@@ -5,7 +5,6 @@ import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,14 +19,17 @@ import java.util.List;
 @Service
 public class SecurityService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    private BusinessRepository businessRepository;
+    private final BusinessRepository businessRepository;
+
+    public SecurityService(UserRepository userRepository, StudentRepository studentRepository, BusinessRepository businessRepository) {
+        this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
+        this.businessRepository = businessRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

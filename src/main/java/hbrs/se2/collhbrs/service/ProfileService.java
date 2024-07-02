@@ -2,33 +2,33 @@ package hbrs.se2.collhbrs.service;
 
 import hbrs.se2.collhbrs.model.entity.*;
 import hbrs.se2.collhbrs.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class ProfileService {
 
-    @Autowired
-    private ProfileRepository profileRepository;
+    private static final String PROFILE_NOT_FOUND = "Profile with ID ";
+    private static final String NOT_FOUND = " not found";
+    private final ProfileRepository profileRepository;
+    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
+    private final InterestRepository interestRepository;
+    private final SkillRepository skillRepository;
+    private final DegreeProgrammRepository degreeProgrammRepository;
+    private final FirstNameRepository firstNameRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private InterestRepository interestRepository;
-
-    @Autowired
-    private SkillRepository skillRepository;
-
-    @Autowired
-    private DegreeProgrammRepository degreeProgrammRepository;
-
-    @Autowired
-    private FirstNameRepository firstNameRepository;
+    public ProfileService(ProfileRepository profileRepository, UserRepository userRepository, StudentRepository studentRepository, InterestRepository interestRepository, SkillRepository skillRepository, DegreeProgrammRepository degreeProgrammRepository, FirstNameRepository firstNameRepository) {
+        this.profileRepository = profileRepository;
+        this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
+        this.interestRepository = interestRepository;
+        this.skillRepository = skillRepository;
+        this.degreeProgrammRepository = degreeProgrammRepository;
+        this.firstNameRepository = firstNameRepository;
+    }
 
     @Transactional
     public void saveUser(User user) {
@@ -67,20 +67,32 @@ public class ProfileService {
 
     @Transactional
     public void saveProfileImage(Long profileId, String base64Image) {
-        Profile profile = profileRepository.findById(profileId).get();
-        profile.setAvatar(base64Image);
-        profileRepository.save(profile);
+        Optional<Profile> optionalProfile = profileRepository.findById(profileId);
+        if (optionalProfile.isPresent()) {
+            Profile profile = optionalProfile.get();
+            profile.setAvatar(base64Image);
+            profileRepository.save(profile);
+        } else {
+            throw new IllegalArgumentException(PROFILE_NOT_FOUND + profileId + NOT_FOUND);
+        }
     }
 
     @Transactional
     public String getProfileImage(Long profileId) {
-        return profileRepository.findById(profileId).get().getAvatar();
+        return profileRepository.findById(profileId)
+                .map(Profile::getAvatar)
+                .orElseThrow(() -> new IllegalArgumentException(PROFILE_NOT_FOUND + profileId + NOT_FOUND));
     }
 
     @Transactional
-    public void deleteProfileImage(Long businessId) {
-        Profile profile = profileRepository.findById(businessId).get();
-        profile.setAvatar(null);
-        profileRepository.save(profile);
+    public void deleteProfileImage(Long profileId) {
+        Optional<Profile> optionalProfile = profileRepository.findById(profileId);
+        if (optionalProfile.isPresent()) {
+            Profile profile = optionalProfile.get();
+            profile.setAvatar(null);
+            profileRepository.save(profile);
+        } else {
+            throw new IllegalArgumentException(PROFILE_NOT_FOUND + profileId + NOT_FOUND);
+        }
     }
 }

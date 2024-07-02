@@ -10,20 +10,22 @@ import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    private BusinessRepository businessRepository;
+    private final BusinessRepository businessRepository;
+
+    public LoginService(UserRepository userRepository, StudentRepository studentRepository, BusinessRepository businessRepository) {
+        this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
+        this.businessRepository = businessRepository;
+    }
 
     public void startSession(UserDTO user) {
         if (isUserStudent(user) && !isBlacklisted(user)) {
