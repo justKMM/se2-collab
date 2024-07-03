@@ -18,7 +18,6 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.service.ResetPasswordService;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
@@ -29,22 +28,23 @@ import java.util.stream.Stream;
 @AnonymousAllowed
 public class ResetPasswordView extends Composite<VerticalLayout> implements HasUrlParameter<String> {
 
+    final
+    ResetPasswordService resetPasswordService;
     private final Button submitButton = createButton("Confirm", ButtonVariant.LUMO_PRIMARY);
     private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
-    @Autowired
-    ResetPasswordService resetPasswordService;
     FormLayout formLayout;
     private Map<String, List<String>> parameters;
     private PasswordField password;
     private PasswordField passwordConfirmation;
 
-    public ResetPasswordView() {
+    public ResetPasswordView(ResetPasswordService resetPasswordService) {
         setupLayout();
         setupFields();
         addButtons();
 
         getContent().add(formLayout);
         getContent().setAlignSelf(FlexComponent.Alignment.CENTER, formLayout);
+        this.resetPasswordService = resetPasswordService;
     }
 
     @Override

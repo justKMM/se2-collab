@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class MyVacanciesView extends Composite<VerticalLayout> implements AfterNavigationObserver {
 
-    private final EntityFactory entityFactory;
     private final RequirementsService requirementsService;
     private final ResponsibilitiesService responsibilitiesService;
     private final SessionService sessionService;
@@ -54,7 +53,6 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
                            ResponsibilitiesService responsibilitiesService,
                            SessionService sessionService,
                            VacancyService vacancyService) {
-        this.entityFactory = entityFactory;
         this.requirementsService = requirementsService;
         this.responsibilitiesService = responsibilitiesService;
         this.sessionService = sessionService;

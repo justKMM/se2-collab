@@ -20,7 +20,6 @@ import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Route(value = Globals.Pages.SHOW_APPLICATION, layout = AppView.class)
@@ -29,19 +28,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ShowApplicationView extends Div implements AfterNavigationObserver {
 
-    private final Grid<StudentDTO> grid = new Grid<>();
-    @Autowired
+    final
     EntityFactory entityFactory;
-    @Autowired
+    final
     SessionService sessionService;
 
-    public ShowApplicationView() {
+    public ShowApplicationView(EntityFactory entityFactory, SessionService sessionService) {
         addClassName("feed-view");
         setSizeFull();
+        Grid<StudentDTO> grid = new Grid<>();
         grid.setHeight("100%");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
         grid.addComponentColumn(this::createCard);
         add(grid);
+        this.entityFactory = entityFactory;
+        this.sessionService = sessionService;
     }
 
     private static ApplicationDTO createPerson(Application application) {

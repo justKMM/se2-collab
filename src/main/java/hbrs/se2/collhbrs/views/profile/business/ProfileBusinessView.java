@@ -122,8 +122,8 @@ public class ProfileBusinessView extends Composite<VerticalLayout> {
             if (base64Image != null) {
                 avatar.setImage("data:image/jpeg;base64," + base64Image);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (Exception ignored) {
+
         }
     }
 }
