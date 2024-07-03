@@ -18,9 +18,12 @@ class UserTest {
     User user;
     User user1;
     User user2;
+    User user3;
+    User user4;
 
     @Mock
     Profile profile;
+    Profile profile1;
 
     @BeforeEach
     public void setUp() {
@@ -47,6 +50,22 @@ class UserTest {
         user2.setBlacklisted(0);
         user2.setEmail("different@example.com");
         user2.setProfile(profile);
+
+        user3 = new User();
+        user3.setUserID(1);
+        user3.setUsername("testuser1");
+        user3.setPassword("password1");
+        user3.setBlacklisted(1);
+        user3.setEmail("different@example.com");
+        user3.setProfile(profile);
+
+        user4 = new User();
+        user4.setUserID(2);
+        user4.setUsername("testuser1");
+        user4.setPassword("password1");
+        user4.setBlacklisted(1);
+        user4.setEmail("different@example.com");
+        user4.setProfile(profile);
     }
 
     @Test
@@ -66,10 +85,17 @@ class UserTest {
     @Test
     void testEquals() {
         assertEquals(user1, user2);
+        assertEquals(user4, user4);
+        assertEquals(user3, user3);
+        assertEquals(user2, user2);
         assertEquals(user1, user1);
         assertEquals(user, user);
-        //E-Mail scheint nicht gleich sein zu müssen, damit 2 user als Equals gelten!?
+        assertNotEquals(user, null);
+        assertNotEquals(user, "lol");
         assertNotEquals(user, user1);
+        assertNotEquals(user, user4);
+        assertNotEquals(user, user2);
+        assertNotEquals(user2, user3);
     }
 
     @Test
