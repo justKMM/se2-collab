@@ -15,21 +15,21 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.service.ResetPasswordService;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = Globals.Pages.FORGOT_PASSWORD)
 @CssImport("./styles/index.css")
 @AnonymousAllowed
 public class ForgotPasswordView extends Composite<VerticalLayout> {
 
-    @Autowired
+    final
     ResetPasswordService resetPasswordService;
 
     FormLayout formLayout;
 
-    public ForgotPasswordView() {
+    public ForgotPasswordView(ResetPasswordService resetPasswordService) {
         setupLayout();
         setupFields();
+        this.resetPasswordService = resetPasswordService;
     }
 
     private void setupLayout() {

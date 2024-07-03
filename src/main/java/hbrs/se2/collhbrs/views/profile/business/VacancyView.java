@@ -25,7 +25,6 @@ import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -38,27 +37,32 @@ import java.util.List;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyView extends Composite<VerticalLayout> {
 
-    @Autowired
+    final
     EntityFactory entityFactory;
-    @Autowired
+    final
     RequirementsService requirementsService;
-    @Autowired
+    final
     ResponsibilitiesService responsibilitiesService;
-    @Autowired
+    final
     SessionService sessionService;
-    @Autowired
+    final
     VacancyService vacancyService;
 
     private MultiSelectListBox<String> requirementsList;
     private MultiSelectListBox<String> responsibilitiesList;
 
-    public VacancyView() {
+    public VacancyView(EntityFactory entityFactory, RequirementsService requirementsService, ResponsibilitiesService responsibilitiesService, SessionService sessionService, VacancyService vacancyService) {
         setUpUI();
+        this.entityFactory = entityFactory;
+        this.requirementsService = requirementsService;
+        this.responsibilitiesService = responsibilitiesService;
+        this.sessionService = sessionService;
+        this.vacancyService = vacancyService;
     }
 
     private void setUpUI() {
         ComboBox<String> comboBox;
-        TextField  title;
+        TextField title;
         TextArea textArea;
         TextField location;
         TextField requirements;
