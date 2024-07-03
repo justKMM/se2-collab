@@ -18,11 +18,11 @@ class ResponsibilitiesIDTest {
     void setUp() {
         vacancy1 = new Vacancy();
         vacancy1.setVacancyID(1L);
-        vacancy1.setTitel("Software Tester");
+        vacancy1.setTitle("Software Tester");
 
         vacancy2 = new Vacancy();
         vacancy2.setVacancyID(2L);
-        vacancy2.setTitel("Tester");
+        vacancy2.setTitle("Tester");
 
         responsibilitiesID1 = new ResponsibilitiesID();
         responsibilitiesID1.setVacancy(vacancy1);
