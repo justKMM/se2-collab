@@ -54,8 +54,12 @@ class FirstNameTest {
     void testEquals() {
         assertEquals(firstName, firstName);
         assertEquals(firstName1, firstName1);
+        assertEquals(firstName2, firstName2);
         assertEquals(firstName1, firstName2);
+        assertNotEquals(firstName, firstName1);
         assertNotEquals(firstName, firstName2);
+        assertNotEquals(firstName, null);
+        assertNotEquals(firstName, "lol");
     }
 
     @Test

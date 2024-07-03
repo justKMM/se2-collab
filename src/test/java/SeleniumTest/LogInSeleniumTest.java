@@ -59,12 +59,10 @@ public class LogInSeleniumTest {
     }
 
 
-    /*
         //Dependency für pom file
-        <dependency>
+          /*<dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>4.4.0</version>
-        </dependency>
-    */
+        </dependency>*/
 //}

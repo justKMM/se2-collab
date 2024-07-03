@@ -19,14 +19,19 @@ class BusinessDTOTest {
 
     @BeforeEach
     void setUp() {
-        businessDTO = new BusinessDTO(new Business());
-        userDTO = new UserDTO(new User());
+        User user = new User();
+        user.setUserID(1L);
+        user.setUsername("testuser");
+
+        userDTO = new UserDTO(user);
+        Business business = new Business();
+        business.setUser(user);
+        this.businessDTO = new BusinessDTO(business);
     }
 
     @Test
     void testGettersAndSetters() {
         assertEquals(0, businessDTO.getBusinessID());
-        assertNull(businessDTO.getUser());
         assertNull(businessDTO.getName());
 
         businessDTO.setBusinessID(1L);
