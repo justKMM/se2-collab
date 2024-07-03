@@ -1,7 +1,4 @@
-/*
-
 package SeleniumTest;
-
 
 import hbrs.se2.collhbrs.CollhbrsApplication;
 import org.junit.AfterClass;
@@ -11,17 +8,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+//Je nach Driver noch Import nötig
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest//(classes = CollhbrsApplication.class)
+import java.time.Duration;
+
+@SpringBootTest(classes = CollhbrsApplication.class)
 public class LogInSeleniumTest {
 
     private static WebDriver driver;
 
     @BeforeAll
     public static void setUp() {
-        // Setze den Pfad zum ChromeDriver
+
+        //Setze den Pfad zum Driver deiner Wahl
         //System.setProperty(richtigen driver auswählen, richtigen Pfad auswählen);
         //System.setProperty(".driver", "C:\\");
         System.setProperty("webdriver.gecko.driver", "E:\\geckodriver\\geckodriver.exe");
@@ -38,17 +40,21 @@ public class LogInSeleniumTest {
     @Test
     public void testLogIn() {
 
-        //Username
-        driver.findElement(By.xpath("//*[@id=\"input-vaadin-text-field-6\"]/input")).sendKeys("test");
-        //Email
-        driver.findElement(By.xpath("//*[@id=\"input-vaadin-password-field-7\"]/input")).sendKeys("test");
-        //SignUp Button
-        driver.findElement(By.xpath("//*[@id=\"vaadin-button-container\"]")).click();
+        //Username Feld auswählen
+        driver.findElement(By.xpath("//*[@id=\"input-vaadin-text-field-6\"]")).sendKeys("selenium");
+        //Password Feld auswählen
+        driver.findElement(By.xpath("//*[@id=\"input-vaadin-password-field-7\"]")).sendKeys("Wasdwasd123");
+        //SignIn Button klicken
+        driver.findElement(By.xpath("/html/body/div[1]/flow-container-root-2521314/vaadin-vertical-layout/vaadin-vertical-layout/vaadin-login-form/vaadin-login-form-wrapper/vaadin-button[1]")).click();
+        //Logout Button klicken
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Wait mit 10sec timer
+        //Warten bis clickable ist
+        WebElement logoutButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/flow-container-root-2521314/vaadin-app-layout/vaadin-horizontal-layout/vaadin-horizontal-layout/vaadin-menu-bar/vaadin-menu-bar-button[1]")));
+        //Button klicken
+        logoutButton.click();
 
-        // Überprüfe, ob die Registrierung erfolgreich war
-        //WebElement successMessage = driver.findElement(By.id("successMessage"));
-        //assertTrue(successMessage.isDisplayed(), "Die Registrierung war nicht erfolgreich.");
-
+        //Logout Button path
+        //driver.findElement(By.xpath("/html/body/div[1]/flow-container-root-2521314/vaadin-app-layout/vaadin-horizontal-layout/vaadin-horizontal-layout/vaadin-menu-bar/vaadin-menu-bar-button[1]")).click();
 
     }
 
@@ -57,12 +63,4 @@ public class LogInSeleniumTest {
         // Schließe den Browser nach dem Test
         driver.quit();
     }
-
-
-        //Dependency für pom file
-          /*<dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>4.4.0</version>
-        </dependency>*/
-//}
+}
