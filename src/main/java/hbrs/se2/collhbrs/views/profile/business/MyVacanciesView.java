@@ -132,7 +132,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
             }
 
             VerticalLayout card = createVacancyCard(
-                    vacancy.getTitel(),
+                    vacancy.getTitle(),
                     vacancy.getLocation(),
                     vacancy.getDescription(),
                     vacancy.getPublishDate(),

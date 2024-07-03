@@ -26,17 +26,17 @@ class VacancyDTOTest {
     void testGettersAndSetters() {
         assertEquals(0, vacancyDTO.getVacancyID());
         assertNull(vacancyDTO.getBusiness());
-        assertNull(vacancyDTO.getTitel());
+        assertNull(vacancyDTO.getTitle());
         assertNull(vacancyDTO.getDescription());
 
         vacancyDTO.setVacancyID(1L);
         vacancyDTO.setBusiness(business);
-        vacancyDTO.setTitel("Software Tester");
+        vacancyDTO.setTitle("Software Tester");
         vacancyDTO.setDescription("Test software.");
 
         assertEquals(1L, vacancyDTO.getVacancyID());
         assertEquals(business, vacancyDTO.getBusiness());
-        assertEquals("Software Tester", vacancyDTO.getTitel());
+        assertEquals("Software Tester", vacancyDTO.getTitle());
         assertEquals("Test software.", vacancyDTO.getDescription());
     }
 }

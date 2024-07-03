@@ -22,7 +22,7 @@ public class Vacancy implements Serializable {
     private Business business;
     @Basic
     @Column(name = "titel", length = 256, nullable = false)
-    private String titel;
+    private String title;
     @Basic
     @Column(name = "beschreibung", length = 6400, nullable = false)
     private String description;
@@ -44,7 +44,7 @@ public class Vacancy implements Serializable {
         Vacancy vacancy = (Vacancy) o;
         return vacancyID == vacancy.vacancyID &&
                 Objects.equals(business, vacancy.business) &&
-                Objects.equals(titel, vacancy.titel) &&
+                Objects.equals(title, vacancy.title) &&
                 Objects.equals(description, vacancy.description) &&
                 Objects.equals(location, vacancy.location) &&
                 Objects.equals(publishDate, vacancy.publishDate);
@@ -52,7 +52,7 @@ public class Vacancy implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(vacancyID, business, titel, description, location, publishDate);
+        return Objects.hash(vacancyID, business, title, description, location, publishDate);
     }
 
 }

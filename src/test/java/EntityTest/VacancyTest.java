@@ -23,13 +23,13 @@ class VacancyTest {
         vacancy = new Vacancy();
         vacancy.setVacancyID(1L);
         vacancy.setBusiness(business);
-        vacancy.setTitel("Shk");
+        vacancy.setTitle("Shk");
         vacancy.setDescription("Unterstützung bei der DB");
 
         vacancy1 = new Vacancy();
         vacancy1.setVacancyID(2L);
         vacancy1.setBusiness(business);
-        vacancy1.setTitel("Shk1");
+        vacancy1.setTitle("Shk1");
         vacancy1.setDescription("Unterstützung bei der DB1");
     }
 
@@ -37,7 +37,7 @@ class VacancyTest {
     void testGettersAndSetters() {
         assertEquals(1L, vacancy.getVacancyID());
         assertEquals(business, vacancy.getBusiness());
-        assertEquals("Shk", vacancy.getTitel());
+        assertEquals("Shk", vacancy.getTitle());
         assertEquals("Unterstützung bei der DB", vacancy.getDescription());
 
 
@@ -48,6 +48,5 @@ class VacancyTest {
         assertEquals(vacancy, vacancy);
         assertEquals(vacancy, vacancy);
         assertNotEquals(vacancy, vacancy1);
-
     }
 }
