@@ -67,7 +67,7 @@ public class EntityFactory {
 
     public Vacancy createVacancy(String titel, String location, String description, Business business, Date date) {
         Vacancy vacancy = new Vacancy();
-        vacancy.setTitel(titel);
+        vacancy.setTitle(titel);
         vacancy.setLocation(location);
         vacancy.setDescription(description);
         vacancy.setBusiness(business);
