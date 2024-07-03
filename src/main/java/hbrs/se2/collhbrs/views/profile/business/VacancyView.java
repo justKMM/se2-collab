@@ -58,13 +58,15 @@ public class VacancyView extends Composite<VerticalLayout> {
 
     private void setUpUI() {
         ComboBox<String> comboBox;
+        TextField  title;
         TextArea textArea;
         TextField location;
         TextField requirements;
         TextField responsibilities;
         VerticalLayout layoutColumn2 = new VerticalLayout();
         H3 h3 = new H3("Add Vacancy");
-        comboBox = new ComboBox<>("Titel");
+        comboBox = new ComboBox<>("Type");
+        title = new TextField("Title");
         comboBox.setItems("Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
                 "Masterprojekt", "Büro", "Homeoffice");
         location = new TextField("Location");
@@ -146,7 +148,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
 
         save.addClickListener(event -> {
-            Vacancy vacancy = entityFactory.createVacancy(comboBox.getValue(), location.getValue(),
+            Vacancy vacancy = entityFactory.createVacancy(title.getValue(), comboBox.getValue(), location.getValue(),
                     textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(),
                     Date.valueOf(LocalDate.now()));
             vacancyService.saveVacancy(vacancy);
@@ -174,6 +176,7 @@ public class VacancyView extends Composite<VerticalLayout> {
 
         cancel.addClickListener(event -> {
             comboBox.clear();
+            title.clear();
             location.clear();
             requirements.clear();
             responsibilities.clear();
@@ -192,7 +195,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         getContent().setAlignItems(FlexComponent.Alignment.CENTER);
 
         getContent().add(layoutColumn2);
-        layoutColumn2.add(h3, comboBox, location, formLayout2Col, textArea, layoutRow);
+        layoutColumn2.add(h3, comboBox, title, location, formLayout2Col, textArea, layoutRow);
 
         updateRequirementsList(requirementItems);
         updateResponsibilitiesList(responsibilityItems);

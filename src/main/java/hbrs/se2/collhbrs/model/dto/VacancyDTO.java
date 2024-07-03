@@ -14,6 +14,7 @@ public class VacancyDTO {
     private long vacancyID;
     private Business business;
     private String title;
+    private String employmentType;
     private String location;
     private String description;
     private Date publishDate;
@@ -22,6 +23,7 @@ public class VacancyDTO {
         this.vacancyID = entity.getVacancyID();
         this.business = entity.getBusiness();
         this.title = entity.getTitle();
+        this.employmentType = entity.getEmploymentType();
         this.location = entity.getLocation();
         this.publishDate = entity.getPublishDate();
         this.description = entity.getDescription();
@@ -32,6 +34,7 @@ public class VacancyDTO {
         vacancy.setVacancyID(vacancyID);
         vacancy.setBusiness(business);
         vacancy.setTitle(title);
+        vacancy.setEmploymentType(employmentType);
         vacancy.setDescription(description);
         return vacancy;
     }
