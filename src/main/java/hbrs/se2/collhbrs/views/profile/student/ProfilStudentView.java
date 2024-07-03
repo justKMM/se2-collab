@@ -99,9 +99,13 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
         layoutColumn4.add(upload);
 
-        String base64Image = profileService.getProfileImage(sessionService.getCurrentStudent().getProfile().getProfileID());
-        if (base64Image != null) {
-            avatar.setImage("data:image/jpeg;base64," + base64Image);
+        try {
+            String base64Image = profileService.getProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID());
+            if (base64Image != null) {
+                avatar.setImage("data:image/jpeg;base64," + base64Image);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
 
