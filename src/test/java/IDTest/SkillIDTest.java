@@ -58,6 +58,10 @@ class SkillIDTest {
     void testEqualsDifferentValues() {
         assertNotEquals(skillID1, skillID3);
     }
+    @Test
+    void testEqualsDifferentStudentValues() {
+        assertNotEquals(skillID1.getStudent(), skillID3.getStudent());
+    }
 
     @Test
     void testEqualsNull() {
