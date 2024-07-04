@@ -12,7 +12,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.virtuallist.VirtualList;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.dom.ElementFactory;
@@ -51,13 +50,7 @@ public class SearchView extends Composite<VerticalLayout> {
 
     private final String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
             "Masterprojekt", "Büro", "Homeoffice"};
-
-    @Autowired
-    SessionService sessionService;
-
-
-
-    private ComponentRenderer<Component, Vacancy> VacancyCardRenderer = new ComponentRenderer<>(
+    private final ComponentRenderer<Component, Vacancy> VacancyCardRenderer = new ComponentRenderer<>(
             vacancy -> {
                 HorizontalLayout cardLayout = new HorizontalLayout();
                 cardLayout.setMargin(true);
@@ -84,7 +77,8 @@ public class SearchView extends Composite<VerticalLayout> {
                 cardLayout.add(vacancyLayout);
                 return cardLayout;
             });
-
+    @Autowired
+    SessionService sessionService;
 
 
     public SearchView(VacancyService vacancyService) {
@@ -94,11 +88,11 @@ public class SearchView extends Composite<VerticalLayout> {
         virtualList.setItems(vacancyList);
 
 
-        buttonSearch.addClickListener(event ->{
-            if(comboBoxEmploymenttype.isEmpty() && comboBoxDescription.isEmpty()){
+        buttonSearch.addClickListener(event -> {
+            if (comboBoxEmploymenttype.isEmpty() && comboBoxDescription.isEmpty()) {
                 virtualList.setItems(vacancyList);
             }
-            if(!comboBoxEmploymenttype.isEmpty() && comboBoxDescription.isEmpty()) {
+            if (!comboBoxEmploymenttype.isEmpty() && comboBoxDescription.isEmpty()) {
                 for (String item : comboBoxItems) {
                     if (comboBoxEmploymenttype.getValue().equals(item)) {
                         List<Vacancy> vacancyList1 = vacancyService.getVacanciesByEmploymentType(comboBoxEmploymenttype.getValue());
@@ -108,9 +102,9 @@ public class SearchView extends Composite<VerticalLayout> {
                 }
             }
 
-            if(!comboBoxDescription.isEmpty()){
-                for(Vacancy vacancy: vacancyList) {
-                    if (comboBoxDescription.getValue().equals(vacancy.getTitle())){
+            if (!comboBoxDescription.isEmpty()) {
+                for (Vacancy vacancy : vacancyList) {
+                    if (comboBoxDescription.getValue().equals(vacancy.getTitle())) {
                         List<Vacancy> vacancyList1 = vacancyService.getVacanciesByTitle(comboBoxDescription.getValue());
                         virtualList.setItems(vacancyList1);
                         break;
@@ -118,7 +112,6 @@ public class SearchView extends Composite<VerticalLayout> {
                 }
             }
         });
-
 
 
         virtualList.setRenderer(VacancyCardRenderer);
@@ -129,8 +122,8 @@ public class SearchView extends Composite<VerticalLayout> {
         getContent().add(virtualList);
 
     }
-    private void setButtons(){
 
+    private void setButtons() {
 
 
         bewerben_button.addClickListener(event -> {

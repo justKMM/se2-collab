@@ -21,4 +21,5 @@ public class ProfilStudentView extends ProfileBaseView {
     protected void customizeView() {
         // Add student-specific components and logic here
     }
+
 }

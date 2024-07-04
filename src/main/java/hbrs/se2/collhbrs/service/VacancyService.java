@@ -31,9 +31,9 @@ public class VacancyService {
         return vacancyRepository.findVacancyByBusinessBusinessID(businessId);
     }
 
-    public void createVacancy(Business business,String employmenttype, String title, String description, String location, Date datePublish){
+    public void createVacancy(Business business, String employmenttype, String title, String description, String location, Date datePublish) {
 
-        Vacancy vacancy = entityFactory.createVacancy(employmenttype, title, location ,description, business ,datePublish);
+        Vacancy vacancy = entityFactory.createVacancy(employmenttype, title, location, description, business, datePublish);
         vacancyRepository.save(vacancy);
     }
 
@@ -41,15 +41,15 @@ public class VacancyService {
         return vacancyRepository.findAll();
     }
 
-    public List<Vacancy> getVacanciesByEmploymentType(String employmenttype){
+    public List<Vacancy> getVacanciesByEmploymentType(String employmenttype) {
         return vacancyRepository.findVacanciesByEmploymentType(employmenttype);
     }
 
-    public List<Vacancy> getVacanciesByTitle(String title){
+    public List<Vacancy> getVacanciesByTitle(String title) {
         return vacancyRepository.findVacanciesByTitle(title);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return vacancyRepository.count() == 0;
     }
 }
