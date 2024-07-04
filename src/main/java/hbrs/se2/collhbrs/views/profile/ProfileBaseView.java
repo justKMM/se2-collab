@@ -160,7 +160,6 @@ public abstract class ProfileBaseView extends Composite<Div> {
             avatar.setImage("data:image/jpeg;base64," + base64Image);
         } catch (Exception e) {
             Notification.show("Failed to upload image");
-            e.printStackTrace();
         }
     }
 
@@ -177,7 +176,6 @@ public abstract class ProfileBaseView extends Composite<Div> {
             }
         } catch (Exception e) {
             Notification.show("Failed to load profile image");
-            e.printStackTrace();
         }
     }
 
