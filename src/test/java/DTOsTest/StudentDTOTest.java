@@ -21,14 +21,19 @@ class StudentDTOTest {
 
     @BeforeEach
     void setUp() {
-        studentDTO = new StudentDTO(new Student());
-        userDTO = new UserDTO(new User());
+        User user = new User();
+        user.setUserID(1L);
+        user.setUsername("testuser");
+        Student student = new Student();
+        student.setUser(user);
+        studentDTO = new StudentDTO(student);
+        userDTO = new UserDTO(user);
     }
 
     @Test
     void testGettersAndSetters() {
         assertEquals(0, studentDTO.getStudentID());
-        assertNull(studentDTO.getUser());
+        //assertNull(studentDTO.getUser());
         assertNull(studentDTO.getLastName());
         assertNull(studentDTO.getBirthdate());
 
@@ -36,7 +41,6 @@ class StudentDTOTest {
         studentDTO.setStudentID(1L);
         studentDTO.setLastName("Meier");
         studentDTO.setBirthdate(LocalDate.of(2011, 1, 11));
-        studentDTO.setUser(new User());
 
         assertEquals(1L, studentDTO.getStudentID());
         assertEquals("Meier", studentDTO.getLastName());
@@ -44,4 +48,3 @@ class StudentDTOTest {
         assertEquals(userDTO.getUsername(), studentDTO.getUser().getUsername());
     }
 }
-

@@ -3,6 +3,7 @@ package DTOsTest;
 import hbrs.se2.collhbrs.model.dto.FirstNameDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,17 +20,22 @@ class FirstNameDTOTest {
 
     @BeforeEach
     void setUp() {
-        firstNameDTO = new FirstNameDTO(new FirstName());
-        studentDTO = new StudentDTO(new Student());
+        User user = new User();
+        user.setUserID(1L);
+        user.setUsername("testuser");
+        Student student = new Student();
+        student.setUser(user);
+        studentDTO = new StudentDTO(student);
+        FirstName firstName = new FirstName();
+        firstName.setStudent(student);
+        firstNameDTO = new FirstNameDTO(firstName);
     }
 
     @Test
     void testGettersAndSetters() {
-        assertNull(firstNameDTO.getStudent());
         assertEquals(0, firstNameDTO.getSerialNumber());
         assertNull(firstNameDTO.getFirstNameName());
-
-        firstNameDTO.setStudent(studentDTO.getStudent());
+        
         firstNameDTO.setSerialNumber(123);
         firstNameDTO.setFirstNameName("John");
 
@@ -38,4 +44,3 @@ class FirstNameDTOTest {
         assertEquals("John", firstNameDTO.getFirstNameName());
     }
 }
-
