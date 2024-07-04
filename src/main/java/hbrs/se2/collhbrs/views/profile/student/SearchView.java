@@ -50,11 +50,6 @@ public class SearchView extends Composite<VerticalLayout> {
 
     private final String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
             "Masterprojekt", "Büro", "Homeoffice"};
-
-    @Autowired
-    SessionService sessionService;
-
-
     private final ComponentRenderer<Component, Vacancy> VacancyCardRenderer = new ComponentRenderer<>(
             vacancy -> {
                 HorizontalLayout cardLayout = new HorizontalLayout();
@@ -82,6 +77,8 @@ public class SearchView extends Composite<VerticalLayout> {
                 cardLayout.add(vacancyLayout);
                 return cardLayout;
             });
+    @Autowired
+    SessionService sessionService;
 
 
     public SearchView(VacancyService vacancyService) {

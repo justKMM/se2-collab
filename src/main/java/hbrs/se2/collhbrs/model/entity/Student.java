@@ -26,6 +26,9 @@ public class Student implements Serializable {
     @Basic
     @Column(name = "geburtsdatum")
     private LocalDate birthdate;
+    @Basic
+    @Column(name = "lebenslauf", columnDefinition = "TEXT")
+    private String resume;
 
 
     @Override

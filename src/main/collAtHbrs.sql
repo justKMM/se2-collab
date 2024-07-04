@@ -103,6 +103,7 @@ create table public.Student
     BenutzerID   SERIAL    not null,
     Nachname     char(128) not null,
     Geburtsdatum date,
+    Lebenslauf TEXT,
     constraint pk_Student primary key (StudentID),
     constraint uk_Student_BenutzerID unique (BenutzerID)
 );
