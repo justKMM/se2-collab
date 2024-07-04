@@ -41,6 +41,14 @@ public class VacancyService {
         return vacancyRepository.findAll();
     }
 
+    public List<Vacancy> getVacanciesByEmploymentType(String employmenttype){
+        return vacancyRepository.findVacanciesByEmploymentType(employmenttype);
+    }
+
+    public List<Vacancy> getVacanciesByTitle(String title){
+        return vacancyRepository.findVacanciesByTitle(title);
+    }
+
     public boolean isEmpty(){
         return vacancyRepository.count() == 0;
     }

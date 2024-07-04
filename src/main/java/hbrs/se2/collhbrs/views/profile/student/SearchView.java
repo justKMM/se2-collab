@@ -8,7 +8,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.Details;
-import com.vaadin.flow.component.html.DescriptionList;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,7 +18,6 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.service.VacancyService;
@@ -29,7 +27,6 @@ import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @CssImport("./styles/index.css")
@@ -45,9 +42,12 @@ public class SearchView extends Composite<VerticalLayout> {
 
 
     private final HorizontalLayout layoutRow = new HorizontalLayout();
-    private final ComboBox<String> comboBox = new ComboBox<>();
-    private final TextField textField = new TextField();
+    private final ComboBox<String> comboBoxEmploymenttype = new ComboBox<>();
+    // private final TextField description_textfield = new TextField();
+    private final ComboBox<String> comboBoxDescription = new ComboBox<>();
     private final Button buttonSearch = new Button("Search");
+    private final Button bewerben_button = new Button("Merken");
+    private final Button merke_button = new Button("Bewerben");
 
     private final String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
             "Masterprojekt", "Büro", "Homeoffice"};
@@ -55,8 +55,7 @@ public class SearchView extends Composite<VerticalLayout> {
     @Autowired
     SessionService sessionService;
 
-    Button bewerben_button = new Button("Merken");
-    Button merke_button = new Button("Bewerben");
+
 
     private ComponentRenderer<Component, Vacancy> VacancyCardRenderer = new ComponentRenderer<>(
             vacancy -> {
@@ -68,7 +67,6 @@ public class SearchView extends Composite<VerticalLayout> {
                 vacancyLayout.setSpacing(false);
                 vacancyLayout.getElement().appendChild(ElementFactory.createStrong(vacancy.getTitle()));
                 vacancyLayout.add(new Div(new Text(vacancy.getEmploymentType())));
-
                 VerticalLayout infoLayout = new VerticalLayout();
                 infoLayout.setSpacing(false);
                 infoLayout.setSpacing(false);
@@ -76,14 +74,14 @@ public class SearchView extends Composite<VerticalLayout> {
                 infoLayout.add(new Div("Description: " + vacancy.getDescription()));
                 infoLayout.add(new Div(new Text("Ort: " + vacancy.getLocation())));
                 infoLayout.add(new Div(new Text("Publishing Date: " + vacancy.getPublishDate().toString())));
-                // infoLayout.add(new Div(bewerben_button, merke_button));
-                // HorizontalLayout h1 = new HorizontalLayout(bewerben_button, merke_button);
-                // infoLayout.add(new Div(new HorizontalLayout(bewerben_button, merke_button)));
+
 
                 vacancyLayout.add(new Details("Description", infoLayout));
+
                 HorizontalLayout h1 = new HorizontalLayout(bewerben_button, merke_button);
 
-                cardLayout.add(vacancyLayout , h1);
+
+                cardLayout.add(vacancyLayout);
                 return cardLayout;
             });
 
@@ -94,21 +92,46 @@ public class SearchView extends Composite<VerticalLayout> {
         VirtualList<Vacancy> virtualList = new VirtualList<>();
 
         virtualList.setItems(vacancyList);
-        virtualList.setRenderer(VacancyCardRenderer);
 
+
+        buttonSearch.addClickListener(event ->{
+            if(comboBoxEmploymenttype.isEmpty() && comboBoxDescription.isEmpty()){
+                virtualList.setItems(vacancyList);
+            }
+            if(!comboBoxEmploymenttype.isEmpty() && comboBoxDescription.isEmpty()) {
+                for (String item : comboBoxItems) {
+                    if (comboBoxEmploymenttype.getValue().equals(item)) {
+                        List<Vacancy> vacancyList1 = vacancyService.getVacanciesByEmploymentType(comboBoxEmploymenttype.getValue());
+                        virtualList.setItems(vacancyList1);
+                        break;
+                    }
+                }
+            }
+
+            if(!comboBoxDescription.isEmpty()){
+                for(Vacancy vacancy: vacancyList) {
+                    if (comboBoxDescription.getValue().equals(vacancy.getTitle())){
+                        List<Vacancy> vacancyList1 = vacancyService.getVacanciesByTitle(comboBoxDescription.getValue());
+                        virtualList.setItems(vacancyList1);
+                        break;
+                    }
+                }
+            }
+        });
+
+
+
+        virtualList.setRenderer(VacancyCardRenderer);
         // setButtons();
         setLayouts();
-        setComboBoxSampleData(comboBox);
+        setComboBoxSampleData(comboBoxEmploymenttype);
 
         getContent().add(virtualList);
 
     }
-
     private void setButtons(){
 
-        buttonSearch.addClickListener(event ->{
 
-        });
 
         bewerben_button.addClickListener(event -> {
 
@@ -121,6 +144,7 @@ public class SearchView extends Composite<VerticalLayout> {
 
     private void setComboBoxSampleData(ComboBox<String> comboBox) {
         comboBox.setItems(comboBoxItems);
+        comboBox.setAllowCustomValue(false);
     }
 
 
@@ -138,23 +162,23 @@ public class SearchView extends Composite<VerticalLayout> {
         layoutRow.setHeight(MIN_CONTENT);
         layoutRow.getStyle().set(CENTER, "1");
         layoutRow.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, comboBox);
-        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, textField);
+        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, comboBoxEmploymenttype);
+        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, comboBoxDescription);
         layoutRow.setAlignSelf(FlexComponent.Alignment.END, buttonSearch);
 
-        comboBox.setLabel("Jobtitel");
-        comboBox.setWidth(PX200);
+        comboBoxEmploymenttype.setLabel("Jobtitel");
+        comboBoxEmploymenttype.setWidth(PX200);
 
-        textField.setLabel("Job beschreibung");
-        textField.setWidth(PX400);
+        comboBoxDescription.setLabel("Job beschreibung");
+        comboBoxDescription.setWidth(PX400);
 
 
         buttonSearch.setWidth(MIN_CONTENT);
         buttonSearch.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         getContent().add(layoutRow);
-        layoutRow.add(comboBox);
-        layoutRow.add(textField);
+        layoutRow.add(comboBoxEmploymenttype);
+        layoutRow.add(comboBoxDescription);
         layoutRow.add(buttonSearch);
     }
 }
