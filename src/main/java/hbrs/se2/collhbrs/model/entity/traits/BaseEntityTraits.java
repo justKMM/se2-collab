@@ -26,4 +26,5 @@ public abstract class BaseEntityTraits<T, ID> extends BaseTraits implements Seri
     }
 
     public abstract ID getId();
+
 }
