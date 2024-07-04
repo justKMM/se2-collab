@@ -8,8 +8,10 @@ import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+
 @Service
-public class SessionService {
+public class SessionService implements Serializable {
 
     final
     SecurityService securityService;

@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-//Je nach Driver noch Import nötig
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +36,12 @@ public class LogInSeleniumTest {
 
     }
 
+    @AfterClass
+    public static void tearDown() {
+        // Schließe den Browser nach dem Test
+        driver.quit();
+    }
+
     @Test
     public void testLogIn() {
 
@@ -56,11 +61,5 @@ public class LogInSeleniumTest {
         //Logout Button path
         //driver.findElement(By.xpath("/html/body/div[1]/flow-container-root-2521314/vaadin-app-layout/vaadin-horizontal-layout/vaadin-horizontal-layout/vaadin-menu-bar/vaadin-menu-bar-button[1]")).click();
 
-    }
-
-    @AfterClass
-    public static void tearDown () {
-        // Schließe den Browser nach dem Test
-        driver.quit();
     }
 }

@@ -2,25 +2,22 @@ package IDTest;
 
 import hbrs.se2.collhbrs.model.entity.Student;
 import hbrs.se2.collhbrs.model.entity.ids.SkillID;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class SkillIDTest {
+class SkillIDTest extends GenericIDTest {
     private SkillID skillID1;
     private SkillID skillID2;
     private SkillID skillID3;
-    private Student student1;
-    private Student student2;
 
     @BeforeEach
     void setUp() {
-        student1 = new Student();
+        Student student1 = new Student();
         student1.setStudentID(1L);
         student1.setLastName("Tester");
 
-        student2 = new Student();
+        Student student2 = new Student();
         student2.setStudentID(2L);
         student2.setLastName("Test");
 
@@ -36,51 +33,44 @@ class SkillIDTest {
         skillID3.setStudent(student2);
         skillID3.setSerialNumber(67890);
     }
-    @Test
-    void gettersAndSetters(){
-        assertEquals("Tester", student1.getLastName());
-        assertEquals(1L, student1.getStudentID());
-        assertEquals("Test", student2.getLastName());
-        assertEquals(2L, student2.getStudentID());
-    }
 
     @Test
     void testEqualsSameObject() {
-        assertEquals(skillID1, skillID1);
+        testEqualsSameObject(skillID1);
     }
 
     @Test
     void testEqualsSameValues() {
-        assertEquals(skillID1, skillID2);
+        testEqualsSameValues(skillID1, skillID2);
     }
 
     @Test
     void testEqualsDifferentValues() {
-        assertNotEquals(skillID1, skillID3);
+        testEqualsDifferentValues(skillID1, skillID3);
     }
+
     @Test
     void testEqualsDifferentStudentValues() {
-        assertNotEquals(skillID1.getStudent(), skillID3.getStudent());
+        Assertions.assertNotEquals(skillID1.getStudent(), skillID3.getStudent());
     }
 
     @Test
     void testEqualsNull() {
-        assertNotEquals(skillID1, null);
+        testEqualsNull(skillID1);
     }
 
     @Test
     void testEqualsDifferentClass() {
-        assertNotEquals(skillID1, new Object());
+        testEqualsDifferentClass(skillID1, new Object());
     }
 
     @Test
     void testHashCodeSameValues() {
-        assertEquals(skillID1.hashCode(), skillID2.hashCode());
+        testHashCodeSameValues(skillID1, skillID2);
     }
 
     @Test
     void testHashCodeDifferentValues() {
-        assertNotEquals(skillID1.hashCode(), skillID3.hashCode());
+        testHashCodeDifferentValues(skillID1, skillID3);
     }
 }
-

@@ -1,7 +1,7 @@
 package hbrs.se2.collhbrs.model.dto;
 
-import hbrs.se2.collhbrs.model.entity.FirstName;
 import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import lombok.Getter;
 import lombok.Setter;
 

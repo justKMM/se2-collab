@@ -6,11 +6,12 @@ import hbrs.se2.collhbrs.repository.ApplicationRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ManageApplicationService {
+public class ManageApplicationService implements Serializable {
 
     private final ApplicationRepository repository;
 
