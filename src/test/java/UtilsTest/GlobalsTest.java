@@ -9,12 +9,13 @@ class GlobalsTest {
 
     @Test
     void testPages() {
-        assertEquals("main", Globals.Pages.MAIN);
+        assertEquals("", Globals.Pages.MAIN);
+        assertEquals("main/", Globals.Pages.APP);
         assertEquals("reminder", Globals.Pages.REMINDER);
-        assertEquals("", Globals.Pages.LOGIN);
-        assertEquals("forgot-password", Globals.Pages.FORGOT_PASSWORD);
+        assertEquals("login", Globals.Pages.LOGIN);
+        assertEquals("forgot/password", Globals.Pages.FORGOT_PASSWORD);
         assertEquals("signup", Globals.Pages.SIGNUP);
-        assertEquals("main/student/profile-page", Globals.Pages.PROFIL_STUDENT);
+        assertEquals("student/profile", Globals.Pages.PROFIL_STUDENT);
     }
 
     @Test

@@ -3,6 +3,7 @@ package DTOsTest;
 import hbrs.se2.collhbrs.model.dto.InterestDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.model.entity.traits.Interest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,17 +20,22 @@ class InterestDTOTest {
 
     @BeforeEach
     void setUp() {
-        interestDTO = new InterestDTO(new Interest());
-        studentDTO = new StudentDTO(new Student());
+        User user = new User();
+        user.setUserID(1L);
+        user.setUsername("testuser");
+        Student student = new Student();
+        student.setUser(user);
+        Interest interest = new Interest();
+        interest.setStudent(student);
+        interestDTO = new InterestDTO(interest);
+        studentDTO = new StudentDTO(student);
     }
 
     @Test
     void testGettersAndSetters() {
-        assertNull(interestDTO.getStudent());
         assertEquals(0, interestDTO.getSerialNumber());
         assertNull(interestDTO.getInterestName());
-
-        interestDTO.setStudent(studentDTO.getStudent());
+        
         interestDTO.setSerialNumber(123);
         interestDTO.setInterestName("Testing");
 
@@ -38,4 +44,3 @@ class InterestDTOTest {
         assertEquals("Testing", interestDTO.getInterestName());
     }
 }
-

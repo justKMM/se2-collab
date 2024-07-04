@@ -1,5 +1,6 @@
 package UtilsTest;
 
+import com.vaadin.flow.component.UI;
 import hbrs.se2.collhbrs.util.RegisterUtils;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class RegisterUtilsTest {
         assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user.name@example.com", TESTPW, TESTPW));
         assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user123@example.co.uk", TESTPW, TESTPW));
         assertTrue(RegisterUtils.validateInput(USERNAME, "John", "Doe", "user_name@example-domain.com", TESTPW, TESTPW));
-    }
+    } //funktioniert aktuell nicht, aufgrund von UI-Error
 
     @Test
     public void testValidateInput_InvalidFirstName() {
