@@ -1,6 +1,7 @@
 package hbrs.se2.collhbrs.util;
 
 import hbrs.se2.collhbrs.model.entity.*;
+import hbrs.se2.collhbrs.model.entity.traits.*;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
