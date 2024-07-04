@@ -23,23 +23,23 @@ class DegreeProgrammTest {
         degreeProgramm = new DegreeProgramm();
         degreeProgramm.setStudent(student);
         degreeProgramm.setSerialNumber(100);
-        degreeProgramm.setDegreeProgrammName("BWI");
+        degreeProgramm.setDegreeProgramName("BWI");
 
         degreeProgramm1 = new DegreeProgramm();
         degreeProgramm1.setStudent(student);
         degreeProgramm1.setSerialNumber(101);
-        degreeProgramm1.setDegreeProgrammName("BI");
+        degreeProgramm1.setDegreeProgramName("BI");
     }
 
     @Test
     void testGettersAndSetters() {
         assertEquals(student, degreeProgramm.getStudent());
         assertEquals(100, degreeProgramm.getSerialNumber());
-        assertEquals("BWI", degreeProgramm.getDegreeProgrammName());
+        assertEquals("BWI", degreeProgramm.getDegreeProgramName());
 
         assertEquals(student, degreeProgramm1.getStudent());
         assertEquals(101, degreeProgramm1.getSerialNumber());
-        assertEquals("BI", degreeProgramm1.getDegreeProgrammName());
+        assertEquals("BI", degreeProgramm1.getDegreeProgramName());
     }
 
     @Test

@@ -6,23 +6,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
 @Table(name = "anforderungen", schema = "public")
 @IdClass(RequirementsID.class)
-public class Requirements extends BaseTraits implements Serializable {
-    @Id
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "StellenausschreibungID", nullable = false)
-    private Vacancy vacancy;
+public class Requirements extends BaseEntityTraits<Vacancy, RequirementsID> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "laufende_nummer", length = 2, nullable = false)
-    private int serialNumber;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "stellenausschreibungID", nullable = false)
+    private Vacancy vacancy;
 
     @Basic
     @Column(name = "anforderungen", length = 128, nullable = false)
@@ -32,17 +26,7 @@ public class Requirements extends BaseTraits implements Serializable {
     public RequirementsID getId() {
         RequirementsID id = new RequirementsID();
         id.setVacancy(vacancy);
-        id.setSerialNumber(serialNumber);
+        id.setSerialNumber(super.getSerialNumber());
         return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }
