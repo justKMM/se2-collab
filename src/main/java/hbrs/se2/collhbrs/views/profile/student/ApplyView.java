@@ -15,5 +15,4 @@ import jakarta.annotation.security.RolesAllowed;
 public class ApplyView extends Composite<VerticalLayout> {
 
 
-
 }

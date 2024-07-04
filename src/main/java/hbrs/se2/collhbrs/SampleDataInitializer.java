@@ -1,19 +1,11 @@
 package hbrs.se2.collhbrs;
 
-import hbrs.se2.collhbrs.model.dto.BusinessDTO;
-import hbrs.se2.collhbrs.model.dto.VacancyDTO;
-import hbrs.se2.collhbrs.model.entity.Business;
-import hbrs.se2.collhbrs.model.entity.User;
-import hbrs.se2.collhbrs.repository.BusinessRepository;
-
 import hbrs.se2.collhbrs.service.RegisterService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.service.VacancyService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.sql.Date;
 
 @Profile("dev")
 @Component
