@@ -7,16 +7,14 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H6;
-import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -73,7 +71,7 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
 
 
     public ProfilStudentView(SessionService sessionService, ProfileService profileService) {
-        this.avatar.setName("Firstname Lastname"); // Warum ?
+        this.avatar.setName(sessionService.getCurrentStudent().getUsername() + sessionService.getCurrentStudent().getLastName()); // Warum ?
         this.avatar.setWidth(PX);
         this.avatar.setHeight(PX);
 
@@ -278,5 +276,109 @@ public class ProfilStudentView extends Composite<VerticalLayout> {
         layoutColumn2.add(layoutRow, layoutRow3);
         layoutColumn3.add(h1, h6, layoutRow2, buttonMailEdit, buttonMerkzettel);
         layoutColumn5.add(h13, textMedium2, buttonLebenslauf);
+    }
+
+    private void setLayoutNew(){
+        VerticalLayout layoutColumn2 = new VerticalLayout();
+        HorizontalLayout layoutRow = new HorizontalLayout();
+        Avatar avatar = new Avatar();
+        VerticalLayout layoutColumn3 = new VerticalLayout();
+        H1 h1 = new H1();
+        Paragraph textMedium = new Paragraph();
+        HorizontalLayout layoutRow2 = new HorizontalLayout();
+        H3 h3 = new H3();
+        ProgressBar progressBar = new ProgressBar();
+        Hr hr = new Hr();
+        HorizontalLayout layoutRow3 = new HorizontalLayout();
+        VerticalLayout layoutColumn4 = new VerticalLayout();
+        H2 h2 = new H2();
+        Paragraph textMedium2 = new Paragraph();
+        Paragraph textMedium3 = new Paragraph();
+        VerticalLayout layoutColumn5 = new VerticalLayout();
+        H2 h22 = new H2();
+        Button buttonPrimary = new Button();
+        Button buttonPrimary2 = new Button();
+        getContent().setHeightFull();
+        getContent().setWidthFull();
+        layoutColumn2.setWidth("100%");
+        layoutColumn2.getStyle().set("flex-grow", "1");
+        layoutRow.setWidthFull();
+        layoutColumn2.setFlexGrow(1.0, layoutRow);
+        layoutRow.addClassName(Gap.MEDIUM);
+        layoutRow.setWidth("100%");
+        layoutRow.setHeight("min-content");
+        avatar.setName("Firstname Lastname");
+        avatar.setWidth("200px");
+        avatar.setHeight("200px");
+        layoutColumn3.setHeightFull();
+        layoutRow.setFlexGrow(1.0, layoutColumn3);
+        layoutColumn3.setWidth("100%");
+        layoutColumn3.getStyle().set("flex-grow", "1");
+        h1.setText("Heading");
+        h1.setWidth("max-content");
+        textMedium.setText(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+        textMedium.setWidth("100%");
+        textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
+        layoutRow2.setWidthFull();
+        layoutColumn3.setFlexGrow(1.0, layoutRow2);
+        layoutRow2.addClassName(Gap.MEDIUM);
+        layoutRow2.setWidth("min-content");
+        layoutRow2.setHeight("min-content");
+        h3.setText("Heading");
+        h3.setWidth("max-content");
+        progressBar.setValue(0.5);
+        progressBar.setWidth("300px");
+        progressBar.setHeight("15px");
+        layoutRow3.setWidthFull();
+        getContent().setFlexGrow(1.0, layoutRow3);
+        layoutRow3.addClassName(Gap.MEDIUM);
+        layoutRow3.setWidth("100%");
+        layoutRow3.getStyle().set("flex-grow", "1");
+        layoutColumn4.setHeightFull();
+        layoutRow3.setFlexGrow(1.0, layoutColumn4);
+        layoutColumn4.setWidth("min-content");
+        layoutColumn4.getStyle().set("flex-grow", "1");
+        h2.setText("Heading");
+        h2.setWidth("max-content");
+        textMedium2.setText(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+        textMedium2.setWidth("800px");
+        textMedium2.getStyle().set("font-size", "var(--lumo-font-size-m)");
+        textMedium3.setText(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+        textMedium3.setWidth("800px");
+        textMedium3.getStyle().set("font-size", "var(--lumo-font-size-m)");
+        layoutColumn5.setHeightFull();
+        layoutRow3.setFlexGrow(1.0, layoutColumn5);
+        layoutColumn5.setWidth("100%");
+        layoutColumn5.getStyle().set("flex-grow", "1");
+        h22.setText("Heading");
+        h22.setWidth("max-content");
+        buttonPrimary.setText("Button");
+        buttonPrimary.setWidth("min-content");
+        buttonPrimary.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonPrimary2.setText("Button");
+        buttonPrimary2.setWidth("min-content");
+        buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        getContent().add(layoutColumn2);
+        layoutColumn2.add(layoutRow);
+        layoutRow.add(avatar);
+        layoutRow.add(layoutColumn3);
+        layoutColumn3.add(h1);
+        layoutColumn3.add(textMedium);
+        layoutColumn3.add(layoutRow2);
+        layoutRow2.add(h3);
+        layoutColumn3.add(progressBar);
+        layoutColumn2.add(hr);
+        getContent().add(layoutRow3);
+        layoutRow3.add(layoutColumn4);
+        layoutColumn4.add(h2);
+        layoutColumn4.add(textMedium2);
+        layoutColumn4.add(textMedium3);
+        layoutRow3.add(layoutColumn5);
+        layoutColumn5.add(h22);
+        layoutColumn5.add(buttonPrimary);
+        getContent().add(buttonPrimary2);
     }
 }

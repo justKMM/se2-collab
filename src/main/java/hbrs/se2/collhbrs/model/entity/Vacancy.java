@@ -50,6 +50,10 @@ public class Vacancy implements Serializable {
                 Objects.equals(publishDate, vacancy.publishDate);
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(vacancyID, business, title, description, location, publishDate);

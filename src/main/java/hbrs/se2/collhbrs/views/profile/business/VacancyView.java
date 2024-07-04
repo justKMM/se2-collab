@@ -52,6 +52,8 @@ public class VacancyView extends Composite<VerticalLayout> {
     private MultiSelectListBox<String> requirementsList;
     private MultiSelectListBox<String> responsibilitiesList;
 
+    private TextField title;
+
     public VacancyView() {
         setUpUI();
     }
@@ -62,12 +64,16 @@ public class VacancyView extends Composite<VerticalLayout> {
         TextField location;
         TextField requirements;
         TextField responsibilities;
+        title = new TextField();
+        title.setLabel("Title: ");
+
         VerticalLayout layoutColumn2 = new VerticalLayout();
         H3 h3 = new H3("Add Vacancy");
         comboBox = new ComboBox<>("Titel");
         comboBox.setItems("Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
                 "Masterprojekt", "Büro", "Homeoffice");
         location = new TextField("Location");
+
         FormLayout formLayout2Col = new FormLayout();
         requirements = new TextField("Requirements");
         responsibilities = new TextField("Responsibilities");
@@ -81,7 +87,9 @@ public class VacancyView extends Composite<VerticalLayout> {
         deleteResponsibilities.addThemeVariants(ButtonVariant.LUMO_ERROR);
         requirementsList = new MultiSelectListBox<>();
         responsibilitiesList = new MultiSelectListBox<>();
+
         textArea = new TextArea("Description");
+
         textArea.setWidth("100%");
         textArea.setHeight("200px");
         HorizontalLayout layoutRow = new HorizontalLayout();
@@ -102,7 +110,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         formLayout2Col.setWidth("100%");
 
         HorizontalLayout requirementsButtonsLayout = new HorizontalLayout(addRequirements, deleteRequirements);
-        VerticalLayout requirementsLayout = new VerticalLayout(requirements, requirementsButtonsLayout, requirementsList);
+        VerticalLayout requirementsLayout = new VerticalLayout(title, requirements, requirementsButtonsLayout, requirementsList);
         HorizontalLayout responsibilitiesButtonsLayout = new HorizontalLayout(addResponsibility, deleteResponsibilities);
         VerticalLayout responsibilitiesLayout = new VerticalLayout(responsibilities, responsibilitiesButtonsLayout, responsibilitiesList);
         formLayout2Col.add(requirementsLayout, responsibilitiesLayout);
@@ -146,7 +154,8 @@ public class VacancyView extends Composite<VerticalLayout> {
         layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
 
         save.addClickListener(event -> {
-            Vacancy vacancy = entityFactory.createVacancy(comboBox.getValue(), location.getValue(),
+            // not requirements
+            Vacancy vacancy = entityFactory.createVacancy(comboBox.getValue(), title.getValue(), location.getValue(),
                     textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(),
                     Date.valueOf(LocalDate.now()));
             vacancyService.saveVacancy(vacancy);

@@ -11,4 +11,5 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     List<Vacancy> findVacancByBusinessBusinessID(Long businessId);
 
     Vacancy findVacancyByBusinessBusinessID(Long businessId);
+
 }
