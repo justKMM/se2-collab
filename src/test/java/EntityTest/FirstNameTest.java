@@ -1,7 +1,8 @@
 package EntityTest;
 
-import hbrs.se2.collhbrs.model.entity.FirstName;
+
 import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -54,8 +55,12 @@ class FirstNameTest {
     void testEquals() {
         assertEquals(firstName, firstName);
         assertEquals(firstName1, firstName1);
+        assertEquals(firstName2, firstName2);
         assertEquals(firstName1, firstName2);
+        assertNotEquals(firstName, firstName1);
         assertNotEquals(firstName, firstName2);
+        assertNotEquals(firstName, null);
+        assertNotEquals(firstName, "lol");
     }
 
     @Test

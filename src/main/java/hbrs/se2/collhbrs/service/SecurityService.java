@@ -12,12 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Service
-public class SecurityService implements UserDetailsService {
+public class SecurityService implements UserDetailsService, Serializable {
 
     private final UserRepository userRepository;
 

@@ -14,7 +14,6 @@ import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = Globals.Pages.UPDATE_PASSWORD, layout = AppView.class)
 @PageTitle("Update Password")
@@ -25,19 +24,19 @@ public class UpdatePasswordView extends VerticalLayout {
     private final PasswordField newPassword = new PasswordField("New Password");
     private final PasswordField confirmPassword = new PasswordField("Confirm Password");
 
-    @Autowired
-    private LoginService loginService;
+    private final LoginService loginService;
 
-    @Autowired
-    private SessionService sessionService;
+    private final SessionService sessionService;
 
-    public UpdatePasswordView() {
+    public UpdatePasswordView(LoginService loginService, SessionService sessionService) {
         Button updateButton = new Button("Update");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         setWidthFull();
         setHeightFull();
         add(oldPassword, newPassword, confirmPassword, updateButton);
         updateButton.addClickListener(event -> updatePassword());
+        this.loginService = loginService;
+        this.sessionService = sessionService;
     }
 
     private void updatePassword() {

@@ -18,7 +18,6 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.service.LoginService;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(Globals.Pages.LOGIN)
 @CssImport("./styles/index.css")
@@ -26,13 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm loginForm;
-    @Autowired
-    private LoginService loginService;
+    private final LoginService loginService;
 
-    public LoginView() {
+    public LoginView(LoginService loginService) {
         loginForm = setUpUI();
         loginForm.addForgotPasswordListener(e -> UI.getCurrent().navigate(Globals.Pages.FORGOT_PASSWORD));
         loginForm.addLoginListener(this::handleLogin);
+        this.loginService = loginService;
     }
 
     private LoginForm setUpUI() {

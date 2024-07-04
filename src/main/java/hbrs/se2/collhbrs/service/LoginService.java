@@ -12,8 +12,10 @@ import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+
 @Service
-public class LoginService {
+public class LoginService implements Serializable {
 
     private final UserRepository userRepository;
 

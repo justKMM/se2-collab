@@ -17,9 +17,9 @@ import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.RequirmentsDTO;
 import hbrs.se2.collhbrs.model.dto.ResponsibilitiesDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
-import hbrs.se2.collhbrs.model.entity.Requirements;
-import hbrs.se2.collhbrs.model.entity.Responsibilities;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
+import hbrs.se2.collhbrs.model.entity.traits.Requirements;
+import hbrs.se2.collhbrs.model.entity.traits.Responsibilities;
 import hbrs.se2.collhbrs.service.RequirementsService;
 import hbrs.se2.collhbrs.service.ResponsibilitiesService;
 import hbrs.se2.collhbrs.service.SessionService;
@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class MyVacanciesView extends Composite<VerticalLayout> implements AfterNavigationObserver {
 
-    private final EntityFactory entityFactory;
     private final RequirementsService requirementsService;
     private final ResponsibilitiesService responsibilitiesService;
     private final SessionService sessionService;
@@ -54,7 +53,6 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
                            ResponsibilitiesService responsibilitiesService,
                            SessionService sessionService,
                            VacancyService vacancyService) {
-        this.entityFactory = entityFactory;
         this.requirementsService = requirementsService;
         this.responsibilitiesService = responsibilitiesService;
         this.sessionService = sessionService;
@@ -75,12 +73,12 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         return new ResponsibilitiesDTO(responsibilities);
     }
 
-    public VerticalLayout createVacancyCard(String titleValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
+    public VerticalLayout createVacancyCard(String titleValue, String typeValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
         VerticalLayout cardLayout = new VerticalLayout();
         cardLayout.addClassName("vacancy-card");
 
         H3 title = new H3(titleValue);
-
+        Paragraph type = new Paragraph(typeValue);
         H5 date = new H5("Date: " + publishDate.toString());
         H5 location = new H5("Location: " + locationValue);
         H5 description = new H5("Description: ");
@@ -97,7 +95,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         Button editButton = new Button("Edit");
         editButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        cardLayout.add(title, date, location, description, desParagraph, requirementsDiv, responsibilitiesDiv, editButton);
+        cardLayout.add(title, type, date, location, description, desParagraph, requirementsDiv, responsibilitiesDiv, editButton);
 
         cardLayout.setWidth("100%");
         cardLayout.setMaxWidth("600px");
@@ -133,6 +131,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
 
             VerticalLayout card = createVacancyCard(
                     vacancy.getTitle(),
+                    vacancy.getEmploymentType(),
                     vacancy.getLocation(),
                     vacancy.getDescription(),
                     vacancy.getPublishDate(),
@@ -161,12 +160,12 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
             allRequirements.addAll(requirementsService.getRequirementsByVacancyId(vacancy.getVacancyID())
                     .stream()
                     .map(MyVacanciesView::getRequirements)
-                    .collect(Collectors.toList()));
+                    .toList());
 
             allResponsibilities.addAll(responsibilitiesService.getResponsibilitiesByVacancyId(vacancy.getVacancyID())
                     .stream()
                     .map(MyVacanciesView::getResponsibilities)
-                    .collect(Collectors.toList()));
+                    .toList());
         }
         layout.removeAll();
         layout.add(createVacancyCards(vacancies, allRequirements, allResponsibilities));

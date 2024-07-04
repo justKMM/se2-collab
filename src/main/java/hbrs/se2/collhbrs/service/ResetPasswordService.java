@@ -8,11 +8,12 @@ import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
-public class ResetPasswordService {
+public class ResetPasswordService implements Serializable {
 
     private final UserRepository userRepository;
 

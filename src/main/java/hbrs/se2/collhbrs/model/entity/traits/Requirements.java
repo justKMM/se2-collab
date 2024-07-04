@@ -1,20 +1,19 @@
-package hbrs.se2.collhbrs.model.entity;
+package hbrs.se2.collhbrs.model.entity.traits;
 
+import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.model.entity.ids.RequirementsID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-@Setter
 @Getter
+@Setter
 @Entity
 @Table(name = "anforderungen", schema = "public")
 @IdClass(RequirementsID.class)
-public class Requirements implements Serializable {
-
+public class Requirements extends BaseTraits implements Serializable {
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "StellenausschreibungID", nullable = false)
@@ -30,17 +29,20 @@ public class Requirements implements Serializable {
     private String requirementsName;
 
     @Override
+    public RequirementsID getId() {
+        RequirementsID id = new RequirementsID();
+        id.setVacancy(vacancy);
+        id.setSerialNumber(serialNumber);
+        return id;
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Requirements requirements = (Requirements) o;
-        return serialNumber == requirements.serialNumber &&
-                vacancy.equals(requirements.vacancy) &&
-                requirementsName.equals(requirements.requirementsName);
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vacancy, serialNumber, requirementsName);
+        return super.hashCode();
     }
 }
