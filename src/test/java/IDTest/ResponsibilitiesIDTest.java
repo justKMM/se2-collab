@@ -5,79 +5,67 @@ import hbrs.se2.collhbrs.model.entity.ids.ResponsibilitiesID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ResponsibilitiesIDTest {
+class ResponsibilitiesIDTest extends GenericIDTest {
     private ResponsibilitiesID responsibilitiesID1;
     private ResponsibilitiesID responsibilitiesID2;
     private ResponsibilitiesID responsibilitiesID3;
-    private Vacancy vacancy1;
-    private Vacancy vacancy2;
 
     @BeforeEach
     void setUp() {
-        vacancy1 = new Vacancy();
-        vacancy1.setVacancyID(1L);
-        vacancy1.setTitle("Software Tester");
+        Vacancy vacancy1 = createVacancy(1L, "Job Title 1");
+        Vacancy vacancy2 = createVacancy(2L, "Job Title 2");
 
-        vacancy2 = new Vacancy();
-        vacancy2.setVacancyID(2L);
-        vacancy2.setTitle("Tester");
+        responsibilitiesID1 = createResponsibilitiesID(vacancy1, 12345);
+        responsibilitiesID2 = createResponsibilitiesID(vacancy1, 12345);
+        responsibilitiesID3 = createResponsibilitiesID(vacancy2, 67890);
+    }
 
-        responsibilitiesID1 = new ResponsibilitiesID();
-        responsibilitiesID1.setVacancy(vacancy1);
-        responsibilitiesID1.setSerialNumber(12345);
+    private Vacancy createVacancy(Long id, String title) {
+        Vacancy vacancy = new Vacancy();
+        vacancy.setVacancyID(id);
+        vacancy.setTitle(title);
+        return vacancy;
+    }
 
-        responsibilitiesID2 = new ResponsibilitiesID();
-        responsibilitiesID2.setVacancy(vacancy1);
-        responsibilitiesID2.setSerialNumber(12345);
-
-        responsibilitiesID3 = new ResponsibilitiesID();
-        responsibilitiesID3.setVacancy(vacancy2);
-        responsibilitiesID3.setSerialNumber(67890);
+    private ResponsibilitiesID createResponsibilitiesID(Vacancy vacancy, int serialNumber) {
+        ResponsibilitiesID responsibilitiesID = new ResponsibilitiesID();
+        responsibilitiesID.setSerialNumber(serialNumber);
+        responsibilitiesID.setVacancy(vacancy); // Ensure this method exists
+        return responsibilitiesID;
     }
 
     @Test
     void testEqualsSameObject() {
-        assertEquals(responsibilitiesID1, responsibilitiesID1);
+        testEqualsSameObject(responsibilitiesID1);
     }
 
     @Test
     void testEqualsSameValues() {
-        assertEquals(responsibilitiesID1, responsibilitiesID2);
+        testEqualsSameValues(responsibilitiesID1, responsibilitiesID2);
     }
 
     @Test
     void testEqualsDifferentValues() {
-        assertNotEquals(responsibilitiesID1, responsibilitiesID3);
-    }
-    @Test
-    void testEqualsDifferentSerialValues() {
-        assertNotEquals(responsibilitiesID1.getSerialNumber(), responsibilitiesID3.getSerialNumber());
-    }
-    @Test
-    void testEqualsDifferentStudentValues() {
-        assertNotEquals(responsibilitiesID1.getVacancy(), responsibilitiesID3.getVacancy());
+        testEqualsDifferentValues(responsibilitiesID1, responsibilitiesID3);
     }
 
     @Test
     void testEqualsNull() {
-        assertNotEquals(responsibilitiesID1, null);
+        testEqualsNull(responsibilitiesID1);
     }
 
     @Test
     void testEqualsDifferentClass() {
-        assertNotEquals(responsibilitiesID1, new Object());
+        testEqualsDifferentClass(responsibilitiesID1, new Object());
     }
 
     @Test
     void testHashCodeSameValues() {
-        assertEquals(responsibilitiesID1.hashCode(), responsibilitiesID2.hashCode());
+        testHashCodeSameValues(responsibilitiesID1, responsibilitiesID2);
     }
 
     @Test
     void testHashCodeDifferentValues() {
-        assertNotEquals(responsibilitiesID1.hashCode(), responsibilitiesID3.hashCode());
+        testHashCodeDifferentValues(responsibilitiesID1, responsibilitiesID3);
     }
 }
-

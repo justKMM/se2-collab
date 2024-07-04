@@ -25,4 +25,5 @@ public abstract class BaseID implements Serializable {
         BaseID baseID = (BaseID) o;
         return serialNumber == baseID.serialNumber;
     }
+
 }

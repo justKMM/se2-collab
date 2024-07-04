@@ -5,22 +5,21 @@ import hbrs.se2.collhbrs.model.entity.ids.InterestID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class InterestIDTest {
     private InterestID interestID1;
     private InterestID interestID2;
     private InterestID interestID3;
-    private Student student1;
-    private Student student2;
 
     @BeforeEach
     void setUp() {
-        student1 = new Student();
+        Student student1 = new Student();
         student1.setStudentID(1L);
         student1.setLastName("Tester");
 
-        student2 = new Student();
+        Student student2 = new Student();
         student2.setStudentID(2L);
         student2.setLastName("Test");
 
@@ -51,10 +50,12 @@ class InterestIDTest {
     void testEqualsDifferentValues() {
         assertNotEquals(interestID1, interestID3);
     }
+
     @Test
     void testEqualsDifferentSerialValues() {
         assertNotEquals(interestID1.getSerialNumber(), interestID3.getSerialNumber());
     }
+
     @Test
     void testEqualsDifferentStudentValues() {
         assertNotEquals(interestID1.getStudent(), interestID3.getStudent());
@@ -62,7 +63,7 @@ class InterestIDTest {
 
     @Test
     void testEqualsNull() {
-        assertNotEquals(interestID1, null);
+        assertNotEquals(null, interestID1);
     }
 
     @Test

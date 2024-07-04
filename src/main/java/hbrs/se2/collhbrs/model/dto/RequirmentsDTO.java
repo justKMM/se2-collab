@@ -1,7 +1,7 @@
 package hbrs.se2.collhbrs.model.dto;
 
-import hbrs.se2.collhbrs.model.entity.Requirements;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
+import hbrs.se2.collhbrs.model.entity.traits.Requirements;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
 package hbrs.se2.collhbrs.model.dto;
 
-import hbrs.se2.collhbrs.model.entity.DegreeProgramm;
 import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.traits.DegreeProgramm;
 import lombok.Getter;
 import lombok.Setter;
 

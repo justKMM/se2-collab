@@ -2,8 +2,8 @@ package DTOsTest;
 
 import hbrs.se2.collhbrs.model.dto.SkillDTO;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
-import hbrs.se2.collhbrs.model.entity.Skill;
 import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.traits.Skill;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

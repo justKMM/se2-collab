@@ -1,13 +1,14 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.model.entity.Requirements;
+import hbrs.se2.collhbrs.model.entity.traits.Requirements;
 import hbrs.se2.collhbrs.repository.RequirementsRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
-public class RequirementsService {
+public class RequirementsService implements Serializable {
 
     final
     RequirementsRepository requirementsRepository;

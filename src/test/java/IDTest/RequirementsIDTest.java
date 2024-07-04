@@ -5,79 +5,67 @@ import hbrs.se2.collhbrs.model.entity.ids.RequirementsID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class RequirementsIDTest {
+class RequirementsIDTest extends GenericIDTest {
     private RequirementsID requirementsID1;
     private RequirementsID requirementsID2;
     private RequirementsID requirementsID3;
-    private Vacancy vacancy1;
-    private Vacancy vacancy2;
-
 
     @BeforeEach
     void setUp() {
-        vacancy1 = new Vacancy();
-        vacancy1.setVacancyID(1L);
-        vacancy1.setTitle("Software Tester");
+        Vacancy vacancy1 = createVacancy(1L, "Job Title 1");
+        Vacancy vacancy2 = createVacancy(2L, "Job Title 2");
 
-        vacancy2 = new Vacancy();
-        vacancy2.setVacancyID(2L);
-        vacancy2.setTitle("Tester");
+        requirementsID1 = createRequirementsID(vacancy1, 12345);
+        requirementsID2 = createRequirementsID(vacancy1, 12345);
+        requirementsID3 = createRequirementsID(vacancy2, 67890);
+    }
 
-        requirementsID1 = new RequirementsID();
-        requirementsID1.setVacancy(vacancy1);
-        requirementsID1.setSerialNumber(12345);
+    private Vacancy createVacancy(Long id, String title) {
+        Vacancy vacancy = new Vacancy();
+        vacancy.setVacancyID(id);
+        vacancy.setTitle(title);
+        return vacancy;
+    }
 
-        requirementsID2 = new RequirementsID();
-        requirementsID2.setVacancy(vacancy1);
-        requirementsID2.setSerialNumber(12345);
-
-        requirementsID3 = new RequirementsID();
-        requirementsID3.setVacancy(vacancy2);
-        requirementsID3.setSerialNumber(67890);
+    private RequirementsID createRequirementsID(Vacancy vacancy, int serialNumber) {
+        RequirementsID requirementsID = new RequirementsID();
+        requirementsID.setSerialNumber(serialNumber);
+        requirementsID.setVacancy(vacancy);
+        return requirementsID;
     }
 
     @Test
     void testEqualsSameObject() {
-        assertEquals(requirementsID1, requirementsID1);
+        testEqualsSameObject(requirementsID1);
     }
 
     @Test
     void testEqualsSameValues() {
-        assertEquals(requirementsID1, requirementsID2);
+        testEqualsSameValues(requirementsID1, requirementsID2);
     }
 
     @Test
     void testEqualsDifferentValues() {
-        assertNotEquals(requirementsID1, requirementsID3);
-    }
-    @Test
-    void testEqualsDifferentSerialValues() {
-        assertNotEquals(requirementsID1.getSerialNumber(), requirementsID3.getSerialNumber());
-    }
-    @Test
-    void testEqualsDifferentStudentValues() {
-        assertNotEquals(requirementsID1.getVacancy(), requirementsID3.getVacancy());
+        testEqualsDifferentValues(requirementsID1, requirementsID3);
     }
 
     @Test
     void testEqualsNull() {
-        assertNotEquals(requirementsID1, null);
+        testEqualsNull(requirementsID1);
     }
 
     @Test
     void testEqualsDifferentClass() {
-        assertNotEquals(requirementsID1, new Object());
+        testEqualsDifferentClass(requirementsID1, new Object());
     }
 
     @Test
     void testHashCodeSameValues() {
-        assertEquals(requirementsID1.hashCode(), requirementsID2.hashCode());
+        testHashCodeSameValues(requirementsID1, requirementsID2);
     }
 
     @Test
     void testHashCodeDifferentValues() {
-        assertNotEquals(requirementsID1.hashCode(), requirementsID3.hashCode());
+        testHashCodeDifferentValues(requirementsID1, requirementsID3);
     }
 }

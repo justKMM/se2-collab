@@ -1,14 +1,21 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.model.entity.*;
+import hbrs.se2.collhbrs.model.entity.Profile;
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
+import hbrs.se2.collhbrs.model.entity.traits.DegreeProgramm;
+import hbrs.se2.collhbrs.model.entity.traits.FirstName;
+import hbrs.se2.collhbrs.model.entity.traits.Interest;
+import hbrs.se2.collhbrs.model.entity.traits.Skill;
 import hbrs.se2.collhbrs.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 @Service
-public class ProfileService {
+public class ProfileService implements Serializable {
 
     private static final String PROFILE_NOT_FOUND = "Profile with ID ";
     private static final String NOT_FOUND = " not found";

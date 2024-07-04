@@ -4,10 +4,11 @@ import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.repository.VacancyRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
-public class VacancyService {
+public class VacancyService implements Serializable {
 
     private final VacancyRepository vacancyRepository;
 
