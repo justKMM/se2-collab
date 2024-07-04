@@ -12,29 +12,20 @@ import lombok.Getter;
  */
 
 
+@Getter
 @CssImport("./styles/index.css")
 public class ProfilStudentLayout extends VerticalLayout {
 
-    @Getter
     private final Button buttonConfirm = new Button("Speichern");
-    @Getter
     private final TextField tfVorname = new TextField("Vorname:");
-    @Getter
     private final TextField tfNachname = new TextField("Nachname:");
-    @Getter
     private final TextField interestField = new TextField("Interessen:");
-    @Getter
     private final TextField skillsField = new TextField("Kompetenzen:");
-    @Getter
     private final TextField degreeField = new TextField("Studiengang: ");
-    @Getter
     private final TextField xingUsernameField = new TextField("Xing Username:");
-    @Getter
     private final TextField linkedinUsernameField = new TextField("Linkedin Username:");
-    @Getter
     private final TextField profileDescriptionField = new TextField("Profilbeschreibung:");
 
-    @Getter
     private final TextField avatarUrlField = new TextField("Avatar URL:");
 
     public ProfilStudentLayout() {
@@ -64,41 +55,5 @@ public class ProfilStudentLayout extends VerticalLayout {
         );
 
 
-    }
-
-    public String getTfVorname() {
-        return tfVorname.getValue();
-    }
-
-    public String getTfNachname() {
-        return tfNachname.getValue();
-    }
-
-    public TextField getInterestField() {
-        return interestField;
-    }
-
-    public TextField getSkillsField() {
-        return skillsField;
-    }
-
-    public TextField getDegreeField() {
-        return degreeField;
-    }
-
-    public TextField getXingUsernameField() {
-        return xingUsernameField;
-    }
-
-    public TextField getLinkedinUsernameField() {
-        return linkedinUsernameField;
-    }
-
-    public TextField getProfileDescriptionField() {
-        return profileDescriptionField;
-    }
-
-    public TextField getAvatarUrlField() {
-        return avatarUrlField;
     }
 }

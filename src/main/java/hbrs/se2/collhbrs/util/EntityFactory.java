@@ -47,7 +47,8 @@ public class EntityFactory {
 
     public DegreeProgramm createDegreeProgramm(String name, Student student) {
         DegreeProgramm degreeProgramm = new DegreeProgramm();
-        degreeProgramm.setDegreeProgrammName(name);
+        degreeProgramm.setDegreeProgramName(name);
+        degreeProgramm.setDegreeProgramName(name);
         degreeProgramm.setStudent(student);
         return degreeProgramm;
     }

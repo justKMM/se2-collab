@@ -16,7 +16,7 @@ public class DegreeProgrammDTO {
     public DegreeProgrammDTO(DegreeProgramm entity) {
         this.student = entity.getStudent();
         this.serialNumber = entity.getSerialNumber();
-        this.degreeProgrammName = entity.getDegreeProgrammName();
+        this.degreeProgrammName = entity.getDegreeProgramName();
     }
 
 }
