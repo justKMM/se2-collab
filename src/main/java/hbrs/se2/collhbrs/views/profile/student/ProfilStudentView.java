@@ -1,13 +1,12 @@
 package hbrs.se2.collhbrs.views.profile.student;
 
+import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import hbrs.se2.collhbrs.views.profile.ProfileBaseView;
 import jakarta.annotation.security.RolesAllowed;
-
-import com.vaadin.flow.router.Route;
 
 @Route(value = Globals.Pages.PROFIL_STUDENT, layout = AppView.class)
 @RolesAllowed(Globals.Roles.STUDENT)
