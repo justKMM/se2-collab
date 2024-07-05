@@ -24,7 +24,6 @@ public class VacancyService {
     private EntityFactory entityFactory;
 
 
-
     public VacancyService(VacancyRepository vacancyRepository, ResponsibilitiesRepository responsibilitiesRepository, RequirementsRepository requirementsRepository) {
         this.vacancyRepository = vacancyRepository;
         this.responsibilitiesRepository = responsibilitiesRepository;

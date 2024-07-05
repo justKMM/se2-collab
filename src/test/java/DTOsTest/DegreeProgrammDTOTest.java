@@ -34,7 +34,7 @@ class DegreeProgrammDTOTest {
     void testGettersAndSetters() {
         assertEquals(0, degreeProgrammDTO.getSerialNumber());
         assertNull(degreeProgrammDTO.getDegreeProgrammName());
-        
+
         degreeProgrammDTO.setSerialNumber(123);
         degreeProgrammDTO.setDegreeProgrammName("Se2");
 

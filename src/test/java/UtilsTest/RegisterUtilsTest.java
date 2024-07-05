@@ -1,6 +1,5 @@
 package UtilsTest;
 
-import com.vaadin.flow.component.UI;
 import hbrs.se2.collhbrs.util.RegisterUtils;
 import org.junit.Test;
 

@@ -8,7 +8,9 @@ import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.ProfileRepository;
 import hbrs.se2.collhbrs.repository.StudentRepository;
 import hbrs.se2.collhbrs.repository.UserRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,18 +21,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ApplicationTests {
-  
+
+    private final User user = new User();
+    private final Student student = new Student();
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
     private ProfileRepository profileRepository;
-    
-    private final User user = new User();
-    private final Student student = new Student();
-  
-  @BeforeEach
+
+    @BeforeEach
     void setUp() {
         user.setUsername("Jakob9");
         user.setPassword("Jakob1234!");
@@ -46,12 +47,12 @@ class ApplicationTests {
         // Speichern in der Datenbank
         userRepository.save(user);
         //Erstellen eines temporären Nutzers zum Testen der Datenbank
-    
+
         student.setUser(user);
         student.setLastName("Müller");
         studentRepository.save(student);
     }
-    
+
     @Test
     void testUserProfile() {
         Optional<User> wrapper = userRepository.findById(user.getUserID()); //User km
@@ -91,7 +92,7 @@ class ApplicationTests {
             assertEquals("Jakob1234!", user.getPassword());
         }
     }
-    
+
     @AfterEach
     void teardown() {
         studentRepository.deleteById(student.getStudentID());
