@@ -8,6 +8,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -67,6 +68,7 @@ public class VacancyView extends Composite<VerticalLayout> {
 
         title = new TextField();
         title.setLabel("Title: ");
+        H6 subtitle = new H6("Write Vacanies with Markdown for easy formatting and styling!");
 
         TextField location = new TextField("Location: ");
         TextArea requirements = new TextArea("Requirements: ");
@@ -202,7 +204,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         getContent().setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         getContent().setAlignItems(FlexComponent.Alignment.CENTER);
 
-        layoutColumn2.add(h3, comboBox, location, title, formLayout2Col, textArea, layoutRow);
+        layoutColumn2.add(h3, subtitle, comboBox, location, title, formLayout2Col, textArea, layoutRow);
         getContent().add(layoutColumn2);
 
         updateRequirementsList(requirementItems);
