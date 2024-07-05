@@ -35,7 +35,7 @@ class SkillDTOTest {
     void testGettersAndSetters() {
         assertEquals(0, skillDTO.getSerialNumber());
         assertNull(skillDTO.getSkillName());
-        
+
         skillDTO.setSerialNumber(123);
         skillDTO.setSkillName("Java Testing");
 

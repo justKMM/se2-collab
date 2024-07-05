@@ -35,7 +35,7 @@ class FirstNameDTOTest {
     void testGettersAndSetters() {
         assertEquals(0, firstNameDTO.getSerialNumber());
         assertNull(firstNameDTO.getFirstNameName());
-        
+
         firstNameDTO.setSerialNumber(123);
         firstNameDTO.setFirstNameName("John");
 

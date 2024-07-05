@@ -35,7 +35,7 @@ class InterestDTOTest {
     void testGettersAndSetters() {
         assertEquals(0, interestDTO.getSerialNumber());
         assertNull(interestDTO.getInterestName());
-        
+
         interestDTO.setSerialNumber(123);
         interestDTO.setInterestName("Testing");
 

@@ -47,8 +47,8 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
     private final SessionService sessionService;
     private final VacancyService vacancyService;
     private final VerticalLayout layout;
-    private List<VacancyDTO> vacancies;
     private final MarkdownConverter markdownConverter;
+    private List<VacancyDTO> vacancies;
 
     @Autowired
     public MyVacanciesView(RequirementsService requirementsService,
@@ -102,7 +102,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         responsibilitiesDiv.add(new H5("Responsibilities:"));
         responsibilities.forEach(resp -> {
             Div respParagraph = new Div();
-            respParagraph.getElement().setProperty("innerHTML",markdownConverter.convertToHtml(resp));
+            respParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(resp));
             responsibilitiesDiv.add(respParagraph);
         });
 
