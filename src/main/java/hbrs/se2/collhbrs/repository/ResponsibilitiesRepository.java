@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ResponsibilitiesRepository extends JpaRepository<Responsibilities, Long> {
     List<Responsibilities> findResponsibilitiesByVacancyVacancyID(Long vacancyId);
+    void deleteByVacancy_VacancyID(Long vacancyId);
 }

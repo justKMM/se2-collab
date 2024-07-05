@@ -19,7 +19,7 @@ public class Responsibilities extends BaseEntityTraits<Vacancy, Responsibilities
     private Vacancy vacancy;
 
     @Basic
-    @Column(name = "aufgaben", length = 128, nullable = false)
+    @Column(name = "aufgaben", length = 2400, nullable = false)
     private String responsibilitiesName;
 
     @Override

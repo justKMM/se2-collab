@@ -16,4 +16,6 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
 
     List<Vacancy> findVacanciesByTitle(String Title);
 
+    void deleteByVacancyID(Long vacancyId);
+
 }

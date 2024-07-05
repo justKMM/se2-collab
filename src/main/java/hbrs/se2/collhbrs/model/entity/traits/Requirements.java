@@ -19,7 +19,7 @@ public class Requirements extends BaseEntityTraits<Vacancy, RequirementsID> {
     private Vacancy vacancy;
 
     @Basic
-    @Column(name = "anforderungen", length = 128, nullable = false)
+    @Column(name = "anforderungen", length = 2400, nullable = false)
     private String requirementsName;
 
     @Override

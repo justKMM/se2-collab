@@ -6,8 +6,10 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.listbox.MultiSelectListBox;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -23,8 +25,10 @@ import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.MarkdownConverter;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -47,7 +51,8 @@ public class VacancyView extends Composite<VerticalLayout> {
     private MultiSelectListBox<String> responsibilitiesList;
     private TextField title;
 
-    public VacancyView(EntityFactory entityFactory, RequirementsService requirementsService, ResponsibilitiesService responsibilitiesService, SessionService sessionService, VacancyService vacancyService) {
+    @Autowired
+    public VacancyView(EntityFactory entityFactory, RequirementsService requirementsService, ResponsibilitiesService responsibilitiesService, SessionService sessionService, VacancyService vacancyService, MarkdownConverter markdownConverter) {
         this.entityFactory = entityFactory;
         this.requirementsService = requirementsService;
         this.responsibilitiesService = responsibilitiesService;
@@ -57,15 +62,18 @@ public class VacancyView extends Composite<VerticalLayout> {
     }
 
     private void setUpUI() {
-        ComboBox<String> comboBox = new ComboBox<>("Titel");
+        ComboBox<String> comboBox = new ComboBox<>("Employment Type: ");
         comboBox.setItems("Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt", "Masterprojekt", "Büro", "Homeoffice");
 
         title = new TextField();
         title.setLabel("Title: ");
 
-        TextField location = new TextField("Location");
-        TextField requirements = new TextField("Requirements");
-        TextField responsibilities = new TextField("Responsibilities");
+        TextField location = new TextField("Location: ");
+        TextArea requirements = new TextArea("Requirements: ");
+        TextArea responsibilities = new TextArea("Responsibilities: ");
+
+        requirements.setWidth("100%");
+        responsibilities.setWidth("100%");
 
         requirementsList = new MultiSelectListBox<>();
         responsibilitiesList = new MultiSelectListBox<>();
@@ -81,7 +89,6 @@ public class VacancyView extends Composite<VerticalLayout> {
         layoutColumn2.setPadding(true);
 
         H3 h3 = new H3("Add Vacancy");
-        h3.setWidth("min-content");
 
         FormLayout formLayout2Col = new FormLayout();
         formLayout2Col.setWidth("100%");
@@ -97,7 +104,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         deleteResponsibilities.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         HorizontalLayout requirementsButtonsLayout = new HorizontalLayout(addRequirements, deleteRequirements);
-        VerticalLayout requirementsLayout = new VerticalLayout(title, requirements, requirementsButtonsLayout, requirementsList);
+        VerticalLayout requirementsLayout = new VerticalLayout(requirements, requirementsButtonsLayout, requirementsList);
 
         HorizontalLayout responsibilitiesButtonsLayout = new HorizontalLayout(addResponsibility, deleteResponsibilities);
         VerticalLayout responsibilitiesLayout = new VerticalLayout(responsibilities, responsibilitiesButtonsLayout, responsibilitiesList);
@@ -113,6 +120,8 @@ public class VacancyView extends Composite<VerticalLayout> {
                 requirementItems.add(requirement);
                 updateRequirementsList(requirementItems);
                 requirements.clear();
+                //TODO: rename notification text
+                Notification.show("Markdown renders later");
             }
         });
 
@@ -122,6 +131,8 @@ public class VacancyView extends Composite<VerticalLayout> {
                 responsibilityItems.add(responsibility);
                 updateResponsibilitiesList(responsibilityItems);
                 responsibilities.clear();
+                //TODO: rename notification text
+                Notification.show("Markdown renders later");
             }
         });
 
@@ -164,6 +175,7 @@ public class VacancyView extends Composite<VerticalLayout> {
             updateResponsibilitiesList(responsibilityItems);
 
             comboBox.clear();
+            title.clear();
             location.clear();
             requirements.clear();
             responsibilities.clear();
@@ -172,6 +184,7 @@ public class VacancyView extends Composite<VerticalLayout> {
 
         cancel.addClickListener(event -> {
             comboBox.clear();
+            title.clear();
             location.clear();
             requirements.clear();
             responsibilities.clear();
@@ -189,7 +202,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         getContent().setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         getContent().setAlignItems(FlexComponent.Alignment.CENTER);
 
-        layoutColumn2.add(h3, comboBox, location, formLayout2Col, textArea, layoutRow);
+        layoutColumn2.add(h3, comboBox, location, title, formLayout2Col, textArea, layoutRow);
         getContent().add(layoutColumn2);
 
         updateRequirementsList(requirementItems);
