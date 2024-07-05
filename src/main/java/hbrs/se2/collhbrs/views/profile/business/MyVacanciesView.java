@@ -2,19 +2,23 @@ package hbrs.se2.collhbrs.views.profile.business;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
+import com.vaadin.flow.theme.lumo.LumoUtility;
+import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.RequirmentsDTO;
 import hbrs.se2.collhbrs.model.dto.ResponsibilitiesDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
@@ -47,8 +51,8 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
     private final SessionService sessionService;
     private final VacancyService vacancyService;
     private final VerticalLayout layout;
-    private final MarkdownConverter markdownConverter;
     private List<VacancyDTO> vacancies;
+    private final MarkdownConverter markdownConverter;
 
     @Autowired
     public MyVacanciesView(RequirementsService requirementsService,
@@ -77,21 +81,34 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         return new ResponsibilitiesDTO(responsibilities);
     }
 
-    public VerticalLayout createVacancyCard(long id, String titleValue, String typeValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
-        VerticalLayout cardLayout = new VerticalLayout();
-        cardLayout.addClassName("vacancy-card");
+    public VerticalLayout createVacancyCard(long id, String baseImage, String businessName, String titleValue, String typeValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
 
-        H3 title = new H3(titleValue);
-        Paragraph type = new Paragraph(typeValue);
-        H5 date = new H5("Date: " + publishDate.toString());
-        H5 location = new H5("Location: " + locationValue);
-        H5 description = new H5("Description: ");
+        Avatar avatar = new Avatar();
+        avatar.setImage("data:image/jpeg;base64," + baseImage);
+        VerticalLayout cardLayout = new VerticalLayout();
+        HorizontalLayout titleLayout = new HorizontalLayout();
+        titleLayout.add(avatar, new H3(businessName));
+        H2 title = new H2(titleValue);
+        Button type = new Button(typeValue);
+        type.setWidth("min-content");
+        type.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        type.setEnabled(true);
+        HorizontalLayout dateLayout = new HorizontalLayout(
+                new H4("Date: "),
+                new Span(publishDate.toString())
+        );
+        HorizontalLayout locationLayout = new HorizontalLayout(
+                new H4("Location: "),
+                new Span(locationValue)
+        );
+        HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
+        H4 description = new H4("Description: ");
 
         Div desParagraph = new Div();
         desParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(descriptionValue));
 
         Div requirementsDiv = new Div();
-        requirementsDiv.add(new H5("Requirements:"));
+        requirementsDiv.add(new H3("Requirements:"));
         requirements.forEach(req -> {
             Div reqParagraph = new Div();
             reqParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(req));
@@ -99,10 +116,10 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         });
 
         Div responsibilitiesDiv = new Div();
-        responsibilitiesDiv.add(new H5("Responsibilities:"));
+        responsibilitiesDiv.add(new H3("Responsibilities:"));
         responsibilities.forEach(resp -> {
             Div respParagraph = new Div();
-            respParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(resp));
+            respParagraph.getElement().setProperty("innerHTML",markdownConverter.convertToHtml(resp));
             responsibilitiesDiv.add(respParagraph);
         });
 
@@ -114,7 +131,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
             UI.getCurrent().navigate(MyVacanciesView.class);
         });
 
-        cardLayout.add(title, type, date, location, description, desParagraph, requirementsDiv, responsibilitiesDiv, editButton);
+        cardLayout.add(titleLayout, title, type, infoLayout, description, desParagraph, requirementsDiv, responsibilitiesDiv, editButton);
 
         cardLayout.setWidth("100%");
         cardLayout.setMaxWidth("700px");
@@ -149,6 +166,8 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
 
             VerticalLayout card = createVacancyCard(
                     vacancy.getVacancyID(),
+                    vacancy.getBusiness().getUser().getProfile().getAvatar(),
+                    vacancy.getBusiness().getName(),
                     vacancy.getTitle(),
                     vacancy.getEmploymentType(),
                     vacancy.getLocation(),

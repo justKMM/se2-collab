@@ -2,6 +2,7 @@ package hbrs.se2.collhbrs.service;
 
 import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
+import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.RequirementsRepository;
 import hbrs.se2.collhbrs.repository.ResponsibilitiesRepository;
 import hbrs.se2.collhbrs.repository.VacancyRepository;
@@ -22,7 +23,8 @@ public class VacancyService {
 
     @Autowired
     private EntityFactory entityFactory;
-
+    @Autowired
+    private BusinessRepository businessRepository;
 
     public VacancyService(VacancyRepository vacancyRepository, ResponsibilitiesRepository responsibilitiesRepository, RequirementsRepository requirementsRepository) {
         this.vacancyRepository = vacancyRepository;
