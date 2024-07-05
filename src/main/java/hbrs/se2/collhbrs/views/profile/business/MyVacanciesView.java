@@ -1,6 +1,7 @@
 package hbrs.se2.collhbrs.views.profile.business;
 
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -24,8 +25,8 @@ import hbrs.se2.collhbrs.service.RequirementsService;
 import hbrs.se2.collhbrs.service.ResponsibilitiesService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.service.VacancyService;
-import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
+import hbrs.se2.collhbrs.util.MarkdownConverter;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,17 +47,20 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
     private final SessionService sessionService;
     private final VacancyService vacancyService;
     private final VerticalLayout layout;
+    private List<VacancyDTO> vacancies;
+    private final MarkdownConverter markdownConverter;
 
     @Autowired
-    public MyVacanciesView(EntityFactory entityFactory,
-                           RequirementsService requirementsService,
+    public MyVacanciesView(RequirementsService requirementsService,
                            ResponsibilitiesService responsibilitiesService,
                            SessionService sessionService,
-                           VacancyService vacancyService) {
+                           VacancyService vacancyService,
+                           MarkdownConverter markdownConverter) {
         this.requirementsService = requirementsService;
         this.responsibilitiesService = responsibilitiesService;
         this.sessionService = sessionService;
         this.vacancyService = vacancyService;
+        this.markdownConverter = markdownConverter;
         this.layout = new VerticalLayout();
         getContent().add(layout);
     }
@@ -73,7 +77,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         return new ResponsibilitiesDTO(responsibilities);
     }
 
-    public VerticalLayout createVacancyCard(String titleValue, String typeValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
+    public VerticalLayout createVacancyCard(long id, String titleValue, String typeValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
         VerticalLayout cardLayout = new VerticalLayout();
         cardLayout.addClassName("vacancy-card");
 
@@ -82,26 +86,40 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         H5 date = new H5("Date: " + publishDate.toString());
         H5 location = new H5("Location: " + locationValue);
         H5 description = new H5("Description: ");
-        Paragraph desParagraph = new Paragraph(descriptionValue);
+
+        Div desParagraph = new Div();
+        desParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(descriptionValue));
 
         Div requirementsDiv = new Div();
         requirementsDiv.add(new H5("Requirements:"));
-        requirements.forEach(req -> requirementsDiv.add(new Paragraph(req)));
+        requirements.forEach(req -> {
+            Div reqParagraph = new Div();
+            reqParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(req));
+            requirementsDiv.add(reqParagraph);
+        });
 
         Div responsibilitiesDiv = new Div();
         responsibilitiesDiv.add(new H5("Responsibilities:"));
-        responsibilities.forEach(resp -> responsibilitiesDiv.add(new Paragraph(resp)));
+        responsibilities.forEach(resp -> {
+            Div respParagraph = new Div();
+            respParagraph.getElement().setProperty("innerHTML",markdownConverter.convertToHtml(resp));
+            responsibilitiesDiv.add(respParagraph);
+        });
 
-        Button editButton = new Button("Edit");
-        editButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button editButton = new Button("Delete");
+        editButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
+        editButton.addClickListener(event -> {
+            vacancyService.deleteVacancy(id);
+            UI.getCurrent().navigate(MyVacanciesView.class);
+        });
 
         cardLayout.add(title, type, date, location, description, desParagraph, requirementsDiv, responsibilitiesDiv, editButton);
 
         cardLayout.setWidth("100%");
-        cardLayout.setMaxWidth("600px");
+        cardLayout.setMaxWidth("700px");
         cardLayout.getStyle().set("border", "1px solid #ccc");
         cardLayout.getStyle().set("border-radius", "8px");
-        cardLayout.getStyle().set("padding", "8px");
         cardLayout.getStyle().set("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.1)");
 
         return cardLayout;
@@ -130,6 +148,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
             }
 
             VerticalLayout card = createVacancyCard(
+                    vacancy.getVacancyID(),
                     vacancy.getTitle(),
                     vacancy.getEmploymentType(),
                     vacancy.getLocation(),
@@ -146,9 +165,10 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
 
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-        Long businessId = sessionService.getCurrentBusiness().getBusinessID();
 
-        List<VacancyDTO> vacancies = vacancyService.getVacanciesByBusinessId(businessId)
+        List<VacancyDTO> vacancies = vacancyService.getVacanciesByBusinessId(
+                        sessionService.getCurrentBusiness().getBusinessID()
+                )
                 .stream()
                 .map(MyVacanciesView::getVacancy)
                 .collect(Collectors.toList());
@@ -171,4 +191,3 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         layout.add(createVacancyCards(vacancies, allRequirements, allResponsibilities));
     }
 }
-

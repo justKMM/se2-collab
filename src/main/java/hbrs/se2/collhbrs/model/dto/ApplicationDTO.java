@@ -19,6 +19,4 @@ public class ApplicationDTO {
         this.student = application.getStudent();
         this.vacancy = application.getVacancy();
     }
-
-
 }
