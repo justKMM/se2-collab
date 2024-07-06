@@ -10,5 +10,5 @@ import java.util.List;
 public interface RequirementsRepository extends JpaRepository<Requirements, Long> {
     List<Requirements> getRequirementsByVacancyVacancyID(Long vacancyId);
 
-    void deleteByVacancy_VacancyID(Long vacancyId);
+    void deleteByVacancyVacancyID(Long vacancyId);
 }

@@ -73,8 +73,8 @@ class ApplicationTest {
         assertEquals(application1, application2);
         assertNotEquals(application, application1);
         assertNotEquals(application3, application4);
-        assertNotEquals(application, null);
-        assertNotEquals(application, "lol");
+        assertNotEquals(null, application);
+        assertNotEquals("lol", application);
 
     }
 }

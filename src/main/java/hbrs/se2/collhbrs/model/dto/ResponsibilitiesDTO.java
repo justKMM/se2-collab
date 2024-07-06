@@ -5,9 +5,11 @@ import hbrs.se2.collhbrs.model.entity.traits.Responsibilities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Setter
 @Getter
-public class ResponsibilitiesDTO {
+public class ResponsibilitiesDTO implements Serializable {
 
     private Vacancy vacancy;
     private int serialNumber;

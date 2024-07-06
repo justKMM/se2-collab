@@ -9,12 +9,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class BaseEntityTraits<T, ID> extends BaseTraits implements Serializable {
+public abstract class BaseEntityTraits<T, EntityId> extends BaseTraits implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "laufende_nummer", nullable = false)
     private int serialNumber;
 
-    public abstract ID getId();
+    public abstract EntityId getId();
 }

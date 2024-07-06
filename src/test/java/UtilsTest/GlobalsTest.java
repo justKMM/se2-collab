@@ -17,14 +17,4 @@ class GlobalsTest {
         assertEquals("signup", Globals.Pages.SIGNUP);
         assertEquals("student/profile", Globals.Pages.PROFIL_STUDENT);
     }
-
-    @Test
-    void testRoles() {
-        //Für spätere Globals
-        //assertEquals();
-    }
-
-    @Test
-    void testLanguage() {
-    }
 }
