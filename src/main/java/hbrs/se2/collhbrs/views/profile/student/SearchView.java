@@ -9,7 +9,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -27,10 +26,10 @@ import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @CssImport("./styles/index.css")
@@ -38,51 +37,66 @@ import java.util.List;
 @RolesAllowed(Globals.Roles.STUDENT)
 public class SearchView extends Composite<VerticalLayout> {
 
-    public final String CENTER = "center";
-    public final String MIN_CONTENT = "min-content";
-    public final String PX200 = "200px";
-    public final String PX400 = "400px";
-    public final String WIDTH = "100%";
-
-
+    public static final String CENTER = "center";
+    public static final String MIN_CONTENT = "min-content";
+    public static final String PX200 = "200px";
+    public static final String PX400 = "400px";
+    public static final String WIDTH = "100%";
+    final
+    SessionService sessionService;
     private final HorizontalLayout layoutRow = new HorizontalLayout();
-    private final ComboBox<String> comboBoxEmploymenttype = new ComboBox<>();
-    private final TextField description_textfield = new TextField();
+    private final ComboBox<String> comboBoxEmploymentType = new ComboBox<>();
+
     // private final ComboBox<String> comboBoxDescription = new ComboBox<>();
+    private final TextField descriptionTextfield = new TextField();
     private final Button buttonSearch = new Button("Search");
-    private final Button bewerben_button = new Button("Bewerben");
-    private final Button merke_button = new Button("Merke");
-
-    private final Button rate_button = new Button("Rate");
-
+    private final Button applyButton = new Button("Bewerben");
+    private final Button saveApplicationButton = new Button("Merke");
+    private final Button rateButton = new Button("Rate");
+    // private final Button buttonBusiness = new Button("Business");
     private final String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
             "Masterprojekt", "Büro", "Homeoffice"};
-
-    private Dialog dialogApply = new Dialog();
+    private final Dialog dialogApply = new Dialog();
     private VacancyDTO vacancyDTO;
 
 
+    public SearchView(VacancyService vacancyService, SessionService sessionService) {
+        List<Vacancy> vacancyList = vacancyService.getAllVacancies();
+        VirtualList<Vacancy> virtualList = new VirtualList<>();
+        virtualList.setItems(vacancyList);
 
-    // private final Button buttonBusiness = new Button("Business");
-    private final ComponentRenderer<Component, Vacancy> VacancyCardRenderer = new ComponentRenderer<>(
-            vacancy -> {
-                HorizontalLayout cardLayout = new HorizontalLayout();
-                cardLayout.setMargin(true);
+        buttonSearch.addClickListener(event -> {
+            List<Vacancy> filteredVacancies = filterVacancies(vacancyService, vacancyList);
+            virtualList.setItems(filteredVacancies);
+        });
 
-                VerticalLayout vacancyLayout = new VerticalLayout();
-                vacancyLayout.setSpacing(false);
-                vacancyLayout.setPadding(false);
-                vacancyLayout.getElement().appendChild(ElementFactory.createStrong(vacancy.getTitle()));
-                vacancyLayout.add(new Div(new Text(vacancy.getEmploymentType())));
-                VerticalLayout infoLayout = new VerticalLayout();
-                infoLayout.setSpacing(false);
-                infoLayout.setPadding(false);
+        // infoLayout.add(new Div(bewerben_button, merke_button, rate_button));
+        /*
+                FormLayout formLayout = new FormLayout();
+                formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1),
+                        new FormLayout.ResponsiveStep("20em", 2));
+                formLayout.add(bewerben_button);
+                formLayout.add(merke_button);
+                formLayout.add(rate_button,2);*/
+        ComponentRenderer<Component, Vacancy> vacancyCardRenderer = new ComponentRenderer<>(
+                vacancy -> {
+                    HorizontalLayout cardLayout = new HorizontalLayout();
+                    cardLayout.setMargin(true);
 
-                infoLayout.add("Business" + vacancy.getBusiness().getName());
-                infoLayout.add(new Div("Description: " + vacancy.getDescription()));
-                infoLayout.add(new Div(new Text("Ort: " + vacancy.getLocation())));
-                infoLayout.add(new Div(new Text("Publishing Date: " + vacancy.getPublishDate().toString())));
-                // infoLayout.add(new Div(bewerben_button, merke_button, rate_button));
+                    VerticalLayout vacancyLayout = new VerticalLayout();
+                    vacancyLayout.setSpacing(false);
+                    vacancyLayout.setPadding(false);
+                    vacancyLayout.getElement().appendChild(ElementFactory.createStrong(vacancy.getTitle()));
+                    vacancyLayout.add(new Div(new Text(vacancy.getEmploymentType())));
+                    VerticalLayout infoLayout = new VerticalLayout();
+                    infoLayout.setSpacing(false);
+                    infoLayout.setPadding(false);
+
+                    infoLayout.add("Business" + vacancy.getBusiness().getName());
+                    infoLayout.add(new Div("Description: " + vacancy.getDescription()));
+                    infoLayout.add(new Div(new Text("Ort: " + vacancy.getLocation())));
+                    infoLayout.add(new Div(new Text("Publishing Date: " + vacancy.getPublishDate().toString())));
+                    // infoLayout.add(new Div(bewerben_button, merke_button, rate_button));
                 /*
                 FormLayout formLayout = new FormLayout();
                 formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1),
@@ -90,83 +104,44 @@ public class SearchView extends Composite<VerticalLayout> {
                 formLayout.add(bewerben_button);
                 formLayout.add(merke_button);
                 formLayout.add(rate_button,2);*/
-                vacancyLayout.add(new Details("Description", infoLayout));
+                    vacancyLayout.add(new Details("Description", infoLayout));
 
 
-                cardLayout.add(vacancyLayout);
-                return cardLayout;
-            });
-
-    @Autowired
-    SessionService sessionService;
-
-
-    public SearchView(VacancyService vacancyService) {
-        List<Vacancy> vacancyList = vacancyService.getAllVacancies();
-        VirtualList<Vacancy> virtualList = new VirtualList<>();
-
-        virtualList.setItems(vacancyList);
-
-
-
-        buttonSearch.addClickListener(event -> {
-            if (comboBoxEmploymenttype.isEmpty() && description_textfield.isEmpty()) {
-                virtualList.setItems(vacancyList);
-            }
-            // description and combobox
-            if(!description_textfield.isEmpty() && !comboBoxEmploymenttype.isEmpty()){
-                List<Vacancy> vacancyList1 = vacancyService.getVacanciesByEmploymentType(comboBoxEmploymenttype.getValue());
-                List<Vacancy> vacancyList2 = vacancyService.getVacanciesByTitle(description_textfield.getValue());
-                List<Vacancy> vacancyList3 = new ArrayList<>();
-                for(Vacancy vacancy1: vacancyList1){
-                    for(Vacancy vacancy2: vacancyList2){
-                        if(vacancy1.equals(vacancy2)){
-                            vacancyList3.add(vacancy2);
-                        }
-                    }
-                }
-                virtualList.setItems(vacancyList3);
-                // break;
-            }
-
-
-
-            //only combobox
-            if (!comboBoxEmploymenttype.isEmpty() && description_textfield.isEmpty()) {
-                for (String item : comboBoxItems) {
-                    if (comboBoxEmploymenttype.getValue().equals(item)) {
-                        List<Vacancy> vacancyList1 = vacancyService.getVacanciesByEmploymentType(comboBoxEmploymenttype.getValue());
-                        virtualList.setItems(vacancyList1);
-                        // break;
-                    }
-                }
-            }
-            // only description
-            if (!description_textfield.isEmpty() && comboBoxEmploymenttype.isEmpty()) {
-                for (Vacancy vacancy : vacancyList) {
-                    if (description_textfield.getValue().equals(vacancy.getTitle())) {
-                        List<Vacancy> vacancyList1 = vacancyService.getVacanciesByTitle(description_textfield.getValue());
-                        virtualList.setItems(vacancyList1);
-                        // break;
-                    }
-                }
-            }
-
-
-
-        });
-
-
-        virtualList.setRenderer(VacancyCardRenderer);
-        // setButtons();
+                    cardLayout.add(vacancyLayout);
+                    return cardLayout;
+                });
+        virtualList.setRenderer(vacancyCardRenderer);
         setLayouts();
-        setComboBoxSampleData(comboBoxEmploymenttype);
-
+        setComboBoxSampleData(comboBoxEmploymentType);
         getContent().add(virtualList);
-
+        this.sessionService = sessionService;
     }
 
-    private VerticalLayout setDialog(Vacancy vacancy){
+    private List<Vacancy> filterVacancies(VacancyService vacancyService, List<Vacancy> vacancyList) {
+        if (comboBoxEmploymentType.isEmpty() && descriptionTextfield.isEmpty()) {
+            return vacancyList;
+        }
+
+        if (!comboBoxEmploymentType.isEmpty() && !descriptionTextfield.isEmpty()) {
+            List<Vacancy> vacancyListByType = vacancyService.getVacanciesByEmploymentType(comboBoxEmploymentType.getValue());
+            List<Vacancy> vacancyListByTitle = vacancyService.getVacanciesByTitle(descriptionTextfield.getValue());
+            return vacancyListByType.stream()
+                    .filter(vacancyListByTitle::contains)
+                    .collect(Collectors.toList());
+        }
+
+        if (!comboBoxEmploymentType.isEmpty()) {
+            return vacancyService.getVacanciesByEmploymentType(comboBoxEmploymentType.getValue());
+        }
+
+        if (!descriptionTextfield.isEmpty()) {
+            return vacancyService.getVacanciesByTitle(descriptionTextfield.getValue());
+        }
+
+        return new ArrayList<>();
+    }
+
+    private VerticalLayout setDialog(Vacancy vacancy) {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setPadding(false);
         verticalLayout.setSpacing(false);
@@ -177,12 +152,11 @@ public class SearchView extends Composite<VerticalLayout> {
     }
 
 
-
     private void setButtons(Vacancy vacancy) {
-        rate_button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        rateButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
 
 
-        bewerben_button.addClickListener(event -> {
+        applyButton.addClickListener(event -> {
 
 
             // Layout
@@ -194,26 +168,22 @@ public class SearchView extends Composite<VerticalLayout> {
             dialogApply.getFooter().add(saveButton);
             dialogApply.add(setDialog(vacancy));
 
-            saveButton.addClickListener(event1 ->{
+            saveButton.addClickListener(event1 -> {
                 // create new ApplyClass
             });
-            cancelButton.addClickListener(event1 ->{
-                dialogApply.close();
-            });
-
+            cancelButton.addClickListener(event1 -> dialogApply.close());
 
 
         });
 
-        merke_button.addClickListener(event -> {
+        saveApplicationButton.addClickListener(event -> {
 
         });
 
-        rate_button.addClickListener(event ->{
+        rateButton.addClickListener(event -> {
 
         });
     }
-
 
 
     private void setComboBoxSampleData(ComboBox<String> comboBox) {
@@ -236,23 +206,23 @@ public class SearchView extends Composite<VerticalLayout> {
         layoutRow.setHeight(MIN_CONTENT);
         layoutRow.getStyle().set(CENTER, "1");
         layoutRow.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, comboBoxEmploymenttype);
-        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, description_textfield);
+        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, comboBoxEmploymentType);
+        layoutRow.setAlignSelf(FlexComponent.Alignment.CENTER, descriptionTextfield);
         layoutRow.setAlignSelf(FlexComponent.Alignment.END, buttonSearch);
 
-        comboBoxEmploymenttype.setLabel("Jobtitel");
-        comboBoxEmploymenttype.setWidth(PX200);
+        comboBoxEmploymentType.setLabel("Jobtitel");
+        comboBoxEmploymentType.setWidth(PX200);
 
-        description_textfield.setLabel("Job beschreibung");
-        description_textfield.setWidth(PX400);
+        descriptionTextfield.setLabel("Job beschreibung");
+        descriptionTextfield.setWidth(PX400);
 
 
         buttonSearch.setWidth(MIN_CONTENT);
         buttonSearch.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         getContent().add(layoutRow);
-        layoutRow.add(comboBoxEmploymenttype);
-        layoutRow.add(description_textfield);
+        layoutRow.add(comboBoxEmploymentType);
+        layoutRow.add(descriptionTextfield);
         layoutRow.add(buttonSearch);
     }
 }

@@ -49,7 +49,6 @@ public class VacancyView extends Composite<VerticalLayout> {
 
     private MultiSelectListBox<String> requirementsList;
     private MultiSelectListBox<String> responsibilitiesList;
-    private TextField title;
 
     @Autowired
     public VacancyView(EntityFactory entityFactory, RequirementsService requirementsService, ResponsibilitiesService responsibilitiesService, SessionService sessionService, VacancyService vacancyService, MarkdownConverter markdownConverter) {
@@ -65,7 +64,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         ComboBox<String> comboBox = new ComboBox<>("Employment Type: ");
         comboBox.setItems("Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt", "Masterprojekt", "Büro", "Homeoffice");
 
-        title = new TextField();
+        TextField title = new TextField();
         title.setLabel("Title: ");
         H6 subtitle = new H6("Write Vacanies with Markdown for easy formatting and styling!");
 

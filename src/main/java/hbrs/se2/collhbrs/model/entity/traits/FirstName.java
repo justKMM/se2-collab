@@ -29,4 +29,5 @@ public class FirstName extends BaseEntityTraits<Student, FirstNameID> {
         id.setSerialNumber(super.getSerialNumber());
         return id;
     }
+
 }

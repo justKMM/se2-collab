@@ -57,9 +57,7 @@ public class ProfilStudentView extends ProfileBaseView {
             }
         });
 
-        upload.addFailedListener(event -> {
-            Notification.show("Upload fehlgeschlagen: " + event.getReason().getMessage());
-        });
+        upload.addFailedListener(event -> Notification.show("Upload fehlgeschlagen: " + event.getReason().getMessage()));
 
         VerticalLayout layout = new VerticalLayout();
 

@@ -139,11 +139,11 @@ public abstract class ProfileBaseView extends Composite<Div> {
     }
 
     private void configureUploadComponent() {
-        MemoryBuffer buffer = new MemoryBuffer();
-        Upload upload = new Upload(buffer);
-        avatarWrapper.addClickListener(event -> upload.setVisible(true));
-        upload.addSucceededListener(event -> handleUploadSuccess(buffer));
-        layoutColumn4.add(upload);
+        MemoryBuffer buffer2 = new MemoryBuffer();
+        Upload uploader = new Upload(buffer2);
+        avatarWrapper.addClickListener(event -> uploader.setVisible(true));
+        upload.addSucceededListener(event -> handleUploadSuccess(buffer2));
+        layoutColumn4.add(uploader);
     }
 
     private void handleUploadSuccess(MemoryBuffer buffer) {

@@ -29,4 +29,5 @@ public class Interest extends BaseEntityTraits<Student, InterestID> {
         id.setSerialNumber(super.getSerialNumber());
         return id;
     }
+
 }
