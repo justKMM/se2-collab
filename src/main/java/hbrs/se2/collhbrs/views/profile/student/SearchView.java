@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.Details;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -48,8 +49,16 @@ public class SearchView extends Composite<VerticalLayout> {
     private final Button bewerben_button = new Button("Merken");
     private final Button merke_button = new Button("Bewerben");
 
+    private final Button rate_button = new Button("Rate");
+
     private final String[] comboBoxItems = {"Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
             "Masterprojekt", "Büro", "Homeoffice"};
+
+    private Dialog dialogApply = new Dialog();
+
+
+
+    // private final Button buttonBusiness = new Button("Business");
     private final ComponentRenderer<Component, Vacancy> VacancyCardRenderer = new ComponentRenderer<>(
             vacancy -> {
                 HorizontalLayout cardLayout = new HorizontalLayout();
@@ -63,20 +72,22 @@ public class SearchView extends Composite<VerticalLayout> {
                 VerticalLayout infoLayout = new VerticalLayout();
                 infoLayout.setSpacing(false);
                 infoLayout.setSpacing(false);
-                infoLayout.add("Business: " + vacancy.getBusiness().getName());
+
+                infoLayout.add("Business" + vacancy.getBusiness().getName());
                 infoLayout.add(new Div("Description: " + vacancy.getDescription()));
                 infoLayout.add(new Div(new Text("Ort: " + vacancy.getLocation())));
                 infoLayout.add(new Div(new Text("Publishing Date: " + vacancy.getPublishDate().toString())));
 
+                HorizontalLayout h1 = new HorizontalLayout(bewerben_button, merke_button, rate_button);
 
-                vacancyLayout.add(new Details("Description", infoLayout));
+                vacancyLayout.add(new Details("Description", infoLayout, h1));
 
-                HorizontalLayout h1 = new HorizontalLayout(bewerben_button, merke_button);
 
 
                 cardLayout.add(vacancyLayout);
                 return cardLayout;
             });
+
     @Autowired
     SessionService sessionService;
 
@@ -86,6 +97,7 @@ public class SearchView extends Composite<VerticalLayout> {
         VirtualList<Vacancy> virtualList = new VirtualList<>();
 
         virtualList.setItems(vacancyList);
+
 
 
         buttonSearch.addClickListener(event -> {
@@ -123,17 +135,50 @@ public class SearchView extends Composite<VerticalLayout> {
 
     }
 
-    private void setButtons() {
+    private VerticalLayout setDialog(Vacancy vacancy){
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setPadding(false);
+        verticalLayout.setSpacing(false);
+        verticalLayout.getStyle().set("width", "18rem").set("max-width", "100%");
+        verticalLayout.add(new Text("Möchtest du dich auf die Stelle " + vacancy.getTitle() + " bewerben?"));
+
+        return verticalLayout;
+    }
 
 
+
+    private void setButtons(Vacancy vacancy) {
+        rate_button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         bewerben_button.addClickListener(event -> {
+            Button saveButton = new Button("Apply");
+            Button cancelButton = new Button("Cancel");
+            saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+            dialogApply.getFooter().add(cancelButton);
+            dialogApply.getFooter().add(saveButton);
+            dialogApply.add(setDialog(vacancy));
+
+            saveButton.addClickListener(event1 ->{
+                // create new ApplyClass
+            });
+            cancelButton.addClickListener(event1 ->{
+                dialogApply.close();
+            });
+
+
 
         });
 
         merke_button.addClickListener(event -> {
 
         });
+
+        rate_button.addClickListener(event ->{
+
+        });
     }
+
+
 
     private void setComboBoxSampleData(ComboBox<String> comboBox) {
         comboBox.setItems(comboBoxItems);
