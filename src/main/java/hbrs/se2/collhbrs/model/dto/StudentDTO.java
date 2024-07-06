@@ -5,11 +5,12 @@ import hbrs.se2.collhbrs.model.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Setter
 @Getter
-public class StudentDTO extends UserDTO {
+public class StudentDTO extends UserDTO implements Serializable {
 
     private long studentID;
     private User user;

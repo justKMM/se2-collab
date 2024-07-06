@@ -18,22 +18,23 @@ import jakarta.annotation.security.RolesAllowed;
 
 
 @CssImport("./styles/index.css")
-@Route(value = Globals.Pages.APPlY_STUDENT, layout = AppView.class)
+@Route(value = Globals.Pages.APPLY_STUDENT, layout = AppView.class)
 @RolesAllowed(Globals.Roles.STUDENT)
 public class ApplyView extends Composite<VerticalLayout> {
-    public ApplyView(VacancyService vacancyService, SessionService sessionService){
+    private static final String MIN_CONTENT = "min-content";
+
+    public ApplyView(VacancyService vacancyService, SessionService sessionService) {
         H2 h2 = new H2();
         HorizontalLayout layoutRow = new HorizontalLayout();
         Button buttonPrimary = new Button();
         Button buttonPrimary2 = new Button();
-        getContent().setWidth("min-content");
-        getContent().setHeight("min-content");
+        getContent().setWidth(MIN_CONTENT);
+        getContent().setHeight(MIN_CONTENT);
         getContent().setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         getContent().setAlignItems(FlexComponent.Alignment.CENTER);
 
 
-        h2.setText("Möchtest du dich auf die Stelle " );
-
+        h2.setText("Möchtest du dich auf die Stelle ");
 
 
         getContent().setAlignSelf(FlexComponent.Alignment.CENTER, h2);
@@ -41,13 +42,13 @@ public class ApplyView extends Composite<VerticalLayout> {
         layoutRow.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow);
         layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
-        layoutRow.setWidth("min-content");
-        layoutRow.setHeight("min-content");
+        layoutRow.setWidth(MIN_CONTENT);
+        layoutRow.setHeight(MIN_CONTENT);
         buttonPrimary.setText("Button");
-        buttonPrimary.setWidth("min-content");
+        buttonPrimary.setWidth(MIN_CONTENT);
         buttonPrimary.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary2.setText("Button");
-        buttonPrimary2.setWidth("min-content");
+        buttonPrimary2.setWidth(MIN_CONTENT);
         buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_ERROR);
         getContent().add(h2);
         getContent().add(layoutRow);

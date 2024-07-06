@@ -1,8 +1,6 @@
 package hbrs.se2.collhbrs;
 
 import hbrs.se2.collhbrs.service.RegisterService;
-import hbrs.se2.collhbrs.service.SessionService;
-import hbrs.se2.collhbrs.service.VacancyService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -12,14 +10,10 @@ import org.springframework.stereotype.Component;
 public class SampleDataInitializer {
 
     private final RegisterService registerService;
-    private final VacancyService vacancyService;
-    private final SessionService sessionService;
 
 
-    public SampleDataInitializer(RegisterService registerService, VacancyService vacancyService, SessionService sessionService) {
+    public SampleDataInitializer(RegisterService registerService) {
         this.registerService = registerService;
-        this.vacancyService = vacancyService;
-        this.sessionService = sessionService;
     }
 
     @PostConstruct

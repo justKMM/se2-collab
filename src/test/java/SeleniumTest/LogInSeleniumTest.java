@@ -1,7 +1,7 @@
 package SeleniumTest;
 
 import hbrs.se2.collhbrs.CollhbrsApplication;
-import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -36,14 +36,14 @@ public class LogInSeleniumTest {
 
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         // Schließe den Browser nach dem Test
         driver.quit();
     }
 
     @Test
-    public void testLogIn() {
+    void testLogIn() {
 
         //Username Feld auswählen
         driver.findElement(By.xpath("//*[@id=\"input-vaadin-text-field-6\"]")).sendKeys("selenium");

@@ -29,7 +29,7 @@ public class Globals {
         public static final String SHOW_APPLICATION = "business/show/application";
         public static final String VACANCY = "business/vacancy";
         public static final String SEARCH_STUDENT = "student/search";
-        public static final String APPlY_STUDENT = "student/apply";
+        public static final String APPLY_STUDENT = "student/apply";
 
         private Pages() {
             throw new UnsupportedOperationException(EXCEPTION_1);

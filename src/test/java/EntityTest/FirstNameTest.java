@@ -59,8 +59,8 @@ class FirstNameTest {
         assertEquals(firstName1, firstName2);
         assertNotEquals(firstName, firstName1);
         assertNotEquals(firstName, firstName2);
-        assertNotEquals(firstName, null);
-        assertNotEquals(firstName, "lol");
+        assertNotEquals(null, firstName);
+        assertNotEquals("lol", firstName);
     }
 
     @Test

@@ -7,7 +7,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -15,10 +14,6 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
-import com.vaadin.flow.theme.lumo.LumoUtility;
-import hbrs.se2.collhbrs.model.dto.BusinessDTO;
 import hbrs.se2.collhbrs.model.dto.RequirmentsDTO;
 import hbrs.se2.collhbrs.model.dto.ResponsibilitiesDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
@@ -51,8 +46,8 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
     private final SessionService sessionService;
     private final VacancyService vacancyService;
     private final VerticalLayout layout;
-    private List<VacancyDTO> vacancies;
     private final MarkdownConverter markdownConverter;
+    private List<VacancyDTO> vacancies;
 
     @Autowired
     public MyVacanciesView(RequirementsService requirementsService,
@@ -119,7 +114,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         responsibilitiesDiv.add(new H3("Responsibilities:"));
         responsibilities.forEach(resp -> {
             Div respParagraph = new Div();
-            respParagraph.getElement().setProperty("innerHTML",markdownConverter.convertToHtml(resp));
+            respParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(resp));
             responsibilitiesDiv.add(respParagraph);
         });
 

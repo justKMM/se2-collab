@@ -6,9 +6,11 @@ import hbrs.se2.collhbrs.model.entity.Vacancy;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Setter
 @Getter
-public class ApplicationDTO {
+public class ApplicationDTO implements Serializable {
 
     private long applicationID;
     private Student student;

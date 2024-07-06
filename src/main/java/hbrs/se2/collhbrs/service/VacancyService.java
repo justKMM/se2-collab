@@ -60,8 +60,8 @@ public class VacancyService {
 
     @Transactional
     public void deleteVacancy(Long vacancyId) {
-        responsibilitiesRepository.deleteByVacancy_VacancyID(vacancyId);
-        requirementsRepository.deleteByVacancy_VacancyID(vacancyId);
+        responsibilitiesRepository.deleteByVacancyVacancyID(vacancyId);
+        requirementsRepository.deleteByVacancyVacancyID(vacancyId);
         vacancyRepository.deleteByVacancyID(vacancyId);
     }
 

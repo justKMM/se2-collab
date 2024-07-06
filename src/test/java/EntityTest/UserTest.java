@@ -90,8 +90,8 @@ class UserTest {
         assertEquals(user2, user2);
         assertEquals(user1, user1);
         assertEquals(user, user);
-        assertNotEquals(user, null);
-        assertNotEquals(user, "lol");
+        assertNotEquals(null, user);
+        assertNotEquals("lol", user);
         assertNotEquals(user, user1);
         assertNotEquals(user, user4);
         assertNotEquals(user, user2);
