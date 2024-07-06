@@ -24,7 +24,7 @@ import hbrs.se2.collhbrs.views.profile.business.ProfileBusinessView;
 import hbrs.se2.collhbrs.views.profile.business.ShowApplicationView;
 import hbrs.se2.collhbrs.views.profile.business.VacancyView;
 import hbrs.se2.collhbrs.views.profile.student.ProfilStudentView;
-import hbrs.se2.collhbrs.views.profile.student.SearchView;
+import hbrs.se2.collhbrs.views.profile.student.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("./styles/index.css")
@@ -92,7 +92,7 @@ public class AppView extends AppLayout {
 
         if (sessionService.getUserRole().contains(Globals.Roles.STUDENT)) {
             tabs = Utils.append(tabs, createTab("Profile", ProfilStudentView.class));
-            tabs = Utils.append(tabs, createTab("Search Job", SearchView.class));
+            tabs = Utils.append(tabs, createTab("Search Job", Search.class));
             tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
         } else if (sessionService.getUserRole().contains(Globals.Roles.BUSINESS)) {
             tabs = Utils.append(tabs, createTab("Profile", ProfileBusinessView.class));
