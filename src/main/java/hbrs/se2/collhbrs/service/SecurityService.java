@@ -20,11 +20,11 @@ import java.util.List;
 @Service
 public class SecurityService implements UserDetailsService, Serializable {
 
-    private final transient UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private final transient StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    private final transient BusinessRepository businessRepository;
+    private final BusinessRepository businessRepository;
 
     public SecurityService(UserRepository userRepository, StudentRepository studentRepository, BusinessRepository businessRepository) {
         this.userRepository = userRepository;
