@@ -28,18 +28,23 @@ public class Application implements Serializable {
     @Getter
     private Vacancy vacancy;
 
+    @Basic
+    @Column(name = "anschreiben", columnDefinition = "TEXT")
+    private String coverLetter;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Application application = (Application) o;
-        return applicationID == application.applicationID &&
-                Objects.equals(student, application.student) &&
-                Objects.equals(vacancy, application.vacancy);
+        Application that = (Application) o;
+        return applicationID == that.applicationID &&
+                Objects.equals(student, that.student) &&
+                Objects.equals(vacancy, that.vacancy) &&
+                Objects.equals(coverLetter, that.coverLetter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(applicationID, student, vacancy);
+        return Objects.hash(applicationID, student, vacancy, coverLetter);
     }
 }
