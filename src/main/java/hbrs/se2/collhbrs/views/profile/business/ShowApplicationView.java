@@ -88,9 +88,13 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
                         application.getStudent().getUser().getProfile().getProfileDescription())
         );
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.add(new Button("show profile", e -> {
+        buttonLayout.add(
+                new Button("show profile", e -> {
 
-        }));
+                }),
+                new Button("Download Application letter", e -> {
+
+                }));
         studentCardLayout.add(vacancyInfo, type, avaterLayout, profileDescription, profileDescriptionParagraph, buttonLayout);
         studentCardLayout.setWidth("100%");
         studentCardLayout.setMaxWidth("700px");
