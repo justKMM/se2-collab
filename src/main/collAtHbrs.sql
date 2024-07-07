@@ -35,9 +35,8 @@ create table public.bewirbt
     bewirbtID              SERIAL not null,
     StudentID              SERIAL not null,
     StellenausschreibungID SERIAL not null,
-    constraint pk_bewirbt primary key (bewirbtID),
-    constraint uk_bewirbt_StudentID unique (StudentID),
-    constraint uk_bewirbt_StellenausschreibungID unique (StellenausschreibungID)
+    Anschreiben TEXT,
+    constraint pk_bewirbt primary key (bewirbtID)
 );
 
 create table public.Interessen
