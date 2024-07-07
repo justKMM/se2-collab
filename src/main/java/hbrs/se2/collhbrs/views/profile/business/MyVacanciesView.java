@@ -44,9 +44,9 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
     private final RequirementsService requirementsService;
     private final ResponsibilitiesService responsibilitiesService;
     private final SessionService sessionService;
-    private final VacancyService vacancyService;
+    private final transient VacancyService vacancyService;
     private final VerticalLayout layout;
-    private final MarkdownConverter markdownConverter;
+    private final transient MarkdownConverter markdownConverter;
     private List<VacancyDTO> vacancies;
 
     @Autowired

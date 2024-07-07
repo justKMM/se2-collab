@@ -25,11 +25,6 @@ public class BusinessRegistrationView extends FormLayout {
     private final RegisterService registerService;
     private final Button submitButton = createButton("Register", ButtonVariant.LUMO_PRIMARY);
     private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
-    private TextField businessName;
-    private TextField username;
-    private EmailField email;
-    private PasswordField password;
-    private PasswordField passwordConfirmation;
 
     public BusinessRegistrationView(RegisterService registerService) {
         this.registerService = registerService;
@@ -57,11 +52,11 @@ public class BusinessRegistrationView extends FormLayout {
     private void setupFields() {
         H3 title = new H3("Business registration");
 
-        businessName = createTextField("Name of the organisation");
-        username = createTextField("Username");
-        email = new EmailField("Email");
-        password = new PasswordField("Password");
-        passwordConfirmation = new PasswordField("Confirm password");
+        TextField businessName = createTextField("Name of the organisation");
+        TextField username = createTextField("Username");
+        EmailField email = new EmailField("Email");
+        PasswordField password = new PasswordField("Password");
+        PasswordField passwordConfirmation = new PasswordField("Confirm password");
 
         setRequiredIndicatorVisible(businessName, username, email, password, passwordConfirmation);
 
@@ -84,6 +79,12 @@ public class BusinessRegistrationView extends FormLayout {
         });
 
         submitButton.addClickListener(e -> {
+            TextField businessName = createTextField("Name of the organisation");
+            TextField username = createTextField("Username");
+            EmailField email = new EmailField("Email");
+            PasswordField password = new PasswordField("Password");
+            PasswordField passwordConfirmation = new PasswordField("Confirm password");
+
             if (RegisterUtils.validateInput(
                     username.getValue(),
                     businessName.getValue(),

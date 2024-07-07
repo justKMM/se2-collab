@@ -1,6 +1,5 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.model.entity.Business;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.repository.BusinessRepository;
 import hbrs.se2.collhbrs.repository.RequirementsRepository;
@@ -10,7 +9,6 @@ import hbrs.se2.collhbrs.util.EntityFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.util.List;
 
 @Service

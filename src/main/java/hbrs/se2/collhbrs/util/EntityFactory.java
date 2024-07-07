@@ -92,7 +92,7 @@ public class EntityFactory {
         return responsibilities;
     }
 
-    public Application createApplication(Vacancy vacancy,Student student) {
+    public Application createApplication(Vacancy vacancy, Student student) {
         Application application = new Application();
         application.setVacancy(vacancy);
         application.setStudent(student);

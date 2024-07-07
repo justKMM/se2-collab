@@ -25,12 +25,6 @@ public class StudentRegistrationView extends FormLayout {
     private final RegisterService registerService;
     private final Button submitButton = createButton("Register", ButtonVariant.LUMO_PRIMARY);
     private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
-    private TextField firstName;
-    private TextField lastName;
-    private TextField username;
-    private EmailField email;
-    private PasswordField password;
-    private PasswordField passwordConfirmation;
 
     public StudentRegistrationView(RegisterService registerService) {
         this.registerService = registerService;
@@ -64,12 +58,12 @@ public class StudentRegistrationView extends FormLayout {
 
     private void setupFields() {
         H3 title = new H3("Student registration");
-        firstName = createTextField("First name");
-        lastName = createTextField("Last name");
-        username = createTextField("Username");
-        email = new EmailField("Email");
-        password = new PasswordField("Password");
-        passwordConfirmation = new PasswordField("Confirm password");
+        TextField firstName = createTextField("First name");
+        TextField lastName = createTextField("Last name");
+        TextField username = createTextField("Username");
+        EmailField email = new EmailField("Email");
+        PasswordField password = new PasswordField("Password");
+        PasswordField passwordConfirmation = new PasswordField("Confirm password");
 
         setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirmation);
 
@@ -83,7 +77,6 @@ public class StudentRegistrationView extends FormLayout {
     }
 
     private void addButtons() {
-
         cancelButton.addClickListener(e -> {
             Notification notification = Notification.show("Registration cancelled");
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -91,6 +84,13 @@ public class StudentRegistrationView extends FormLayout {
         });
 
         submitButton.addClickListener(e -> {
+            TextField username = createTextField("Username");
+            TextField firstName = createTextField("First name");
+            TextField lastName = createTextField("Last name");
+            EmailField email = new EmailField("Email");
+            PasswordField password = new PasswordField("Password");
+            PasswordField passwordConfirmation = new PasswordField("Confirm password");
+
             if (RegisterUtils.validateInput(
                     username.getValue(),
                     firstName.getValue(),
