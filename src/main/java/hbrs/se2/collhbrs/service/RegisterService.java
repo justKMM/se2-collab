@@ -18,12 +18,12 @@ import java.util.Objects;
 @Service
 public class RegisterService implements Serializable {
 
-    private final EntityFactory entityFactory;
-    private final UserRepository userRepository;
-    private final ProfileRepository profileRepository;
-    private final StudentRepository studentRepository;
-    private final FirstNameRepository firstNameRepository;
-    private final BusinessRepository businessRepository;
+    private final transient EntityFactory entityFactory;
+    private final transient UserRepository userRepository;
+    private final transient ProfileRepository profileRepository;
+    private final transient StudentRepository studentRepository;
+    private final transient FirstNameRepository firstNameRepository;
+    private final transient BusinessRepository businessRepository;
 
     public RegisterService(EntityFactory entityFactory, UserRepository userRepository, ProfileRepository profileRepository, StudentRepository studentRepository, FirstNameRepository firstNameRepository, BusinessRepository businessRepository) {
         this.entityFactory = entityFactory;

@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class ResponsibilitiesService implements Serializable {
 
-    final
+    final transient
     ResponsibilitiesRepository responsibilitiesRepository;
 
     public ResponsibilitiesService(ResponsibilitiesRepository responsibilitiesRepository) {

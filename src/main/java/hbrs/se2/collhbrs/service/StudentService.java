@@ -15,7 +15,7 @@ public class StudentService implements Serializable {
     private static final String STUDENT_NOT_FOUND = "Student with ID ";
     private static final String NOT_FOUND = " not found";
 
-    private final StudentRepository studentRepository;
+    private final transient StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
