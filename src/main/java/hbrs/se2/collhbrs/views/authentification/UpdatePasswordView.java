@@ -20,26 +20,32 @@ import jakarta.annotation.security.PermitAll;
 @CssImport("./styles/index.css")
 @PermitAll
 public class UpdatePasswordView extends VerticalLayout {
-    private final PasswordField oldPassword = new PasswordField("Old Password");
-    private final PasswordField newPassword = new PasswordField("New Password");
-    private final PasswordField confirmPassword = new PasswordField("Confirm Password");
 
     private final LoginService loginService;
-
     private final SessionService sessionService;
 
     public UpdatePasswordView(LoginService loginService, SessionService sessionService) {
+        this.loginService = loginService;
+        this.sessionService = sessionService;
+
+        setupLayout();
+    }
+
+    private void setupLayout() {
+        PasswordField oldPassword = new PasswordField("Old Password");
+        PasswordField newPassword = new PasswordField("New Password");
+        PasswordField confirmPassword = new PasswordField("Confirm Password");
         Button updateButton = new Button("Update");
+
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         setWidthFull();
         setHeightFull();
         add(oldPassword, newPassword, confirmPassword, updateButton);
-        updateButton.addClickListener(event -> updatePassword());
-        this.loginService = loginService;
-        this.sessionService = sessionService;
+
+        updateButton.addClickListener(event -> updatePassword(oldPassword, newPassword, confirmPassword));
     }
 
-    private void updatePassword() {
+    private void updatePassword(PasswordField oldPassword, PasswordField newPassword, PasswordField confirmPassword) {
         String oldPasswordValue = oldPassword.getValue();
         String newPasswordValue = newPassword.getValue();
         String confirmPasswordValue = confirmPassword.getValue();

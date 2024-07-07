@@ -28,14 +28,11 @@ import java.util.stream.Stream;
 @AnonymousAllowed
 public class ResetPasswordView extends Composite<VerticalLayout> implements HasUrlParameter<String> {
 
-    final
-    ResetPasswordService resetPasswordService;
+    final ResetPasswordService resetPasswordService;
     private final Button submitButton = createButton("Confirm", ButtonVariant.LUMO_PRIMARY);
     private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
     FormLayout formLayout;
     private Map<String, List<String>> parameters;
-    private PasswordField password;
-    private PasswordField passwordConfirmation;
 
     public ResetPasswordView(ResetPasswordService resetPasswordService) {
         setupLayout();
@@ -80,8 +77,8 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
     private void setupFields() {
         H3 title = new H3("Reset your password");
 
-        password = new PasswordField("Password");
-        passwordConfirmation = new PasswordField("Confirm password");
+        PasswordField password = new PasswordField("Password");
+        PasswordField passwordConfirmation = new PasswordField("Confirm password");
 
         setRequiredIndicatorVisible(password, passwordConfirmation);
 
@@ -102,6 +99,8 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
         });
 
         submitButton.addClickListener(e -> {
+            PasswordField password = new PasswordField("Password");
+            PasswordField passwordConfirmation = new PasswordField("Confirm password");
             String newPassword = password.getValue();
             String confirmPassword = passwordConfirmation.getValue();
             if (!newPassword.equals(confirmPassword)) {
@@ -127,5 +126,4 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
         Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));
     }
-
 }

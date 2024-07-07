@@ -41,11 +41,11 @@ import java.util.List;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyView extends Composite<VerticalLayout> {
 
-    private final EntityFactory entityFactory;
+    private final transient EntityFactory entityFactory;
     private final RequirementsService requirementsService;
     private final ResponsibilitiesService responsibilitiesService;
     private final SessionService sessionService;
-    private final VacancyService vacancyService;
+    private final transient VacancyService vacancyService;
 
     private MultiSelectListBox<String> requirementsList;
     private MultiSelectListBox<String> responsibilitiesList;

@@ -29,27 +29,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Route(value = Globals.Pages.SEARCH_STUDENT, layout = AppView.class)
 @RolesAllowed(Globals.Roles.STUDENT)
 public class SearchView extends Composite<VerticalLayout> {
 
+    private static final String FONT_WEIGHT = "font-weight";
+    private static final String INNER_HTML = "innerHTML";
+
     private final VerticalLayout layout;
-    private Button searchButton;
-    private ComboBox<String> employmenttype;
-    private TextField searchTextField;
-    private List<VacancyDTO> vacancies;
-    private List<VacancyDTO> searchedVacancies;
-    private List<RequirmentsDTO> allRequirements;
-    List<ResponsibilitiesDTO> allResponsibilities;
-    private EntityFactory entityFactory = new EntityFactory();
-    private MarkdownConverter markdownConverter = new MarkdownConverter();
-    private final VacancyService vacancyService;
-    private final RequirementsService requirementsService;
-    private ResponsibilitiesService responsibilitiesService;
-    private SessionService sessionService;
-    private ApplicationService applicationService;
+    private final List<VacancyDTO> vacancies;
+    private final List<RequirmentsDTO> allRequirements;
+    private final List<ResponsibilitiesDTO> allResponsibilities;
+    private final transient EntityFactory entityFactory = new EntityFactory();
+    private final transient MarkdownConverter markdownConverter = new MarkdownConverter();
+    private final SessionService sessionService;
+    private final ApplicationService applicationService;
     private final String[] comboBoxItems =
             {
                     "Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
@@ -60,9 +55,6 @@ public class SearchView extends Composite<VerticalLayout> {
     public SearchView(VacancyService vacancyService, RequirementsService requirementsService,
                       ResponsibilitiesService responsibilitiesService, SessionService sessionService,
                       ApplicationService applicationService) {
-        this.vacancyService = vacancyService;
-        this.requirementsService = requirementsService;
-        this.responsibilitiesService = responsibilitiesService;
         this.sessionService = sessionService;
         this.applicationService = applicationService;
         this.layout = new VerticalLayout();
@@ -101,28 +93,28 @@ public class SearchView extends Composite<VerticalLayout> {
 
     public HorizontalLayout searchbar() {
         HorizontalLayout search = new HorizontalLayout();
-        employmenttype = new ComboBox<>();
-        employmenttype.setItems(comboBoxItems);
-        searchButton = new Button("SearchView");
-        searchTextField = new TextField();
+        ComboBox<String> employmentType = new ComboBox<>();
+        employmentType.setItems(comboBoxItems);
+        Button searchButton = new Button("Search");
+        TextField searchTextField = new TextField();
         searchTextField.setPlaceholder("Location, Description, etc.");
         searchTextField.setWidth("100%");
         search.setWidth("100%");
         search.setMaxWidth("700px");
-        search.add(employmenttype, searchTextField, searchButton);
+        search.add(employmentType, searchTextField, searchButton);
         searchButton.addClickListener(event -> {
             String searchText = searchTextField.getValue();
-            String selectedEmploymentType = employmenttype.getValue();
+            String selectedEmploymentType = employmentType.getValue();
             performSearch(searchText, selectedEmploymentType);
         });
         return search;
     }
 
     private void performSearch(String searchText, String employmentType) {
-        searchedVacancies = vacancies.stream()
+        List<VacancyDTO> searchedVacancies = vacancies.stream()
                 .filter(vacancy -> (employmentType == null || employmentType.isEmpty() || vacancy.getEmploymentType().equalsIgnoreCase(employmentType)) &&
                         (searchText == null || searchText.isEmpty() || vacancyMatchesSearchText(vacancy, searchText)))
-                .collect(Collectors.toList());
+                .toList();
         updateVacancyList(searchedVacancies);
     }
 
@@ -176,18 +168,18 @@ public class SearchView extends Composite<VerticalLayout> {
         HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
         H4 profileDescription = new H4("About us ");
         Div profileDescriptionParagraph = new Div();
-        profileDescriptionParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(vacancy.getDescription()));
+        profileDescriptionParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(vacancy.getDescription()));
         VerticalLayout contactLayout = new VerticalLayout();
         Span email = new Span("Email: ");
-        email.getStyle().set("font-weight", "bold");
+        email.getStyle().set(FONT_WEIGHT, "bold");
         HorizontalLayout emailLayout = new HorizontalLayout(email,
                 new Span(vacancy.getBusiness().getUser().getEmail()));
         Span linkedIn = new Span("LinkedIn: ");
-        linkedIn.getStyle().set("font-weight", "bold");
+        linkedIn.getStyle().set(FONT_WEIGHT, "bold");
         HorizontalLayout linkendInLayout = new HorizontalLayout(linkedIn,
                 new Span(vacancy.getBusiness().getUser().getProfile().getLinkedinUsername()));
-        Span xing = new Span("Xing:" );
-        xing.getStyle().set("font-weight", "bold");
+        Span xing = new Span("Xing:");
+        xing.getStyle().set(FONT_WEIGHT, "bold");
         HorizontalLayout xingLayout = new HorizontalLayout(xing,
                 new Span(vacancy.getBusiness().getUser().getProfile().getXingUsername()));
         contactLayout.add(emailLayout, linkendInLayout, xingLayout);
@@ -233,19 +225,19 @@ public class SearchView extends Composite<VerticalLayout> {
         HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
         H4 description = new H4("Description: ");
         Div desParagraph = new Div();
-        desParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(vacancy.getDescription()));
+        desParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(vacancy.getDescription()));
         Div requirementsDiv = new Div();
         requirementsDiv.add(new H3("Requirements:"));
         requirements.forEach(req -> {
             Div reqParagraph = new Div();
-            reqParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(req));
+            reqParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(req));
             requirementsDiv.add(reqParagraph);
         });
         Div responsibilitiesDiv = new Div();
         responsibilitiesDiv.add(new H3("Responsibilities:"));
         responsibilities.forEach(resp -> {
             Div respParagraph = new Div();
-            respParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(resp));
+            respParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(resp));
             responsibilitiesDiv.add(respParagraph);
         });
         HorizontalLayout buttonLayout = new HorizontalLayout();

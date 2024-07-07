@@ -10,8 +10,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import hbrs.se2.collhbrs.service.SessionService;
-import hbrs.se2.collhbrs.service.VacancyService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
@@ -23,7 +21,7 @@ import jakarta.annotation.security.RolesAllowed;
 public class ApplyView extends Composite<VerticalLayout> {
     private static final String MIN_CONTENT = "min-content";
 
-    public ApplyView(VacancyService vacancyService, SessionService sessionService) {
+    public ApplyView() {
         H2 h2 = new H2();
         HorizontalLayout layoutRow = new HorizontalLayout();
         Button buttonPrimary = new Button();

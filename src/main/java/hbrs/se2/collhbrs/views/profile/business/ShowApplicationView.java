@@ -28,7 +28,7 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ShowApplicationView extends Div implements AfterNavigationObserver {
 
-    final
+    final transient
     EntityFactory entityFactory;
     final
     SessionService sessionService;
