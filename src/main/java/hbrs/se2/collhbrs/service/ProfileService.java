@@ -19,13 +19,13 @@ public class ProfileService implements Serializable {
 
     private static final String PROFILE_NOT_FOUND = "Profile with ID ";
     private static final String NOT_FOUND = " not found";
-    private final ProfileRepository profileRepository;
-    private final UserRepository userRepository;
-    private final StudentRepository studentRepository;
-    private final InterestRepository interestRepository;
-    private final SkillRepository skillRepository;
-    private final DegreeProgrammRepository degreeProgrammRepository;
-    private final FirstNameRepository firstNameRepository;
+    private final transient ProfileRepository profileRepository;
+    private final transient UserRepository userRepository;
+    private final transient StudentRepository studentRepository;
+    private final transient InterestRepository interestRepository;
+    private final transient SkillRepository skillRepository;
+    private final transient DegreeProgrammRepository degreeProgrammRepository;
+    private final transient FirstNameRepository firstNameRepository;
 
     public ProfileService(ProfileRepository profileRepository, UserRepository userRepository, StudentRepository studentRepository, InterestRepository interestRepository, SkillRepository skillRepository, DegreeProgrammRepository degreeProgrammRepository, FirstNameRepository firstNameRepository) {
         this.profileRepository = profileRepository;

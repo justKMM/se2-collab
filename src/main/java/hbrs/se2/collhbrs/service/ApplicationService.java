@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class ApplicationService implements Serializable {
 
-    private final ApplicationRepository repository;
+    private final transient ApplicationRepository repository;
 
     public ApplicationService(ApplicationRepository repository) {
         this.repository = repository;

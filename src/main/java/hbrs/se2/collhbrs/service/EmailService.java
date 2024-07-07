@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Service
 public class EmailService implements Serializable {
 
-    private final JavaMailSender javaMailSender;
+    private final transient JavaMailSender javaMailSender;
 
     public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;

@@ -7,7 +7,6 @@ import hbrs.se2.collhbrs.repository.RequirementsRepository;
 import hbrs.se2.collhbrs.repository.ResponsibilitiesRepository;
 import hbrs.se2.collhbrs.repository.VacancyRepository;
 import hbrs.se2.collhbrs.util.EntityFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +20,15 @@ public class VacancyService {
     private final ResponsibilitiesRepository responsibilitiesRepository;
     private final RequirementsRepository requirementsRepository;
 
-    @Autowired
-    private EntityFactory entityFactory;
-    @Autowired
-    private BusinessRepository businessRepository;
+    private final EntityFactory entityFactory;
+    private final BusinessRepository businessRepository;
 
-    public VacancyService(VacancyRepository vacancyRepository, ResponsibilitiesRepository responsibilitiesRepository, RequirementsRepository requirementsRepository) {
+    public VacancyService(VacancyRepository vacancyRepository, ResponsibilitiesRepository responsibilitiesRepository, RequirementsRepository requirementsRepository, EntityFactory entityFactory, BusinessRepository businessRepository) {
         this.vacancyRepository = vacancyRepository;
         this.responsibilitiesRepository = responsibilitiesRepository;
         this.requirementsRepository = requirementsRepository;
+        this.entityFactory = entityFactory;
+        this.businessRepository = businessRepository;
     }
 
     public void saveVacancy(Vacancy vacancy) {

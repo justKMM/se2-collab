@@ -15,9 +15,9 @@ import java.util.UUID;
 @Service
 public class ResetPasswordService implements Serializable {
 
-    private final UserRepository userRepository;
+    private final transient UserRepository userRepository;
 
-    private final PasswordTokenRepository passwordTokenRepository;
+    private final transient PasswordTokenRepository passwordTokenRepository;
 
     private final EmailService emailService;
 
