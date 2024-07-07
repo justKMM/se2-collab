@@ -40,16 +40,6 @@ public class VacancyService {
         return vacancyRepository.findVacancByBusinessBusinessID(businessId);
     }
 
-    public Vacancy getVacancyByBusinessId(Long businessId) {
-        return vacancyRepository.findVacancyByBusinessBusinessID(businessId);
-    }
-
-    public void createVacancy(Business business, String employmenttype, String title, String description, String location, Date datePublish) {
-
-        Vacancy vacancy = entityFactory.createVacancy(employmenttype, title, location, description, business, datePublish);
-        vacancyRepository.save(vacancy);
-    }
-
     public List<Vacancy> getAllVacancies() {
         return vacancyRepository.findAll();
     }

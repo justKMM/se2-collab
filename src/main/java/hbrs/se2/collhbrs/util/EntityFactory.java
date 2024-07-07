@@ -91,4 +91,11 @@ public class EntityFactory {
         responsibilities.setResponsibilitiesName(responsibilitiesName);
         return responsibilities;
     }
+
+    public Application createApplication(Vacancy vacancy,Student student) {
+        Application application = new Application();
+        application.setVacancy(vacancy);
+        application.setStudent(student);
+        return application;
+    }
 }
