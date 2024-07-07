@@ -4,14 +4,12 @@ import hbrs.se2.collhbrs.model.entity.traits.Requirements;
 import hbrs.se2.collhbrs.repository.RequirementsRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Service
-public class RequirementsService implements Serializable {
+public class RequirementsService {
 
-    final transient
-    RequirementsRepository requirementsRepository;
+    private final RequirementsRepository requirementsRepository;
 
     public RequirementsService(RequirementsRepository requirementsRepository) {
         this.requirementsRepository = requirementsRepository;

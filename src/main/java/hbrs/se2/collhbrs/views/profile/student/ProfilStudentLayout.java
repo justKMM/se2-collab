@@ -53,7 +53,5 @@ public class ProfilStudentLayout extends VerticalLayout {
                 layoutProfileDescription,
                 layoutAvatar
         );
-
-
     }
 }

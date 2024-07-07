@@ -4,11 +4,9 @@ import hbrs.se2.collhbrs.model.entity.Profile;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Setter
 @Getter
-public class ProfileDTO implements Serializable {
+public class ProfileDTO {
 
     private long profileID;
     private String avatarUrl;

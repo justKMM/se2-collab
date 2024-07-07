@@ -17,7 +17,6 @@ public class VacancyService {
     private final VacancyRepository vacancyRepository;
     private final ResponsibilitiesRepository responsibilitiesRepository;
     private final RequirementsRepository requirementsRepository;
-
     private final EntityFactory entityFactory;
     private final BusinessRepository businessRepository;
 
@@ -43,6 +42,10 @@ public class VacancyService {
 
     public List<Vacancy> getVacanciesByEmploymentType(String employmenttype) {
         return vacancyRepository.findVacanciesByEmploymentType(employmenttype);
+    }
+
+    public Vacancy getVacancyByBusinessID(Long businessId) {
+        return vacancyRepository.findVacancyByBusiness_BusinessID(businessId);
     }
 
     @Transactional

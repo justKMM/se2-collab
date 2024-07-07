@@ -41,8 +41,8 @@ public class SearchView extends Composite<VerticalLayout> {
     private final List<VacancyDTO> vacancies;
     private final List<RequirmentsDTO> allRequirements;
     private final List<ResponsibilitiesDTO> allResponsibilities;
-    private final transient EntityFactory entityFactory = new EntityFactory();
-    private final transient MarkdownConverter markdownConverter = new MarkdownConverter();
+    private final EntityFactory entityFactory = new EntityFactory();
+    private final MarkdownConverter markdownConverter = new MarkdownConverter();
     private final SessionService sessionService;
     private final ApplicationService applicationService;
     private final String[] comboBoxItems =
@@ -70,7 +70,7 @@ public class SearchView extends Composite<VerticalLayout> {
         for (VacancyDTO vacancy : vacancies) {
             allRequirements.addAll(requirementsService.getRequirementsByVacancyId(vacancy.getVacancyID())
                     .stream()
-                    .map(SearchView::getRequirements)
+                        .map(SearchView::getRequirements)
                     .toList());
 
             allResponsibilities.addAll(responsibilitiesService.getResponsibilitiesByVacancyId(vacancy.getVacancyID())
@@ -242,6 +242,7 @@ public class SearchView extends Composite<VerticalLayout> {
         });
         HorizontalLayout buttonLayout = new HorizontalLayout();
         Button apply = new Button("Apply");
+        apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         apply.addClickListener(e -> {
             applicationService.saveApplication(
                     entityFactory.createApplication(
@@ -252,7 +253,7 @@ public class SearchView extends Composite<VerticalLayout> {
             Notification.show("applied!");
         });
         Button closeButton = new Button("Close", event -> dialog.close());
-        closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        closeButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         buttonLayout.add(apply, closeButton);
         dialogLayout.add(title, infoLayout, description, desParagraph, responsibilitiesDiv, requirementsDiv, buttonLayout);
         dialog.add(dialogLayout);

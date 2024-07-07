@@ -5,11 +5,9 @@ import hbrs.se2.collhbrs.model.entity.traits.Requirements;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Setter
 @Getter
-public class RequirmentsDTO implements Serializable {
+public class RequirmentsDTO {
 
     private Vacancy vacancy;
     private int serialNumber;

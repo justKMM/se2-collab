@@ -13,8 +13,7 @@ import java.io.Serializable;
 @Service
 public class SessionService implements Serializable {
 
-    final
-    SecurityService securityService;
+    private final SecurityService securityService;
 
     public SessionService(SecurityService securityService) {
         this.securityService = securityService;

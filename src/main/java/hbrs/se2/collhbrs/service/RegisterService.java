@@ -8,22 +8,20 @@ import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import hbrs.se2.collhbrs.repository.*;
 import hbrs.se2.collhbrs.util.EntityFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 
 @Service
-public class RegisterService implements Serializable {
+public class RegisterService {
 
-    private final transient EntityFactory entityFactory;
-    private final transient UserRepository userRepository;
-    private final transient ProfileRepository profileRepository;
-    private final transient StudentRepository studentRepository;
-    private final transient FirstNameRepository firstNameRepository;
-    private final transient BusinessRepository businessRepository;
+    private final EntityFactory entityFactory;
+    private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
+    private final StudentRepository studentRepository;
+    private final FirstNameRepository firstNameRepository;
+    private final BusinessRepository businessRepository;
 
     public RegisterService(EntityFactory entityFactory, UserRepository userRepository, ProfileRepository profileRepository, StudentRepository studentRepository, FirstNameRepository firstNameRepository, BusinessRepository businessRepository) {
         this.entityFactory = entityFactory;
@@ -34,22 +32,18 @@ public class RegisterService implements Serializable {
         this.businessRepository = businessRepository;
     }
 
-    @Transactional
     public void saveUser(User user) {
         userRepository.save(user);
     }
 
-    @Transactional
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    @Transactional
     public void registerBusiness(String username, String password, String email, String businessName) {
         saveBusiness(entityFactory.createBusiness(businessName, registerUser(username, password, email)));
     }
 
-    @Transactional
     public void registerStudent(String username, String password, String email, String firstName, String lastName) {
         Student student = entityFactory.createStudent(registerUser(username, password, email), lastName);
         saveStudent(student);
@@ -73,29 +67,24 @@ public class RegisterService implements Serializable {
         return user;
     }
 
-    @Transactional
     public void saveProfile(Profile profile) {
         profileRepository.save(profile);
     }
 
-    @Transactional
     public void saveStudent(Student student) {
         studentRepository.save(student);
     }
 
-    @Transactional
     public void saveVorname(FirstName firstName) {
         firstNameRepository.save(firstName);
     }
 
-    @Transactional
     public void saveFirstNames(String[] firstNames, Student student) {
         for (String firstName : firstNames) {
             saveVorname(entityFactory.createFirstName(firstName, student));
         }
     }
 
-    @Transactional
     public void saveBusiness(Business business) {
         businessRepository.save(business);
     }

@@ -3,31 +3,26 @@ package hbrs.se2.collhbrs.service;
 import hbrs.se2.collhbrs.model.entity.Student;
 import hbrs.se2.collhbrs.repository.StudentRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.Optional;
 
 @Service
-public class StudentService implements Serializable {
+public class StudentService {
 
 
     private static final String STUDENT_NOT_FOUND = "Student with ID ";
     private static final String NOT_FOUND = " not found";
 
-    private final transient StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    @Transactional
     public void saveStudent(Student student) {
         studentRepository.save(student);
     }
 
-
-    @Transactional
     public void saveResume(Long studentID, String base64Resume) {
         Optional<Student> optionalStudent = studentRepository.findById(studentID);
         if (optionalStudent.isPresent()) {
@@ -39,7 +34,6 @@ public class StudentService implements Serializable {
         }
     }
 
-    @Transactional
     public void deleteResume(Long studentID) {
         Optional<Student> optionalStudent = studentRepository.findById(studentID);
         if (optionalStudent.isPresent()) {
@@ -51,7 +45,6 @@ public class StudentService implements Serializable {
         }
     }
 
-    @Transactional
     public String getResume(Long studentID) {
         Optional<Student> optionalStudent = studentRepository.findById(studentID);
         if (optionalStudent.isPresent()) {

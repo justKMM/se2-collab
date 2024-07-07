@@ -5,11 +5,9 @@ import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Setter
 @Getter
-public class FirstNameDTO implements Serializable {
+public class FirstNameDTO {
 
     private Student student;
     private int serialNumber;

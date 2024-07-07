@@ -12,16 +12,12 @@ import hbrs.se2.collhbrs.repository.UserRepository;
 import hbrs.se2.collhbrs.util.Globals;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-
 @Service
-public class LoginService implements Serializable {
+public class LoginService {
 
-    private final transient UserRepository userRepository;
-
-    private final transient StudentRepository studentRepository;
-
-    private final transient BusinessRepository businessRepository;
+    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
+    private final BusinessRepository businessRepository;
 
     public LoginService(UserRepository userRepository, StudentRepository studentRepository, BusinessRepository businessRepository) {
         this.userRepository = userRepository;

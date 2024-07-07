@@ -1,31 +1,39 @@
 package hbrs.se2.collhbrs.service;
 
-import hbrs.se2.collhbrs.model.dto.ApplicationDTO;
 import hbrs.se2.collhbrs.model.entity.Application;
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import hbrs.se2.collhbrs.repository.ApplicationRepository;
-import org.springframework.stereotype.Component;
+import hbrs.se2.collhbrs.repository.FirstNameRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class ApplicationService implements Serializable {
+@Service
+public class ApplicationService {
 
-    private final transient ApplicationRepository repository;
+    private final ApplicationRepository applicationRepository;
+    private final FirstNameRepository firstNameRepository;
 
-    public ApplicationService(ApplicationRepository repository) {
-        this.repository = repository;
+    public ApplicationService(
+            ApplicationRepository applicationRepository,
+            FirstNameRepository firstNameRepository
+    ) {
+        this.applicationRepository = applicationRepository;
+        this.firstNameRepository = firstNameRepository;
     }
 
     @Transactional
     public void saveApplication(Application application) {
-        repository.save(application);
+        applicationRepository.save(application);
     }
 
-    public List<ApplicationDTO> readAllApplications() {
-        return new ArrayList<>();
-        //TODO repository.findAllApplications();
+    public List<Application> getAllApplications(Long vacanyId) {
+        return applicationRepository.findApplicationByVacancy_VacancyID(vacanyId);
+    }
+
+    public FirstName getFirstName(Student student) {
+       return firstNameRepository.findFirstNameByStudent_StudentID(student.getStudentID());
     }
 }

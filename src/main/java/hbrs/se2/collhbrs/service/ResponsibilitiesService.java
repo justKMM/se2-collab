@@ -4,14 +4,12 @@ import hbrs.se2.collhbrs.model.entity.traits.Responsibilities;
 import hbrs.se2.collhbrs.repository.ResponsibilitiesRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Service
-public class ResponsibilitiesService implements Serializable {
+public class ResponsibilitiesService {
 
-    final transient
-    ResponsibilitiesRepository responsibilitiesRepository;
+    private final ResponsibilitiesRepository responsibilitiesRepository;
 
     public ResponsibilitiesService(ResponsibilitiesRepository responsibilitiesRepository) {
         this.responsibilitiesRepository = responsibilitiesRepository;

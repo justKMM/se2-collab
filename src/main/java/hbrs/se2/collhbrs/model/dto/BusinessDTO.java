@@ -5,11 +5,9 @@ import hbrs.se2.collhbrs.model.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Setter
 @Getter
-public class BusinessDTO extends UserDTO implements Serializable {
+public class BusinessDTO extends UserDTO {
 
     private long businessID;
     private User user;

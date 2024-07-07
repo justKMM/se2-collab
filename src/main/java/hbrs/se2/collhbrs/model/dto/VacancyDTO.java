@@ -5,12 +5,11 @@ import hbrs.se2.collhbrs.model.entity.Vacancy;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 @Setter
 @Getter
-public class VacancyDTO implements Serializable {
+public class VacancyDTO {
 
     private long vacancyID;
     private Business business;
