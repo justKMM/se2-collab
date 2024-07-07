@@ -1,5 +1,6 @@
 package hbrs.se2.collhbrsTest;
 
+import hbrs.se2.collhbrs.CollhbrsApplication;
 import hbrs.se2.collhbrs.model.entity.Profile;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.repository.ProfileRepository;
@@ -13,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@SpringBootTest
+@SpringBootTest(classes = CollhbrsApplication.class)
 class RoundTripTest {
 
     @Autowired
