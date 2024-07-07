@@ -1,5 +1,6 @@
 package hbrs.se2.collhbrsTest;
 
+import hbrs.se2.collhbrs.CollhbrsApplication;
 import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.model.entity.Profile;
@@ -19,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-@SpringBootTest
+@SpringBootTest(classes = CollhbrsApplication.class)
 class ApplicationTests {
 
     private final User user = new User();
