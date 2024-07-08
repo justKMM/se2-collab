@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class MyVacanciesView extends Composite<VerticalLayout> implements AfterNavigationObserver {
 
-    private final static String INNER_HTML = "innerHTML";
+    private static final String INNER_HTML = "innerHTML";
     private final transient RequirementsService requirementsService;
     private final transient ResponsibilitiesService responsibilitiesService;
     private final SessionService sessionService;

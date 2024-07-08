@@ -10,13 +10,22 @@ import java.util.List;
 
 public interface RegisterService {
     void saveUser(User user);
+
     List<User> getUsers();
+
     void registerBusiness(String username, String password, String email, String businessName);
+
     void registerStudent(String username, String password, String email, String firstName, String lastName);
+
     void saveProfile(Profile profile);
+
     void saveStudent(Student student);
+
     void saveVorname(FirstName firstName);
+
     void saveFirstNames(String[] firstNames, Student student);
+
     void saveBusiness(Business business);
+
     Boolean isEmpty();
 }

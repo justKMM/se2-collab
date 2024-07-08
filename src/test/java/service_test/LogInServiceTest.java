@@ -15,10 +15,10 @@ import static org.mockito.Mockito.when;
 
 class LogInServiceTest {
 
-    private static final String USERNAME = "sasha123";
-    private static final String PASSWORD = "passwort123";
-    private static final String wrong_p = "wrong123";
-    private static final String wrong_u = "wrongsasha";
+    private static final String RIGHT_U = "sasha123";
+    private static final String RIGHT_P = "passwort123";
+    private static final String WRONG_P = "wrong123";
+    private static final String WRONG_U = "wrongsasha";
 
     @Mock
     private UserRepository userRepository;
@@ -34,35 +34,35 @@ class LogInServiceTest {
     @Test
     void testLoginPositive() {
         User mockUser = new User();
-        mockUser.setUsername(USERNAME);
-        mockUser.setPassword(PASSWORD);
+        mockUser.setUsername(RIGHT_U);
+        mockUser.setPassword(RIGHT_P);
 
-        when(userRepository.findByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
+        when(userRepository.findByUsernameAndPassword(RIGHT_U, RIGHT_P)).thenReturn(mockUser);
 
-        User result = loginService.login(USERNAME, PASSWORD);
+        User result = loginService.login(RIGHT_U, RIGHT_P);
         assertNotNull(result);
-        assertEquals(USERNAME, result.getUsername());
+        assertEquals(RIGHT_U, result.getUsername());
     }
 
     @Test
     void testLoginNegative() {
-        when(userRepository.findByUsernameAndPassword(USERNAME, wrong_p)).thenReturn(null);
-        assertNull(loginService.login(USERNAME, wrong_p));
-        assertNull(loginService.login(wrong_u, wrong_p));
+        when(userRepository.findByUsernameAndPassword(RIGHT_U, WRONG_P)).thenReturn(null);
+        assertNull(loginService.login(RIGHT_U, WRONG_P));
+        assertNull(loginService.login(WRONG_U, WRONG_P));
     }
 
     @Test
     void testIsBlacklistedPositive() {
         User mockUser = new User();
-        mockUser.setUsername(USERNAME);
-        mockUser.setPassword(PASSWORD);
+        mockUser.setUsername(RIGHT_U);
+        mockUser.setPassword(RIGHT_P);
         mockUser.setBlacklisted(1);
 
-        when(userRepository.findByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
+        when(userRepository.findByUsernameAndPassword(RIGHT_U, RIGHT_P)).thenReturn(mockUser);
 
-        UserDTO userDTO = new UserDTO(loginService.login(USERNAME, PASSWORD));
-        userDTO.setUsername(USERNAME);
-        userDTO.setPassword(PASSWORD);
+        UserDTO userDTO = new UserDTO(loginService.login(RIGHT_U, RIGHT_P));
+        userDTO.setUsername(RIGHT_U);
+        userDTO.setPassword(RIGHT_P);
 
         assertTrue(loginService.isBlacklisted(userDTO));
     }
@@ -70,15 +70,15 @@ class LogInServiceTest {
     @Test
     void testIsBlacklistedNegative() {
         User mockUser = new User();
-        mockUser.setUsername(USERNAME);
-        mockUser.setPassword(PASSWORD);
+        mockUser.setUsername(RIGHT_U);
+        mockUser.setPassword(RIGHT_P);
         mockUser.setBlacklisted(0);
 
-        when(userRepository.findByUsernameAndPassword(USERNAME, PASSWORD)).thenReturn(mockUser);
+        when(userRepository.findByUsernameAndPassword(RIGHT_U, RIGHT_P)).thenReturn(mockUser);
 
-        UserDTO userDTO = new UserDTO(loginService.login(USERNAME, PASSWORD));
-        userDTO.setUsername(USERNAME);
-        userDTO.setPassword(PASSWORD);
+        UserDTO userDTO = new UserDTO(loginService.login(RIGHT_U, RIGHT_P));
+        userDTO.setUsername(RIGHT_U);
+        userDTO.setPassword(RIGHT_P);
 
         assertFalse(loginService.isBlacklisted(userDTO));
     }

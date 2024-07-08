@@ -1,8 +1,10 @@
 package hbrs.se2.collhbrs.service;
 
 import hbrs.se2.collhbrs.model.entity.Vacancy;
-import hbrs.se2.collhbrs.repository.*;
-import hbrs.se2.collhbrs.util.EntityFactory;
+import hbrs.se2.collhbrs.repository.ApplicationRepository;
+import hbrs.se2.collhbrs.repository.RequirementsRepository;
+import hbrs.se2.collhbrs.repository.ResponsibilitiesRepository;
+import hbrs.se2.collhbrs.repository.VacancyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

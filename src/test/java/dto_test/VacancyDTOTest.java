@@ -32,7 +32,6 @@ class VacancyDTOTest {
     @Test
     void testGettersAndSetters() {
         assertEquals(0, vacancyDTO.getVacancyID());
-        //assertNull(vacancyDTO.getBusiness());
         assertNull(vacancyDTO.getTitle());
         assertNull(vacancyDTO.getDescription());
 

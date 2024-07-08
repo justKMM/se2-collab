@@ -28,6 +28,10 @@ public class RegisterUtils {
         return checkDefaultInput(username, email, password, passwordConfirmation);
     }
 
+    public static boolean validateInput(String username, String email, String password, String passwordConfirmation) {
+        return checkDefaultInput(username, email, password, passwordConfirmation);
+    }
+
     private static boolean checkDefaultInput(String username, String email, String password, String passwordConfirmation) {
         if (!isValidUsername(username)) {
             Notification.show("Please enter a valid username (4-20 characters, letters and digits only).");

@@ -1,13 +1,16 @@
 package hbrs.se2.collhbrs.service.registration;
 
-import hbrs.se2.collhbrs.model.entity.*;
+import hbrs.se2.collhbrs.model.entity.Business;
+import hbrs.se2.collhbrs.model.entity.Profile;
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.model.entity.traits.FirstName;
-import hbrs.se2.collhbrs.service.registration.RegisterService;
-import hbrs.se2.collhbrs.service.registration.RegisterServiceImpl;
 import hbrs.se2.collhbrs.util.RegisterUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RegisterProxy implements RegisterService {
     private final RegisterServiceImpl registerService;
 

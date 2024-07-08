@@ -120,7 +120,6 @@ public class VacancyView extends Composite<VerticalLayout> {
                 requirementItems.add(requirement);
                 updateRequirementsList(requirementItems);
                 requirements.clear();
-                //TODO: rename notification text
                 Notification.show("Markdown renders later");
             }
         });
@@ -131,7 +130,6 @@ public class VacancyView extends Composite<VerticalLayout> {
                 responsibilityItems.add(responsibility);
                 updateResponsibilitiesList(responsibilityItems);
                 responsibilities.clear();
-                //TODO: rename notification text
                 Notification.show("Markdown renders later");
             }
         });

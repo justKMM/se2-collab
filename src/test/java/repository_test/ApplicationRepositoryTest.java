@@ -1,20 +1,29 @@
 package repository_test;
 
 import hbrs.se2.collhbrs.CollhbrsApplication;
+import hbrs.se2.collhbrs.model.entity.Application;
+import hbrs.se2.collhbrs.repository.ApplicationRepository;
+import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = CollhbrsApplication.class)
-public class ApplicationRepositoryTest {
+class ApplicationRepositoryTest {
 
-/*    @Autowired
-    private TestEntityManager entityManager;
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     private ApplicationRepository applicationRepository;
 
     @Test
-    public void testSaveAndFindById() {
+    void testSaveAndFindById() {
         Application application = new Application();
 
         Application savedApplication = applicationRepository.save(application);
@@ -28,7 +37,7 @@ public class ApplicationRepositoryTest {
     }
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         Application app1 = new Application();
         Application app2 = new Application();
 
@@ -44,7 +53,7 @@ public class ApplicationRepositoryTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         Application application = new Application();
 
         Application savedApplication = applicationRepository.save(application);
@@ -53,5 +62,5 @@ public class ApplicationRepositoryTest {
 
         Optional<Application> deletedApplicationOptional = applicationRepository.findById(savedApplication.getApplicationID());
         assertFalse(deletedApplicationOptional.isPresent());
-    }*/
+    }
 }
