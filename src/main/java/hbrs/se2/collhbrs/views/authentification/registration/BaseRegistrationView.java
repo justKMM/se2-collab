@@ -8,6 +8,8 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -28,6 +30,7 @@ public abstract class BaseRegistrationView extends FormLayout implements RouterL
     protected Button submitButton;
     protected Button cancelButton;
     protected Span errorMessageField;
+    protected VerticalLayout verticalLayout;
 
     protected BaseRegistrationView(RegisterService registerService) {
         this.registerService = registerService;
@@ -49,55 +52,23 @@ public abstract class BaseRegistrationView extends FormLayout implements RouterL
         passwordField = new PasswordField("Password");
         emailField = new EmailField("Email");
         passwordConfirmationField = new PasswordField("Confirm Password");
-
-        H3 title = new H3("Register");
+        submitButton = new Button("Register");
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        cancelButton = new Button("Cancel");
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         errorMessageField = new Span();
 
-        setRequiredIndicatorVisible(usernameField, passwordField, emailField, passwordConfirmationField);
-
-        add(title, usernameField, emailField, passwordField, passwordConfirmationField, errorMessageField);
-        setColspan(title, 2);
-        setColspan(usernameField, 2);
-        setColspan(emailField, 2);
-        setColspan(passwordField, 2);
-        setColspan(passwordConfirmationField, 2);
-        setColspan(errorMessageField, 2);
+        add(usernameField, 2);
+        add(emailField, 2);
+        add(passwordField, 1);
+        add(passwordConfirmationField, 1);
     }
 
     private void addButtons() {
-        submitButton = createButton("Register", ButtonVariant.LUMO_PRIMARY);
-        cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
-
+        submitButton.addClickListener(e -> register());
         cancelButton.addClickListener(e -> UI.getCurrent().navigate(Globals.Pages.LOGIN));
-
-        submitButton.addClickListener(e -> {
-            if (RegisterUtils.validateInput(
-                    usernameField.getValue(),
-                    emailField.getValue(),
-                    passwordField.getValue(),
-                    passwordConfirmationField.getValue()
-            )) {
-                register();
-                Notification.show("Erfolgreich registriert");
-                UI.getCurrent().navigate(Globals.Pages.LOGIN);
-            } else {
-                Notification.show("Validation failed");
-            }
-        });
-
-        add(cancelButton, submitButton);
-        setColspan(cancelButton, 1);
-        setColspan(submitButton, 1);
-    }
-
-    private Button createButton(String text, ButtonVariant variant) {
-        Button button = new Button(text);
-        button.addThemeVariants(variant);
-        return button;
-    }
-
-    private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {
-        Stream.of(components).forEach(comp -> comp.setRequiredIndicatorVisible(true));
+        add(errorMessageField);
+        add(new HorizontalLayout(cancelButton, submitButton));
     }
 
     protected abstract void register();
