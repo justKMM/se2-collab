@@ -16,12 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 @SpringBootTest(classes = CollhbrsApplication.class)
 class ApplicationTests {
+
+    private static final String TESTING = "testing";
+    private static final Logger LOGGER = Logger.getLogger(ApplicationTests.class.getName());
 
     private final User currentUser = new User();
     private final Student student = new Student();
@@ -39,15 +42,15 @@ class ApplicationTests {
         currentUser.setBlacklisted(0);
         currentUser.setEmail("jakobus@test.de");
         Profile profile = new Profile();
-        profile.setProfileDescription("testing");
-        profile.setAvatar("testing");
+        profile.setProfileDescription(TESTING);
+        profile.setAvatar(TESTING);
         profile.setXingUsername("Jakob123");
         profile.setLinkedinUsername("JakobDerBob");
         profileRepository.save(profile);
         currentUser.setProfile(profile);
         // Speichern in der Datenbank
         userRepository.save(currentUser);
-        //Erstellen eines temporären Nutzers zum Testen der Datenbank
+        // Erstellen eines temporären Nutzers zum Testen der Datenbank
 
         student.setUser(currentUser);
         student.setLastName("Müller");
@@ -59,10 +62,10 @@ class ApplicationTests {
         Optional<User> wrapper = userRepository.findById(currentUser.getUserID()); //User km
         if (wrapper.isPresent()) {
             User user = wrapper.get();
-            System.err.println("User: " + user.getUsername());
+            LOGGER.info("User: " + user.getUsername());
             Profile profile = user.getProfile();
-            assertEquals("testing", profile.getAvatar());
-            assertEquals("testing", profile.getProfileDescription());
+            assertEquals(TESTING, profile.getAvatar());
+            assertEquals(TESTING, profile.getProfileDescription());
             assertEquals("Jakob123", profile.getXingUsername());
             assertEquals("JakobDerBob", profile.getLinkedinUsername());
         }
@@ -71,7 +74,7 @@ class ApplicationTests {
     @Test
     void testUserDTOAndFindUserWithJPA() {
         UserDTO testDTO = new UserDTO(userRepository.findByUsernameAndPassword(currentUser.getUsername(), currentUser.getPassword()));
-        System.err.println("User: " + testDTO.getUsername());
+        LOGGER.info("User: " + testDTO.getUsername());
         assertEquals("Jakob9", testDTO.getUsername());
         assertEquals(0, testDTO.getBlacklisted());
         assertEquals("jakobus@test.de", testDTO.getEmail());
@@ -80,7 +83,7 @@ class ApplicationTests {
     @Test
     void testStudentDTOByStudentID() {
         StudentDTO studentDTO = new StudentDTO(studentRepository.findStudentByUserUserID(currentUser.getUserID()));
-        System.err.println("Student: " + studentDTO.getUser().getUsername());
+        LOGGER.info("Student: " + studentDTO.getUser().getUsername());
         assertEquals(currentUser.getUsername(), studentDTO.getUser().getUsername());
         assertEquals(student.getStudentID(), studentDTO.getStudentID());
     }

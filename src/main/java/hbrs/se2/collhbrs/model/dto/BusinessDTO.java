@@ -45,6 +45,7 @@ public class BusinessDTO extends UserDTO {
         return user;
     }
 
+    @Override
     public String toString() {
         return "BusinessDTO{" +
                 "businessID=" + businessID +
