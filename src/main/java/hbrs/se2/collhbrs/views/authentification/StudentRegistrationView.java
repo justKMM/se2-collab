@@ -22,7 +22,13 @@ import java.util.stream.Stream;
 @CssImport("./styles/index.css")
 public class StudentRegistrationView extends FormLayout {
 
-    private final RegisterService registerService;
+    private final transient RegisterService registerService;
+    private final TextField firstName = new TextField("First name");
+    private final TextField lastName = new TextField("Last name");
+    private final TextField username = new TextField("Username");
+    private final EmailField email = new EmailField("Email");
+    private final PasswordField password = new PasswordField("Password");
+    private final PasswordField passwordConfirmation = new PasswordField("Confirm password");
     private final Button submitButton = createButton("Register", ButtonVariant.LUMO_PRIMARY);
     private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
 
@@ -37,7 +43,6 @@ public class StudentRegistrationView extends FormLayout {
         Button button = new Button(text);
         button.addThemeVariants(variants);
         button.addClassName("button-layout");
-        add(button);
         return button;
     }
 
@@ -50,20 +55,8 @@ public class StudentRegistrationView extends FormLayout {
         );
     }
 
-    private TextField createTextField(String label) {
-        TextField textField = new TextField(label);
-        textField.setRequiredIndicatorVisible(true);
-        return textField;
-    }
-
     private void setupFields() {
         H3 title = new H3("Student registration");
-        TextField firstName = createTextField("First name");
-        TextField lastName = createTextField("Last name");
-        TextField username = createTextField("Username");
-        EmailField email = new EmailField("Email");
-        PasswordField password = new PasswordField("Password");
-        PasswordField passwordConfirmation = new PasswordField("Confirm password");
 
         setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirmation);
 
@@ -74,6 +67,8 @@ public class StudentRegistrationView extends FormLayout {
         setColspan(email, 2);
         setColspan(username, 2);
         setColspan(errorMessageField, 2);
+        setColspan(firstName, 2);
+        setColspan(lastName, 2);
     }
 
     private void addButtons() {
@@ -84,23 +79,17 @@ public class StudentRegistrationView extends FormLayout {
         });
 
         submitButton.addClickListener(e -> {
-            TextField username = createTextField("Username");
-            TextField firstName = createTextField("First name");
-            TextField lastName = createTextField("Last name");
-            EmailField email = new EmailField("Email");
-            PasswordField password = new PasswordField("Password");
-            PasswordField passwordConfirmation = new PasswordField("Confirm password");
-
             if (RegisterUtils.validateInput(
                     username.getValue(),
                     firstName.getValue(),
                     lastName.getValue(),
                     email.getValue(),
                     password.getValue(),
-                    passwordConfirmation.getValue())
-            ) {
+                    passwordConfirmation.getValue()
+            )) {
                 try {
-                    registerService.registerStudent(username.getValue(),
+                    registerService.registerStudent(
+                            username.getValue(),
                             password.getValue(),
                             email.getValue(),
                             firstName.getValue(),
