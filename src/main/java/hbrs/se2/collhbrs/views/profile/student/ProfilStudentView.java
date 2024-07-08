@@ -26,7 +26,7 @@ import java.util.Base64;
 public class ProfilStudentView extends ProfileBaseView {
 
     private static final int MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-    private final StudentService studentService;
+    private final transient StudentService studentService;
     private Button downloadButton;
 
     public ProfilStudentView(ProfileService profileService, SessionService sessionService, StudentService studentService) {

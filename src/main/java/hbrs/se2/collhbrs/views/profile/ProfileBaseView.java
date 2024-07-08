@@ -30,8 +30,8 @@ public abstract class ProfileBaseView extends Composite<Div> {
     private final H6 h62 = new H6();
     private final VerticalLayout layoutColumn4 = new VerticalLayout();
 
-    protected ProfileService profileService;
-    protected SessionService sessionService;
+    protected transient ProfileService profileService;
+    protected transient SessionService sessionService;
     protected Avatar avatar;
     protected H1 title;
     protected H6 subtitle;
@@ -139,29 +139,36 @@ public abstract class ProfileBaseView extends Composite<Div> {
     }
 
     private void configureUploadComponent() {
-        MemoryBuffer buffer2 = new MemoryBuffer();
-        Upload uploader = new Upload(buffer2);
-        avatarWrapper.addClickListener(event -> uploader.setVisible(true));
-        upload.addSucceededListener(event -> handleUploadSuccess(buffer2));
-        layoutColumn4.add(uploader);
+        upload.addSucceededListener(event -> {
+            try (InputStream inputStream = buffer.getInputStream()) {
+                byte[] bytes = inputStream.readAllBytes();
+                String base64Image = Base64.getEncoder().encodeToString(bytes);
+                saveProfileImage(base64Image);
+                avatar.setImage("data:image/jpeg;base64," + base64Image);
+            } catch (Exception e) {
+                Notification.show("Failed to upload image: " + e.getMessage());
+            }
+        });
+        layout.add(upload);
     }
 
-    private void handleUploadSuccess(MemoryBuffer buffer) {
-        try (InputStream inputStream = buffer.getInputStream()) {
-            byte[] bytes = inputStream.readAllBytes();
-            String base64Image = Base64.getEncoder().encodeToString(bytes);
-            if (isBusinessUser()) {
-                profileService.deleteProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID());
-                profileService.saveProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID(), base64Image);
-            } else if (isStudentUser()) {
-                profileService.deleteProfileImage(sessionService.getCurrentStudent().getProfile().getProfileID());
-                profileService.saveProfileImage(sessionService.getCurrentStudent().getProfile().getProfileID(), base64Image);
-            }
-            avatar.setImage("data:image/jpeg;base64," + base64Image);
-        } catch (Exception e) {
-            Notification.show("Failed to upload image");
+    private void saveProfileImage(String base64Image) {
+        if (isBusinessUser()) {
+            handleProfileImageUpload(sessionService.getCurrentBusiness().getProfile().getProfileID(), base64Image, "business");
+        } else if (isStudentUser()) {
+            handleProfileImageUpload(sessionService.getCurrentStudent().getProfile().getProfileID(), base64Image, "student");
         }
     }
+
+    private void handleProfileImageUpload(Long profileId, String base64Image, String userType) {
+        try {
+            profileService.deleteProfileImage(profileId);
+            profileService.saveProfileImage(profileId, base64Image);
+        } catch (Exception e) {
+            Notification.show("Failed to save " + userType + " profile image: " + e.getMessage());
+        }
+    }
+
 
     private void loadProfileImage() {
         try {
