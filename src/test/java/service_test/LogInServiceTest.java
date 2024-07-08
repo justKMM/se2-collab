@@ -17,8 +17,8 @@ class LogInServiceTest {
 
     private static final String USERNAME = "sasha123";
     private static final String PASSWORD = "passwort123";
-    private static final String WRONG_PASSWORD = "wrong123";
-    private static final String WRONG_USERNAME = "wrongsasha";
+    private static final String wrong_p = "wrong123";
+    private static final String wrong_u = "wrongsasha";
 
     @Mock
     private UserRepository userRepository;
@@ -46,9 +46,9 @@ class LogInServiceTest {
 
     @Test
     void testLoginNegative() {
-        when(userRepository.findByUsernameAndPassword(USERNAME, WRONG_PASSWORD)).thenReturn(null);
-        assertNull(loginService.login(USERNAME, WRONG_PASSWORD));
-        assertNull(loginService.login(WRONG_USERNAME, WRONG_PASSWORD));
+        when(userRepository.findByUsernameAndPassword(USERNAME, wrong_p)).thenReturn(null);
+        assertNull(loginService.login(USERNAME, wrong_p));
+        assertNull(loginService.login(wrong_u, wrong_p));
     }
 
     @Test
