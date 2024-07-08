@@ -13,13 +13,12 @@ import org.springframework.stereotype.Component;
 @Route(value = Globals.Pages.SIGNUP)
 @CssImport("./styles/index.css")
 @AnonymousAllowed
-@Component
 public class SignUpView extends FormLayout {
 
     private final BusinessRegistrationView businessRegistrationView;
     private final StudentRegistrationView studentRegistrationView;
 
-    @Autowired
+
     public SignUpView(RegisterProxy registerProxy) {
         String student = "Student";
         String company = "Company";
