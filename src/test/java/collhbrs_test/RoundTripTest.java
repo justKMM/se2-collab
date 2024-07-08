@@ -38,11 +38,11 @@ class RoundTripTest {
         userRepository.save(user);
 
         // Generierte User-ID holen
-        long UserID = user.getUserID();
+        long userID = user.getUserID();
 
 
         // Schritt 2: Read (R)
-        Optional<User> wrapper = userRepository.findById(UserID);
+        Optional<User> wrapper = userRepository.findById(userID);
         User userAfterCreate = null;
         if (wrapper.isPresent()) {
             userAfterCreate = wrapper.get();
@@ -65,9 +65,9 @@ class RoundTripTest {
         assertEquals("jakoB1734!", userAfterCreate.getPassword());
 
         // Schritt 4: Deletion (D)
-        userRepository.deleteById(UserID);
+        userRepository.deleteById(userID);
         // Wurde User wirklich gelöscht?
-        Optional<User> wrapperAfterDelete = userRepository.findById(UserID);
+        Optional<User> wrapperAfterDelete = userRepository.findById(userID);
         assertFalse(wrapperAfterDelete.isPresent());
     }
 

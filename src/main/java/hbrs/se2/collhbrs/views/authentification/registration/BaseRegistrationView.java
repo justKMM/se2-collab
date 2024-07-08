@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 public abstract class BaseRegistrationView extends FormLayout implements RouterLayout {
 
+    protected final transient RegisterServiceImpl registerService;
     protected TextField usernameField;
     protected PasswordField passwordField;
     protected EmailField emailField;
@@ -27,8 +28,6 @@ public abstract class BaseRegistrationView extends FormLayout implements RouterL
     protected Button submitButton;
     protected Button cancelButton;
     protected Span errorMessageField;
-
-    protected final transient RegisterServiceImpl registerService;
 
     protected BaseRegistrationView(RegisterServiceImpl registerService) {
         this.registerService = registerService;

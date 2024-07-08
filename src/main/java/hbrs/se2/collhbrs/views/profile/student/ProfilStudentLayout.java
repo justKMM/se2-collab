@@ -1,6 +1,5 @@
 package hbrs.se2.collhbrs.views.profile.student;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -16,7 +15,6 @@ import lombok.Getter;
 @CssImport("./styles/index.css")
 public class ProfilStudentLayout extends VerticalLayout {
 
-    private final Button buttonConfirm = new Button("Speichern");
     private final TextField tfVorname = new TextField("Vorname:");
     private final TextField tfNachname = new TextField("Nachname:");
     private final TextField interestField = new TextField("Interessen:");

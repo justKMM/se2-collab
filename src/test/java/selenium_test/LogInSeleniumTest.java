@@ -22,9 +22,6 @@ public class LogInSeleniumTest {
     @BeforeAll
     public static void setUp() {
 
-        //Setze den Pfad zum Driver deiner Wahl
-        //System.setProperty(richtigen driver auswählen, richtigen Pfad auswählen);
-        //System.setProperty(".driver", "C:\\");
         System.setProperty("webdriver.gecko.driver", "E:\\geckodriver\\geckodriver.exe");
 
         driver = new FirefoxDriver();
@@ -57,9 +54,5 @@ public class LogInSeleniumTest {
         WebElement logoutButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/flow-container-root-2521314/vaadin-app-layout/vaadin-horizontal-layout/vaadin-horizontal-layout/vaadin-menu-bar/vaadin-menu-bar-button[1]")));
         //Button klicken
         logoutButton.click();
-
-        //Logout Button path
-        //driver.findElement(By.xpath("/html/body/div[1]/flow-container-root-2521314/vaadin-app-layout/vaadin-horizontal-layout/vaadin-horizontal-layout/vaadin-menu-bar/vaadin-menu-bar-button[1]")).click();
-
     }
 }

@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class ProfileTest {
 
-    private final static String EXAMPLE_URL = "ExampleURL";
-    private final static String PROFILEDESCRIPTION = "ProfileDescription";
+    private static final String EXAMPLE_URL = "ExampleURL";
+    private static final String PROFILEDESCRIPTION = "ProfileDescription";
 
     Profile profile;
     Profile profile1;

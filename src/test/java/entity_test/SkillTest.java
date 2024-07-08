@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class SkillTest {
 
-    private final static String TESTING = "Testing";
+    private static final String TESTING = "Testing";
 
     Skill skill;
     Skill skill1;

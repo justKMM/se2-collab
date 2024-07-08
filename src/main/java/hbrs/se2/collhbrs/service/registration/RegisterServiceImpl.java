@@ -1,11 +1,12 @@
 package hbrs.se2.collhbrs.service.registration;
 
-import hbrs.se2.collhbrs.model.entity.*;
+import hbrs.se2.collhbrs.model.entity.Business;
+import hbrs.se2.collhbrs.model.entity.Profile;
+import hbrs.se2.collhbrs.model.entity.Student;
+import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import hbrs.se2.collhbrs.repository.*;
 import hbrs.se2.collhbrs.util.EntityFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

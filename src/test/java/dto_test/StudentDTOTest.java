@@ -33,7 +33,6 @@ class StudentDTOTest {
     @Test
     void testGettersAndSetters() {
         assertEquals(0, studentDTO.getStudentID());
-        //assertNull(studentDTO.getUser());
         assertNull(studentDTO.getLastName());
         assertNull(studentDTO.getBirthdate());
 
