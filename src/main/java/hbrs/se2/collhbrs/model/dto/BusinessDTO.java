@@ -45,4 +45,16 @@ public class BusinessDTO extends UserDTO {
         return user;
     }
 
+    public String toString() {
+        return "BusinessDTO{" +
+                "businessID=" + businessID +
+                ", user=" + user +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
+
 }

@@ -30,4 +30,9 @@ public class Interest extends BaseEntityTraits<Student, InterestID> {
         return id;
     }
 
+    @Override
+    public Student getEntity() {
+        return student;
+    }
+
 }

@@ -19,4 +19,12 @@ public class SkillDTO {
         this.skillName = entity.getSkillName();
     }
 
+    public String toString() {
+        return "SkillDTO{" +
+                "student=" + student +
+                ", serialNumber=" + serialNumber +
+                ", skillName='" + skillName + '\'' +
+                '}';
+    }
+
 }

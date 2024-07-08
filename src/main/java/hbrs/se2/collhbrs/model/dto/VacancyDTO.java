@@ -39,4 +39,15 @@ public class VacancyDTO {
         return vacancy;
     }
 
+    public String toString() {
+        return "VacancyDTO{" +
+                "vacancyID=" + vacancyID +
+                ", business=" + business +
+                ", title='" + title + '\'' +
+                ", employmentType='" + employmentType + '\'' +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", publishDate=" + publishDate +
+                '}';
+    }
 }

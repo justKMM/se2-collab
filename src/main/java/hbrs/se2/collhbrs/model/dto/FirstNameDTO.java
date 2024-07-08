@@ -19,4 +19,11 @@ public class FirstNameDTO {
         this.firstNameName = entity.getFirstNameName();
     }
 
+    public String toString() {
+        return "FirstNameDTO{" +
+                "student=" + student +
+                ", serialNumber=" + serialNumber +
+                ", firstNameName='" + firstNameName + '\'' +
+                '}';
+    }
 }

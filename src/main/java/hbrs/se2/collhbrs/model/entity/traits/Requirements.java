@@ -29,4 +29,9 @@ public class Requirements extends BaseEntityTraits<Vacancy, RequirementsID> {
         id.setSerialNumber(super.getSerialNumber());
         return id;
     }
+
+    @Override
+    public Vacancy getEntity() {
+        return vacancy;
+    }
 }

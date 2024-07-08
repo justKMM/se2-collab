@@ -19,4 +19,12 @@ public class DegreeProgrammDTO {
         this.degreeProgrammName = entity.getDegreeProgramName();
     }
 
+    public String toString() {
+        return "DegreeProgrammDTO{" +
+                "student=" + student +
+                ", serialNumber=" + serialNumber +
+                ", degreeProgrammName='" + degreeProgrammName + '\'' +
+                '}';
+    }
+
 }

@@ -29,4 +29,9 @@ public class DegreeProgramm extends BaseEntityTraits<Student, DegreeProgrammID> 
         id.setSerialNumber(super.getSerialNumber());
         return id;
     }
+
+    @Override
+    public Student getEntity() {
+        return student;
+    }
 }

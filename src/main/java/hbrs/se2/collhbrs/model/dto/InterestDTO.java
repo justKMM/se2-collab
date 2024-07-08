@@ -19,4 +19,11 @@ public class InterestDTO {
         this.interestName = entity.getInterestName();
     }
 
+    public String toString() {
+        return "InterestDTO{" +
+                "student=" + student +
+                ", serialNumber=" + serialNumber +
+                ", interestName='" + interestName + '\'' +
+                '}';
+    }
 }

@@ -5,9 +5,9 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.Style;
@@ -17,14 +17,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.ApplicationDTO;
 import hbrs.se2.collhbrs.model.dto.FirstNameDTO;
-import hbrs.se2.collhbrs.model.dto.StudentDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
 import hbrs.se2.collhbrs.model.entity.Application;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.service.ApplicationService;
 import hbrs.se2.collhbrs.service.SessionService;
 import hbrs.se2.collhbrs.service.VacancyService;
-import hbrs.se2.collhbrs.util.EntityFactory;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.MarkdownConverter;
 import hbrs.se2.collhbrs.views.AppView;
@@ -39,13 +37,13 @@ import java.util.List;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class ShowApplicationView extends Composite<VerticalLayout> implements AfterNavigationObserver {
 
+    private static final String INNER_HTML = "innerHTML";
     private final VerticalLayout layout = new VerticalLayout();
     private final List<ApplicationDTO> applicationsList = new ArrayList<>();
     private final MarkdownConverter markdownConverter;
     private final ApplicationService applicationService;
     private final SessionService sessionService;
     private final VacancyService vacancyService;
-    private static final String INNER_HTML = "innerHTML";
 
     public ShowApplicationView(
             MarkdownConverter markdownConverter,
