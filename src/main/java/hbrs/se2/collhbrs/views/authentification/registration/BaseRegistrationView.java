@@ -12,7 +12,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.RouterLayout;
-import hbrs.se2.collhbrs.service.registration.RegisterProxy;
+import hbrs.se2.collhbrs.service.registration.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.RegisterUtils;
 
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 public abstract class BaseRegistrationView extends FormLayout implements RouterLayout {
 
-    protected final transient RegisterProxy registerProxy;
+    protected final transient RegisterService registerService;
     protected TextField usernameField;
     protected PasswordField passwordField;
     protected EmailField emailField;
@@ -29,8 +29,8 @@ public abstract class BaseRegistrationView extends FormLayout implements RouterL
     protected Button cancelButton;
     protected Span errorMessageField;
 
-    protected BaseRegistrationView(RegisterProxy registerProxy) {
-        this.registerProxy = registerProxy;
+    protected BaseRegistrationView(RegisterService registerService) {
+        this.registerService = registerService;
         setupLayout();
         setupForm();
         addButtons();

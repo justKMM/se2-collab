@@ -1,8 +1,9 @@
 package hbrs.se2.collhbrs.views.authentification.registration;
 
 import com.vaadin.flow.component.textfield.TextField;
-import hbrs.se2.collhbrs.service.registration.RegisterProxy;
+import hbrs.se2.collhbrs.service.registration.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,8 +12,8 @@ public class BusinessRegistrationView extends BaseRegistrationView {
     private TextField companyNameTextField;
 
     @Autowired
-    public BusinessRegistrationView(RegisterProxy registerProxy) {
-        super(registerProxy);
+    public BusinessRegistrationView(@Qualifier("registerProxy") RegisterService registerService) {
+        super(registerService);
         setupBusinessForm();
     }
 
@@ -28,6 +29,6 @@ public class BusinessRegistrationView extends BaseRegistrationView {
         String email = emailField.getValue();
         String companyName = companyNameTextField.getValue();
 
-        registerProxy.registerBusiness(username, password, email, companyName);
+        registerService.registerBusiness(username, password, email, companyName);
     }
 }
