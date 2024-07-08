@@ -92,10 +92,11 @@ public class EntityFactory {
         return responsibilities;
     }
 
-    public Application createApplication(Vacancy vacancy, Student student) {
+    public Application createApplication(Vacancy vacancy, Student student, String base64Letter) {
         Application application = new Application();
         application.setVacancy(vacancy);
         application.setStudent(student);
+        application.setCoverLetter(base64Letter);
         return application;
     }
 }

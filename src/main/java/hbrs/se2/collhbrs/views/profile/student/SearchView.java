@@ -11,6 +11,9 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.RequirmentsDTO;
@@ -26,7 +29,9 @@ import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Route(value = Globals.Pages.SEARCH_STUDENT, layout = AppView.class)
@@ -220,13 +225,7 @@ public class SearchView extends Composite<VerticalLayout> {
         Button apply = new Button("Apply");
         apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         apply.addClickListener(e -> {
-            applicationService.saveApplication(
-                    entityFactory.createApplication(
-                            vacancy.getVacancy(),
-                            sessionService.getCurrentStudent().getStudent()
-                    )
-            );
-            Notification.show("Applied!");
+            openApplyDialog(vacancy);
         });
 
         Button closeButton = new Button("Close", event -> dialog.close());
@@ -235,6 +234,40 @@ public class SearchView extends Composite<VerticalLayout> {
         buttonLayout.add(apply, closeButton);
 
         dialogLayout.add(title, avatar, type, infoLayout, description, desParagraph, requirementsDiv, responsibilitiesDiv, buttonLayout);
+        dialog.add(dialogLayout);
+        dialog.open();
+    }
+
+    private void openApplyDialog(VacancyDTO vacancy) {
+        Dialog dialog = new Dialog();
+        dialog.setWidth("600px");
+        dialog.setHeight("400px");
+
+        VerticalLayout dialogLayout = new VerticalLayout();
+        H4 title = new H4("Bewerbung als: " + vacancy.getTitle());
+        dialogLayout.setPadding(true);
+        dialogLayout.setSpacing(true);
+        MemoryBuffer buffer = new MemoryBuffer();
+
+        Upload upload = new Upload(buffer);
+        upload.setAcceptedFileTypes("application/pdf");
+        upload.setMaxFiles(1);
+        upload.setVisible(true);
+
+        Button applyButton = new Button("Apply", event -> {
+            try (InputStream inputStream = buffer.getInputStream()) {
+                byte[] bytes = inputStream.readAllBytes();
+                String base64Letter = Base64.getEncoder().encodeToString(bytes);
+                applicationService.saveApplication(entityFactory.createApplication(
+                        vacancy.getVacancy(),
+                        sessionService.getCurrentStudent().getStudent(), base64Letter));
+                Notification.show("Bewerbung erfolgreich eingereicht");
+                dialog.close();
+            } catch (Exception e) {
+                Notification.show("Fehler beim Hochladen des Lebenslaufs: " + e.getMessage());
+            }
+        });
+        dialogLayout.add(title, upload, applyButton);
         dialog.add(dialogLayout);
         dialog.open();
     }
