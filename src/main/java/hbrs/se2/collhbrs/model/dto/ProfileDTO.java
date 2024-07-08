@@ -22,4 +22,14 @@ public class ProfileDTO {
         this.linkedinUsername = entity.getLinkedinUsername();
     }
 
+    public String toString() {
+        return "ProfileDTO{" +
+                "profileID=" + profileID +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", profileDescription='" + profileDescription + '\'' +
+                ", xingUsername='" + xingUsername + '\'' +
+                ", linkedinUsername='" + linkedinUsername + '\'' +
+                '}';
+    }
+
 }

@@ -17,5 +17,12 @@ public class Email {
         this.subject = subject;
         this.attachment = attachment;
     }
+    public String toString() {
+        return "Email(recipient=" + this.getRecipient() +
+                ", msgBody=" + this.getMsgBody() +
+                ", subject=" + this.getSubject() +
+                ", attachment=" + this.getAttachment() +
+                ")";
+    }
 
 }

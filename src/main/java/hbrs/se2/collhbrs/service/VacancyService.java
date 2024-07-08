@@ -15,20 +15,14 @@ public class VacancyService {
     private final ResponsibilitiesRepository responsibilitiesRepository;
     private final RequirementsRepository requirementsRepository;
     private final ApplicationRepository applicationRepository;
-    private final EntityFactory entityFactory;
-    private final BusinessRepository businessRepository;
 
     public VacancyService(VacancyRepository vacancyRepository,
                           ResponsibilitiesRepository responsibilitiesRepository,
                           RequirementsRepository requirementsRepository,
-                          EntityFactory entityFactory,
-                          BusinessRepository businessRepository,
                           ApplicationRepository applicationRepository) {
         this.vacancyRepository = vacancyRepository;
         this.responsibilitiesRepository = responsibilitiesRepository;
         this.requirementsRepository = requirementsRepository;
-        this.entityFactory = entityFactory;
-        this.businessRepository = businessRepository;
         this.applicationRepository = applicationRepository;
     }
 
@@ -44,8 +38,8 @@ public class VacancyService {
         return vacancyRepository.findAll();
     }
 
-    public List<Vacancy> getVacanciesByEmploymentType(String employmenttype) {
-        return vacancyRepository.findVacanciesByEmploymentType(employmenttype);
+    public List<Vacancy> getVacanciesByEmploymentType(String employmentType) {
+        return vacancyRepository.findVacanciesByEmploymentType(employmentType);
     }
 
     public Vacancy getVacancyByBusinessID(Long businessId) {

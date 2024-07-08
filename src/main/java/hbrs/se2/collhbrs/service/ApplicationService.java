@@ -34,6 +34,6 @@ public class ApplicationService {
     }
 
     public FirstName getFirstName(Student student) {
-       return firstNameRepository.findFirstNameByStudent_StudentID(student.getStudentID());
+        return firstNameRepository.findFirstNameByStudent_StudentID(student.getStudentID());
     }
 }

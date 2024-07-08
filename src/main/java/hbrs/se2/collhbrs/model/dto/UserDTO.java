@@ -37,4 +37,15 @@ public class UserDTO {
         return user;
     }
 
+    public String toString() {
+        return "UserDTO{" +
+                "userID=" + userID +
+                ", profile=" + profile +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", blacklisted=" + blacklisted +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
 }

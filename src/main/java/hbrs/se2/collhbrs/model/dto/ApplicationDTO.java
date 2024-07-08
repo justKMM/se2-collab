@@ -21,4 +21,13 @@ public class ApplicationDTO {
         this.vacancy = application.getVacancy();
         this.coverLetter = application.getCoverLetter();
     }
+
+    public String toString() {
+        return "ApplicationDTO{" +
+                "applicationID=" + applicationID +
+                ", student=" + student +
+                ", vacancy=" + vacancy +
+                ", coverLetter='" + coverLetter + '\'' +
+                '}';
+    }
 }

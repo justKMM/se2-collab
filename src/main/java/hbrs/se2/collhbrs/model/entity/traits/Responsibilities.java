@@ -29,4 +29,9 @@ public class Responsibilities extends BaseEntityTraits<Vacancy, Responsibilities
         id.setSerialNumber(super.getSerialNumber());
         return id;
     }
+
+    @Override
+    public Vacancy getEntity() {
+        return vacancy;
+    }
 }

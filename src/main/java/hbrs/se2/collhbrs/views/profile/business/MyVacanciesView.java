@@ -41,13 +41,13 @@ import java.util.stream.Collectors;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class MyVacanciesView extends Composite<VerticalLayout> implements AfterNavigationObserver {
 
-    private final RequirementsService requirementsService;
-    private final ResponsibilitiesService responsibilitiesService;
+    private final static String INNER_HTML = "innerHTML";
+    private final transient RequirementsService requirementsService;
+    private final transient ResponsibilitiesService responsibilitiesService;
     private final SessionService sessionService;
     private final transient VacancyService vacancyService;
     private final VerticalLayout layout;
     private final transient MarkdownConverter markdownConverter;
-    private List<VacancyDTO> vacancies;
 
     @Autowired
     public MyVacanciesView(RequirementsService requirementsService,
@@ -100,13 +100,13 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         H4 description = new H4("Description: ");
 
         Div desParagraph = new Div();
-        desParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(descriptionValue));
+        desParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(descriptionValue));
 
         Div requirementsDiv = new Div();
         requirementsDiv.add(new H3("Requirements:"));
         requirements.forEach(req -> {
             Div reqParagraph = new Div();
-            reqParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(req));
+            reqParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(req));
             requirementsDiv.add(reqParagraph);
         });
 
@@ -114,7 +114,7 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         responsibilitiesDiv.add(new H3("Responsibilities:"));
         responsibilities.forEach(resp -> {
             Div respParagraph = new Div();
-            respParagraph.getElement().setProperty("innerHTML", markdownConverter.convertToHtml(resp));
+            respParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(resp));
             responsibilitiesDiv.add(respParagraph);
         });
 

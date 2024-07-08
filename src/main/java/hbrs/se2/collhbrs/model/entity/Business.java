@@ -43,8 +43,6 @@ public class Business implements Serializable {
     private String country;
 
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

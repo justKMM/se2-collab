@@ -29,4 +29,9 @@ public class Skill extends BaseEntityTraits<Student, SkillID> {
         id.setSerialNumber(super.getSerialNumber());
         return id;
     }
+
+    @Override
+    public Student getEntity() {
+        return student;
+    }
 }

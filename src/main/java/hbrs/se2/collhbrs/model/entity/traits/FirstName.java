@@ -30,4 +30,10 @@ public class FirstName extends BaseEntityTraits<Student, FirstNameID> {
         return id;
     }
 
+    @Override
+    public Student getEntity() {
+        return student;
+    }
+
+
 }

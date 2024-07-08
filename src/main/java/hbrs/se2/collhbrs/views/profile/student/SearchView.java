@@ -16,7 +16,6 @@ import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.RequirmentsDTO;
 import hbrs.se2.collhbrs.model.dto.ResponsibilitiesDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
-import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.model.entity.traits.Requirements;
 import hbrs.se2.collhbrs.model.entity.traits.Responsibilities;
 import hbrs.se2.collhbrs.service.*;
@@ -38,18 +37,17 @@ public class SearchView extends Composite<VerticalLayout> {
     private static final String INNER_HTML = "innerHTML";
 
     private final VerticalLayout layout;
-    private final transient List<VacancyDTO> vacancies;
-    private final transient List<RequirmentsDTO> allRequirements;
-    private final transient List<ResponsibilitiesDTO> allResponsibilities;
+    private final List<VacancyDTO> vacancies = new ArrayList<>();
+    private final List<RequirmentsDTO> allRequirements = new ArrayList<>();
+    private final List<ResponsibilitiesDTO> allResponsibilities = new ArrayList<>();
     private final transient EntityFactory entityFactory = new EntityFactory();
     private final transient MarkdownConverter markdownConverter = new MarkdownConverter();
     private final SessionService sessionService;
     private final transient ApplicationService applicationService;
-    private final String[] comboBoxItems =
-            {
-                    "Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
-                    "Masterprojekt", "Büro", "Homeoffice"
-            };
+    private final String[] comboBoxItems = {
+            "Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
+            "Masterprojekt", "Büro", "Homeoffice"
+    };
 
     @Autowired
     public SearchView(VacancyService vacancyService, RequirementsService requirementsService,
@@ -58,26 +56,16 @@ public class SearchView extends Composite<VerticalLayout> {
         this.sessionService = sessionService;
         this.applicationService = applicationService;
         this.layout = new VerticalLayout();
-        this.vacancies = new ArrayList<>();
-        layout.getStyle().setAlignItems(Style.AlignItems.CENTER);
-        vacancies.clear();
-        for (Vacancy vacancy : vacancyService.getAllVacancies()) {
-            vacancies.add(new VacancyDTO(vacancy));
-        }
-        allRequirements = new ArrayList<>();
-        allResponsibilities = new ArrayList<>();
+        this.layout.getStyle().setAlignItems(Style.AlignItems.CENTER);
 
-        for (VacancyDTO vacancy : vacancies) {
+        vacancyService.getAllVacancies().forEach(vacancy -> vacancies.add(new VacancyDTO(vacancy)));
+        vacancies.forEach(vacancy -> {
             allRequirements.addAll(requirementsService.getRequirementsByVacancyId(vacancy.getVacancyID())
-                    .stream()
-                        .map(SearchView::getRequirements)
-                    .toList());
-
+                    .stream().map(SearchView::getRequirements).toList());
             allResponsibilities.addAll(responsibilitiesService.getResponsibilitiesByVacancyId(vacancy.getVacancyID())
-                    .stream()
-                    .map(SearchView::getResponsibilities)
-                    .toList());
-        }
+                    .stream().map(SearchView::getResponsibilities).toList());
+        });
+
         updateVacancyList(vacancies);
         getContent().getStyle().setAlignItems(Style.AlignItems.CENTER);
         getContent().add(searchbar(), layout);
@@ -127,23 +115,20 @@ public class SearchView extends Composite<VerticalLayout> {
 
     private void updateVacancyList(List<VacancyDTO> vacanciesToDisplay) {
         layout.removeAll();
-        for (VacancyDTO vacancyDTO : vacanciesToDisplay) {
+        vacanciesToDisplay.forEach(vacancyDTO -> {
             List<String> requirements = new ArrayList<>();
             List<String> responsibilities = new ArrayList<>();
 
-            for (RequirmentsDTO req : allRequirements) {
-                if (req.getVacancy().getVacancyID() == vacancyDTO.getVacancyID()) {
-                    requirements.add(req.getRequirementsName());
-                }
-            }
+            allRequirements.stream()
+                    .filter(req -> req.getVacancy().getVacancyID() == vacancyDTO.getVacancyID())
+                    .forEach(req -> requirements.add(req.getRequirementsName()));
 
-            for (ResponsibilitiesDTO resp : allResponsibilities) {
-                if (resp.getVacancy().getVacancyID() == vacancyDTO.getVacancyID()) {
-                    responsibilities.add(resp.getResponsibilitiesName());
-                }
-            }
+            allResponsibilities.stream()
+                    .filter(resp -> resp.getVacancy().getVacancyID() == vacancyDTO.getVacancyID())
+                    .forEach(resp -> responsibilities.add(resp.getResponsibilitiesName()));
+
             layout.add(createCard(vacancyDTO, requirements, responsibilities));
-        }
+        });
     }
 
     public VerticalLayout createCard(VacancyDTO vacancy, List<String> requirements, List<String> responsibilities) {
@@ -170,22 +155,12 @@ public class SearchView extends Composite<VerticalLayout> {
         Div profileDescriptionParagraph = new Div();
         profileDescriptionParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(vacancy.getDescription()));
         VerticalLayout contactLayout = new VerticalLayout();
-        Span email = new Span("Email: ");
-        email.getStyle().set(FONT_WEIGHT, "bold");
-        HorizontalLayout emailLayout = new HorizontalLayout(email,
-                new Span(vacancy.getBusiness().getUser().getEmail()));
-        Span linkedIn = new Span("LinkedIn: ");
-        linkedIn.getStyle().set(FONT_WEIGHT, "bold");
-        HorizontalLayout linkendInLayout = new HorizontalLayout(linkedIn,
-                new Span(vacancy.getBusiness().getUser().getProfile().getLinkedinUsername()));
-        Span xing = new Span("Xing:");
-        xing.getStyle().set(FONT_WEIGHT, "bold");
-        HorizontalLayout xingLayout = new HorizontalLayout(xing,
-                new Span(vacancy.getBusiness().getUser().getProfile().getXingUsername()));
-        contactLayout.add(emailLayout, linkendInLayout, xingLayout);
+        contactLayout.add(createContactLayout("Email: ", vacancy.getBusiness().getUser().getEmail()));
+        contactLayout.add(createContactLayout("LinkedIn: ", vacancy.getBusiness().getUser().getProfile().getLinkedinUsername()));
+        contactLayout.add(createContactLayout("Xing: ", vacancy.getBusiness().getUser().getProfile().getXingUsername()));
+        HorizontalLayout buttonLayout = new HorizontalLayout();
         Button learnMore = new Button("Learn more");
         Button reminder = new Button("Reminder");
-        HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(learnMore, reminder);
         cardLayout.add(title, avatarLayout, type, infoLayout, contactLayout, profileDescription,
                 profileDescriptionParagraph, buttonLayout);
@@ -200,46 +175,40 @@ public class SearchView extends Composite<VerticalLayout> {
         return cardLayout;
     }
 
+    private HorizontalLayout createContactLayout(String labelText, String valueText) {
+        Span label = new Span(labelText);
+        label.getStyle().set(FONT_WEIGHT, "bold");
+        return new HorizontalLayout(label, new Span(valueText));
+    }
+
     private void openDialog(VacancyDTO vacancy, List<String> requirements, List<String> responsibilities) {
         Dialog dialog = new Dialog();
         dialog.setWidth("800px");
         dialog.setHeight("600px");
+
         VerticalLayout dialogLayout = new VerticalLayout();
         dialogLayout.setPadding(true);
         dialogLayout.setSpacing(true);
+
         Avatar avatar = new Avatar();
         avatar.setImage("data:image/jpeg;base64," + vacancy.getBusiness().getUser().getProfile().getAvatar());
         H2 title = new H2(vacancy.getTitle());
-        Button type = new Button(vacancy.getTitle());
+        Button type = new Button(vacancy.getEmploymentType());
         type.setWidth("min-content");
         type.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         type.setEnabled(true);
-        HorizontalLayout dateLayout = new HorizontalLayout(
-                new H4("Date: "),
-                new Span(vacancy.getPublishDate().toString())
-        );
-        HorizontalLayout locationLayout = new HorizontalLayout(
-                new H4("Location: "),
-                new Span(vacancy.getLocation())
-        );
+
+        HorizontalLayout dateLayout = new HorizontalLayout(new H4("Date: "), new Span(vacancy.getPublishDate().toString()));
+        HorizontalLayout locationLayout = new HorizontalLayout(new H4("Location: "), new Span(vacancy.getLocation()));
         HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
+
         H4 description = new H4("Description: ");
         Div desParagraph = new Div();
         desParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(vacancy.getDescription()));
-        Div requirementsDiv = new Div();
-        requirementsDiv.add(new H3("Requirements:"));
-        requirements.forEach(req -> {
-            Div reqParagraph = new Div();
-            reqParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(req));
-            requirementsDiv.add(reqParagraph);
-        });
-        Div responsibilitiesDiv = new Div();
-        responsibilitiesDiv.add(new H3("Responsibilities:"));
-        responsibilities.forEach(resp -> {
-            Div respParagraph = new Div();
-            respParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(resp));
-            responsibilitiesDiv.add(respParagraph);
-        });
+
+        Div requirementsDiv = createMarkdownDiv("Requirements:", requirements);
+        Div responsibilitiesDiv = createMarkdownDiv("Responsibilities:", responsibilities);
+
         HorizontalLayout buttonLayout = new HorizontalLayout();
         Button apply = new Button("Apply");
         apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -250,13 +219,27 @@ public class SearchView extends Composite<VerticalLayout> {
                             sessionService.getCurrentStudent().getStudent()
                     )
             );
-            Notification.show("applied!");
+            Notification.show("Applied!");
         });
+
         Button closeButton = new Button("Close", event -> dialog.close());
         closeButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
         buttonLayout.add(apply, closeButton);
-        dialogLayout.add(title, infoLayout, description, desParagraph, responsibilitiesDiv, requirementsDiv, buttonLayout);
+
+        dialogLayout.add(title, avatar, type, infoLayout, description, desParagraph, requirementsDiv, responsibilitiesDiv, buttonLayout);
         dialog.add(dialogLayout);
         dialog.open();
+    }
+
+    private Div createMarkdownDiv(String title, List<String> items) {
+        Div container = new Div();
+        container.add(new H3(title));
+        items.forEach(item -> {
+            Div paragraph = new Div();
+            paragraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(item));
+            container.add(paragraph);
+        });
+        return container;
     }
 }

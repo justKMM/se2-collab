@@ -27,4 +27,12 @@ public class RequirmentsDTO {
         return requirements;
     }
 
+    public String toString() {
+        return "RequirmentsDTO{" +
+                "vacancy=" + vacancy +
+                ", serialNumber=" + serialNumber +
+                ", requirementsName='" + requirementsName + '\'' +
+                '}';
+    }
+
 }

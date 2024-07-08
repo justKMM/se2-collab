@@ -27,4 +27,12 @@ public class ResponsibilitiesDTO {
         return responsibilities;
     }
 
+    public String toString() {
+        return "ResponsibilitiesDTO{" +
+                "vacancy=" + vacancy +
+                ", serialNumber=" + serialNumber +
+                ", responsibilitiesName='" + responsibilitiesName + '\'' +
+                '}';
+    }
+
 }
