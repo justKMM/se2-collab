@@ -38,13 +38,13 @@ public class SearchView extends Composite<VerticalLayout> {
     private static final String INNER_HTML = "innerHTML";
 
     private final VerticalLayout layout;
-    private final List<VacancyDTO> vacancies;
-    private final List<RequirmentsDTO> allRequirements;
-    private final List<ResponsibilitiesDTO> allResponsibilities;
-    private final EntityFactory entityFactory = new EntityFactory();
-    private final MarkdownConverter markdownConverter = new MarkdownConverter();
+    private final transient List<VacancyDTO> vacancies;
+    private final transient List<RequirmentsDTO> allRequirements;
+    private final transient List<ResponsibilitiesDTO> allResponsibilities;
+    private final transient EntityFactory entityFactory = new EntityFactory();
+    private final transient MarkdownConverter markdownConverter = new MarkdownConverter();
     private final SessionService sessionService;
-    private final ApplicationService applicationService;
+    private final transient ApplicationService applicationService;
     private final String[] comboBoxItems =
             {
                     "Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",

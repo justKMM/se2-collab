@@ -5,7 +5,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import hbrs.se2.collhbrs.service.RegisterService;
+import hbrs.se2.collhbrs.service.registration.RegisterServiceImpl;
 import hbrs.se2.collhbrs.util.Globals;
 
 @Route(value = Globals.Pages.SIGNUP)
@@ -16,7 +16,7 @@ public class SignUpView extends FormLayout {
     private final BusinessRegistrationView businessRegistrationView;
     private final StudentRegistrationView studentRegistrationView;
 
-    public SignUpView(RegisterService registerService) {
+    public SignUpView(RegisterServiceImpl registerService) {
         String student = "Student";
         String company = "Company";
 
