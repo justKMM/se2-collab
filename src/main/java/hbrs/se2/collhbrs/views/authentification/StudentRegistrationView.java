@@ -1,5 +1,7 @@
 package hbrs.se2.collhbrs.views.authentification;
 
+import hbrs.se2.collhbrs.service.registration.RegisterProxy;
+import hbrs.se2.collhbrs.service.registration.RegisterService;
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -13,7 +15,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import hbrs.se2.collhbrs.service.RegisterService;
+import hbrs.se2.collhbrs.service.registration.RegisterServiceImpl;
 import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.RegisterUtils;
 
@@ -33,31 +35,28 @@ public class StudentRegistrationView extends FormLayout {
     private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
 
     public StudentRegistrationView(RegisterService registerService) {
-        this.registerService = registerService;
+        this.registerService = new RegisterProxy((RegisterServiceImpl) registerService);
         setupLayout();
         setupFields();
         addButtons();
     }
 
-    private Button createButton(String text, ButtonVariant... variants) {
+    private Button createButton(String text, ButtonVariant variant) {
         Button button = new Button(text);
-        button.addThemeVariants(variants);
-        button.addClassName("button-layout");
+        button.addThemeVariants(variant);
         return button;
     }
 
     private void setupLayout() {
-        addClassName("register");
-        setMaxWidth("500px");
         setResponsiveSteps(
-                new ResponsiveStep("0", 1, ResponsiveStep.LabelsPosition.TOP),
-                new ResponsiveStep("490px", 2, ResponsiveStep.LabelsPosition.TOP)
+                new ResponsiveStep("0", 1),
+                new ResponsiveStep("500px", 2)
         );
+        addClassName("student-form");
     }
 
     private void setupFields() {
-        H3 title = new H3("Student registration");
-
+        H3 title = new H3("Register as a student");
         setRequiredIndicatorVisible(firstName, lastName, username, email, password, passwordConfirmation);
 
         Span errorMessageField = new Span();
@@ -67,8 +66,8 @@ public class StudentRegistrationView extends FormLayout {
         setColspan(email, 2);
         setColspan(username, 2);
         setColspan(errorMessageField, 2);
-        setColspan(firstName, 2);
-        setColspan(lastName, 2);
+        setColspan(firstName, 1);
+        setColspan(lastName, 1);
     }
 
     private void addButtons() {
