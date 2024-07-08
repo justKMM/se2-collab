@@ -13,10 +13,12 @@ public class ApplicationDTO {
     private long applicationID;
     private Student student;
     private Vacancy vacancy;
+    private String coverLetter;
 
     public ApplicationDTO(Application application) {
         this.applicationID = application.getApplicationID();
         this.student = application.getStudent();
         this.vacancy = application.getVacancy();
+        this.coverLetter = application.getCoverLetter();
     }
 }

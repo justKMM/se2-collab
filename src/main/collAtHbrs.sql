@@ -35,7 +35,7 @@ create table public.bewirbt
     bewirbtID              SERIAL not null,
     StudentID              SERIAL not null,
     StellenausschreibungID SERIAL not null,
-    Anschreiben TEXT,
+    Anschreiben            TEXT,
     constraint pk_bewirbt primary key (bewirbtID)
 );
 
@@ -64,9 +64,7 @@ create table public.Kontaktverknuepfung
     Beschreibung_Student        varchar(256),
     Bewertungsscore_Unternehmen numeric(1),
     Beschreibung_Unternehmen    varchar(256),
-    constraint pk_Kontaktverknuepfung primary key (KontaktverknuepfungID),
-    constraint uk_Kontaktverknuepfung_UnternehmenID unique (UnternehmenID),
-    constraint uk_Kontaktverknuepfung_StudentID unique (StudentID)
+    constraint pk_Kontaktverknuepfung primary key (KontaktverknuepfungID)
 );
 
 
@@ -102,7 +100,7 @@ create table public.Student
     BenutzerID   SERIAL    not null,
     Nachname     char(128) not null,
     Geburtsdatum date,
-    Lebenslauf TEXT,
+    Lebenslauf   TEXT,
     constraint pk_Student primary key (StudentID),
     constraint uk_Student_BenutzerID unique (BenutzerID)
 );
@@ -120,6 +118,10 @@ create table public.Unternehmen
     UnternehmenID SERIAL       not null,
     BenutzerID    SERIAL       not null,
     Name          varchar(128) not null,
+    Adresse       varchar(128),
+    Stadt         varchar(128),
+    Postleitzahl  varchar(8),
+    Land          varchar(128),
     constraint pk_Unternehmen primary key (UnternehmenID),
     constraint uk_Unternehmen_BenutzerID unique (BenutzerID)
 );
