@@ -22,7 +22,12 @@ import java.util.stream.Stream;
 @CssImport("./styles/index.css")
 public class BusinessRegistrationView extends FormLayout {
 
-    private final RegisterService registerService;
+    private final transient RegisterService registerService;
+    private final TextField businessName = new TextField("Name of the organisation");
+    private final TextField username = new TextField("Username");
+    private final EmailField email = new EmailField("Email");
+    private final PasswordField password = new PasswordField("Password");
+    private final PasswordField passwordConfirmation = new PasswordField("Confirm password");
     private final Button submitButton = createButton("Register", ButtonVariant.LUMO_PRIMARY);
     private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
 
@@ -52,12 +57,6 @@ public class BusinessRegistrationView extends FormLayout {
     private void setupFields() {
         H3 title = new H3("Business registration");
 
-        TextField businessName = createTextField("Name of the organisation");
-        TextField username = createTextField("Username");
-        EmailField email = new EmailField("Email");
-        PasswordField password = new PasswordField("Password");
-        PasswordField passwordConfirmation = new PasswordField("Confirm password");
-
         setRequiredIndicatorVisible(businessName, username, email, password, passwordConfirmation);
 
         Span errorMessageField = new Span();
@@ -71,7 +70,6 @@ public class BusinessRegistrationView extends FormLayout {
     }
 
     private void addButtons() {
-
         cancelButton.addClickListener(e -> {
             Notification notification = Notification.show("Registration cancelled");
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -79,12 +77,6 @@ public class BusinessRegistrationView extends FormLayout {
         });
 
         submitButton.addClickListener(e -> {
-            TextField businessName = createTextField("Name of the organisation");
-            TextField username = createTextField("Username");
-            EmailField email = new EmailField("Email");
-            PasswordField password = new PasswordField("Password");
-            PasswordField passwordConfirmation = new PasswordField("Confirm password");
-
             if (RegisterUtils.validateInput(
                     username.getValue(),
                     businessName.getValue(),
@@ -111,12 +103,6 @@ public class BusinessRegistrationView extends FormLayout {
         add(cancelButton, submitButton);
         setColspan(cancelButton, 1);
         setColspan(submitButton, 1);
-    }
-
-    private TextField createTextField(String label) {
-        TextField textField = new TextField(label);
-        textField.setRequiredIndicatorVisible(true);
-        return textField;
     }
 
     private void setRequiredIndicatorVisible(HasValueAndElement<?, ?>... components) {

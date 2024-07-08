@@ -9,11 +9,11 @@ public class RegisterUtils {
     }
 
     public static boolean validateInput(String username, String firstName, String lastName, String email, String password, String passwordConfirmation) {
-        if (firstName.isEmpty() || !isValidFirstName(firstName)) {
+        if (!isValidFirstName(firstName)) {
             Notification.show("Please enter a valid first name (3-30 characters, letters, spaces, and hyphens only).");
             return false;
         }
-        if (lastName.isEmpty() || !isValidLastName(lastName)) {
+        if (!isValidLastName(lastName)) {
             Notification.show("Please enter a valid surname (3-30 characters, letters, spaces, and hyphens only).");
             return false;
         }
@@ -21,7 +21,7 @@ public class RegisterUtils {
     }
 
     public static boolean validateInput(String username, String businessName, String email, String password, String passwordConfirmation) {
-        if (businessName.isEmpty() || !isValidCompanyName(businessName)) {
+        if (!isValidCompanyName(businessName)) {
             Notification.show("Please enter a valid company name (at least 3 characters, letters, spaces, and digits only).");
             return false;
         }
@@ -29,11 +29,11 @@ public class RegisterUtils {
     }
 
     private static boolean checkDefaultInput(String username, String email, String password, String passwordConfirmation) {
-        if (username.isEmpty() || !isValidUsername(username)) {
+        if (!isValidUsername(username)) {
             Notification.show("Please enter a valid username (4-20 characters, letters and digits only).");
             return false;
         }
-        if (email.isEmpty() || !isValidEmail(email)) {
+        if (!isValidEmail(email)) {
             Notification.show("Please enter a valid e-mail address.");
             return false;
         }
@@ -96,24 +96,24 @@ public class RegisterUtils {
     }
 
     private static boolean isValidFirstName(String firstName) {
-        return checkLength(firstName);
+        return isValidName(firstName);
     }
 
-    private static boolean checkLength(String firstName) {
-        if (firstName.length() < 3 || firstName.length() > 30) {
+    private static boolean isValidLastName(String lastName) {
+        return isValidName(lastName);
+    }
+
+    private static boolean isValidName(String name) {
+        if (name.length() < 3 || name.length() > 30) {
             return false;
         }
 
-        for (char c : firstName.toCharArray()) {
+        for (char c : name.toCharArray()) {
             if (!Character.isLetter(c) && c != ' ' && c != '-') {
                 return false;
             }
         }
         return true;
-    }
-
-    private static boolean isValidLastName(String lastName) {
-        return checkLength(lastName);
     }
 
     private static boolean isValidUsername(String username) {
