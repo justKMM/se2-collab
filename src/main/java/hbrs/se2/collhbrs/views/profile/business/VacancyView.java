@@ -61,22 +61,33 @@ public class VacancyView extends Composite<VerticalLayout> {
     }
 
     private void setUpUI() {
+        HorizontalLayout titleLayout = new HorizontalLayout();
+        TextField title = new TextField("Title: ");
+        title.setWidth("100%"); // Vergrößert die Breite des Titel-Feldes
+        titleLayout.add(title);
+        titleLayout.setWidth("100%");
+
+        HorizontalLayout infoLayout = new HorizontalLayout();
         ComboBox<String> comboBox = new ComboBox<>("Employment Type: ");
-        comboBox.setItems("Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt", "Masterprojekt", "Büro", "Homeoffice");
-
-        TextField title = new TextField();
-        title.setLabel("Title: ");
-        H6 subtitle = new H6("Write Vacanies with Markdown for easy formatting and styling!");
-
         TextField location = new TextField("Location: ");
+        comboBox.setWidth("50%"); // Stellt sicher, dass der Kombinationsfeld die Hälfte des verfügbaren Platzes einnimmt
+        location.setWidth("50%"); // Stellt sicher, dass das Standortfeld die Hälfte des verfügbaren Platzes einnimmt
+        comboBox.setItems("Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt", "Masterprojekt", "Büro", "Homeoffice");
+        infoLayout.add(comboBox, location);
+        infoLayout.setWidth("100%"); // Stellt sicher, dass das Layout die volle Breite einnimmt
+
+        H3 h3 = new H3("Add Vacancy");
+        H6 subtitle = new H6("Write Vacanies with Markdown");
+
         TextArea requirements = new TextArea("Requirements: ");
         TextArea responsibilities = new TextArea("Responsibilities: ");
-
         requirements.setWidth("100%");
         responsibilities.setWidth("100%");
 
         requirementsList = new MultiSelectListBox<>();
         responsibilitiesList = new MultiSelectListBox<>();
+        requirementsList.setWidth("100%");
+        responsibilitiesList.setWidth("100%");
 
         TextArea textArea = new TextArea("Description");
         textArea.setWidth("100%");
@@ -87,8 +98,6 @@ public class VacancyView extends Composite<VerticalLayout> {
         layoutColumn2.setMaxWidth("800px");
         layoutColumn2.setHeight("min-content");
         layoutColumn2.setPadding(true);
-
-        H3 h3 = new H3("Add Vacancy");
 
         FormLayout formLayout2Col = new FormLayout();
         formLayout2Col.setWidth("100%");
@@ -144,9 +153,6 @@ public class VacancyView extends Composite<VerticalLayout> {
             updateResponsibilitiesList(responsibilityItems);
         });
 
-        requirementsList.setWidth("100%");
-        responsibilitiesList.setWidth("100%");
-
         HorizontalLayout layoutRow = new HorizontalLayout();
         layoutRow.setWidthFull();
         layoutRow.setHeight("min-content");
@@ -200,7 +206,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         getContent().setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         getContent().setAlignItems(FlexComponent.Alignment.CENTER);
 
-        layoutColumn2.add(h3, subtitle, comboBox, location, title, formLayout2Col, textArea, layoutRow);
+        layoutColumn2.add(h3, subtitle, titleLayout, infoLayout, formLayout2Col, textArea, layoutRow);
         getContent().add(layoutColumn2);
 
         updateRequirementsList(requirementItems);

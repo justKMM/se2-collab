@@ -46,7 +46,7 @@ public class SearchView extends Composite<VerticalLayout> {
     private final transient ApplicationService applicationService;
     private final String[] comboBoxItems = {
             "Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
-            "Masterprojekt", "Büro", "Homeoffice"
+            "Masterprojekt", "Büro", "Homeoffice",
     };
 
     @Autowired
@@ -84,16 +84,21 @@ public class SearchView extends Composite<VerticalLayout> {
         ComboBox<String> employmentType = new ComboBox<>();
         employmentType.setItems(comboBoxItems);
         Button searchButton = new Button("Search");
+        Button clearSearch = new Button("Clear");
         TextField searchTextField = new TextField();
         searchTextField.setPlaceholder("Location, Description, etc.");
         searchTextField.setWidth("100%");
         search.setWidth("100%");
         search.setMaxWidth("700px");
-        search.add(employmentType, searchTextField, searchButton);
+        search.add(employmentType, searchTextField, searchButton, clearSearch);
         searchButton.addClickListener(event -> {
             String searchText = searchTextField.getValue();
             String selectedEmploymentType = employmentType.getValue();
             performSearch(searchText, selectedEmploymentType);
+        });
+        clearSearch.addClickListener(event -> {
+            searchTextField.clear();
+            employmentType.clear();
         });
         return search;
     }
@@ -153,7 +158,9 @@ public class SearchView extends Composite<VerticalLayout> {
         HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
         H4 profileDescription = new H4("About us ");
         Div profileDescriptionParagraph = new Div();
-        profileDescriptionParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(vacancy.getDescription()));
+        profileDescriptionParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(
+                vacancy.getBusiness().getUser().getProfile().getProfileDescription())
+        );
         VerticalLayout contactLayout = new VerticalLayout();
         contactLayout.add(createContactLayout("Email: ", vacancy.getBusiness().getUser().getEmail()));
         contactLayout.add(createContactLayout("LinkedIn: ", vacancy.getBusiness().getUser().getProfile().getLinkedinUsername()));
