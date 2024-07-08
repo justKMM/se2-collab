@@ -1,17 +1,18 @@
 package hbrs.se2.collhbrs.views.authentification.registration;
 
 import com.vaadin.flow.component.textfield.TextField;
-import hbrs.se2.collhbrs.service.registration.RegisterServiceImpl;
+import hbrs.se2.collhbrs.service.registration.RegisterProxy;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StudentRegistrationView extends BaseRegistrationView {
 
+
     private TextField firstNameTextField;
     private TextField lastNameTextField;
 
-    public StudentRegistrationView(RegisterServiceImpl registerService) {
-        super(registerService);
+    public StudentRegistrationView(RegisterProxy registerProxy) {
+        super(registerProxy);
         setupStudentForm();
     }
 
@@ -29,6 +30,6 @@ public class StudentRegistrationView extends BaseRegistrationView {
         String firstName = this.firstNameTextField.getValue();
         String lastName = this.lastNameTextField.getValue();
 
-        registerService.registerStudent(username, password, email, firstName, lastName);
+        registerProxy.registerStudent(username, password, email, firstName, lastName);
     }
 }

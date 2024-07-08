@@ -6,9 +6,11 @@ import hbrs.se2.collhbrs.model.entity.Student;
 import hbrs.se2.collhbrs.model.entity.User;
 import hbrs.se2.collhbrs.model.entity.traits.FirstName;
 import hbrs.se2.collhbrs.util.RegisterUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RegisterProxy implements RegisterService {
     private final RegisterServiceImpl registerService;
 
