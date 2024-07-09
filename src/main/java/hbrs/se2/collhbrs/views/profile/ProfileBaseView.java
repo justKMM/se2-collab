@@ -101,18 +101,18 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
         TextArea descriptionTextField = new TextArea("Beschreibung: ");
         description.setWidth("400px");
         description.setHeight("200px");
-        inputLayout.add(linkedIn, xing);
+        inputLayout.add(linkedInTexField, xingTextField);
         HorizontalLayout descriptionLayout = new HorizontalLayout(descriptionTextField);
         Button save = new Button("Speichern");
         Button cancel = new Button("Abbrechen");
         if (linkedInTexField.getValue().isEmpty()) {
-            linkedInTexField.setValue(user.getProfile().getLinkedinUsername());
+            linkedInTexField.setValue(user.getProfile().getLinkedinUsername() != null ? user.getProfile().getLinkedinUsername() : "");
         }
         if (xingTextField.getValue().isEmpty()) {
-            xingTextField.setValue(user.getProfile().getXingUsername());
+            xingTextField.setValue(user.getProfile().getXingUsername() != null ? user.getProfile().getLinkedinUsername() : "");
         }
         if (descriptionTextField.getValue().isEmpty()) {
-            descriptionTextField.setValue(user.getProfile().getProfileDescription());
+            descriptionTextField.setValue(user.getProfile().getProfileDescription() != null ? user.getProfile().getLinkedinUsername() : "");
         }
         save.addClickListener(event -> {
             profileService.saveSocials(
