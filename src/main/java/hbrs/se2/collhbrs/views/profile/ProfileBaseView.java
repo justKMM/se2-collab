@@ -99,8 +99,8 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
         TextField linkedInTexField = new TextField("LinkedIn: ");
         TextField xingTextField = new TextField("Xing: ");
         TextArea descriptionTextField = new TextArea("Beschreibung: ");
-        description.setWidth("400px");
-        description.setHeight("200px");
+        descriptionTextField.setWidth("400px");
+        descriptionTextField.setHeight("200px");
         inputLayout.add(linkedInTexField, xingTextField);
         HorizontalLayout descriptionLayout = new HorizontalLayout(descriptionTextField);
         Button save = new Button("Speichern");
