@@ -1,13 +1,10 @@
 package hbrs.se2.collhbrs.views.authentification.registration;
 
-import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -16,9 +13,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.RouterLayout;
 import hbrs.se2.collhbrs.service.registration.RegisterService;
 import hbrs.se2.collhbrs.util.Globals;
-import hbrs.se2.collhbrs.util.RegisterUtils;
-
-import java.util.stream.Stream;
 
 public abstract class BaseRegistrationView extends FormLayout implements RouterLayout {
 
@@ -48,13 +42,13 @@ public abstract class BaseRegistrationView extends FormLayout implements RouterL
     }
 
     private void setupForm() {
-        usernameField = new TextField("Username");
-        passwordField = new PasswordField("Password");
+        usernameField = new TextField("Benutzername");
+        passwordField = new PasswordField("Passwort");
         emailField = new EmailField("Email");
-        passwordConfirmationField = new PasswordField("Confirm Password");
-        submitButton = new Button("Register");
+        passwordConfirmationField = new PasswordField("Passwort bestätigen");
+        submitButton = new Button("Registrieren");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        cancelButton = new Button("Cancel");
+        cancelButton = new Button("Abbrechen");
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         errorMessageField = new Span();
 

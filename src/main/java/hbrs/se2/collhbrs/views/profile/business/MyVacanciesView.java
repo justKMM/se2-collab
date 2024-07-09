@@ -76,7 +76,10 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         return new ResponsibilitiesDTO(responsibilities);
     }
 
-    public VerticalLayout createVacancyCard(long id, String baseImage, String businessName, String titleValue, String typeValue, String locationValue, String descriptionValue, Date publishDate, List<String> requirements, List<String> responsibilities) {
+    public VerticalLayout createVacancyCard(long id, String baseImage, String businessName, String titleValue,
+                                            String typeValue, String locationValue, String descriptionValue,
+                                            Date publishDate, List<String> requirements, List<String> responsibilities
+    ) {
 
         Avatar avatar = new Avatar();
         avatar.setImage("data:image/jpeg;base64," + baseImage);
@@ -89,21 +92,21 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         type.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         type.setEnabled(true);
         HorizontalLayout dateLayout = new HorizontalLayout(
-                new H4("Date: "),
+                new H4("Veröffentlichungsdatum: "),
                 new Span(publishDate.toString())
         );
         HorizontalLayout locationLayout = new HorizontalLayout(
-                new H4("Location: "),
+                new H4("Standort: "),
                 new Span(locationValue)
         );
         HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
-        H4 description = new H4("Description: ");
+        H4 description = new H4("Beschreibung: ");
 
         Div desParagraph = new Div();
         desParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(descriptionValue));
 
         Div requirementsDiv = new Div();
-        requirementsDiv.add(new H3("Requirements:"));
+        requirementsDiv.add(new H3("Anforderungen:"));
         requirements.forEach(req -> {
             Div reqParagraph = new Div();
             reqParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(req));
@@ -111,14 +114,14 @@ public class MyVacanciesView extends Composite<VerticalLayout> implements AfterN
         });
 
         Div responsibilitiesDiv = new Div();
-        responsibilitiesDiv.add(new H3("Responsibilities:"));
+        responsibilitiesDiv.add(new H3("Aufgaben: "));
         responsibilities.forEach(resp -> {
             Div respParagraph = new Div();
             respParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(resp));
             responsibilitiesDiv.add(respParagraph);
         });
 
-        Button editButton = new Button("Delete");
+        Button editButton = new Button("Löschen");
         editButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         editButton.addClickListener(event -> {

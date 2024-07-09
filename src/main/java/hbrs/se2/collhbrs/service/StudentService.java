@@ -19,10 +19,6 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public void saveStudent(Student student) {
-        studentRepository.save(student);
-    }
-
     public void saveResume(Long studentID, String base64Resume) {
         Optional<Student> optionalStudent = studentRepository.findById(studentID);
         if (optionalStudent.isPresent()) {

@@ -25,7 +25,7 @@ import hbrs.se2.collhbrs.util.Globals;
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm loginForm;
-    private final LoginService loginService;
+    private final transient LoginService loginService;
 
     public LoginView(LoginService loginService) {
         loginForm = setUpUI();
@@ -43,7 +43,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         add(setUpLoginForm);
         this.setAlignItems(Alignment.CENTER);
         HorizontalLayout additionalInfoLayout = new HorizontalLayout();
-        additionalInfoLayout.add(new Text("Don't have an Account? "), new Anchor(Globals.Pages.SIGNUP, "Sign up"));
+        additionalInfoLayout.add(new Text("Sie haben noch kein Konto? "), new Anchor(Globals.Pages.SIGNUP, "Melden sie sich hier an!"));
         additionalInfoLayout.setAlignItems(Alignment.CENTER);
         VerticalLayout layout = new VerticalLayout(setUpLoginForm, additionalInfoLayout);
         layout.setAlignItems(Alignment.CENTER);
@@ -56,11 +56,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         LoginI18n i18n = LoginI18n.createDefault();
         LoginI18n.Form i18nForm = i18n.getForm();
 
-        i18nForm.setTitle("Sign in");
-        i18nForm.setUsername("Username");
-        i18nForm.setPassword("Password");
-        i18nForm.setSubmit("Sign in");
-        i18nForm.setForgotPassword("Forgot Password?");
+        i18nForm.setTitle("Anmelden");
+        i18nForm.setUsername("Benutzername");
+        i18nForm.setPassword("Passwort");
+        i18nForm.setSubmit("Anmelden");
+        i18nForm.setForgotPassword("Passwort vergessen");
         i18n.setForm(i18nForm);
         component.setI18n(i18n);
 
@@ -71,7 +71,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         try {
             loginService.startSession(new UserDTO(loginService.login(input.getUsername(), input.getPassword())));
         } catch (Exception e) {
-            Notification.show("User with this username and/or password could not be found!");
+            Notification.show("Benutzer mit diesem Benutzernamen und/oder Passwort konnte nicht gefunden werden!");
         }
     }
 
@@ -82,7 +82,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                 .getParameters()
                 .containsKey("error")) {
             loginForm.setError(true);
-            Notification notification = Notification.show("Login failed");
+            Notification notification = Notification.show("Anmelden fehlgeschlagen");
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }

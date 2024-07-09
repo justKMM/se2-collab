@@ -21,7 +21,7 @@ public class BusinessRegistrationView extends BaseRegistrationView {
     }
 
     private void setupBusinessForm() {
-        companyNameField = new TextField("Unternehmensname");
+        companyNameField = new TextField("Name des Unternehmens");
 
         FormLayout passwordLayout = new FormLayout();
         passwordLayout.setResponsiveSteps(

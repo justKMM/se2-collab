@@ -85,7 +85,7 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
                         + application.getStudent().getLastName()
         );
         avaterLayout.add(studentAvatar, studentName);
-        H6 profileDescription = new H6("Profile Description");
+        H6 profileDescription = new H6("Profilbeschreibung");
         Div profileDescriptionParagraph = new Div();
         profileDescriptionParagraph.getElement().setProperty(
                 INNER_HTML, markdownConverter.convertToHtml(
@@ -93,7 +93,7 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
         );
         HorizontalLayout buttonLayout = new HorizontalLayout();
 
-        Button showProfileButton = new Button("show profile");
+        Button showProfileButton = new Button("Profil anzeigen");
         showProfileButton.addClickListener(e -> {
             // Hier Profil anzeigen vom Studenten!
         });

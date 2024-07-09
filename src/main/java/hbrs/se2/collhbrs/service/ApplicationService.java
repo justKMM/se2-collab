@@ -36,6 +36,7 @@ public class ApplicationService {
     public FirstName getFirstName(Student student) {
         return firstNameRepository.findFirstNameByStudent_StudentID(student.getStudentID());
     }
+
     public String getCoverLetter(long applicationID) {
         return applicationRepository.findApplicationByApplicationID(applicationID).getCoverLetter();
     }
