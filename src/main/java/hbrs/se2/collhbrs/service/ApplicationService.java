@@ -33,6 +33,14 @@ public class ApplicationService {
         return applicationRepository.findApplicationByVacancy_VacancyID(vacanyId);
     }
 
+    public List<Application> getAllApplicationsByStudent(Long studentId) {
+        return applicationRepository.findApplicationByStudent_StudentID(studentId);
+    }
+
+    public void deleteApplication(Application application) {
+        applicationRepository.delete(application);
+    }
+
     public FirstName getFirstName(Student student) {
         return firstNameRepository.findFirstNameByStudent_StudentID(student.getStudentID());
     }

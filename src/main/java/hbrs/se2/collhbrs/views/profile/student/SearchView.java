@@ -223,7 +223,10 @@ public class SearchView extends Composite<VerticalLayout> {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         Button apply = new Button("Jetzt bewerben");
         apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        apply.addClickListener(e -> openApplyDialog(vacancy));
+        apply.addClickListener(e -> {
+            openApplyDialog(vacancy);
+            dialog.close();
+        });
 
         Button closeButton = new Button("Schließen", event -> dialog.close());
         closeButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -251,7 +254,7 @@ public class SearchView extends Composite<VerticalLayout> {
         upload.setMaxFiles(1);
         upload.setVisible(true);
 
-        Button applyButton = new Button("Apply", event -> {
+        Button applyButton = new Button("Bewerben", event -> {
             try (InputStream inputStream = buffer.getInputStream()) {
                 byte[] bytes = inputStream.readAllBytes();
                 String base64Letter = Base64.getEncoder().encodeToString(bytes);

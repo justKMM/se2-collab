@@ -22,6 +22,15 @@ public class ApplicationDTO {
         this.coverLetter = application.getCoverLetter();
     }
 
+    public Application getApplication() {
+        Application application = new Application();
+        application.setApplicationID(applicationID);
+        application.setStudent(student);
+        application.setVacancy(vacancy);
+        application.setCoverLetter(coverLetter);
+        return application;
+    }
+
     public String toString() {
         return "ApplicationDTO{" +
                 "applicationID=" + applicationID +

@@ -22,7 +22,8 @@ import hbrs.se2.collhbrs.views.authentification.UpdatePasswordView;
 import hbrs.se2.collhbrs.views.profile.business.MyVacanciesView;
 import hbrs.se2.collhbrs.views.profile.business.ProfileBusinessView;
 import hbrs.se2.collhbrs.views.profile.business.ShowApplicationView;
-import hbrs.se2.collhbrs.views.profile.business.VacancyView;
+import hbrs.se2.collhbrs.views.profile.business.AddVacancyView;
+import hbrs.se2.collhbrs.views.profile.student.MyApplicationView;
 import hbrs.se2.collhbrs.views.profile.student.ProfilStudentView;
 import hbrs.se2.collhbrs.views.profile.student.SearchView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,11 +94,12 @@ public class AppView extends AppLayout {
         if (sessionService.getUserRole().contains(Globals.Roles.STUDENT)) {
             tabs = Utils.append(tabs, createTab("Profil", ProfilStudentView.class));
             tabs = Utils.append(tabs, createTab("Job suchen", SearchView.class));
+            tabs = Utils.append(tabs, createTab("Meine Bewerbungen", MyApplicationView.class));
             tabs = Utils.append(tabs, createTab("Passwort ändern", UpdatePasswordView.class));
         } else if (sessionService.getUserRole().contains(Globals.Roles.BUSINESS)) {
             tabs = Utils.append(tabs, createTab("Profil", ProfileBusinessView.class));
             tabs = Utils.append(tabs, createTab("Passwort ändern", UpdatePasswordView.class));
-            tabs = Utils.append(tabs, createTab("Stellenausschreibung hinzufügen", VacancyView.class));
+            tabs = Utils.append(tabs, createTab("Stellenausschreibung hinzufügen", AddVacancyView.class));
             tabs = Utils.append(tabs, createTab("Meine Stellenausschreibungen", MyVacanciesView.class));
             tabs = Utils.append(tabs, createTab("Bewerbungen einsehen", ShowApplicationView.class));
         }

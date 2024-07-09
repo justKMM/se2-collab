@@ -114,13 +114,13 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
     }
 
     private @NotNull Button getDownloadCoverLetterButton(ApplicationDTO application) {
-        Button downloadCoverLetterButton = new Button("Download Cover Letter");
+        Button downloadCoverLetterButton = new Button("Download Anschreiben");
         downloadCoverLetterButton.addClickListener(e -> {
             String base64coverLetter = applicationService.getCoverLetter(application.getApplicationID());
             if (base64coverLetter != null && !base64coverLetter.isEmpty()) {
 
                 byte[] pdfBytes = Base64.getDecoder().decode(base64coverLetter);
-                StreamResource resource = new StreamResource("Lebenslauf.pdf", () -> new ByteArrayInputStream(pdfBytes));
+                StreamResource resource = new StreamResource("anschreiben.pdf", () -> new ByteArrayInputStream(pdfBytes));
                 resource.setContentType("application/pdf");
 
                 Anchor downloadLink = new Anchor(resource, "Download");
@@ -130,9 +130,9 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
 
                 downloadLink.getElement().executeJs("this.click();");
 
-                Notification.show("Lebenslauf-Download gestartet.");
+                Notification.show("Anschreiben-Download gestartet.");
             } else {
-                Notification.show("Kein Lebenslauf gefunden.");
+                Notification.show("Kein Anschreiben gefunden.");
                 downloadCoverLetterButton.setEnabled(false);
             }
         });

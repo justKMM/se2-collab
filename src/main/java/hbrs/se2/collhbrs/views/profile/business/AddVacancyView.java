@@ -39,7 +39,7 @@ import java.util.List;
 @Route(value = Globals.Pages.VACANCY, layout = AppView.class)
 @CssImport("./styles/index.css")
 @RolesAllowed(Globals.Roles.BUSINESS)
-public class VacancyView extends Composite<VerticalLayout> {
+public class AddVacancyView extends Composite<VerticalLayout> {
 
     private final transient EntityFactory entityFactory;
     private final transient RequirementsService requirementsService;
@@ -53,7 +53,7 @@ public class VacancyView extends Composite<VerticalLayout> {
     private static final String DELETE = "Löschen";
 
     @Autowired
-    public VacancyView(EntityFactory entityFactory, RequirementsService requirementsService, ResponsibilitiesService responsibilitiesService, SessionService sessionService, VacancyService vacancyService, MarkdownConverter markdownConverter) {
+    public AddVacancyView(EntityFactory entityFactory, RequirementsService requirementsService, ResponsibilitiesService responsibilitiesService, SessionService sessionService, VacancyService vacancyService, MarkdownConverter markdownConverter) {
         this.entityFactory = entityFactory;
         this.requirementsService = requirementsService;
         this.responsibilitiesService = responsibilitiesService;
