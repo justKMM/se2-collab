@@ -2,7 +2,8 @@ package entity_test;
 
 import hbrs.se2.collhbrs.model.entity.Email;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EmailTest {
 

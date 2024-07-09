@@ -5,7 +5,7 @@ import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.model.entity.traits.Responsibilities;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ResponsibilitiesDTOTest {
 

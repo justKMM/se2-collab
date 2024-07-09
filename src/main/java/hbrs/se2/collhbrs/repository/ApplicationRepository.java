@@ -9,7 +9,10 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
     List<Application> findApplicationByVacancy_VacancyID(long vacancyID);
+
     List<Application> findApplicationByStudent_StudentID(long studentID);
+
     void deleteApplicationByVacancy_VacancyID(long vacancyID);
+
     Application findApplicationByApplicationID(long applicationID);
 }
