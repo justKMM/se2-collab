@@ -5,9 +5,11 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.H6;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.Style;
@@ -15,6 +17,7 @@ import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import hbrs.se2.collhbrs.model.dto.ApplicationDTO;
 import hbrs.se2.collhbrs.model.dto.FirstNameDTO;
 import hbrs.se2.collhbrs.model.dto.VacancyDTO;
@@ -27,8 +30,11 @@ import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.util.MarkdownConverter;
 import hbrs.se2.collhbrs.views.AppView;
 import jakarta.annotation.security.RolesAllowed;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Route(value = Globals.Pages.SHOW_APPLICATION, layout = AppView.class)
@@ -40,10 +46,10 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
     private static final String INNER_HTML = "innerHTML";
     private final VerticalLayout layout = new VerticalLayout();
     private final List<ApplicationDTO> applicationsList = new ArrayList<>();
-    private final MarkdownConverter markdownConverter;
-    private final ApplicationService applicationService;
-    private final SessionService sessionService;
-    private final VacancyService vacancyService;
+    private final transient MarkdownConverter markdownConverter;
+    private final transient ApplicationService applicationService;
+    private final transient SessionService sessionService;
+    private final transient VacancyService vacancyService;
 
     public ShowApplicationView(
             MarkdownConverter markdownConverter,
@@ -86,13 +92,18 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
                         application.getStudent().getUser().getProfile().getProfileDescription())
         );
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.add(
-                new Button("show profile", e -> {
 
-                }),
-                new Button("Download Application letter", e -> {
+        Button showProfileButton = new Button("show profile");
+        showProfileButton.addClickListener(e -> {
+            // Hier Profil anzeigen vom Studenten!
+        });
 
-                }));
+        Button downloadCoverLetterButton = getDownloadCoverLetterButton(application);
+
+
+        buttonLayout.add(showProfileButton, downloadCoverLetterButton);
+
+
         studentCardLayout.add(vacancyInfo, type, avaterLayout, profileDescription, profileDescriptionParagraph, buttonLayout);
         studentCardLayout.setWidth("100%");
         studentCardLayout.setMaxWidth("700px");
@@ -100,6 +111,32 @@ public class ShowApplicationView extends Composite<VerticalLayout> implements Af
         studentCardLayout.getStyle().set("border-radius", "8px");
         studentCardLayout.getStyle().set("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.1)");
         return studentCardLayout;
+    }
+
+    private @NotNull Button getDownloadCoverLetterButton(ApplicationDTO application) {
+        Button downloadCoverLetterButton = new Button("Download Cover Letter");
+        downloadCoverLetterButton.addClickListener(e -> {
+            String base64coverLetter = applicationService.getCoverLetter(application.getApplicationID());
+            if (base64coverLetter != null && !base64coverLetter.isEmpty()) {
+
+                byte[] pdfBytes = Base64.getDecoder().decode(base64coverLetter);
+                StreamResource resource = new StreamResource("Lebenslauf.pdf", () -> new ByteArrayInputStream(pdfBytes));
+                resource.setContentType("application/pdf");
+
+                Anchor downloadLink = new Anchor(resource, "Download");
+                downloadLink.getElement().setAttribute("download", true);
+                downloadLink.getStyle().set("display", "none");
+                getContent().add(downloadLink);
+
+                downloadLink.getElement().executeJs("this.click();");
+
+                Notification.show("Lebenslauf-Download gestartet.");
+            } else {
+                Notification.show("Kein Lebenslauf gefunden.");
+                downloadCoverLetterButton.setEnabled(false);
+            }
+        });
+        return downloadCoverLetterButton;
     }
 
     @Override
