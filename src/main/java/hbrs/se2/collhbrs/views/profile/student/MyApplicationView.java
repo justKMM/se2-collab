@@ -28,13 +28,11 @@ import java.util.List;
 public class MyApplicationView extends Composite<VerticalLayout> {
 
     private final VerticalLayout layout;
-    private final ApplicationService applicationService;
-    private final SessionService sessionService;
-    private final List<Application> applications = new ArrayList<>();
+    private final transient ApplicationService applicationService;
+
 
     public MyApplicationView(ApplicationService applicationService, SessionService sessionService) {
         this.applicationService = applicationService;
-        this.sessionService = sessionService;
         this.layout = new VerticalLayout();
         this.layout.getStyle().setAlignItems(Style.AlignItems.CENTER);
         getContent().getStyle().setAlignItems(Style.AlignItems.CENTER);
@@ -69,9 +67,7 @@ public class MyApplicationView extends Composite<VerticalLayout> {
                 new Span(application.getVacancy().getDescription())
         );
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.add(new Button("zurückziehen", buttonClickEvent -> {
-            openDialog(application, applicationCard);
-        }));
+        buttonLayout.add(new Button("zurückziehen", buttonClickEvent -> openDialog(application, applicationCard)));
         applicationCard.add(businessLayout, infoLayout, vacancyLayout, buttonLayout);
         applicationCard.setWidth("100%");
         applicationCard.setMaxWidth("700px");
@@ -92,9 +88,7 @@ public class MyApplicationView extends Composite<VerticalLayout> {
             applicationService.deleteApplication(application.getApplication());
             layout.remove(applicationCard);
             dialog.close();
-        }), new Button("Abbrechen" , buttonClickEvent -> {
-            dialog.close();
-        }));
+        }), new Button("Abbrechen" , buttonClickEvent -> dialog.close()));
         dialogLayout.setPadding(true);
         dialogLayout.setSpacing(true);
         dialogLayout.add(title, buttonLayout);
