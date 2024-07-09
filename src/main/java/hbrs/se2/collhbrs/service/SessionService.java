@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionService {
 
-    private final transient SecurityService securityService;
+    private final SecurityService securityService;
 
     public SessionService(SecurityService securityService) {
         this.securityService = securityService;
