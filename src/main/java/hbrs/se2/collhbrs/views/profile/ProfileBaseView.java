@@ -139,7 +139,6 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
         buffer = new MemoryBuffer();
         upload = new Upload(buffer);
         upload.setAcceptedFileTypes("image/jpeg");
-
         HorizontalLayout buttonLayout = new HorizontalLayout();
         Button saveButton = new Button("Speichern", buttonClickEvent -> {
             try (InputStream inputStream = buffer.getInputStream()) {
