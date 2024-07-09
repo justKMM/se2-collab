@@ -55,20 +55,6 @@ create table public.Kompetenzen
     constraint pk_Kompetenzen primary key (StudentID, laufende_nummer)
 );
 
-create table public.Kontaktverknuepfung
-(
-    KontaktverknuepfungID       SERIAL not null,
-    UnternehmenID               SERIAL not null,
-    StudentID                   SERIAL not null,
-    Bewertungsscore_Student     numeric(1),
-    Beschreibung_Student        varchar(256),
-    Bewertungsscore_Unternehmen numeric(1),
-    Beschreibung_Unternehmen    varchar(256),
-    constraint pk_Kontaktverknuepfung primary key (KontaktverknuepfungID)
-);
-
-
-
 create table public.Profil
 (
     ProfilID              SERIAL not null,
@@ -178,18 +164,6 @@ alter table public.Kompetenzen
     add constraint fk_Kompetenzen_Student
         foreign key (StudentID)
             references Student;
-
-alter table public.Kontaktverknuepfung
-    add constraint fk_Kontaktverknuepfung_Unternehmen
-        foreign key (UnternehmenID)
-            references Unternehmen;
-
-alter table public.Kontaktverknuepfung
-    add constraint fk_Kontaktverknuepfung_Student
-        foreign key (StudentID)
-            references Student;
-
-
 
 alter table public.Stellenausschreibung
     add constraint fk_Stellenausschreibung_Unternehmen
