@@ -25,18 +25,19 @@ import java.util.Base64;
 public abstract class ProfileBaseView extends Composite<VerticalLayout> {
 
 
-    protected final ProfileService profileService;
-    protected final SessionService sessionService;
-    protected final VerticalLayout layout = new VerticalLayout();
-    protected MarkdownConverter markdownConverter = new MarkdownConverter();
+    protected final transient ProfileService profileService;
+    protected final transient SessionService sessionService;
+    protected final transient VerticalLayout layout = new VerticalLayout();
+    protected transient MarkdownConverter markdownConverter = new MarkdownConverter();
     protected Avatar avatar;
     protected H6 linkedIn;
     protected H6 xing;
     protected Div description;
     protected Upload upload;
     protected MemoryBuffer buffer;
+    protected final static String OPACITY = "opacity";
 
-    public ProfileBaseView(ProfileService profileService, SessionService sessionService) {
+    protected ProfileBaseView(ProfileService profileService, SessionService sessionService) {
         this.profileService = profileService;
         this.sessionService = sessionService;
         layout.getStyle().setAlignItems(Style.AlignItems.FLEX_START);
@@ -57,22 +58,19 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
         avatar.setWidth("150px");
         H2 username = new H2(setGreetingText());
         H6 email = new H6(user.getEmail());
-        email.getStyle().set("opacity", "0.8");
+        email.getStyle().set(OPACITY, "0.8");
         linkedIn = new H6(user.getProfile().getLinkedinUsername());
-        linkedIn.getStyle().set("opacity", "0.8");
+        linkedIn.getStyle().set(OPACITY, "0.8");
         xing = new H6(user.getProfile().getXingUsername());
-        xing.getStyle().set("opacity", "0.8");
+        xing.getStyle().set(OPACITY, "0.8");
         HorizontalLayout emailLayout = new HorizontalLayout(
                 new H6("Email: "), email);
         HorizontalLayout linkedInLayout = new HorizontalLayout(
                 new H6("LinkedIn: "), linkedIn);
         HorizontalLayout xingLayout = new HorizontalLayout(
                 new H6("Xing: "), xing);
-        HorizontalLayout buttonLayout = new HorizontalLayout(new Button("bearbeiten", event -> {
-            openEditDialog(user);
-        }), new Button("bild hochladen", event -> {
-            openAvatarDialog(user);
-        }));
+        HorizontalLayout buttonLayout = new HorizontalLayout(new Button("bearbeiten", event ->
+            openEditDialog(user)), new Button("bild hochladen", event -> openAvatarDialog(user)));
         infoLayout.add(username, emailLayout, linkedInLayout, xingLayout, buttonLayout);
         header.add(avatar, infoLayout);
         return header;
@@ -84,11 +82,12 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
                 "innerHTML",
                 markdownConverter.convertToHtml(user.getProfile().getProfileDescription())
         );
-        VerticalLayout descriptionLayout = new VerticalLayout(
+
+
+        return new VerticalLayout(
                 new H3("Beschreibung: "),
                description
         );
-        return descriptionLayout;
     }
 
     private void openEditDialog(UserDTO user) {
@@ -97,30 +96,30 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
         dialog.setHeight("500px");
         VerticalLayout editLayout = new VerticalLayout();
         HorizontalLayout inputLayout = new HorizontalLayout();
-        TextField linkedIn = new TextField("LinkedIn: ");
-        TextField xing = new TextField("Xing: ");
-        TextArea description = new TextArea("Beschreibung: ");
+        TextField linkedInTexField = new TextField("LinkedIn: ");
+        TextField xingTextField = new TextField("Xing: ");
+        TextArea descriptionTextField = new TextArea("Beschreibung: ");
         description.setWidth("400px");
         description.setHeight("200px");
         inputLayout.add(linkedIn, xing);
-        HorizontalLayout descriptionLayout = new HorizontalLayout(description);
+        HorizontalLayout descriptionLayout = new HorizontalLayout(descriptionTextField);
         Button save = new Button("Speichern");
         Button cancel = new Button("Abbrechen");
-        if (linkedIn.getValue().isEmpty()) {
-            linkedIn.setValue(user.getProfile().getLinkedinUsername());
+        if (linkedInTexField.getValue().isEmpty()) {
+            linkedInTexField.setValue(user.getProfile().getLinkedinUsername());
         }
-        if (xing.getValue().isEmpty()) {
-            xing.setValue(user.getProfile().getXingUsername());
+        if (xingTextField.getValue().isEmpty()) {
+            xingTextField.setValue(user.getProfile().getXingUsername());
         }
-        if (description.getValue().isEmpty()) {
-            description.setValue(user.getProfile().getProfileDescription());
+        if (descriptionTextField.getValue().isEmpty()) {
+            descriptionTextField.setValue(user.getProfile().getProfileDescription());
         }
         save.addClickListener(event -> {
             profileService.saveSocials(
                     sessionService.getCurrentUser().getProfile(),
-                    linkedIn.getValue(),
-                    xing.getValue(),
-                    description.getValue()
+                    linkedInTexField.getValue(),
+                    xingTextField.getValue(),
+                    descriptionTextField.getValue()
             );
             updateProfileData(user);
             dialog.close();

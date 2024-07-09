@@ -26,66 +26,8 @@ import java.util.Base64;
 @RolesAllowed(Globals.Roles.STUDENT)
 public class ProfilStudentView extends ProfileBaseView {
 
-    private static final int MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-    private final StudentService studentService;
-    private Button downloadButton;
 
-    public ProfilStudentView(ProfileService profileService, SessionService sessionService, StudentService studentService) {
+    public ProfilStudentView(ProfileService profileService, SessionService sessionService) {
         super(profileService, sessionService);
-        this.studentService = studentService;
     }
-
-    /*private void handlePdfUploadSuccess(MemoryBuffer buffer) {
-        try (InputStream inputStream = buffer.getInputStream()) {
-            byte[] bytes = inputStream.readAllBytes();
-            String base64Resume = Base64.getEncoder().encodeToString(bytes);
-
-            studentService.deleteResume(sessionService.getCurrentStudent().getStudentID());
-            studentService.saveResume(sessionService.getCurrentStudent().getStudentID(), base64Resume);
-            Notification.show("Lebenslauf erfolgreich hochgeladen.");
-            downloadButton.setEnabled(true);
-        } catch (Exception e) {
-            Notification.show("Fehler beim Hochladen des Lebenslaufs: " + e.getMessage());
-        }
-    }*/
-
-   /* private void downloadResume() {
-        Long studentId = sessionService.getCurrentStudent().getStudentID();
-        String base64Resume = studentService.getResume(studentId);
-        if (base64Resume != null && !base64Resume.isEmpty()) {
-            byte[] pdfBytes = Base64.getDecoder().decode(base64Resume);
-            StreamResource resource = new StreamResource("Lebenslauf.pdf", () -> new ByteArrayInputStream(pdfBytes));
-            resource.setContentType("application/pdf");
-
-            Anchor downloadLink = new Anchor(resource, "Download");
-            downloadLink.getElement().setAttribute("download", true);
-            downloadLink.getStyle().set("display", "none");
-            getContent().add(downloadLink);
-
-            downloadLink.getElement().executeJs("this.click();");
-
-            Notification.show("Lebenslauf-Download gestartet.");
-        } else {
-            Notification.show("Kein Lebenslauf gefunden.");
-            downloadButton.setEnabled(false);
-        }
-    }
-
-    private void deleteResume() {
-        Long studentId = sessionService.getCurrentStudent().getStudentID();
-        studentService.deleteResume(studentId);
-        Notification.show("Lebenslauf erfolgreich gelöscht.");
-        downloadButton.setEnabled(false);
-    }
-
-    private void checkResumeExists() {
-        Long studentId = sessionService.getCurrentStudent().getStudentID();
-        String base64Resume = studentService.getResume(studentId);
-        if (base64Resume != null && !base64Resume.isEmpty()) {
-            downloadButton.setEnabled(true);
-        } else {
-            downloadButton.setEnabled(false);
-            Notification.show("Kein Lebenslauf vorhanden.");
-        }
-    }*/
 }
