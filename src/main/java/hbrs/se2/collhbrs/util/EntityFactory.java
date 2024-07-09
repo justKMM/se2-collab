@@ -45,28 +45,6 @@ public class EntityFactory {
         return business;
     }
 
-    public DegreeProgramm createDegreeProgramm(String name, Student student) {
-        DegreeProgramm degreeProgramm = new DegreeProgramm();
-        degreeProgramm.setDegreeProgramName(name);
-        degreeProgramm.setDegreeProgramName(name);
-        degreeProgramm.setStudent(student);
-        return degreeProgramm;
-    }
-
-    public Interest createInterest(String name, Student student) {
-        Interest interest = new Interest();
-        interest.setInterestName(name);
-        interest.setStudent(student);
-        return interest;
-    }
-
-    public Skill createSkill(String name, Student student) {
-        Skill skill = new Skill();
-        skill.setSkillName(name);
-        skill.setStudent(student);
-        return skill;
-    }
-
     public Vacancy createVacancy(String employmentType, String title, String location, String description, Business business, Date date) {
         Vacancy vacancy = new Vacancy();
         vacancy.setTitle(title);
