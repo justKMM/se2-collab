@@ -68,7 +68,7 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
                 new H6("LinkedIn: "), linkedIn);
         HorizontalLayout xingLayout = new HorizontalLayout(
                 new H6("Xing: "), xing);
-        HorizontalLayout buttonLayout = new HorizontalLayout(new Button("bearbeiten", event -> {
+        HorizontalLayout buttonLayout = new HorizontalLayout(new Button("bearbeiten", buttonClickEvent -> {
             openEditDialog(user);
         }), new Button("bild hochladen", event -> {
             openAvatarDialog(user);
@@ -107,13 +107,13 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
         Button save = new Button("Speichern");
         Button cancel = new Button("Abbrechen");
         if (linkedIn.getValue().isEmpty()) {
-            linkedIn.setValue(user.getProfile().getLinkedinUsername());
+            linkedIn.setValue(user.getProfile().getLinkedinUsername() != null ? user.getProfile().getLinkedinUsername() : "");
         }
         if (xing.getValue().isEmpty()) {
-            xing.setValue(user.getProfile().getXingUsername());
+            xing.setValue(user.getProfile().getXingUsername() != null ? user.getProfile().getXingUsername() : "");
         }
         if (description.getValue().isEmpty()) {
-            description.setValue(user.getProfile().getProfileDescription());
+            description.setValue(user.getProfile().getProfileDescription() != null ? user.getProfile().getProfileDescription() : "");
         }
         save.addClickListener(event -> {
             profileService.saveSocials(
