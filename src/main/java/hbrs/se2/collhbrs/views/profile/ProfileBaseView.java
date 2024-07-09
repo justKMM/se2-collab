@@ -1,6 +1,7 @@
 package hbrs.se2.collhbrs.views.profile;
 
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -144,7 +145,9 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
             try (InputStream inputStream = buffer.getInputStream()) {
                 byte[] bytes = inputStream.readAllBytes();
                 String base64Image = Base64.getEncoder().encodeToString(bytes);
+                profileService.deleteProfileImage(user.getProfile().getProfileID());
                 profileService.saveProfileImage(user.getProfile().getProfileID(), base64Image);
+                user.getProfile().setAvatar(base64Image); // Hier das Avatar-Bild im UserDTO aktualisieren
                 Notification.show("Bild erfolgreich hochgeladen");
             } catch (Exception e) {
                 Notification.show("Fehler beim Hochladen des Bildes");
@@ -167,7 +170,7 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
                 "innerHTML",
                 markdownConverter.convertToHtml(user.getProfile().getProfileDescription())
         );
-        avatar.setImage("data:image/jpeg;base64,"+user.getProfile().getAvatar());
+        avatar.setImage("data:image/jpeg;base64," + user.getProfile().getAvatar());
     }
 
     private String setGreetingText() {
