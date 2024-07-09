@@ -15,10 +15,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class SecurityServiceTest {
+
+    private static final String STUDENT_USERNAME = "student";
+    private static final String BUSINESS_USERNAME = "business";
+    private static final String PASSWORD = "password";
+    private static final Long USER_ID = 1L;
 
     @Mock
     private UserRepository userRepository;
@@ -38,39 +44,39 @@ class SecurityServiceTest {
     }
 
     @Test
-    void testLoadUserByUsername_UserFound_StudentRole() {
+    void testLoadUserByUsernameUserFoundStudentRole() {
         User user = new User();
-        user.setUserID(1L);
-        user.setUsername("student");
-        user.setPassword("password");
+        user.setUserID(USER_ID);
+        user.setUsername(STUDENT_USERNAME);
+        user.setPassword(PASSWORD);
 
         when(userRepository.findByUsername(anyString())).thenReturn(user);
         when(studentRepository.existsByUserUserID(anyLong())).thenReturn(true);
         when(businessRepository.existsByUserUserID(anyLong())).thenReturn(false);
 
-        UserDetails userDetails = securityService.loadUserByUsername("student");
+        UserDetails userDetails = securityService.loadUserByUsername(STUDENT_USERNAME);
 
-        assertEquals("student", userDetails.getUsername());
-        assertEquals("password", userDetails.getPassword());
+        assertEquals(STUDENT_USERNAME, userDetails.getUsername());
+        assertEquals(PASSWORD, userDetails.getPassword());
         assertTrue(userDetails.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_" + Globals.Roles.STUDENT)));
     }
 
     @Test
-    void testLoadUserByUsername_UserFound_BusinessRole() {
+    void testLoadUserByUsernameUserFoundBusinessRole() {
         User user = new User();
-        user.setUserID(1L);
-        user.setUsername("business");
-        user.setPassword("password");
+        user.setUserID(USER_ID);
+        user.setUsername(BUSINESS_USERNAME);
+        user.setPassword(PASSWORD);
 
         when(userRepository.findByUsername(anyString())).thenReturn(user);
         when(studentRepository.existsByUserUserID(anyLong())).thenReturn(false);
         when(businessRepository.existsByUserUserID(anyLong())).thenReturn(true);
 
-        UserDetails userDetails = securityService.loadUserByUsername("business");
+        UserDetails userDetails = securityService.loadUserByUsername(BUSINESS_USERNAME);
 
-        assertEquals("business", userDetails.getUsername());
-        assertEquals("password", userDetails.getPassword());
+        assertEquals(BUSINESS_USERNAME, userDetails.getUsername());
+        assertEquals(PASSWORD, userDetails.getPassword());
         assertTrue(userDetails.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_" + Globals.Roles.BUSINESS)));
     }
