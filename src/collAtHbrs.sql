@@ -39,22 +39,6 @@ create table public.bewirbt
     constraint pk_bewirbt primary key (bewirbtID)
 );
 
-create table public.Interessen
-(
-    StudentID       SERIAL       not null,
-    laufende_nummer numeric(2)   not null,
-    Interessen      varchar(256) not null,
-    constraint pk_Interessen primary key (StudentID, laufende_nummer)
-);
-
-create table public.Kompetenzen
-(
-    StudentID       SERIAL       not null,
-    laufende_nummer numeric(2)   not null,
-    Kompetenzen     varchar(256) not null,
-    constraint pk_Kompetenzen primary key (StudentID, laufende_nummer)
-);
-
 create table public.Profil
 (
     ProfilID              SERIAL not null,
@@ -89,14 +73,6 @@ create table public.Student
     Lebenslauf   TEXT,
     constraint pk_Student primary key (StudentID),
     constraint uk_Student_BenutzerID unique (BenutzerID)
-);
-
-create table public.Studiengang
-(
-    StudentID       SERIAL       not null,
-    laufende_nummer numeric(2)   not null,
-    Studiengang     varchar(256) not null,
-    constraint pk_Studiengang primary key (StudentID, laufende_nummer)
 );
 
 create table public.Unternehmen
@@ -155,16 +131,6 @@ alter table public.bewirbt
         foreign key (StellenausschreibungID)
             references Stellenausschreibung;
 
-alter table public.Interessen
-    add constraint fk_Interessen_Student
-        foreign key (StudentID)
-            references Student;
-
-alter table public.Kompetenzen
-    add constraint fk_Kompetenzen_Student
-        foreign key (StudentID)
-            references Student;
-
 alter table public.Stellenausschreibung
     add constraint fk_Stellenausschreibung_Unternehmen
         foreign key (UnternehmenID)
@@ -175,11 +141,6 @@ alter table public.Student
     add constraint fk_Student_Benutzer
         foreign key (BenutzerID)
             references Benutzer;
-
-alter table public.Studiengang
-    add constraint fk_Studiengang_Student
-        foreign key (StudentID)
-            references Student;
 
 
 alter table public.Unternehmen

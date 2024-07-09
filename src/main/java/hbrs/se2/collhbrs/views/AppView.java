@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Route(Globals.Pages.APP)
 public class AppView extends AppLayout {
 
-    private final SessionService sessionService;
+    private final transient SessionService sessionService;
 
     @Autowired
     public AppView(SessionService sessionService) {
