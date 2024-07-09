@@ -1,63 +1,66 @@
-package hbrs.se2.collhbrs.model.dto;
+package dto_test;
 
+import hbrs.se2.collhbrs.model.dto.ResponsibilitiesDTO;
 import hbrs.se2.collhbrs.model.entity.Vacancy;
 import hbrs.se2.collhbrs.model.entity.traits.Responsibilities;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ResponsibilitiesDTOTest {
+class ResponsibilitiesDTOTest {
+
+    private static final String RESPONSIBILITIES_NAME = "Manage team";
 
     @Test
-    public void testResponsibilitiesDTOConstructorAndGetters() {
+    void testResponsibilitiesDTOConstructorAndGetters() {
         Vacancy vacancy = new Vacancy();
         Responsibilities responsibilities = new Responsibilities();
         responsibilities.setVacancy(vacancy);
         responsibilities.setSerialNumber(1);
-        responsibilities.setResponsibilitiesName("Manage team");
+        responsibilities.setResponsibilitiesName(RESPONSIBILITIES_NAME);
 
         ResponsibilitiesDTO dto = new ResponsibilitiesDTO(responsibilities);
 
         assertEquals(vacancy, dto.getVacancy());
         assertEquals(1, dto.getSerialNumber());
-        assertEquals("Manage team", dto.getResponsibilitiesName());
+        assertEquals(RESPONSIBILITIES_NAME, dto.getResponsibilitiesName());
     }
 
     @Test
-    public void testGetResponsibilities() {
+    void testGetResponsibilities() {
         Vacancy vacancy = new Vacancy();
         Responsibilities responsibilities = new Responsibilities();
         responsibilities.setVacancy(vacancy);
         responsibilities.setSerialNumber(1);
-        responsibilities.setResponsibilitiesName("Manage team");
+        responsibilities.setResponsibilitiesName(RESPONSIBILITIES_NAME);
 
         ResponsibilitiesDTO dto = new ResponsibilitiesDTO(responsibilities);
         Responsibilities newResponsibilities = dto.getResponsibilities();
 
         assertEquals(vacancy, newResponsibilities.getVacancy());
         assertEquals(1, newResponsibilities.getSerialNumber());
-        assertEquals("Manage team", newResponsibilities.getResponsibilitiesName());
+        assertEquals(RESPONSIBILITIES_NAME, newResponsibilities.getResponsibilitiesName());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Vacancy vacancy = new Vacancy();
         Responsibilities responsibilities = new Responsibilities();
         responsibilities.setVacancy(vacancy);
         responsibilities.setSerialNumber(1);
-        responsibilities.setResponsibilitiesName("Manage team");
+        responsibilities.setResponsibilitiesName(RESPONSIBILITIES_NAME);
 
         ResponsibilitiesDTO dto = new ResponsibilitiesDTO(responsibilities);
         String expectedString = "ResponsibilitiesDTO{" +
                 "vacancy=" + vacancy +
                 ", serialNumber=" + 1 +
-                ", responsibilitiesName='Manage team'}";
+                ", responsibilitiesName='" + RESPONSIBILITIES_NAME + "'}";
 
         assertEquals(expectedString, dto.toString());
     }
 
     @Test
-    public void testSetters() {
+    void testSetters() {
         Vacancy vacancy = new Vacancy();
         ResponsibilitiesDTO dto = new ResponsibilitiesDTO(new Responsibilities());
 

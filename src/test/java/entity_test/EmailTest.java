@@ -2,57 +2,53 @@ package entity_test;
 
 import hbrs.se2.collhbrs.model.entity.Email;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EmailTest {
 
+    private static final String RECIPIENT = "test@example.com";
+    private static final String MSG_BODY = "This is a test message";
+    private static final String SUBJECT = "Test Subject";
+    private static final String ATTACHMENT = "test_attachment.pdf";
+
+    private static final String NEW_RECIPIENT = "new@example.com";
+    private static final String NEW_MSG_BODY = "This is a new test message";
+    private static final String NEW_SUBJECT = "New Test Subject";
+    private static final String NEW_ATTACHMENT = "new_test_attachment.pdf";
+
     @Test
     void testEmailConstructorAndGetters() {
-        String recipient = "test@example.com";
-        String msgBody = "This is a test message";
-        String subject = "Test Subject";
-        String attachment = "test_attachment.pdf";
+        Email email = new Email(RECIPIENT, MSG_BODY, SUBJECT, ATTACHMENT);
 
-        Email email = new Email(recipient, msgBody, subject, attachment);
-
-        assertEquals(recipient, email.getRecipient());
-        assertEquals(msgBody, email.getMsgBody());
-        assertEquals(subject, email.getSubject());
-        assertEquals(attachment, email.getAttachment());
+        assertEquals(RECIPIENT, email.getRecipient());
+        assertEquals(MSG_BODY, email.getMsgBody());
+        assertEquals(SUBJECT, email.getSubject());
+        assertEquals(ATTACHMENT, email.getAttachment());
     }
 
     @Test
     void testSetters() {
-        Email email = new Email("test@example.com", "This is a test message", "Test Subject", "test_attachment.pdf");
+        Email email = new Email(RECIPIENT, MSG_BODY, SUBJECT, ATTACHMENT);
 
-        String newRecipient = "new@example.com";
-        String newMsgBody = "This is a new test message";
-        String newSubject = "New Test Subject";
-        String newAttachment = "new_test_attachment.pdf";
+        email.setRecipient(NEW_RECIPIENT);
+        email.setMsgBody(NEW_MSG_BODY);
+        email.setSubject(NEW_SUBJECT);
+        email.setAttachment(NEW_ATTACHMENT);
 
-        email.setRecipient(newRecipient);
-        email.setMsgBody(newMsgBody);
-        email.setSubject(newSubject);
-        email.setAttachment(newAttachment);
-
-        assertEquals(newRecipient, email.getRecipient());
-        assertEquals(newMsgBody, email.getMsgBody());
-        assertEquals(newSubject, email.getSubject());
-        assertEquals(newAttachment, email.getAttachment());
+        assertEquals(NEW_RECIPIENT, email.getRecipient());
+        assertEquals(NEW_MSG_BODY, email.getMsgBody());
+        assertEquals(NEW_SUBJECT, email.getSubject());
+        assertEquals(NEW_ATTACHMENT, email.getAttachment());
     }
 
     @Test
     void testToString() {
-        String recipient = "test@example.com";
-        String msgBody = "This is a test message";
-        String subject = "Test Subject";
-        String attachment = "test_attachment.pdf";
-
-        Email email = new Email(recipient, msgBody, subject, attachment);
-        String expectedString = "Email(recipient=" + recipient +
-                ", msgBody=" + msgBody +
-                ", subject=" + subject +
-                ", attachment=" + attachment +
+        Email email = new Email(RECIPIENT, MSG_BODY, SUBJECT, ATTACHMENT);
+        String expectedString = "Email(recipient=" + RECIPIENT +
+                ", msgBody=" + MSG_BODY +
+                ", subject=" + SUBJECT +
+                ", attachment=" + ATTACHMENT +
                 ")";
 
         assertEquals(expectedString, email.toString());
