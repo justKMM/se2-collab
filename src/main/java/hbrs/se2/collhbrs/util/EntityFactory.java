@@ -67,10 +67,10 @@ public class EntityFactory {
         return skill;
     }
 
-    public Vacancy createVacancy(String employmenttype, String title, String location, String description, Business business, Date date) {
+    public Vacancy createVacancy(String employmentType, String title, String location, String description, Business business, Date date) {
         Vacancy vacancy = new Vacancy();
         vacancy.setTitle(title);
-        vacancy.setEmploymentType(employmenttype);
+        vacancy.setEmploymentType(employmentType);
         vacancy.setLocation(location);
         vacancy.setDescription(description);
         vacancy.setBusiness(business);
