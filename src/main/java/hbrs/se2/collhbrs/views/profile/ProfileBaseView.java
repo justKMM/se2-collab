@@ -54,8 +54,8 @@ public abstract class ProfileBaseView extends Composite<Div> {
 
     private void initLayout() {
         avatar = new Avatar();
-        title = new H1("Profile");
-        subtitle = new H6("Manage your profile information");
+        title = new H1("Profil");
+        subtitle = new H6("Verwalten Sie Ihre Profilinformationen");
         notification = new Notification();
         header = new HorizontalLayout(avatar, title, subtitle);
         layout = new VerticalLayout(header);
@@ -90,8 +90,8 @@ public abstract class ProfileBaseView extends Composite<Div> {
         layoutColumn3.add(h62);
         getContent().add(layoutRow, layoutColumn4);
         setGreetingText();
-        h6.setText("Rating:");
-        h62.setText("5/5 Sternen");
+        h6.setText("Bewertung:");
+        h62.setText("5/5 Sterne");
     }
 
     private void configureHorizontalLayout(HorizontalLayout layoutRow) {
@@ -146,7 +146,7 @@ public abstract class ProfileBaseView extends Composite<Div> {
                 saveProfileImage(base64Image);
                 avatar.setImage("data:image/jpeg;base64," + base64Image);
             } catch (Exception e) {
-                Notification.show("Failed to upload image: " + e.getMessage());
+                Notification.show("Fehler beim hochladen des Avatars");
             }
         });
         layout.add(upload);
@@ -154,18 +154,18 @@ public abstract class ProfileBaseView extends Composite<Div> {
 
     private void saveProfileImage(String base64Image) {
         if (isBusinessUser()) {
-            handleProfileImageUpload(sessionService.getCurrentBusiness().getProfile().getProfileID(), base64Image, "business");
+            handleProfileImageUpload(sessionService.getCurrentBusiness().getProfile().getProfileID(), base64Image);
         } else if (isStudentUser()) {
-            handleProfileImageUpload(sessionService.getCurrentStudent().getProfile().getProfileID(), base64Image, "student");
+            handleProfileImageUpload(sessionService.getCurrentStudent().getProfile().getProfileID(), base64Image);
         }
     }
 
-    private void handleProfileImageUpload(Long profileId, String base64Image, String userType) {
+    private void handleProfileImageUpload(Long profileId, String base64Image) {
         try {
             profileService.deleteProfileImage(profileId);
             profileService.saveProfileImage(profileId, base64Image);
         } catch (Exception e) {
-            Notification.show("Failed to save " + userType + " profile image: " + e.getMessage());
+            Notification.show("Fehler beim speichern des Avatars");
         }
     }
 
@@ -182,7 +182,7 @@ public abstract class ProfileBaseView extends Composite<Div> {
                 avatar.setImage("data:image/jpeg;base64," + base64Image);
             }
         } catch (Exception e) {
-            Notification.show("Failed to load profile image");
+            Notification.show("Fehler beim laden des Avatars");
         }
     }
 

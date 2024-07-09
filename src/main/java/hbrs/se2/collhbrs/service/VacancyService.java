@@ -40,24 +40,12 @@ public class VacancyService {
         return vacancyRepository.findAll();
     }
 
-    public List<Vacancy> getVacanciesByEmploymentType(String employmentType) {
-        return vacancyRepository.findVacanciesByEmploymentType(employmentType);
-    }
-
-    public Vacancy getVacancyByBusinessID(Long businessId) {
-        return vacancyRepository.findVacancyByBusiness_BusinessID(businessId);
-    }
-
     @Transactional
     public void deleteVacancy(Long vacancyId) {
         responsibilitiesRepository.deleteByVacancyVacancyID(vacancyId);
         requirementsRepository.deleteByVacancyVacancyID(vacancyId);
         applicationRepository.deleteApplicationByVacancy_VacancyID(vacancyId);
         vacancyRepository.deleteByVacancyID(vacancyId);
-    }
-
-    public List<Vacancy> getVacanciesByTitle(String title) {
-        return vacancyRepository.findVacanciesByTitle(title);
     }
 
     public boolean isEmpty() {

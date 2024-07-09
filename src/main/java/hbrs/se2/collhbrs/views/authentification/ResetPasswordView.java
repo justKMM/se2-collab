@@ -28,9 +28,9 @@ import java.util.stream.Stream;
 @AnonymousAllowed
 public class ResetPasswordView extends Composite<VerticalLayout> implements HasUrlParameter<String> {
 
-    final ResetPasswordService resetPasswordService;
-    private final Button submitButton = createButton("Confirm", ButtonVariant.LUMO_PRIMARY);
-    private final Button cancelButton = createButton("Cancel", ButtonVariant.LUMO_ERROR);
+    final transient ResetPasswordService resetPasswordService;
+    private final Button submitButton = createButton("Bestätigen", ButtonVariant.LUMO_PRIMARY);
+    private final Button cancelButton = createButton("Abbrechen", ButtonVariant.LUMO_ERROR);
     FormLayout formLayout;
     private Map<String, List<String>> parameters;
 
@@ -77,8 +77,8 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
     private void setupFields() {
         H3 title = new H3("Reset your password");
 
-        PasswordField password = new PasswordField("Password");
-        PasswordField passwordConfirmation = new PasswordField("Confirm password");
+        PasswordField password = new PasswordField("Passwort");
+        PasswordField passwordConfirmation = new PasswordField("Passwort bestätigen");
 
         setRequiredIndicatorVisible(password, passwordConfirmation);
 
@@ -93,21 +93,20 @@ public class ResetPasswordView extends Composite<VerticalLayout> implements HasU
 
     private void addButtons() {
         cancelButton.addClickListener(e -> {
-            Notification notification = Notification.show("Password reset cancelled");
+            Notification notification = Notification.show("Passwort zurücksetzen abgebrochen.");
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             UI.getCurrent().navigate(Globals.Pages.LOGIN);
         });
 
         submitButton.addClickListener(e -> {
-            PasswordField password = new PasswordField("Password");
-            PasswordField passwordConfirmation = new PasswordField("Confirm password");
+            PasswordField password = new PasswordField("Passwort");
+            PasswordField passwordConfirmation = new PasswordField("Passwort bestätigen");
             String newPassword = password.getValue();
             String confirmPassword = passwordConfirmation.getValue();
             if (!newPassword.equals(confirmPassword)) {
                 Notification notification = Notification.show("""
-                        Error: Password doesn't match
-                        with confirmation password.
-                        Please try again.
+                        Error: Das Passwort stimmt nicht überein mit dem Bestätigungspasswort. 
+                        Bitte versuchen Sie es erneut.
                         """);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {

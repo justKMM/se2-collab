@@ -13,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.Route;
 import hbrs.se2.collhbrs.model.dto.RequirmentsDTO;
@@ -88,10 +87,10 @@ public class SearchView extends Composite<VerticalLayout> {
         HorizontalLayout search = new HorizontalLayout();
         ComboBox<String> employmentType = new ComboBox<>();
         employmentType.setItems(comboBoxItems);
-        Button searchButton = new Button("Search");
-        Button clearSearch = new Button("Clear");
+        Button searchButton = new Button("Suche");
+        Button clearSearch = new Button("Neue Suche");
         TextField searchTextField = new TextField();
-        searchTextField.setPlaceholder("Location, Description, etc.");
+        searchTextField.setPlaceholder("Standort, Beschreibung, usw.");
         searchTextField.setWidth("100%");
         search.setWidth("100%");
         search.setMaxWidth("700px");
@@ -153,15 +152,15 @@ public class SearchView extends Composite<VerticalLayout> {
         type.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         type.setEnabled(true);
         HorizontalLayout dateLayout = new HorizontalLayout(
-                new H4("Date: "),
+                new H4("Datum: "),
                 new Span(vacancy.getPublishDate().toString())
         );
         HorizontalLayout locationLayout = new HorizontalLayout(
-                new H4("Location: "),
+                new H4("Standort: "),
                 new Span(vacancy.getLocation())
         );
         HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
-        H4 profileDescription = new H4("About us ");
+        H4 profileDescription = new H4("Über uns ");
         Div profileDescriptionParagraph = new Div();
         profileDescriptionParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(
                 vacancy.getBusiness().getUser().getProfile().getProfileDescription())
@@ -171,8 +170,8 @@ public class SearchView extends Composite<VerticalLayout> {
         contactLayout.add(createContactLayout("LinkedIn: ", vacancy.getBusiness().getUser().getProfile().getLinkedinUsername()));
         contactLayout.add(createContactLayout("Xing: ", vacancy.getBusiness().getUser().getProfile().getXingUsername()));
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        Button learnMore = new Button("Learn more");
-        Button reminder = new Button("Reminder");
+        Button learnMore = new Button("Mehr erfahren");
+        Button reminder = new Button("Erinnerung setzen");
         buttonLayout.add(learnMore, reminder);
         cardLayout.add(title, avatarLayout, type, infoLayout, contactLayout, profileDescription,
                 profileDescriptionParagraph, buttonLayout);
@@ -210,25 +209,25 @@ public class SearchView extends Composite<VerticalLayout> {
         type.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         type.setEnabled(true);
 
-        HorizontalLayout dateLayout = new HorizontalLayout(new H4("Date: "), new Span(vacancy.getPublishDate().toString()));
-        HorizontalLayout locationLayout = new HorizontalLayout(new H4("Location: "), new Span(vacancy.getLocation()));
+        HorizontalLayout dateLayout = new HorizontalLayout(new H4("Datum: "), new Span(vacancy.getPublishDate().toString()));
+        HorizontalLayout locationLayout = new HorizontalLayout(new H4("Standort: "), new Span(vacancy.getLocation()));
         HorizontalLayout infoLayout = new HorizontalLayout(dateLayout, locationLayout);
 
-        H4 description = new H4("Description: ");
+        H4 description = new H4("Beschreibung: ");
         Div desParagraph = new Div();
         desParagraph.getElement().setProperty(INNER_HTML, markdownConverter.convertToHtml(vacancy.getDescription()));
 
-        Div requirementsDiv = createMarkdownDiv("Requirements:", requirements);
-        Div responsibilitiesDiv = createMarkdownDiv("Responsibilities:", responsibilities);
+        Div requirementsDiv = createMarkdownDiv("Anforderungen:", requirements);
+        Div responsibilitiesDiv = createMarkdownDiv("Aufgaben:", responsibilities);
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
-        Button apply = new Button("Apply");
+        Button apply = new Button("Jetzt bewerben");
         apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         apply.addClickListener(e -> {
             openApplyDialog(vacancy);
         });
 
-        Button closeButton = new Button("Close", event -> dialog.close());
+        Button closeButton = new Button("Schließen", event -> dialog.close());
         closeButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         buttonLayout.add(apply, closeButton);

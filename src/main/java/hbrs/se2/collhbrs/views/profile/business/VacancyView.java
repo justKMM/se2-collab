@@ -41,11 +41,11 @@ import java.util.List;
 @RolesAllowed(Globals.Roles.BUSINESS)
 public class VacancyView extends Composite<VerticalLayout> {
 
-    private final EntityFactory entityFactory;
-    private final RequirementsService requirementsService;
-    private final ResponsibilitiesService responsibilitiesService;
-    private final SessionService sessionService;
-    private final VacancyService vacancyService;
+    private final transient EntityFactory entityFactory;
+    private final transient RequirementsService requirementsService;
+    private final transient ResponsibilitiesService responsibilitiesService;
+    private final transient SessionService sessionService;
+    private final transient VacancyService vacancyService;
 
     private MultiSelectListBox<String> requirementsList;
     private MultiSelectListBox<String> responsibilitiesList;
@@ -62,7 +62,7 @@ public class VacancyView extends Composite<VerticalLayout> {
 
     private void setUpUI() {
         HorizontalLayout titleLayout = new HorizontalLayout();
-        TextField title = new TextField("Title: ");
+        TextField title = new TextField("Titel: ");
         title.setWidth("100%"); // Vergrößert die Breite des Titel-Feldes
         titleLayout.add(title);
         titleLayout.setWidth("100%");
@@ -76,11 +76,11 @@ public class VacancyView extends Composite<VerticalLayout> {
         infoLayout.add(comboBox, location);
         infoLayout.setWidth("100%"); // Stellt sicher, dass das Layout die volle Breite einnimmt
 
-        H3 h3 = new H3("Add Vacancy");
-        H6 subtitle = new H6("Write Vacanies with Markdown");
+        H3 h3 = new H3("Stellenanzeige hinzufügen");
+        H6 subtitle = new H6("Stellenausschreibungen mit Markdown schreiben");
 
-        TextArea requirements = new TextArea("Requirements: ");
-        TextArea responsibilities = new TextArea("Responsibilities: ");
+        TextArea requirements = new TextArea("Anforderungen: ");
+        TextArea responsibilities = new TextArea("Aufgaben: ");
         requirements.setWidth("100%");
         responsibilities.setWidth("100%");
 
@@ -89,7 +89,7 @@ public class VacancyView extends Composite<VerticalLayout> {
         requirementsList.setWidth("100%");
         responsibilitiesList.setWidth("100%");
 
-        TextArea textArea = new TextArea("Description");
+        TextArea textArea = new TextArea("Beschreibung");
         textArea.setWidth("100%");
         textArea.setHeight("200px");
 
@@ -102,13 +102,13 @@ public class VacancyView extends Composite<VerticalLayout> {
         FormLayout formLayout2Col = new FormLayout();
         formLayout2Col.setWidth("100%");
 
-        Button addRequirements = new Button("Add");
-        Button deleteRequirements = new Button("Delete");
+        Button addRequirements = new Button("Hinzufügen");
+        Button deleteRequirements = new Button("Löschen");
         addRequirements.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         deleteRequirements.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-        Button addResponsibility = new Button("Add");
-        Button deleteResponsibilities = new Button("Delete");
+        Button addResponsibility = new Button("Hinzufügen");
+        Button deleteResponsibilities = new Button("Löschen");
         addResponsibility.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         deleteResponsibilities.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
@@ -129,7 +129,7 @@ public class VacancyView extends Composite<VerticalLayout> {
                 requirementItems.add(requirement);
                 updateRequirementsList(requirementItems);
                 requirements.clear();
-                Notification.show("Markdown renders later");
+                Notification.show("Markdown wird gleich gerendert");
             }
         });
 
@@ -139,7 +139,7 @@ public class VacancyView extends Composite<VerticalLayout> {
                 responsibilityItems.add(responsibility);
                 updateResponsibilitiesList(responsibilityItems);
                 responsibilities.clear();
-                Notification.show("Markdown renders later");
+                Notification.show("Markdown wird gleich gerendert");
             }
         });
 
@@ -158,9 +158,9 @@ public class VacancyView extends Composite<VerticalLayout> {
         layoutRow.setHeight("min-content");
         layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
 
-        Button save = new Button("Save");
+        Button save = new Button("Speichern");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        Button cancel = new Button("Cancel");
+        Button cancel = new Button("Löschen");
 
         save.addClickListener(event -> {
             Vacancy vacancy = entityFactory.createVacancy(comboBox.getValue(), title.getValue(), location.getValue(), textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(), Date.valueOf(LocalDate.now()));

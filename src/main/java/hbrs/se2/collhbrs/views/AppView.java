@@ -39,19 +39,19 @@ public class AppView extends AppLayout {
         setUpUI();
     }
 
-    private static Tab createTab(String s, Class<? extends Component> navgationTarget) {
+    private static Tab createTab(String s, Class<? extends Component> navigationTarget) {
         final Tab t = new Tab();
-        t.add(new RouterLink(s, navgationTarget));
-        ComponentUtil.setData(t, Class.class, navgationTarget);
+        t.add(new RouterLink(s, navigationTarget));
+        ComponentUtil.setData(t, Class.class, navigationTarget);
         return t;
     }
 
     private void setUpUI() {
-        Tabs sidemenu;
+        Tabs sideMenu;
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
-        sidemenu = createMenu();
-        addToDrawer(createDrawerContent(sidemenu));
+        sideMenu = createMenu();
+        addToDrawer(createDrawerContent(sideMenu));
     }
 
     private Component createHeaderContent() {
@@ -72,7 +72,7 @@ public class AppView extends AppLayout {
         topRightLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         MenuBar menuBar = new MenuBar();
-        menuBar.addItem("Logout", e -> logoutUser());
+        menuBar.addItem("Abmelden", e -> logoutUser());
         topRightLayout.add(menuBar);
 
         layout.add(topRightLayout);
@@ -91,15 +91,15 @@ public class AppView extends AppLayout {
         Tab[] tabs = new Tab[]{};
 
         if (sessionService.getUserRole().contains(Globals.Roles.STUDENT)) {
-            tabs = Utils.append(tabs, createTab("Profile", ProfilStudentView.class));
-            tabs = Utils.append(tabs, createTab("Search Job", SearchView.class));
-            tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
+            tabs = Utils.append(tabs, createTab("Profil", ProfilStudentView.class));
+            tabs = Utils.append(tabs, createTab("Job suchen", SearchView.class));
+            tabs = Utils.append(tabs, createTab("Passwort ändern", UpdatePasswordView.class));
         } else if (sessionService.getUserRole().contains(Globals.Roles.BUSINESS)) {
-            tabs = Utils.append(tabs, createTab("Profile", ProfileBusinessView.class));
-            tabs = Utils.append(tabs, createTab("Update Password", UpdatePasswordView.class));
-            tabs = Utils.append(tabs, createTab("Add Vacancy", VacancyView.class));
-            tabs = Utils.append(tabs, createTab("My Vacancies", MyVacanciesView.class));
-            tabs = Utils.append(tabs, createTab("Show Applications", ShowApplicationView.class));
+            tabs = Utils.append(tabs, createTab("Profil", ProfileBusinessView.class));
+            tabs = Utils.append(tabs, createTab("Passwort ändern", UpdatePasswordView.class));
+            tabs = Utils.append(tabs, createTab("Stellenausschreibung hinzufügen", VacancyView.class));
+            tabs = Utils.append(tabs, createTab("Meine Stellenausschreibungen", MyVacanciesView.class));
+            tabs = Utils.append(tabs, createTab("Bewerbungen einsehen", ShowApplicationView.class));
         }
         return tabs;
     }

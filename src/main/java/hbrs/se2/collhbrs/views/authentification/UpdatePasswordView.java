@@ -21,7 +21,7 @@ import jakarta.annotation.security.PermitAll;
 @PermitAll
 public class UpdatePasswordView extends VerticalLayout {
 
-    private final LoginService loginService;
+    private final transient LoginService loginService;
     private final SessionService sessionService;
 
     public UpdatePasswordView(LoginService loginService, SessionService sessionService) {
@@ -32,10 +32,10 @@ public class UpdatePasswordView extends VerticalLayout {
     }
 
     private void setupLayout() {
-        PasswordField oldPassword = new PasswordField("Old Password");
-        PasswordField newPassword = new PasswordField("New Password");
-        PasswordField confirmPassword = new PasswordField("Confirm Password");
-        Button updateButton = new Button("Update");
+        PasswordField oldPassword = new PasswordField("altes Passwort");
+        PasswordField newPassword = new PasswordField("neues Passwort");
+        PasswordField confirmPassword = new PasswordField("Passwort bestätigen");
+        Button updateButton = new Button("Aktualisieren");
 
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         setWidthFull();
@@ -51,16 +51,16 @@ public class UpdatePasswordView extends VerticalLayout {
         String confirmPasswordValue = confirmPassword.getValue();
 
         if (!newPasswordValue.equals(confirmPasswordValue)) {
-            Notification.show("Passwords do not match").addThemeVariants(NotificationVariant.LUMO_ERROR);
+            Notification.show("Passwörter stimmen nicht überein").addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
 
         if (sessionService.getCurrentUser() != null && loginService.checkPassword(sessionService.getCurrentUser().getUser(), oldPasswordValue)) {
             loginService.updatePassword(sessionService.getCurrentUser().getUser(), newPasswordValue);
-            Notification.show("Password updated successfully").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            Notification.show("Passwort erfolgreich geändert").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             UI.getCurrent().navigate(AppView.class);
         } else {
-            Notification.show("Current password is incorrect").addThemeVariants(NotificationVariant.LUMO_ERROR);
+            Notification.show("Das aktuelle Passwort ist falsch").addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 }

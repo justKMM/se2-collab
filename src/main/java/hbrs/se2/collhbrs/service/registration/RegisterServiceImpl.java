@@ -60,11 +60,11 @@ public class RegisterServiceImpl implements RegisterService {
 
     private User registerUser(String username, String password, String email) {
         if (getUsers().stream().anyMatch(user -> Objects.equals(user.getUsername(), username))) {
-            throw new UsernameAlreadyTakenException("Username already taken");
+            throw new UsernameAlreadyTakenException("Username schon vergeben");
         }
 
         if (getUsers().stream().anyMatch(user -> Objects.equals(user.getEmail(), email))) {
-            throw new EmailAlreadyTakenException("Email already taken");
+            throw new EmailAlreadyTakenException("Email schon vergeben");
         }
 
         Profile profile = entityFactory.createProfile();

@@ -31,7 +31,7 @@ public class LoginService {
         } else if (isUserBusiness(user) && !isBlacklisted(user)) {
             startBusinessSession(user);
         } else {
-            Notification.show("Account is Blacklisted!");
+            Notification.show("Ihr Account ist gebannt! Bitte kontaktieren Sie den Administrator.");
         }
     }
 
@@ -39,14 +39,14 @@ public class LoginService {
         VaadinSession.getCurrent().setAttribute(
                 Globals.CURRENT_USER,
                 new BusinessDTO(businessRepository.findBusinessByUserUserID(user.getUserID())));
-        Notification.show("Login Successful");
+        Notification.show("Erfolgreich eingeloggt!");
     }
 
     private void startStudentSession(UserDTO user) {
         VaadinSession.getCurrent().setAttribute(
                 Globals.CURRENT_USER,
                 new StudentDTO(studentRepository.findStudentByUserUserID(user.getUserID())));
-        Notification.show("Login Successful");
+        Notification.show("Erfolgreich eingeloggt!");
     }
 
     private boolean isUserStudent(UserDTO user) {

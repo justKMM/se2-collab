@@ -27,7 +27,6 @@ public class ResetPasswordService {
     public String sendResetPasswordMail(String usermail) {
         return userExists(usermail) ? emailService.sendSimpleMail(
                 createResetPasswordEmail(
-                        Globals.BASE_URL,
                         createPasswordResetTokenForUser(userRepository.findByEmail(usermail)),
                         userRepository.findByEmail(usermail)
                 )
@@ -38,18 +37,18 @@ public class ResetPasswordService {
         return userRepository.existsByEmail(email);
     }
 
-    private Email createResetPasswordEmail(String contextPath, String token, User user) {
+    private Email createResetPasswordEmail(String token, User user) {
         return new Email(
                 user.getEmail(),
                 "Hi " +
                         user.getUsername() +
-                        ", click here to reset password:\n" +
-                        contextPath + "/" +
+                        ", klicken sie hier um ihr Passwort zurückzusetzen:\n" +
+                        Globals.BASE_URL + "/" +
                         Globals.Pages.RESET_PASSWORD +
                         "?token=" +
                         token +
                         "\n\n\nAldaringhausen Klangkreationen GmbH\n[Impressum]",
-                "collhbrs - Reset Your Password",
+                "collhbrs - Passwort zurücksetzen",
                 ""
         );
     }

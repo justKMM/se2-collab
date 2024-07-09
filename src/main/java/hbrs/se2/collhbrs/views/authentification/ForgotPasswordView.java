@@ -21,7 +21,7 @@ import hbrs.se2.collhbrs.util.Globals;
 @AnonymousAllowed
 public class ForgotPasswordView extends Composite<VerticalLayout> {
 
-    final
+    final transient
     ResetPasswordService resetPasswordService;
 
     FormLayout formLayout;
@@ -44,16 +44,16 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
     }
 
     private void setupFields() {
-        H3 title = new H3("Reset Password");
+        H3 title = new H3("Passwort zurücksetzen");
         // Email Input Field
         EmailField emailField = new EmailField();
         emailField.setId("email");
         emailField.setLabel("Email");
         emailField.setRequiredIndicatorVisible(true);
-        emailField.setErrorMessage("E-mail is required");
-        emailField.setPlaceholder("example@domain.com");
+        emailField.setErrorMessage("E-Mail ist erforderlich");
+        emailField.setPlaceholder("beispiel@domain.de");
         // Send reset password email button
-        Button sendMailButton = new Button("Reset Password");
+        Button sendMailButton = new Button("Passwort zurücksetzen");
         sendMailButton.addClickListener(e -> {
             String recipient = emailField.getValue();
             String status = resetPasswordService.sendResetPasswordMail(recipient);
@@ -61,7 +61,7 @@ public class ForgotPasswordView extends Composite<VerticalLayout> {
             UI.getCurrent().navigate(Globals.Pages.LOGIN);
         });
         // Cancel button
-        Button cancelButton = new Button("Cancel");
+        Button cancelButton = new Button("Abbrechen");
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         cancelButton.addClickListener(e -> UI.getCurrent().navigate(Globals.Pages.LOGIN));
         formLayout.add(title, emailField, cancelButton, sendMailButton);

@@ -7,8 +7,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import hbrs.se2.collhbrs.service.registration.RegisterProxy;
 import hbrs.se2.collhbrs.util.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Route(value = Globals.Pages.SIGNUP)
 @CssImport("./styles/index.css")
@@ -21,7 +19,7 @@ public class SignUpView extends FormLayout {
 
     public SignUpView(RegisterProxy registerProxy) {
         String student = "Student";
-        String company = "Company";
+        String company = "Unternehmen";
 
         setupLayout();
 
@@ -29,7 +27,7 @@ public class SignUpView extends FormLayout {
         studentRegistrationView = new StudentRegistrationView(registerProxy);
 
         RadioButtonGroup<String> roleSelector = new RadioButtonGroup<>();
-        roleSelector.setLabel("Register as:");
+        roleSelector.setLabel("Registrieren als:");
         roleSelector.setItems(student, company);
 
         FormLayout dynamicFields = new FormLayout();
