@@ -5,7 +5,7 @@ import hbrs.se2.collhbrs.model.entity.ids.FirstNameID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class FirstNameIDTest extends GenericIDTest {
+class FirstNameIDTest implements GenericIDTest {
     private FirstNameID firstNameID1;
     private FirstNameID firstNameID2;
     private FirstNameID firstNameID3;
