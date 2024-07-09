@@ -46,7 +46,7 @@ public class SearchView extends Composite<VerticalLayout> {
     private final List<ResponsibilitiesDTO> allResponsibilities = new ArrayList<>();
     private final transient EntityFactory entityFactory = new EntityFactory();
     private final transient MarkdownConverter markdownConverter = new MarkdownConverter();
-    private final SessionService sessionService;
+    private final transient SessionService sessionService;
     private final transient ApplicationService applicationService;
     private final String[] comboBoxItems = {
             "Minijob", "Teilzeit", "Vollzeit", "Praktikum", "Bachelorprojekt",
@@ -223,9 +223,7 @@ public class SearchView extends Composite<VerticalLayout> {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         Button apply = new Button("Jetzt bewerben");
         apply.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        apply.addClickListener(e -> {
-            openApplyDialog(vacancy);
-        });
+        apply.addClickListener(e -> openApplyDialog(vacancy));
 
         Button closeButton = new Button("Schließen", event -> dialog.close());
         closeButton.addThemeVariants(ButtonVariant.LUMO_ERROR);

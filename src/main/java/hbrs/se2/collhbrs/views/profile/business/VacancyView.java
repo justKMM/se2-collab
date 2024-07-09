@@ -50,6 +50,8 @@ public class VacancyView extends Composite<VerticalLayout> {
     private MultiSelectListBox<String> requirementsList;
     private MultiSelectListBox<String> responsibilitiesList;
 
+    private static final String DELETE = "Löschen";
+
     @Autowired
     public VacancyView(EntityFactory entityFactory, RequirementsService requirementsService, ResponsibilitiesService responsibilitiesService, SessionService sessionService, VacancyService vacancyService, MarkdownConverter markdownConverter) {
         this.entityFactory = entityFactory;
@@ -103,12 +105,12 @@ public class VacancyView extends Composite<VerticalLayout> {
         formLayout2Col.setWidth("100%");
 
         Button addRequirements = new Button("Hinzufügen");
-        Button deleteRequirements = new Button("Löschen");
+        Button deleteRequirements = new Button(DELETE);
         addRequirements.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         deleteRequirements.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         Button addResponsibility = new Button("Hinzufügen");
-        Button deleteResponsibilities = new Button("Löschen");
+        Button deleteResponsibilities = new Button(DELETE);
         addResponsibility.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         deleteResponsibilities.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
@@ -160,7 +162,7 @@ public class VacancyView extends Composite<VerticalLayout> {
 
         Button save = new Button("Speichern");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        Button cancel = new Button("Löschen");
+        Button cancel = new Button(DELETE);
 
         save.addClickListener(event -> {
             Vacancy vacancy = entityFactory.createVacancy(comboBox.getValue(), title.getValue(), location.getValue(), textArea.getValue(), sessionService.getCurrentBusiness().getBusiness(), Date.valueOf(LocalDate.now()));
