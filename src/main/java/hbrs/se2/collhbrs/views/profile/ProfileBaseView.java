@@ -35,7 +35,7 @@ public abstract class ProfileBaseView extends Composite<VerticalLayout> {
     protected Div description;
     protected Upload upload;
     protected MemoryBuffer buffer;
-    protected final static String OPACITY = "opacity";
+    protected static final String OPACITY = "opacity";
 
     protected ProfileBaseView(ProfileService profileService, SessionService sessionService) {
         this.profileService = profileService;
