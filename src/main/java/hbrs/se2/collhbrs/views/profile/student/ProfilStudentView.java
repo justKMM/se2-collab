@@ -16,6 +16,7 @@ import hbrs.se2.collhbrs.util.Globals;
 import hbrs.se2.collhbrs.views.AppView;
 import hbrs.se2.collhbrs.views.profile.ProfileBaseView;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -26,57 +27,15 @@ import java.util.Base64;
 public class ProfilStudentView extends ProfileBaseView {
 
     private static final int MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-    private final transient StudentService studentService;
+    private final StudentService studentService;
     private Button downloadButton;
 
     public ProfilStudentView(ProfileService profileService, SessionService sessionService, StudentService studentService) {
         super(profileService, sessionService);
         this.studentService = studentService;
-        customizeView();
     }
 
-    @Override
-    protected void customizeView() {
-        MemoryBuffer buffer = new MemoryBuffer();
-        Upload upload = new Upload(buffer);
-        upload.setAcceptedFileTypes("application/pdf");
-        upload.setMaxFiles(1);
-        upload.setVisible(true);
-        upload.setMaxFileSize(MAX_FILE_SIZE);
-
-        upload.addSucceededListener(event -> handlePdfUploadSuccess(buffer));
-
-        upload.addFileRejectedListener(event -> {
-            String errorMessage = event.getErrorMessage();
-            if (errorMessage.contains("exceeds the maximum file size")) {
-                Notification.show("Die hochgeladene Datei ist größer als 5 MB.");
-            } else if (errorMessage.contains("accepted type")) {
-                Notification.show("Die hochgeladene Datei ist keine PDF.");
-            } else {
-                Notification.show("Die hochgeladene Datei ist größer als 5 MB.");
-            }
-        });
-
-        upload.addFailedListener(event -> Notification.show("Upload fehlgeschlagen: " + event.getReason().getMessage()));
-
-        VerticalLayout layout = new VerticalLayout();
-
-        Span text = new Span("Hier Lebenslauf hochladen:");
-        layout.add(text);
-        layout.add(upload);
-
-        downloadButton = new Button("Lebenslauf herunterladen", event -> downloadResume());
-        layout.add(downloadButton);
-
-        Button deleteButton = new Button("Lebenslauf löschen", event -> deleteResume());
-        layout.add(deleteButton);
-
-        getContent().add(layout);
-
-        checkResumeExists();
-    }
-
-    private void handlePdfUploadSuccess(MemoryBuffer buffer) {
+    /*private void handlePdfUploadSuccess(MemoryBuffer buffer) {
         try (InputStream inputStream = buffer.getInputStream()) {
             byte[] bytes = inputStream.readAllBytes();
             String base64Resume = Base64.getEncoder().encodeToString(bytes);
@@ -88,9 +47,9 @@ public class ProfilStudentView extends ProfileBaseView {
         } catch (Exception e) {
             Notification.show("Fehler beim Hochladen des Lebenslaufs: " + e.getMessage());
         }
-    }
+    }*/
 
-    private void downloadResume() {
+   /* private void downloadResume() {
         Long studentId = sessionService.getCurrentStudent().getStudentID();
         String base64Resume = studentService.getResume(studentId);
         if (base64Resume != null && !base64Resume.isEmpty()) {
@@ -128,5 +87,5 @@ public class ProfilStudentView extends ProfileBaseView {
             downloadButton.setEnabled(false);
             Notification.show("Kein Lebenslauf vorhanden.");
         }
-    }
+    }*/
 }

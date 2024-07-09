@@ -14,11 +14,5 @@ public class ProfileBusinessView extends ProfileBaseView {
 
     public ProfileBusinessView(ProfileService profileService, SessionService sessionService) {
         super(profileService, sessionService);
-        customizeView();
-    }
-
-    @Override
-    protected void customizeView() {
-        // Add business-specific components and logic here
     }
 }

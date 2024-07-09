@@ -2,199 +2,182 @@ package hbrs.se2.collhbrs.views.profile;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.avatar.Avatar;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H6;
-import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import com.vaadin.flow.theme.lumo.LumoUtility;
+import com.vaadin.flow.dom.Style;
+import hbrs.se2.collhbrs.model.dto.UserDTO;
 import hbrs.se2.collhbrs.service.ProfileService;
 import hbrs.se2.collhbrs.service.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import hbrs.se2.collhbrs.util.MarkdownConverter;
 
 import java.io.InputStream;
 import java.util.Base64;
 
-public abstract class ProfileBaseView extends Composite<Div> {
+public abstract class ProfileBaseView extends Composite<VerticalLayout> {
 
-    private static final String FLEX_GROW = "flex-grow";
-    private static final String MAX_CONTENT = "max-content";
-    private static final String PX = "200px";
-    private final Div avatarWrapper = new Div();
-    private final H1 h1 = new H1();
-    private final H6 h6 = new H6();
-    private final H6 h62 = new H6();
-    private final VerticalLayout layoutColumn4 = new VerticalLayout();
 
-    protected transient ProfileService profileService;
-    protected transient SessionService sessionService;
+    protected final ProfileService profileService;
+    protected final SessionService sessionService;
+    protected final VerticalLayout layout = new VerticalLayout();
+    protected MarkdownConverter markdownConverter = new MarkdownConverter();
     protected Avatar avatar;
-    protected H1 title;
-    protected H6 subtitle;
-    protected Notification notification;
-    protected HorizontalLayout header;
-    protected VerticalLayout layout;
+    protected H6 linkedIn;
+    protected H6 xing;
+    protected Div description;
     protected Upload upload;
     protected MemoryBuffer buffer;
 
-    @Autowired
-    protected ProfileBaseView(ProfileService profileService, SessionService sessionService) {
+    public ProfileBaseView(ProfileService profileService, SessionService sessionService) {
         this.profileService = profileService;
         this.sessionService = sessionService;
-        initLayout();
-        configureLayout();
-        configureAvatar();
-        configureUploadComponent();
-        loadProfileImage();
-    }
-
-    private void initLayout() {
-        avatar = new Avatar();
-        title = new H1("Profil");
-        subtitle = new H6("Verwalten Sie Ihre Profilinformationen");
-        notification = new Notification();
-        header = new HorizontalLayout(avatar, title, subtitle);
-        layout = new VerticalLayout(header);
-        buffer = new MemoryBuffer();
-        upload = new Upload(buffer);
-
+        layout.getStyle().setAlignItems(Style.AlignItems.FLEX_START);
+        layout.getStyle().set("max-width", "1000px");
+        layout.add(header(sessionService.getCurrentUser()), description(sessionService.getCurrentUser()));
+        getContent().setSizeFull();
+        getContent().getStyle().setAlignItems(Style.AlignItems.CENTER);
         getContent().add(layout);
     }
 
-    protected void showNotification(String message) {
-        notification.setText(message);
-        notification.open();
+
+    private HorizontalLayout header(UserDTO user) {
+        HorizontalLayout header = new HorizontalLayout();
+        VerticalLayout infoLayout = new VerticalLayout();
+        avatar = new Avatar();
+        avatar.setImage("data:image/jpeg;base64,"+user.getProfile().getAvatar());
+        avatar.setHeight("150px");
+        avatar.setWidth("150px");
+        H2 username = new H2(setGreetingText());
+        H6 email = new H6(user.getEmail());
+        email.getStyle().set("opacity", "0.8");
+        linkedIn = new H6(user.getProfile().getLinkedinUsername());
+        linkedIn.getStyle().set("opacity", "0.8");
+        xing = new H6(user.getProfile().getXingUsername());
+        xing.getStyle().set("opacity", "0.8");
+        HorizontalLayout emailLayout = new HorizontalLayout(
+                new H6("Email: "), email);
+        HorizontalLayout linkedInLayout = new HorizontalLayout(
+                new H6("LinkedIn: "), linkedIn);
+        HorizontalLayout xingLayout = new HorizontalLayout(
+                new H6("Xing: "), xing);
+        HorizontalLayout buttonLayout = new HorizontalLayout(new Button("bearbeiten", event -> {
+            openEditDialog(user);
+        }), new Button("bild hochladen", event -> {
+            openAvatarDialog(user);
+        }));
+        infoLayout.add(username, emailLayout, linkedInLayout, xingLayout, buttonLayout);
+        header.add(avatar, infoLayout);
+        return header;
     }
 
-    protected abstract void customizeView();
-
-    private void configureLayout() {
-        HorizontalLayout layoutRow = new HorizontalLayout();
-        VerticalLayout layoutColumn2 = new VerticalLayout();
-        HorizontalLayout layoutRow2 = new HorizontalLayout();
-        VerticalLayout layoutColumn3 = new VerticalLayout();
-        getContent().setWidth("100%");
-        getContent().getStyle().set(FLEX_GROW, "1");
-        configureHorizontalLayout(layoutRow);
-        configureVerticalLayout(layoutColumn2);
-        configureRatingIcons(layoutRow2);
-        configureColumn3(layoutColumn3);
-        configureColumn4(layoutColumn4);
-        layoutRow.add(avatarWrapper, layoutColumn2);
-        layoutColumn2.add(h1, h6, layoutRow2);
-        layoutRow2.add(layoutColumn3);
-        layoutColumn3.add(h62);
-        getContent().add(layoutRow, layoutColumn4);
-        setGreetingText();
-        h6.setText("Bewertung:");
-        h62.setText("5/5 Sterne");
+    private VerticalLayout description(UserDTO user) {
+        description = new Div();
+        description.getElement().setProperty(
+                "innerHTML",
+                markdownConverter.convertToHtml(user.getProfile().getProfileDescription())
+        );
+        VerticalLayout descriptionLayout = new VerticalLayout(
+                new H3("Beschreibung: "),
+               description
+        );
+        return descriptionLayout;
     }
 
-    private void configureHorizontalLayout(HorizontalLayout layoutRow) {
-        layoutRow.setWidthFull();
-        layoutRow.addClassName(LumoUtility.Gap.MEDIUM);
-        layoutRow.setWidth("100%");
-        layoutRow.getStyle().set(FLEX_GROW, "1");
-    }
-
-    private void configureVerticalLayout(VerticalLayout layoutColumn2) {
-        layoutColumn2.setHeightFull();
-        layoutColumn2.setWidth("100%");
-        layoutColumn2.getStyle().set(FLEX_GROW, "1");
-    }
-
-    private void configureRatingIcons(HorizontalLayout layoutRow2) {
-        layoutRow2.setWidthFull();
-        layoutRow2.addClassName(LumoUtility.Gap.MEDIUM);
-        layoutRow2.setWidth("100%");
-        layoutRow2.getStyle().set(FLEX_GROW, "1");
-
-        for (int i = 0; i < 5; i++) {
-            Icon icon = new Icon("vaadin", "star");
-            icon.getStyle().set("color", "gold");
-            layoutRow2.add(icon);
+    private void openEditDialog(UserDTO user) {
+        Dialog dialog = new Dialog();
+        dialog.setWidth("600px");
+        dialog.setHeight("500px");
+        VerticalLayout editLayout = new VerticalLayout();
+        HorizontalLayout inputLayout = new HorizontalLayout();
+        TextField linkedIn = new TextField("LinkedIn: ");
+        TextField xing = new TextField("Xing: ");
+        TextArea description = new TextArea("Beschreibung: ");
+        description.setWidth("400px");
+        description.setHeight("200px");
+        inputLayout.add(linkedIn, xing);
+        HorizontalLayout descriptionLayout = new HorizontalLayout(description);
+        Button save = new Button("Speichern");
+        Button cancel = new Button("Abbrechen");
+        if (linkedIn.getValue().isEmpty()) {
+            linkedIn.setValue(user.getProfile().getLinkedinUsername());
         }
+        if (xing.getValue().isEmpty()) {
+            xing.setValue(user.getProfile().getXingUsername());
+        }
+        if (description.getValue().isEmpty()) {
+            description.setValue(user.getProfile().getProfileDescription());
+        }
+        save.addClickListener(event -> {
+            profileService.saveSocials(
+                    sessionService.getCurrentUser().getProfile(),
+                    linkedIn.getValue(),
+                    xing.getValue(),
+                    description.getValue()
+            );
+            updateProfileData(user);
+            dialog.close();
+        });
+        cancel.addClickListener(event -> dialog.close());
+        HorizontalLayout buttonLayout = new HorizontalLayout(save, cancel);
+        editLayout.add(inputLayout, descriptionLayout, buttonLayout);
+        dialog.add(editLayout);
+        dialog.open();
     }
 
-    private void configureColumn3(VerticalLayout layoutColumn3) {
-        layoutColumn3.setHeightFull();
-        layoutColumn3.setWidth("100%");
-        layoutColumn3.getStyle().set(FLEX_GROW, "1");
-    }
+    private void openAvatarDialog(UserDTO user) {
+        Dialog dialog = new Dialog();
+        dialog.setWidth("600px");
+        dialog.setHeight("500px");
+        VerticalLayout avatarLayout = new VerticalLayout();
+        buffer = new MemoryBuffer();
+        upload = new Upload(buffer);
+        upload.setAcceptedFileTypes("image/jpeg");
 
-    private void configureColumn4(VerticalLayout layoutColumn4) {
-        layoutColumn4.setWidthFull();
-        layoutColumn4.getStyle().set(FLEX_GROW, "1");
-    }
-
-    private void configureAvatar() {
-        avatar.setName("Firstname Lastname");
-        avatar.setWidth(PX);
-        avatar.setHeight(PX);
-        avatarWrapper.add(avatar);
-    }
-
-    private void configureUploadComponent() {
-        upload.addSucceededListener(event -> {
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        Button saveButton = new Button("Speichern", buttonClickEvent -> {
             try (InputStream inputStream = buffer.getInputStream()) {
                 byte[] bytes = inputStream.readAllBytes();
                 String base64Image = Base64.getEncoder().encodeToString(bytes);
-                saveProfileImage(base64Image);
-                avatar.setImage("data:image/jpeg;base64," + base64Image);
+                profileService.saveProfileImage(user.getProfile().getProfileID(), base64Image);
+                Notification.show("Bild erfolgreich hochgeladen");
             } catch (Exception e) {
-                Notification.show("Fehler beim hochladen des Avatars");
+                Notification.show("Fehler beim Hochladen des Bildes");
             }
+            updateProfileData(user);
+            dialog.close();
         });
-        layout.add(upload);
+
+        Button cancelButton = new Button("Abbrechen", buttonClickEvent -> dialog.close());
+        buttonLayout.add(saveButton, cancelButton);
+        avatarLayout.add(new H3("Profil Bild hochladen"), upload, buttonLayout);
+        dialog.add(avatarLayout);
+        dialog.open();
     }
 
-    private void saveProfileImage(String base64Image) {
+    private void updateProfileData(UserDTO user) {
+        linkedIn.setText(user.getProfile().getLinkedinUsername());
+        xing.setText(user.getProfile().getXingUsername());
+        description.getElement().setProperty(
+                "innerHTML",
+                markdownConverter.convertToHtml(user.getProfile().getProfileDescription())
+        );
+        avatar.setImage("data:image/jpeg;base64,"+user.getProfile().getAvatar());
+    }
+
+    private String setGreetingText() {
         if (isBusinessUser()) {
-            handleProfileImageUpload(sessionService.getCurrentBusiness().getProfile().getProfileID(), base64Image);
+            return "Hallo " + sessionService.getCurrentBusiness().getUsername() + "!";
         } else if (isStudentUser()) {
-            handleProfileImageUpload(sessionService.getCurrentStudent().getProfile().getProfileID(), base64Image);
+            return "Hallo " + sessionService.getCurrentStudent().getUsername() + "!";
         }
-    }
-
-    private void handleProfileImageUpload(Long profileId, String base64Image) {
-        try {
-            profileService.deleteProfileImage(profileId);
-            profileService.saveProfileImage(profileId, base64Image);
-        } catch (Exception e) {
-            Notification.show("Fehler beim speichern des Avatars");
-        }
-    }
-
-
-    private void loadProfileImage() {
-        try {
-            String base64Image = null;
-            if (isBusinessUser()) {
-                base64Image = profileService.getProfileImage(sessionService.getCurrentBusiness().getProfile().getProfileID());
-            } else if (isStudentUser()) {
-                base64Image = profileService.getProfileImage(sessionService.getCurrentStudent().getProfile().getProfileID());
-            }
-            if (base64Image != null) {
-                avatar.setImage("data:image/jpeg;base64," + base64Image);
-            }
-        } catch (Exception e) {
-            Notification.show("Fehler beim laden des Avatars");
-        }
-    }
-
-    private void setGreetingText() {
-        String greeting = "";
-        if (isBusinessUser()) {
-            greeting = "Hallo " + sessionService.getCurrentBusiness().getName() + "!";
-        } else if (isStudentUser()) {
-            greeting = "Hallo " + sessionService.getCurrentStudent().getUsername() + "!";
-        }
-        h1.setText(greeting);
-        h1.setWidth(MAX_CONTENT);
+        return "";
     }
 
     private boolean isBusinessUser() {

@@ -29,6 +29,13 @@ public class ProfileService {
         }
     }
 
+    public void saveSocials(Profile profile, String linkedIn, String xing, String description) {
+        profile.setLinkedinUsername(linkedIn);
+        profile.setXingUsername(xing);
+        profile.setProfileDescription(description);
+        profileRepository.save(profile);
+    }
+
     public String getProfileImage(Long profileId) {
         return profileRepository.findById(profileId)
                 .map(Profile::getAvatar)
