@@ -1,7 +1,8 @@
-package hbrs.se2.collhbrs.service;
+package service_test;
 
 import hbrs.se2.collhbrs.model.entity.Student;
 import hbrs.se2.collhbrs.repository.StudentRepository;
+import hbrs.se2.collhbrs.service.StudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,11 +12,16 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 class StudentServiceTest {
+
+    private static final Long STUDENT_ID = 1L;
+    private static final String OLD_RESUME = "oldResume";
+    private static final String NEW_RESUME = "newResume";
+    private static final String RESUME_DATA = "resumeData";
+    private static final String STUDENT_NOT_FOUND_MESSAGE = "Student with ID " + STUDENT_ID + " not found";
 
     @Mock
     private StudentRepository studentRepository;
@@ -31,13 +37,13 @@ class StudentServiceTest {
     @Test
     void testSaveResume() {
         Student student = new Student();
-        student.setStudentID(1L);
-        student.setResume("oldResume");
+        student.setStudentID(STUDENT_ID);
+        student.setResume(OLD_RESUME);
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(student));
 
-        studentService.saveResume(1L, "newResume");
+        studentService.saveResume(STUDENT_ID, NEW_RESUME);
 
-        assertEquals("newResume", student.getResume());
+        assertEquals(NEW_RESUME, student.getResume());
         verify(studentRepository, times(1)).save(student);
     }
 
@@ -45,24 +51,22 @@ class StudentServiceTest {
     void testSaveResumeStudentNotFound() {
         when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            studentService.saveResume(1L, "newResume");
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                studentService.saveResume(STUDENT_ID, NEW_RESUME));
 
-        String expectedMessage = "Student with ID 1 not found";
         String actualMessage = exception.getMessage();
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(STUDENT_NOT_FOUND_MESSAGE));
     }
 
     @Test
     void testDeleteResume() {
         Student student = new Student();
-        student.setStudentID(1L);
-        student.setResume("oldResume");
+        student.setStudentID(STUDENT_ID);
+        student.setResume(OLD_RESUME);
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(student));
 
-        studentService.deleteResume(1L);
+        studentService.deleteResume(STUDENT_ID);
 
         assertNull(student.getResume());
         verify(studentRepository, times(1)).save(student);
@@ -72,39 +76,35 @@ class StudentServiceTest {
     void testDeleteResumeStudentNotFound() {
         when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            studentService.deleteResume(1L);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                studentService.deleteResume(STUDENT_ID));
 
-        String expectedMessage = "Student with ID 1 not found";
         String actualMessage = exception.getMessage();
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(STUDENT_NOT_FOUND_MESSAGE));
     }
 
     @Test
     void testGetResume() {
         Student student = new Student();
-        student.setStudentID(1L);
-        student.setResume("resumeData");
+        student.setStudentID(STUDENT_ID);
+        student.setResume(RESUME_DATA);
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(student));
 
-        String resume = studentService.getResume(1L);
+        String resume = studentService.getResume(STUDENT_ID);
 
-        assertEquals("resumeData", resume);
+        assertEquals(RESUME_DATA, resume);
     }
 
     @Test
     void testGetResumeStudentNotFound() {
         when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            studentService.getResume(1L);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                studentService.getResume(STUDENT_ID));
 
-        String expectedMessage = "Student with ID 1 not found";
         String actualMessage = exception.getMessage();
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(STUDENT_NOT_FOUND_MESSAGE));
     }
 }
