@@ -5,7 +5,7 @@ import hbrs.se2.collhbrs.model.entity.ids.RequirementsID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class RequirementsIDTest extends GenericIDTest {
+class RequirementsIDTest implements GenericIDTest {
     private RequirementsID requirementsID1;
     private RequirementsID requirementsID2;
     private RequirementsID requirementsID3;
